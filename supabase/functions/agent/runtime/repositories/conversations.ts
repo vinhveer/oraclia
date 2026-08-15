@@ -131,6 +131,18 @@ export class ConversationRepository extends Repository {
     return data?.created_at ?? null
   }
 
+  /** Đếm không tải dữ liệu, để dùng được trên đường đi chính mà không tốn gì. */
+  async uncompactedCount(conversationId: string): Promise<number> {
+    const marker = await this.summaryMarker(conversationId)
+    let query = this.db
+      .from('messages')
+      .select('id', { count: 'exact', head: true })
+      .eq('conversation_id', conversationId)
+    if (marker?.compacted_until) query = query.gt('created_at', marker.compacted_until)
+    const { count } = await query
+    return count ?? 0
+  }
+
   async pendingSince(conversationId: string, since: string | null) {
     let query = this.db
       .from('messages')

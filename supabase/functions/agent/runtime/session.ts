@@ -29,6 +29,13 @@ import { PromptBuilder as Builder } from './prompts/builder.ts'
 const RUNS_PER_HOUR = Number(Deno.env.get('AGENT_RUNS_PER_HOUR') ?? '60')
 
 /**
+ * Lượt phản tư bình thường do client hẹn sau khi người dùng ngừng gõ. Ai hỏi dồn
+ * liên tục thì lịch đó bị huỷ mãi, nên cần một lưới an toàn — nhưng chạy nền,
+ * không bao giờ nằm chắn giữa câu hỏi và câu trả lời.
+ */
+const REFLECT_SAFETY_NET = 30
+
+/**
  * Gom mọi thứ một request cần: repository, adapter, tool. Hai lối vào — hỏi mới
  * và chọn bài xong — đều dựng cùng một bộ rồi giao cho `Agent`.
  */
@@ -80,11 +87,12 @@ export class AgentSession {
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
     )
 
-    const [state, prompt, settings, memories] = await Promise.all([
+    const [state, prompt, settings, memories, uncompacted] = await Promise.all([
       this.conversations.state(conversationId),
       this.prompts.active('reader'),
       this.prompts.userSettings(),
       this.memories.list(40),
+      this.conversations.uncompactedCount(conversationId),
     ])
 
     await this.conversations.addMessage(conversationId, this.userId, 'user', question)
@@ -129,6 +137,8 @@ export class AgentSession {
       question,
       state: messages,
     })
+
+    if (uncompacted > REFLECT_SAFETY_NET) this.reflectInBackground(conversationId)
 
     return {
       runId,
@@ -299,6 +309,26 @@ export class AgentSession {
         },
       },
     }
+  }
+
+  /**
+   * Chạy lượt phản tư trên một stream riêng: dùng chung stream với lượt chính
+   * thì chữ của nó sẽ chảy lẫn vào câu trả lời người dùng đang đọc.
+   */
+  private reflectInBackground(conversationId: string): void {
+    const silent = new StreamController()
+    const task = this.reflect({ conversation_id: conversationId }, silent)
+      .then((reflection) =>
+        reflection?.agentRun.agent.run(reflection.agentRun.run, reflection.messages),
+      )
+      .catch(() => undefined)
+      .finally(() => silent.close())
+
+    // Worker bị dừng ngay khi response chính đóng, mà lượt phản tư còn chạy lâu
+    // hơn câu trả lời; không giữ lại thì nó chết giữa chừng mà không báo gì.
+    const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } })
+      .EdgeRuntime
+    runtime?.waitUntil?.(task)
   }
 
   private buildRun(input: {
