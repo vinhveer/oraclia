@@ -9,8 +9,6 @@ npm install
 npm run dev
 ```
 
-## Thay đổi backend
-
 ```bash
 npx supabase db push                                     # migration
 npx supabase secrets set --env-file supabase/.env.local  # secrets
@@ -26,9 +24,6 @@ LLM_MODEL=gpt-4.1-mini
 AGENT_RUNS_PER_HOUR=60
 ALLOWED_ORIGINS=https://nguyenquangvinh.id.vn,http://localhost:5173
 ```
-
-Model **bắt buộc hỗ trợ tool calling**, không thì chẳng bao giờ rút được bài.
-Prompt nằm trong bảng `prompts`, sửa không cần deploy lại.
 
 ---
 
