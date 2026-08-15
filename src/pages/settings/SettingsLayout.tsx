@@ -2,7 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { IconButton } from '@/components'
 
-/** Khung chung cho các trang cài đặt: nút quay lại, tiêu đề, phần mô tả. */
+/**
+ * Khung chung cho các trang cài đặt. Nút quay lại đứng riêng một dòng và được
+ * kéo ngược lại bằng margin âm: hộp bấm 56px bọc icon 26px, nên nếu để nguyên
+ * thì icon thụt vào 15px so với lề của mọi thứ bên dưới.
+ */
 export function SettingsLayout({
   title,
   description,
@@ -17,15 +21,15 @@ export function SettingsLayout({
   const navigate = useNavigate()
   return (
     <div className="min-h-dvh bg-surface text-on-surface">
-      <div className="mx-auto flex max-w-2xl flex-col gap-6 px-4 py-6 sm:px-8">
-        <header className="flex items-start gap-3">
-          <IconButton icon="arrowBack" label="Quay lại" onClick={() => navigate('/chat')} />
-          <div className="min-w-0 flex-1 pt-2">
-            <h1 className="md-headline-sm text-on-surface">{title}</h1>
-            {description && (
-              <p className="mt-1 md-body-md text-on-surface-variant">{description}</p>
-            )}
-          </div>
+      <div className="md-slide-up mx-auto flex max-w-2xl flex-col gap-6 px-4 py-6 sm:px-8">
+        <header>
+          <span className="-ml-[15px] block">
+            <IconButton icon="arrowBack" label="Quay lại" onClick={() => navigate('/chat')} />
+          </span>
+          <h1 className="mt-1 md-headline-sm text-on-surface">{title}</h1>
+          {description && (
+            <p className="mt-2 md-body-md text-on-surface-variant">{description}</p>
+          )}
         </header>
 
         <main className="flex flex-col gap-6">{children}</main>

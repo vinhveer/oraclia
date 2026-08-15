@@ -1,4 +1,5 @@
 import { Markdown } from '@/lib/markdown'
+import { ThinkingTrace } from './ThinkingTrace'
 import { RevealedCards } from '../tarot/RevealedCards'
 import { CardFigure } from '../tarot/CardFigure'
 import { HexagramView } from '../tarot/HexagramView'
@@ -10,12 +11,18 @@ const HAS_SLOT = /\[\[card:\d+\]\]/
 export function MessageBubble({
   message,
   streaming = false,
+  interpreting = false,
+  thinking = '',
   busy = false,
   onRetry,
   onEdit,
 }: {
   message: Message
   streaming?: boolean
+  /** Quẻ đã gieo hoặc bài đã lật, model chưa bắt đầu nói. */
+  interpreting?: boolean
+  /** Mẩu suy nghĩ mới nhất của model, để khoảng chờ không im như tờ. */
+  thinking?: string
   busy?: boolean
   onRetry?: (message: Message) => void
   onEdit?: (message: Message, next: string) => void
@@ -42,6 +49,7 @@ export function MessageBubble({
     <article className="flex max-w-3xl flex-col">
       {cards.length > 0 && !inlineCards && <RevealedCards cards={cards} />}
       {message.hexagram ? <HexagramView casting={message.hexagram} /> : null}
+      {interpreting && !message.content && <ThinkingTrace thinking={thinking} />}
       {message.content && (
         <div className={(cards.length && !inlineCards) || message.hexagram ? 'mt-5' : ''}>
           <Markdown

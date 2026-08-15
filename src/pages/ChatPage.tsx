@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Icon, IconButton, useSnackbar } from '@/components'
+import { CircularProgress, Icon, IconButton, useSnackbar } from '@/components'
 import { Composer } from '@/features/chat/Composer'
 import { MessageBubble } from '@/features/chat/MessageBubble'
 import { Sidebar } from '@/features/chat/Sidebar'
@@ -23,6 +23,10 @@ export default function ChatPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
+  const [creating, setCreating] = useState(false)
+  const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [searching, setSearching] = useState(false)
+  const [listLoading, setListLoading] = useState(true)
   const bottom = useRef<HTMLDivElement>(null)
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -45,7 +49,10 @@ export default function ChatPage() {
   const chat = useChat(conversationId, onConversationCreated, onTitle)
 
   useEffect(() => {
-    listConversations().then(setConversations).catch(() => undefined)
+    listConversations()
+      .then(setConversations)
+      .catch(() => undefined)
+      .finally(() => setListLoading(false))
   }, [])
 
   useEffect(() => {
@@ -67,21 +74,43 @@ export default function ChatPage() {
   // Gõ tới đâu tìm tới đó, nhưng chờ người dùng ngừng gõ mới gọi server.
   function search(term: string) {
     if (searchTimer.current) clearTimeout(searchTimer.current)
+    setSearching(true)
     searchTimer.current = setTimeout(() => {
-      searchConversations(term).then(setConversations).catch(() => undefined)
+      searchConversations(term)
+        .then(setConversations)
+        .catch(() => undefined)
+        .finally(() => setSearching(false))
     }, 220)
   }
 
   async function startConversation() {
-    const created = await createConversation()
-    setConversations((current) => [created, ...current])
-    navigate(`/chat/${created.id}`)
+    if (creating) return
+    setCreating(true)
+    try {
+      const created = await createConversation()
+      setConversations((current) => [created, ...current])
+      navigate(`/chat/${created.id}`)
+    } catch (exception) {
+      snackbar({
+        message: exception instanceof Error ? exception.message : 'Không tạo được cuộc trò chuyện.',
+      })
+    } finally {
+      setCreating(false)
+    }
   }
 
   async function removeConversation(target: string) {
-    await deleteConversation(target)
-    setConversations((current) => current.filter((item) => item.id !== target))
-    if (target === conversationId) navigate('/chat')
+    if (deletingId) return
+    setDeletingId(target)
+    try {
+      await deleteConversation(target)
+      setConversations((current) => current.filter((item) => item.id !== target))
+      if (target === conversationId) navigate('/chat')
+    } catch (exception) {
+      snackbar({ message: exception instanceof Error ? exception.message : 'Không xóa được.' })
+    } finally {
+      setDeletingId(null)
+    }
   }
 
   // Trạng thái công cụ phải nằm ngay trên phần trả lời đang chảy, nên tin nhắn
@@ -97,11 +126,15 @@ export default function ChatPage() {
       onCreate={startConversation}
       onDelete={removeConversation}
       onSearch={search}
+      creating={creating}
+      deletingId={deletingId}
+      searching={searching}
+      loading={listLoading}
     />
   )
 
   return (
-    <div className="flex h-dvh bg-surface text-on-surface">
+    <div className="md-fade-in flex h-dvh bg-surface text-on-surface">
       <aside className="hidden w-72 shrink-0 border-r border-outline-variant bg-surface-low lg:block">
         {sidebar}
       </aside>
@@ -134,12 +167,18 @@ export default function ChatPage() {
         <main className="flex-1 overflow-y-auto">
           <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 pt-16 pb-8 sm:px-8 lg:pt-8">
             {!chat.messages.length && !chat.loading && (
-              <div className="pt-[14vh]">
+              <div className="md-stagger pt-[14vh]">
                 <h1 className="md-display-sm text-on-surface">Bạn đang nghĩ gì?</h1>
                 <p className="mt-3 md-body-lg text-on-surface-variant">
                   Hỏi một điều. Oraclia tự chọn tarot hay Kinh Dịch cho câu hỏi này, và nếu là
                   tarot thì bạn tự tay rút từ bộ 78 lá đã xáo úp mặt.
                 </p>
+              </div>
+            )}
+
+            {chat.loading && (
+              <div className="grid place-items-center py-16 text-on-surface-variant">
+                <CircularProgress size={28} />
               </div>
             )}
 
@@ -153,9 +192,23 @@ export default function ChatPage() {
               />
             ))}
 
-            <ToolStatus tools={chat.tools} thinking={chat.phase === 'thinking'} />
+            {/* Khi dòng suy nghĩ đã chảy thì nó thay chỗ cho dòng chờ chung. */}
+            <ToolStatus
+              tools={chat.tools}
+              thinking={chat.phase === 'thinking' && !chat.thinking}
+            />
 
-            {draft && <MessageBubble message={draft} streaming />}
+            {draft && (
+              <MessageBubble
+                message={draft}
+                streaming
+                interpreting={
+                  chat.phase === 'interpreting' ||
+                  (chat.phase === 'thinking' && Boolean(chat.thinking))
+                }
+                thinking={chat.thinking}
+              />
+            )}
 
             {chat.draw && !pickerOpen && (
               <DrawPrompt pickCount={chat.draw.pickCount} onOpen={() => setPickerOpen(true)} />

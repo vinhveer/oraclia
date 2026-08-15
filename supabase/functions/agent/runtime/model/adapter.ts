@@ -5,6 +5,15 @@ export interface ModelStep {
   toolCalls: ModelToolCall[]
 }
 
+export interface StepHandlers {
+  onDelta: (text: string) => void
+  /**
+   * Model có reasoning phát `reasoning_content` trước khi nói câu nào. Bỏ qua
+   * kênh này là màn hình đứng im hàng chục giây rồi câu trả lời đổ ra một cục.
+   */
+  onReasoning?: (text: string) => void
+}
+
 export abstract class ModelAdapter {
   abstract readonly name: string
   abstract readonly demo: boolean
@@ -13,7 +22,7 @@ export abstract class ModelAdapter {
   abstract step(
     messages: ModelMessage[],
     tools: ToolDefinition[],
-    onDelta: (text: string) => void,
+    handlers: StepHandlers,
   ): Promise<ModelStep>
 
   /** Một lượt không streaming, dùng để cô đọng ngữ cảnh. */

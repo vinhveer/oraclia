@@ -1,5 +1,5 @@
 import type { ModelMessage, ToolDefinition } from '../../../_shared/types.ts'
-import { ModelAdapter, type ModelStep } from './adapter.ts'
+import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
 
 /**
  * Giữ cho môi trường dev vẫn dùng được khi chưa có API key: đi đúng vòng lặp
@@ -12,7 +12,7 @@ export class DemoAdapter extends ModelAdapter {
   async step(
     messages: ModelMessage[],
     tools: ToolDefinition[],
-    onDelta: (text: string) => void,
+    handlers: StepHandlers,
   ): Promise<ModelStep> {
     const drawn = messages.some((message) => message.role === 'tool')
     if (!drawn && tools.some((tool) => tool.function.name === 'draw_cards')) {
@@ -35,10 +35,15 @@ export class DemoAdapter extends ModelAdapter {
       }
     }
 
+    for (const thought of ['Đọc lại câu hỏi', ' và các lá vừa lật', ' để tìm mạch chung...']) {
+      await new Promise((resolve) => setTimeout(resolve, 250))
+      handlers.onReasoning?.(thought)
+    }
+
     const text = demoReading(messages)
     for (let index = 0; index < text.length; index += 18) {
       await new Promise((resolve) => setTimeout(resolve, 15))
-      onDelta(text.slice(index, index + 18))
+      handlers.onDelta(text.slice(index, index + 18))
     }
     return { content: text, toolCalls: [] }
   }

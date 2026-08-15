@@ -1,5 +1,5 @@
 import type { ModelMessage, ModelToolCall, ToolDefinition } from '../../../_shared/types.ts'
-import { ModelAdapter, type ModelStep } from './adapter.ts'
+import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
 
 /**
  * Bất kỳ provider nào tương thích OpenAI Chat Completions — OpenAI, OpenRouter,
@@ -19,7 +19,7 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
   async step(
     messages: ModelMessage[],
     tools: ToolDefinition[],
-    onDelta: (text: string) => void,
+    handlers: StepHandlers,
   ): Promise<ModelStep> {
     const response = await this.post({
       model: this.name,
@@ -39,8 +39,11 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
       if (!delta) continue
       if (typeof delta.content === 'string' && delta.content) {
         content += delta.content
-        onDelta(delta.content)
+        handlers.onDelta(delta.content)
       }
+      // Tên trường khác nhau tùy provider; nhận cả hai cách gọi phổ biến.
+      const reasoning = delta.reasoning_content ?? delta.reasoning
+      if (typeof reasoning === 'string' && reasoning) handlers.onReasoning?.(reasoning)
       for (const call of delta.tool_calls ?? []) {
         const slot = call.index ?? 0
         const current = partials.get(slot) ?? { id: '', name: '', arguments: '' }

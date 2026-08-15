@@ -57,8 +57,9 @@ export class Agent {
         return
       }
 
-      const result = await adapter.step(state, tools, (delta) => {
-        stream.emit({ type: 'message.delta', content: delta })
+      const result = await adapter.step(state, tools, {
+        onDelta: (delta) => stream.emit({ type: 'message.delta', content: delta }),
+        onReasoning: (delta) => stream.emit({ type: 'thinking.delta', content: delta }),
       })
 
       const assistantTurn: ModelMessage = {

@@ -85,6 +85,7 @@ export interface ToolDefinition {
 export type AgentEvent =
   | { type: 'run.started'; run_id: string; conversation_id: string }
   | { type: 'message.delta'; content: string }
+  | { type: 'thinking.delta'; content: string }
   | { type: 'tool.started'; call_id: string; name: string; arguments: Record<string, unknown> }
   | { type: 'tool.completed'; call_id: string; name: string; summary: string }
   | { type: 'tool.failed'; call_id: string; name: string; message: string }

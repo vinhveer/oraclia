@@ -264,6 +264,29 @@
   to { opacity: 1; }
 }
 
+@keyframes md-spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Vào màn: xoay và nở ra cùng lúc, dùng cho biểu tượng ở trang đăng nhập. */
+@keyframes md-spin-in {
+  from { opacity: 0; transform: rotate(-140deg) scale(0.5); }
+  to { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+@keyframes md-bloom {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.12) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+
+/* Hào hiện ra như vừa được vạch xuống mặt bàn. */
+@keyframes md-line-draw {
+  from { opacity: 0; transform: scaleX(0.2); }
+  to { opacity: 1; transform: scaleX(1); }
+}
+
 @keyframes md-slide-up {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
@@ -272,6 +295,26 @@
 .md-enter-scale { animation: md-enter-scale 300ms cubic-bezier(0.05, 0.7, 0.1, 1); }
 .md-fade-in { animation: md-fade-in 200ms cubic-bezier(0.2, 0, 0, 1); }
 .md-slide-up { animation: md-slide-up 300ms cubic-bezier(0.05, 0.7, 0.1, 1); }
+.md-spin-slow { animation: md-spin-slow 9s linear infinite; }
+/* Sáu hào vào lần lượt từ hào 1 lên hào 6, đúng thứ tự người ta vạch quẻ. */
+.md-hexagram > * { animation: md-line-draw 420ms cubic-bezier(0.05, 0.7, 0.1, 1) backwards; }
+.md-hexagram > *:nth-child(1) { animation-delay: 0ms; }
+.md-hexagram > *:nth-child(2) { animation-delay: 110ms; }
+.md-hexagram > *:nth-child(3) { animation-delay: 220ms; }
+.md-hexagram > *:nth-child(4) { animation-delay: 330ms; }
+.md-hexagram > *:nth-child(5) { animation-delay: 440ms; }
+.md-hexagram > *:nth-child(6) { animation-delay: 550ms; }
+.md-spin-in { animation: md-spin-in 700ms cubic-bezier(0.05, 0.7, 0.1, 1); }
+.md-bloom { animation: md-bloom 1100ms cubic-bezier(0.2, 0, 0, 1) infinite; }
+
+/* Mỗi phần tử trong danh sách vào sau phần tử trước một nhịp ngắn. */
+.md-stagger > * { animation: md-slide-up 320ms cubic-bezier(0.05, 0.7, 0.1, 1) backwards; }
+.md-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.md-stagger > *:nth-child(2) { animation-delay: 45ms; }
+.md-stagger > *:nth-child(3) { animation-delay: 90ms; }
+.md-stagger > *:nth-child(4) { animation-delay: 135ms; }
+.md-stagger > *:nth-child(5) { animation-delay: 180ms; }
+.md-stagger > *:nth-child(n + 6) { animation-delay: 220ms; }
 
 @media (prefers-reduced-motion: reduce) {
   *,

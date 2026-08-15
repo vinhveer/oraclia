@@ -3,10 +3,15 @@ import type { ConversationRepository } from './repositories/conversations.ts'
 
 const DEFAULT_TITLE = 'Cuộc trò chuyện mới'
 
+/** Tiêu đề tạm, hiện ngay để sidebar có chữ đọc được trong lúc chờ model. */
+export function provisionalTitle(question: string): string {
+  const cleaned = question.split(/\s+/).join(' ').trim()
+  return cleaned.length > 60 ? `${cleaned.slice(0, 57)}...` : cleaned || DEFAULT_TITLE
+}
+
 /**
- * Đặt tên cuộc trò chuyện từ câu hỏi đầu tiên. Chạy trước khi vòng lặp bắt đầu
- * nên người dùng thấy tiêu đề thật ngay ở lượt đầu, không phải 80 ký tự cắt
- * ngang câu hỏi.
+ * Đặt tên cuộc trò chuyện từ câu hỏi đầu tiên. Chạy song song với vòng lặp
+ * chính, kết quả gửi về qua sự kiện `conversation.titled`.
  */
 export class Titler {
   constructor(
@@ -15,8 +20,8 @@ export class Titler {
   ) {}
 
   async ensureTitle(conversationId: string, question: string): Promise<string | null> {
-    const current = await this.conversations.title(conversationId)
-    if (current && current !== DEFAULT_TITLE) return null
+    const state = await this.conversations.titleState(conversationId)
+    if (state?.title_generated) return null
 
     let title = ''
     try {
@@ -34,9 +39,9 @@ export class Titler {
       title = ''
     }
 
-    const cleaned = clean(title) || clean(question).slice(0, 60)
+    const cleaned = clean(title) || provisionalTitle(question)
     if (!cleaned) return null
-    await this.conversations.rename(conversationId, cleaned)
+    await this.conversations.rename(conversationId, cleaned, true)
     return cleaned
   }
 }

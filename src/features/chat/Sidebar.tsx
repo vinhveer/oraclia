@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Icon, IconButton, Ripple } from '@/components'
+import { CircularProgress, Icon, IconButton, Ripple } from '@/components'
 import { cn } from '@/lib/cn'
 import type { IconName } from '@/components'
 import type { Conversation } from '@db'
@@ -19,6 +19,10 @@ export function Sidebar({
   onCreate,
   onDelete,
   onSearch,
+  creating = false,
+  deletingId = null,
+  searching = false,
+  loading = false,
 }: {
   items: Conversation[]
   activeId: string | null
@@ -26,6 +30,10 @@ export function Sidebar({
   onCreate: () => void
   onDelete: (id: string) => void
   onSearch: (term: string) => void
+  creating?: boolean
+  deletingId?: string | null
+  searching?: boolean
+  loading?: boolean
 }) {
   const [term, setTerm] = useState('')
 
@@ -34,11 +42,16 @@ export function Sidebar({
       <button
         type="button"
         onClick={onCreate}
-        className="relative mt-2 mb-3 flex h-14 shrink-0 items-center gap-3 overflow-hidden rounded-full bg-primary-container px-4 text-on-primary-container transition-shadow hover:shadow-e1"
+        disabled={creating}
+        className="relative mt-2 mb-3 flex h-14 shrink-0 items-center gap-3 overflow-hidden rounded-full bg-primary-container px-4 text-on-primary-container transition-shadow hover:shadow-e1 disabled:opacity-60"
       >
-        <Ripple />
-        <Icon name="add" size={22} className="relative z-10" />
-        <span className="relative z-10 md-label-lg">Cuộc trò chuyện mới</span>
+        <Ripple disabled={creating} />
+        <span className="relative z-10 grid size-[22px] place-items-center">
+          {creating ? <CircularProgress size={20} strokeWidth={3} /> : <Icon name="add" size={22} />}
+        </span>
+        <span className="relative z-10 md-label-lg">
+          {creating ? 'Đang tạo...' : 'Cuộc trò chuyện mới'}
+        </span>
       </button>
 
       <div className="relative mb-2 shrink-0">
@@ -57,22 +70,28 @@ export function Sidebar({
           aria-label="Tìm cuộc trò chuyện"
           className="h-10 w-full rounded-full bg-surface-high pr-9 pl-11 md-body-md text-on-surface outline-none placeholder:text-on-surface-variant focus:ring-2 focus:ring-primary"
         />
-        {term && (
-          <button
-            type="button"
-            aria-label="Xóa tìm kiếm"
-            onClick={() => {
-              setTerm('')
-              onSearch('')
-            }}
-            className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-on-surface-variant hover:bg-on-surface/8"
-          >
-            <Icon name="close" size={16} />
-          </button>
+        {searching ? (
+          <span className="absolute top-1/2 right-3 -translate-y-1/2 text-on-surface-variant">
+            <CircularProgress size={16} strokeWidth={2} />
+          </span>
+        ) : (
+          term && (
+            <button
+              type="button"
+              aria-label="Xóa tìm kiếm"
+              onClick={() => {
+                setTerm('')
+                onSearch('')
+              }}
+              className="absolute top-1/2 right-2 -translate-y-1/2 rounded-full p-1 text-on-surface-variant hover:bg-on-surface/8"
+            >
+              <Icon name="close" size={16} />
+            </button>
+          )
         )}
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="md-stagger min-h-0 flex-1 overflow-y-auto">
         {items.map((item) => {
           const active = item.id === activeId
           return (
@@ -95,20 +114,34 @@ export function Sidebar({
               <span
                 className={cn(
                   'absolute inset-y-0 right-1 flex items-center transition-opacity',
-                  'lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100',
+                  deletingId === item.id
+                    ? 'opacity-100'
+                    : 'lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100',
                 )}
               >
-                <IconButton
-                  icon="delete"
-                  label={`Xóa ${item.title}`}
-                  size="sm"
-                  onClick={() => onDelete(item.id)}
-                />
+                {deletingId === item.id ? (
+                  <span className="grid size-10 place-items-center text-on-surface-variant">
+                    <CircularProgress size={18} strokeWidth={2} />
+                  </span>
+                ) : (
+                  <IconButton
+                    icon="delete"
+                    label={`Xóa ${item.title}`}
+                    size="sm"
+                    disabled={deletingId !== null}
+                    onClick={() => onDelete(item.id)}
+                  />
+                )}
               </span>
             </div>
           )
         })}
-        {!items.length && (
+        {loading && !items.length && (
+          <div className="grid place-items-center py-8 text-on-surface-variant">
+            <CircularProgress size={24} />
+          </div>
+        )}
+        {!loading && !items.length && (
           <p className="px-4 py-6 md-body-md text-on-surface-variant">
             {term ? 'Không tìm thấy cuộc nào khớp.' : 'Chưa có cuộc trò chuyện nào.'}
           </p>

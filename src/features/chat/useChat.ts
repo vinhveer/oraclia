@@ -28,7 +28,7 @@ export interface ToolActivity {
   detail: string
 }
 
-export type ChatPhase = 'idle' | 'thinking' | 'awaiting_cards' | 'reading'
+export type ChatPhase = 'idle' | 'thinking' | 'awaiting_cards' | 'interpreting' | 'reading'
 
 /** Ngừng gõ bấy lâu thì agent quay lại nghĩ về những gì vừa nói. */
 const REFLECT_AFTER_MS = 6000
@@ -54,6 +54,14 @@ export function useChat(
   const streamingRef = useRef(false)
   /** Cuộc trò chuyện mà lượt hiện tại thuộc về, kể cả khi nó vừa được tạo. */
   const startedIn = useRef<string | null>(null)
+  /**
+   * Chữ về theo từng cục lớn, có khi cả đoạn một lần. Đệm lại rồi nhả đều tay
+   * để bài đọc chảy ra thay vì bụp một phát — nhả nhanh dần khi hàng đợi dài
+   * nên không bao giờ tụt lại sau luồng thật.
+   */
+  const queue = useRef('')
+  const drain = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [thinking, setThinking] = useState('')
   const reflectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const reflectAbort = useRef<AbortController | null>(null)
   const [reflecting, setReflecting] = useState<'idle' | 'thinking' | 'saved'>('idle')
@@ -149,6 +157,46 @@ export function useChat(
     )
   }, [])
 
+  const startDraining = useCallback(() => {
+    if (drain.current) return
+    drain.current = setInterval(() => {
+      if (!queue.current) {
+        clearInterval(drain.current!)
+        drain.current = null
+        return
+      }
+      const step = Math.max(2, Math.ceil(queue.current.length / 12))
+      const chunk = queue.current.slice(0, step)
+      queue.current = queue.current.slice(step)
+      patchDraft((item) => ({ ...item, content: item.content + chunk }))
+    }, 24)
+  }, [patchDraft])
+
+  /** Chờ nhả hết chữ đang đệm trước khi tải lại tin nhắn thật từ DB. */
+  const flushQueue = useCallback(
+    () =>
+      new Promise<void>((resolve) => {
+        const check = setInterval(() => {
+          if (!queue.current) {
+            clearInterval(check)
+            resolve()
+          }
+        }, 30)
+        setTimeout(() => {
+          clearInterval(check)
+          resolve()
+        }, 4000)
+      }),
+    [],
+  )
+
+  useEffect(
+    () => () => {
+      if (drain.current) clearInterval(drain.current)
+    },
+    [],
+  )
+
   const handle = useCallback(
     (event: AgentEvent) => {
       switch (event.type) {
@@ -169,6 +217,8 @@ export function useChat(
           ])
           break
         case 'tool.completed':
+          // Trừ lượt rút bài — chỗ đó còn phải chờ người dùng chọn.
+          setPhase((current) => (current === 'awaiting_cards' ? current : 'interpreting'))
           setTools((current) =>
             current.map((tool) =>
               tool.callId === event.call_id
@@ -199,14 +249,22 @@ export function useChat(
           break
         case 'cards.revealed':
           patchDraft((item) => ({ ...item, cards: event.cards as DrawnCard[] }))
-          setPhase('reading')
+          setPhase('interpreting')
           break
         case 'iching.cast':
           patchDraft((item) => ({ ...item, hexagram: event.casting as Casting }))
+          setPhase('interpreting')
+          break
+        case 'thinking.delta':
+          // Giữ trọn để người dùng bung ra đọc được; phần hiển thị mặc định chỉ
+          // lấy đoạn cuối.
+          setThinking((current) => (current + event.content).slice(-8000))
           break
         case 'message.delta':
           setPhase('reading')
-          patchDraft((item) => ({ ...item, content: item.content + event.content }))
+          setThinking('')
+          queue.current += event.content
+          startDraining()
           break
         case 'message.completed':
           setMessages((current) =>
@@ -221,7 +279,7 @@ export function useChat(
           break
       }
     },
-    [conversationId, onConversationCreated, onTitle, patchDraft],
+    [conversationId, onConversationCreated, onTitle, patchDraft, startDraining],
   )
 
   const reload = useCallback(async (target: string) => {
@@ -237,6 +295,8 @@ export function useChat(
       const trimmed = question.trim()
       if (trimmed.length < 3 || phase !== 'idle') return
       cancelReflection()
+      setThinking('')
+      queue.current = ''
       const controller = new AbortController()
       abort.current = controller
       streamingRef.current = true
@@ -274,13 +334,15 @@ export function useChat(
           parked = current === 'awaiting_cards'
           return parked ? current : 'idle'
         })
+        setThinking('')
         if (!parked && startedIn.current) {
+          await flushQueue()
           await reload(startedIn.current)
           scheduleReflection(startedIn.current)
         }
       }
     },
-    [cancelReflection, conversationId, handle, phase, reload, scheduleReflection],
+    [cancelReflection, conversationId, flushQueue, handle, phase, reload, scheduleReflection],
   )
 
   const submit = useCallback(
@@ -304,13 +366,15 @@ export function useChat(
       } finally {
         streamingRef.current = false
         setPhase('idle')
+        setThinking('')
         if (startedIn.current) {
+          await flushQueue()
           await reload(startedIn.current)
           scheduleReflection(startedIn.current)
         }
       }
     },
-    [draw, handle, reload, scheduleReflection],
+    [draw, flushQueue, handle, reload, scheduleReflection],
   )
 
   const cancelDraw = useCallback(() => {
@@ -348,6 +412,7 @@ export function useChat(
     messages,
     phase,
     tools,
+    thinking,
     reflecting,
     /**
      * Người dùng đang gõ: dời lượt phản tư ra sau, chứ không huỷ — soạn dở rồi

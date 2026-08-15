@@ -13,4 +13,4 @@ export function createModelAdapter(): ModelAdapter {
 }
 
 export { ModelAdapter }
-export type { ModelStep } from './adapter.ts'
+export type { ModelStep, StepHandlers } from './adapter.ts'

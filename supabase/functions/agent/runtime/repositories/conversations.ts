@@ -57,17 +57,20 @@ export class ConversationRepository extends Repository {
     }
   }
 
-  async title(conversationId: string): Promise<string | null> {
+  async titleState(conversationId: string) {
     const { data } = await this.db
       .from('conversations')
-      .select('title')
+      .select('title, title_generated')
       .eq('id', conversationId)
       .maybeSingle()
-    return data?.title ?? null
+    return data
   }
 
-  async rename(conversationId: string, title: string): Promise<void> {
-    await this.db.from('conversations').update({ title }).eq('id', conversationId)
+  async rename(conversationId: string, title: string, generated = false): Promise<void> {
+    await this.db
+      .from('conversations')
+      .update({ title, ...(generated ? { title_generated: true } : {}) })
+      .eq('id', conversationId)
   }
 
   async addMessage(

@@ -16,11 +16,17 @@ function Lines({
 }) {
   const rows = lines.split('').map((value, index) => ({ value, position: index + 1 }))
   return (
-    <div className={cn('flex w-24 flex-col-reverse gap-1.5', className)}>
+    // flex-col-reverse: phần tử đầu trong DOM là hào 1 nhưng hiển thị dưới cùng,
+    // nên nth-child(1) chính là hào vào trước — đúng thứ tự vạch quẻ từ dưới lên.
+    <div className={cn('md-hexagram flex w-24 flex-col-reverse gap-1.5', className)}>
       {rows.map(({ value, position }) => {
         const isMoving = moving.includes(position)
         return (
-          <div key={position} className="flex h-2.5 items-stretch gap-1.5" title={`Hào ${position}`}>
+          <div
+            key={position}
+            className="flex h-2.5 items-stretch gap-1.5"
+            title={`Hào ${position}${isMoving ? ' (động)' : ''}`}
+          >
             {value === '1' ? (
               <span
                 className={cn(
@@ -69,7 +75,7 @@ function HexagramCard({
 export function HexagramView({ casting }: { casting: Casting }) {
   const changedLines = casting.changed?.lines ?? casting.primary.lines
   return (
-    <section className="mt-4 rounded-xl border border-outline-variant p-4">
+    <section className="md-slide-up mt-4 rounded-xl border border-outline-variant p-4">
       <div className="flex flex-wrap items-start gap-4">
         <HexagramCard
           hexagram={casting.primary}

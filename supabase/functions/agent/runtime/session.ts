@@ -14,7 +14,7 @@ import { CastingRepository, ReadingRepository } from './repositories/readings.ts
 import { RunRepository } from './repositories/runs.ts'
 import { ToolCallRepository } from './repositories/tool-calls.ts'
 import { StreamController } from './stream.ts'
-import { Titler } from './titler.ts'
+import { provisionalTitle, Titler } from './titler.ts'
 import { Deck } from './tarot/deck.ts'
 import { CastIChingTool } from './tools/cast-iching.ts'
 import { CompactHistoryTool } from './tools/compact-history.ts'
@@ -91,12 +91,31 @@ export class AgentSession {
 
     await this.conversations.addMessage(conversationId, this.userId, 'user', question)
 
-    // Đặt tên trước khi trả lời, để sidebar không phải chờ hết lượt đọc.
-    const title = await new Titler(this.conversations, this.adapter).ensureTitle(
-      conversationId,
-      question,
-    )
-    if (title) stream.emit({ type: 'conversation.titled', conversation_id: conversationId, title })
+    // Tiêu đề tạm cắt từ chính câu hỏi, hiện ngay lập tức; model thay bằng bản
+    // gọn hơn khi nó viết xong.
+    const titleState = await this.conversations.titleState(conversationId)
+    if (!titleState?.title_generated) {
+      const provisional = provisionalTitle(question)
+      await this.conversations.rename(conversationId, provisional)
+      stream.emit({
+        type: 'conversation.titled',
+        conversation_id: conversationId,
+        title: provisional,
+      })
+    }
+
+    // Đặt tên chạy song song với vòng lặp chính. Chờ nó xong mới bắt đầu đọc bài
+    // khiến người hỏi ngồi nhìn màn hình trống gần chín giây — model có reasoning
+    // nghĩ khá lâu cho cả một câu tiêu đề. Nó vẫn kịp về trước khi câu trả lời
+    // bắt đầu chảy, nên sidebar không thấy khác gì.
+    new Titler(this.conversations, this.adapter)
+      .ensureTitle(conversationId, question)
+      .then((title) => {
+        if (title) {
+          stream.emit({ type: 'conversation.titled', conversation_id: conversationId, title })
+        }
+      })
+      .catch(() => undefined)
 
     const builder = new PromptBuilder(
       prompt.body,

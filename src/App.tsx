@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { CircularProgress, SnackbarProvider } from '@/components'
+import { Icon, SnackbarProvider } from '@/components'
 import { ThemeProvider } from '@/theme/ThemeProvider'
 import { SessionProvider, useSession } from '@/features/auth/SessionProvider'
 import ChatPage from '@/pages/ChatPage'
@@ -72,7 +72,12 @@ function RequireSession({ children }: { children: React.ReactNode }) {
   if (!ready) {
     return (
       <div className="grid h-dvh place-items-center bg-surface">
-        <CircularProgress />
+        <div className="flex flex-col items-center gap-4">
+          <span className="flex size-14 items-center justify-center bg-primary text-on-primary">
+            <Icon name="sparkle" size={30} className="md-bloom" />
+          </span>
+          <p className="md-label-lg text-on-surface-variant">Oraclia</p>
+        </div>
       </div>
     )
   }

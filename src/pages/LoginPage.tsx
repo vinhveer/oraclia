@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Button, Icon, TextField, useSnackbar } from '@/components'
+import { Button, CircularProgress, Icon, TextField, useSnackbar } from '@/components'
 import { useSession } from '@/features/auth/SessionProvider'
 import { signIn, signUp } from '@db'
 
@@ -23,9 +23,13 @@ export default function LoginPage() {
     if (busy) return
     setBusy(true)
     setError('')
+    // Đăng nhập xong thì phiên còn cập nhật thêm một nhịp nữa mới chuyển trang;
+    // tắt trạng thái chờ ngay lúc này sẽ làm nút nhấp nháy trước khi rời màn.
+    let keepBusy = false
     try {
       if (mode === 'signin') {
         await signIn(email.trim(), password)
+        keepBusy = true
       } else {
         const { needsConfirmation } = await signUp(
           email.trim(),
@@ -36,21 +40,22 @@ export default function LoginPage() {
           setSentTo(email.trim())
           return
         }
+        keepBusy = true
         snackbar({ message: 'Tài khoản đã được tạo. Bạn có thể bắt đầu hỏi.' })
       }
     } catch (exception) {
       setError(exception instanceof Error ? exception.message : 'Không thể đăng nhập.')
     } finally {
-      setBusy(false)
+      if (!keepBusy) setBusy(false)
     }
   }
 
   if (sentTo) {
     return (
       <div className="grid min-h-dvh place-items-center bg-surface px-4 py-10">
-        <section className="w-full max-w-sm text-center">
+        <section className="md-enter-scale w-full max-w-sm text-center">
           <span className="mx-auto mb-5 flex size-14 items-center justify-center bg-primary-container text-on-primary-container">
-            <Icon name="mail" size={28} />
+            <Icon name="mail" size={28} className="md-spin-in" />
           </span>
           <h1 className="md-headline-sm text-on-surface">Xác thực email của bạn</h1>
           <p className="mt-3 md-body-lg text-on-surface-variant">
@@ -68,6 +73,7 @@ export default function LoginPage() {
               setSentTo('')
               setMode('signin')
               setPassword('')
+              setBusy(false)
             }}
           >
             Quay lại đăng nhập
@@ -79,10 +85,14 @@ export default function LoginPage() {
 
   return (
     <div className="grid min-h-dvh place-items-center bg-surface px-4 py-10">
-      <section className="w-full max-w-sm">
+      <section className="md-slide-up w-full max-w-sm">
         <div className="mb-6 flex items-center gap-3">
           <span className="flex size-12 items-center justify-center bg-primary text-on-primary">
-            <Icon name="sparkle" size={26} />
+            <Icon
+              name="sparkle"
+              size={26}
+              className={busy ? 'md-bloom' : 'md-spin-in'}
+            />
           </span>
           <div>
             <h1 className="md-headline-sm text-on-surface">Oraclia</h1>
@@ -92,7 +102,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={submit} className="flex flex-col gap-4">
+        <form onSubmit={submit} className="md-stagger flex flex-col gap-4">
           {mode === 'signup' && (
             <TextField
               label="Tên hiển thị"
@@ -126,7 +136,16 @@ export default function LoginPage() {
           />
 
           <Button type="submit" fullWidth disabled={busy || !email || password.length < 6}>
-            {busy ? 'Đang xử lý...' : mode === 'signin' ? 'Đăng nhập' : 'Tạo tài khoản'}
+            {busy ? (
+              <span className="flex items-center gap-2">
+                <CircularProgress size={18} strokeWidth={3} />
+                {mode === 'signin' ? 'Đang mở...' : 'Đang tạo...'}
+              </span>
+            ) : mode === 'signin' ? (
+              'Đăng nhập'
+            ) : (
+              'Tạo tài khoản'
+            )}
           </Button>
         </form>
 
