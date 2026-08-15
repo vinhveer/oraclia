@@ -1,0 +1,36 @@
+{
+  "name": "tarot-reader",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "db:start": "supabase start",
+    "db:reset": "supabase db reset",
+    "db:types": "supabase gen types typescript --local > supabase/client/database.types.ts",
+    "functions:serve": "supabase functions serve agent --env-file supabase/.env.local",
+    "db:stop": "supabase stop",
+    "db:status": "supabase status"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.58.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.2",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "oxlint": "^1.75.0",
+    "supabase": "^2.114.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.2.0"
+  }
+}
