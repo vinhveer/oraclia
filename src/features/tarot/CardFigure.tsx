@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 import type { DrawnCard } from '@db'
 
@@ -9,7 +10,7 @@ export function CardFigure({ card }: { card: DrawnCard }) {
   return (
     <figure className="md-slide-up my-1 flex items-center gap-4 rounded-xl border border-outline-variant bg-surface-low p-3">
       <img
-        src={`/${card.image}`}
+        src={asset(card.image)}
         alt={card.name_vi}
         className={cn(
           'w-24 shrink-0 rounded-lg object-cover shadow-e1',

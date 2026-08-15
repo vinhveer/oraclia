@@ -2,8 +2,8 @@ import type { Db } from '../../_shared/db.ts'
 import type { ModelMessage } from '../../_shared/types.ts'
 import { AgentError } from './errors.ts'
 import { Agent, type AgentRun } from './agent.ts'
-import { Compactor } from './compactor.ts'
 import { IChingCaster } from './iching/caster.ts'
+import { memo } from './lazy.ts'
 import { createModelAdapter, type ModelAdapter } from './model/factory.ts'
 import { PromptBuilder } from './prompts/builder.ts'
 import { CatalogRepository } from './repositories/catalog.ts'
@@ -78,15 +78,11 @@ export class AgentSession {
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
     )
 
-    await new Compactor(this.conversations, this.prompts, this.adapter).run(conversationId)
-
-    const [state, prompt, settings, memories, cards, hexagrams] = await Promise.all([
+    const [state, prompt, settings, memories] = await Promise.all([
       this.conversations.state(conversationId),
       this.prompts.active('reader'),
       this.prompts.userSettings(),
       this.memories.list(40),
-      this.catalog.cards(),
-      this.catalog.hexagrams(),
     ])
 
     await this.conversations.addMessage(conversationId, this.userId, 'user', question)
@@ -136,7 +132,7 @@ export class AgentSession {
       runId,
       conversationId,
       messages,
-      agentRun: this.buildRun({ runId, conversationId, question, cards, hexagrams, stream }),
+      agentRun: this.buildRun({ runId, conversationId, question, stream }),
     }
   }
 
@@ -160,10 +156,8 @@ export class AgentSession {
     const deckOrder = await this.readings.deck(reading.id)
     if (!deckOrder.length) throw new AgentError(409, 'Bộ bài của lượt này không còn khả dụng.')
 
-    const [cards, hexagrams] = await Promise.all([
-      this.catalog.cards(),
-      this.catalog.hexagrams(),
-    ])
+    // Lượt lật bài thì bắt buộc phải có bộ bài, nhưng bảng quẻ vẫn để lười.
+    const cards = await this.catalog.cards()
 
     let revealed
     try {
@@ -200,10 +194,9 @@ export class AgentSession {
         runId: run.id,
         conversationId: run.conversation_id,
         question: run.question,
-        cards,
-        hexagrams,
         stream,
         revealed,
+        cards,
       }),
     }
   }
@@ -281,8 +274,10 @@ export class AgentSession {
             conversationId,
             runId,
             question: '(reflect)',
-            deck: new Deck([]),
-            caster: new IChingCaster([]),
+            // Lượt phản tư không đụng tới bài hay quẻ.
+            deck: memo(async () => new Deck([])),
+            caster: memo(async () => new IChingCaster([])),
+            catalog: this.catalog,
             readings: this.readings,
             castings: this.castings,
             memories: this.memories,
@@ -298,13 +293,13 @@ export class AgentSession {
     runId: string
     conversationId: string
     question: string
-    cards: Awaited<ReturnType<CatalogRepository['cards']>>
-    hexagrams: Awaited<ReturnType<CatalogRepository['hexagrams']>>
     stream: StreamController
     revealed?: Awaited<ReturnType<Deck['reveal']>>
+    /** Đã nạp sẵn ở lượt lật bài; các lượt khác để tool tự nạp khi cần. */
+    cards?: Awaited<ReturnType<CatalogRepository['cards']>>
   }): { agent: Agent; run: AgentRun } {
     const registry = new ToolRegistry(
-      [new DrawCardsTool(), new LookupCardsTool(input.cards), new CastIChingTool()],
+      [new DrawCardsTool(), new LookupCardsTool(), new CastIChingTool()],
       this.toolCalls,
     )
 
@@ -326,8 +321,12 @@ export class AgentSession {
         conversationId: input.conversationId,
         runId: input.runId,
         question: input.question,
-        deck: new Deck(input.cards),
-        caster: new IChingCaster(input.hexagrams),
+        // Nạp lười: 78 lá và 64 quẻ là hai truy vấn nặng nhất, mà phần lớn lượt
+        // chỉ trò chuyện chứ không rút bài. Nạp sẵn là bắt mọi câu hỏi trả giá
+        // cho khả năng có thể cần tới.
+        deck: memo(async () => new Deck(input.cards ?? (await this.catalog.cards()))),
+        caster: memo(async () => new IChingCaster(await this.catalog.hexagrams())),
+        catalog: this.catalog,
         readings: this.readings,
         castings: this.castings,
         memories: this.memories,

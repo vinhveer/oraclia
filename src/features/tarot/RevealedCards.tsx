@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Dialog, Icon } from '@/components'
+import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 import type { DrawnCard } from '@db'
 
@@ -17,7 +18,7 @@ export function RevealedCards({ cards }: { cards: DrawnCard[] }) {
             className="md-slide-up group w-32 rounded-lg border border-outline-variant bg-surface-low p-2 text-left transition-shadow hover:shadow-e2"
           >
             <img
-              src={`/${card.image}`}
+              src={asset(card.image)}
               alt={card.name_vi}
               className={cn(
                 'aspect-[300/527] w-full rounded-md object-cover',

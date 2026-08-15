@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ask,
-  type Casting,
   deleteMessagesFrom,
   listMessages,
   reflect,
   selectCards,
   subscribeToConversation,
   type AgentEvent,
+  type Casting,
   type DrawnCard,
   type Message,
 } from '@db'
+import { hasIndicator, IDLE_TURN, reduceTurn, startTurn, type TurnState } from './activity'
 
 export interface PendingDraw {
   runId: string
@@ -21,23 +22,26 @@ export interface PendingDraw {
   reason: string
 }
 
-export interface ToolActivity {
-  callId: string
-  name: string
-  status: 'running' | 'completed' | 'failed'
-  detail: string
-}
-
-export type ChatPhase = 'idle' | 'thinking' | 'awaiting_cards' | 'interpreting' | 'reading'
+export const DRAFT_ID = 'draft'
 
 /** Ngừng gõ bấy lâu thì agent quay lại nghĩ về những gì vừa nói. */
 const REFLECT_AFTER_MS = 6000
 
-export const DRAFT_ID = 'draft'
+const emptyDraft = (): Message => ({
+  id: DRAFT_ID,
+  role: 'assistant',
+  content: '',
+  cards: null,
+  hexagram: null,
+  created_at: new Date().toISOString(),
+})
 
 /**
- * Owns one conversation: the transcript, the live stream, and the suspend point
- * where the agent waits for the user to pick cards.
+ * Sở hữu một cuộc trò chuyện: bản ghi, luồng đang chạy, và điểm dừng nơi agent
+ * chờ người dùng chọn bài.
+ *
+ * Trạng thái "đang làm gì" nằm trọn trong `turn`, do `reduceTurn` sinh ra từ
+ * chuỗi sự kiện. Không nơi nào khác được suy đoán điều đó.
  */
 export function useChat(
   conversationId: string | null,
@@ -45,26 +49,27 @@ export function useChat(
   onTitle?: (conversationId: string, title: string) => void,
 ) {
   const [messages, setMessages] = useState<Message[]>([])
-  const [phase, setPhase] = useState<ChatPhase>('idle')
-  const [tools, setTools] = useState<ToolActivity[]>([])
+  const [turn, setTurn] = useState<TurnState>(IDLE_TURN)
   const [draw, setDraw] = useState<PendingDraw | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [reflecting, setReflecting] = useState<'idle' | 'thinking' | 'saved'>('idle')
+
   const abort = useRef<AbortController | null>(null)
   const streamingRef = useRef(false)
   /** Cuộc trò chuyện mà lượt hiện tại thuộc về, kể cả khi nó vừa được tạo. */
   const startedIn = useRef<string | null>(null)
   /**
    * Chữ về theo từng cục lớn, có khi cả đoạn một lần. Đệm lại rồi nhả đều tay
-   * để bài đọc chảy ra thay vì bụp một phát — nhả nhanh dần khi hàng đợi dài
-   * nên không bao giờ tụt lại sau luồng thật.
+   * để bài đọc chảy ra thay vì bụp một phát; nhả nhanh dần khi hàng đợi dài nên
+   * không bao giờ tụt lại sau luồng thật.
    */
   const queue = useRef('')
   const drain = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [thinking, setThinking] = useState('')
   const reflectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const reflectAbort = useRef<AbortController | null>(null)
-  const [reflecting, setReflecting] = useState<'idle' | 'thinking' | 'saved'>('idle')
+
+  const busy = draw !== null || turn.activities.length > 0 || turn.answering
 
   const cancelReflection = useCallback(() => {
     if (reflectTimer.current) clearTimeout(reflectTimer.current)
@@ -76,43 +81,37 @@ export function useChat(
 
   /**
    * Hẹn một lượt phản tư sau khi người dùng im lặng. Mọi hoạt động — gõ phím,
-   * gửi câu mới, đổi cuộc trò chuyện — đều huỷ lịch này.
+   * gửi câu mới, đổi cuộc trò chuyện — đều dời hoặc huỷ lịch này.
    */
-  const scheduleReflection = useCallback(
-    (target: string) => {
-      if (reflectTimer.current) clearTimeout(reflectTimer.current)
-      reflectTimer.current = setTimeout(() => {
-        const controller = new AbortController()
-        reflectAbort.current = controller
-        setReflecting('thinking')
-        let touched = false
-        reflect(
-          target,
-          (event) => {
-            if (event.type === 'memory.saved' || event.type === 'history.compacted') touched = true
-          },
-          controller.signal,
-        )
-          .catch(() => undefined)
-          .finally(() => {
-            reflectAbort.current = null
-            setReflecting(touched ? 'saved' : 'idle')
-            if (touched) setTimeout(() => setReflecting('idle'), 4000)
-          })
-      }, REFLECT_AFTER_MS)
-    },
-    [],
-  )
-
-  useEffect(() => cancelReflection, [cancelReflection])
-
+  const scheduleReflection = useCallback((target: string) => {
+    if (reflectTimer.current) clearTimeout(reflectTimer.current)
+    reflectTimer.current = setTimeout(() => {
+      const controller = new AbortController()
+      reflectAbort.current = controller
+      setReflecting('thinking')
+      let touched = false
+      reflect(
+        target,
+        (event) => {
+          if (event.type === 'memory.saved' || event.type === 'history.compacted') touched = true
+        },
+        controller.signal,
+      )
+        .catch(() => undefined)
+        .finally(() => {
+          reflectAbort.current = null
+          setReflecting(touched ? 'saved' : 'idle')
+          if (touched) setTimeout(() => setReflecting('idle'), 4000)
+        })
+    }, REFLECT_AFTER_MS)
+  }, [])
 
   useEffect(() => {
     cancelReflection()
+    setTurn(IDLE_TURN)
     setDraw(null)
-    setTools([])
     setError('')
-    setPhase('idle')
+    queue.current = ''
     if (!conversationId) {
       setMessages([])
       return
@@ -121,10 +120,10 @@ export function useChat(
     setLoading(true)
     listMessages(conversationId)
       .then((rows) => active && setMessages(rows))
-      .catch((exception) => active && setError(message(exception)))
+      .catch((exception) => active && setError(describe(exception)))
       .finally(() => active && setLoading(false))
-    // Another tab (or a resumed run) writes straight to Postgres; mirror it here,
-    // but never while this tab is the one streaming.
+    // Tab khác (hoặc một lượt chạy nơi khác) ghi thẳng vào Postgres; soi theo,
+    // nhưng không bao giờ trong lúc chính tab này đang stream.
     const unsubscribe = subscribeToConversation(conversationId, (row) => {
       if (streamingRef.current) return
       setMessages((current) =>
@@ -149,12 +148,16 @@ export function useChat(
     }
   }, [cancelReflection, conversationId])
 
-  useEffect(() => () => abort.current?.abort(), [])
+  useEffect(
+    () => () => {
+      abort.current?.abort()
+      if (drain.current) clearInterval(drain.current)
+    },
+    [],
+  )
 
   const patchDraft = useCallback((update: (draft: Message) => Message) => {
-    setMessages((current) =>
-      current.map((item) => (item.id === DRAFT_ID ? update(item) : item)),
-    )
+    setMessages((current) => current.map((item) => (item.id === DRAFT_ID ? update(item) : item)))
   }, [])
 
   const startDraining = useCallback(() => {
@@ -176,65 +179,32 @@ export function useChat(
   const flushQueue = useCallback(
     () =>
       new Promise<void>((resolve) => {
+        const started = Date.now()
         const check = setInterval(() => {
-          if (!queue.current) {
+          if (!queue.current || Date.now() - started > 4000) {
             clearInterval(check)
             resolve()
           }
         }, 30)
-        setTimeout(() => {
-          clearInterval(check)
-          resolve()
-        }, 4000)
       }),
     [],
   )
 
-  useEffect(
-    () => () => {
-      if (drain.current) clearInterval(drain.current)
-    },
-    [],
-  )
-
+  /**
+   * Một cửa duy nhất cho mọi sự kiện. Dòng hoạt động do reducer lo; ở đây chỉ
+   * còn những việc phải chạm ra ngoài: nội dung tin nhắn, lượt rút bài, tiêu đề.
+   */
   const handle = useCallback(
     (event: AgentEvent) => {
+      setTurn((current) => reduceTurn(current, event))
+
       switch (event.type) {
         case 'run.started':
           startedIn.current = event.conversation_id
           if (!conversationId) onConversationCreated(event.conversation_id)
           break
-        case 'tool.started':
-          setPhase('thinking')
-          setTools((current) => [
-            ...current,
-            {
-              callId: event.call_id,
-              name: event.name,
-              status: 'running',
-              detail: describeTool(event.name, event.arguments),
-            },
-          ])
-          break
-        case 'tool.completed':
-          // Trừ lượt rút bài — chỗ đó còn phải chờ người dùng chọn.
-          setPhase((current) => (current === 'awaiting_cards' ? current : 'interpreting'))
-          setTools((current) =>
-            current.map((tool) =>
-              tool.callId === event.call_id
-                ? { ...tool, status: 'completed', detail: event.summary || tool.detail }
-                : tool,
-            ),
-          )
-          break
-        case 'tool.failed':
-          setTools((current) =>
-            current.map((tool) =>
-              tool.callId === event.call_id
-                ? { ...tool, status: 'failed', detail: event.message }
-                : tool,
-            ),
-          )
+        case 'conversation.titled':
+          onTitle?.(event.conversation_id, event.title)
           break
         case 'draw.requested':
           setDraw({
@@ -245,24 +215,14 @@ export function useChat(
             positions: event.positions,
             reason: event.reason,
           })
-          setPhase('awaiting_cards')
           break
         case 'cards.revealed':
           patchDraft((item) => ({ ...item, cards: event.cards as DrawnCard[] }))
-          setPhase('interpreting')
           break
         case 'iching.cast':
           patchDraft((item) => ({ ...item, hexagram: event.casting as Casting }))
-          setPhase('interpreting')
-          break
-        case 'thinking.delta':
-          // Giữ trọn để người dùng bung ra đọc được; phần hiển thị mặc định chỉ
-          // lấy đoạn cuối.
-          setThinking((current) => (current + event.content).slice(-8000))
           break
         case 'message.delta':
-          setPhase('reading')
-          setThinking('')
           queue.current += event.content
           startDraining()
           break
@@ -270,9 +230,6 @@ export function useChat(
           setMessages((current) =>
             current.map((item) => (item.id === DRAFT_ID ? { ...item, id: event.message_id } : item)),
           )
-          break
-        case 'conversation.titled':
-          onTitle?.(event.conversation_id, event.title)
           break
         case 'run.error':
           setError(event.message)
@@ -282,27 +239,38 @@ export function useChat(
     [conversationId, onConversationCreated, onTitle, patchDraft, startDraining],
   )
 
-  const reload = useCallback(async (target: string) => {
-    try {
-      setMessages(await listMessages(target))
-    } catch {
-      // Giữ nguyên bản tại chỗ nếu không tải lại được.
-    }
-  }, [])
+  /** Khép lại một lượt: xả nốt chữ, tải lại bản thật, rồi hẹn lượt phản tư. */
+  const finishTurn = useCallback(
+    async (parked: boolean) => {
+      streamingRef.current = false
+      // Lượt đỗ lại chờ chọn bài thì chưa xong: giữ nguyên dòng hoạt động.
+      if (parked) return
+      setTurn(IDLE_TURN)
+      if (!startedIn.current) return
+      await flushQueue()
+      try {
+        setMessages(await listMessages(startedIn.current))
+      } catch {
+        // Giữ nguyên bản tại chỗ nếu không tải lại được.
+      }
+      scheduleReflection(startedIn.current)
+    },
+    [flushQueue, scheduleReflection],
+  )
 
   const send = useCallback(
     async (question: string) => {
       const trimmed = question.trim()
-      if (trimmed.length < 3 || phase !== 'idle') return
+      if (trimmed.length < 3 || busy) return
+
       cancelReflection()
-      setThinking('')
       queue.current = ''
       const controller = new AbortController()
       abort.current = controller
       streamingRef.current = true
+      startedIn.current = conversationId
       setError('')
-      setTools([])
-      setPhase('thinking')
+      setTurn(startTurn())
       setMessages((current) => [
         ...current,
         {
@@ -313,48 +281,40 @@ export function useChat(
           hexagram: null,
           created_at: new Date().toISOString(),
         },
-        {
-          id: DRAFT_ID,
-          role: 'assistant',
-          content: '',
-          cards: null,
-          hexagram: null,
-          created_at: new Date().toISOString(),
-        },
+        emptyDraft(),
       ])
+
+      let parked = false
       try {
-        startedIn.current = conversationId
-        await ask({ conversationId, question: trimmed }, handle, controller.signal)
+        await ask(
+          { conversationId, question: trimmed },
+          (event) => {
+            if (event.type === 'draw.requested') parked = true
+            handle(event)
+          },
+          controller.signal,
+        )
       } catch (exception) {
-        setError(message(exception))
+        setError(describe(exception))
       } finally {
-        streamingRef.current = false
-        let parked = false
-        setPhase((current) => {
-          parked = current === 'awaiting_cards'
-          return parked ? current : 'idle'
-        })
-        setThinking('')
-        if (!parked && startedIn.current) {
-          await flushQueue()
-          await reload(startedIn.current)
-          scheduleReflection(startedIn.current)
-        }
+        await finishTurn(parked)
       }
     },
-    [cancelReflection, conversationId, flushQueue, handle, phase, reload, scheduleReflection],
+    [busy, cancelReflection, conversationId, finishTurn, handle],
   )
 
   const submit = useCallback(
     async (indices: number[]) => {
       if (!draw || indices.length !== draw.pickCount) return
+      const pending = draw
       const controller = new AbortController()
       abort.current = controller
       streamingRef.current = true
-      const pending = draw
+      queue.current = ''
       setDraw(null)
-      setPhase('reading')
       setError('')
+      // Chỉ báo phải có ngay từ lúc bấm, không đợi server trả sự kiện đầu tiên.
+      setTurn(startTurn())
       try {
         await selectCards(
           { runId: pending.runId, readingId: pending.readingId, indices },
@@ -362,26 +322,19 @@ export function useChat(
           controller.signal,
         )
       } catch (exception) {
-        setError(message(exception))
+        setError(describe(exception))
       } finally {
-        streamingRef.current = false
-        setPhase('idle')
-        setThinking('')
-        if (startedIn.current) {
-          await flushQueue()
-          await reload(startedIn.current)
-          scheduleReflection(startedIn.current)
-        }
+        await finishTurn(false)
       }
     },
-    [draw, flushQueue, handle, reload, scheduleReflection],
+    [draw, finishTurn, handle],
   )
 
   const cancelDraw = useCallback(() => {
-    // Leaving the run parked is fine: the reading row stays pending and the
-    // placeholder disappears, so the user can simply ask again.
+    // Để run đỗ lại cũng không sao: hàng reading vẫn ở trạng thái chờ, người
+    // dùng chỉ việc hỏi lại.
     setDraw(null)
-    setPhase('idle')
+    setTurn(IDLE_TURN)
     setMessages((current) => current.filter((item) => item.id !== DRAFT_ID))
   }, [])
 
@@ -391,61 +344,55 @@ export function useChat(
    */
   const replaceFrom = useCallback(
     async (from: Message, question: string) => {
-      if (!conversationId || phase !== 'idle') return
+      if (!conversationId || busy) return
       const trimmed = question.trim()
       if (trimmed.length < 3) return
       try {
         await deleteMessagesFrom(conversationId, from.created_at)
       } catch (exception) {
-        setError(message(exception))
+        setError(describe(exception))
         return
       }
-      setMessages((current) =>
-        current.filter((item) => item.created_at < from.created_at),
-      )
+      setMessages((current) => current.filter((item) => item.created_at < from.created_at))
       await send(trimmed)
     },
-    [conversationId, phase, send],
+    [busy, conversationId, send],
   )
+
+  // Bất biến của màn hình, kiểm ngay tại nguồn thay vì đợi người dùng báo treo.
+  useEffect(() => {
+    if (import.meta.env.DEV && streamingRef.current && !hasIndicator(turn)) {
+      console.warn('[useChat] lượt đang chạy mà không có chỉ báo nào', turn)
+    }
+  }, [turn])
 
   return {
     messages,
-    phase,
-    tools,
-    thinking,
-    reflecting,
-    /**
-     * Người dùng đang gõ: dời lượt phản tư ra sau, chứ không huỷ — soạn dở rồi
-     * bỏ đó thì vẫn nên ghi nhớ, chỉ là muộn hơn một chút.
-     */
-    noteActivity: () => {
-      if (phase !== 'idle') return
-      if (startedIn.current) scheduleReflection(startedIn.current)
-      else cancelReflection()
-    },
+    turn,
+    busy,
     draw,
     error,
     loading,
+    reflecting,
     send,
     submit,
     cancelDraw,
     setError,
     retry: (from: Message) => replaceFrom(from, from.content),
     edit: replaceFrom,
+    /**
+     * Người dùng đang gõ: dời lượt phản tư ra sau, chứ không huỷ — soạn dở rồi
+     * bỏ đó thì vẫn nên ghi nhớ, chỉ là muộn hơn một chút.
+     */
+    noteActivity: () => {
+      if (busy) return
+      if (startedIn.current) scheduleReflection(startedIn.current)
+      else cancelReflection()
+    },
   }
 }
 
-function describeTool(name: string, args: Record<string, unknown>): string {
-  if (name === 'draw_cards') {
-    const positions = Array.isArray(args.positions) ? args.positions.length : 0
-    return positions ? `Chuẩn bị ${positions} lá` : 'Chuẩn bị lượt rút bài'
-  }
-  if (name === 'cast_iching') return 'Gieo quẻ ba đồng xu'
-  if (name === 'lookup_cards') return 'Tra nghĩa tham khảo'
-  return 'Đang chạy'
-}
-
-function message(exception: unknown): string {
+function describe(exception: unknown): string {
   if (exception instanceof DOMException && exception.name === 'AbortError') return ''
   return exception instanceof Error ? exception.message : 'Có lỗi xảy ra.'
 }

@@ -4,7 +4,6 @@ import { CircularProgress, Icon, IconButton, useSnackbar } from '@/components'
 import { Composer } from '@/features/chat/Composer'
 import { MessageBubble } from '@/features/chat/MessageBubble'
 import { Sidebar } from '@/features/chat/Sidebar'
-import { ToolStatus } from '@/features/chat/ToolStatus'
 import { DRAFT_ID, useChat } from '@/features/chat/useChat'
 import { CardPicker, DrawPrompt } from '@/features/tarot/CardPicker'
 import {
@@ -61,7 +60,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     bottom.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chat.messages, chat.tools, chat.draw])
+  }, [chat.messages, chat.turn, chat.draw])
 
   useEffect(() => {
     if (chat.error) snackbar({ message: chat.error })
@@ -113,8 +112,8 @@ export default function ChatPage() {
     }
   }
 
-  // Trạng thái công cụ phải nằm ngay trên phần trả lời đang chảy, nên tin nhắn
-  // nháp được tách ra khỏi danh sách và render sau ToolStatus.
+  // Tin nhắn nháp tách khỏi danh sách vì nó là chỗ duy nhất mang dòng hoạt động
+  // của lượt đang chạy.
   const draft = chat.messages.find((message) => message.id === DRAFT_ID) ?? null
   const settled = draft ? chat.messages.filter((message) => message.id !== DRAFT_ID) : chat.messages
 
@@ -186,29 +185,13 @@ export default function ChatPage() {
               <MessageBubble
                 key={message.id}
                 message={message}
-                busy={chat.phase !== 'idle'}
+                busy={chat.busy}
                 onRetry={chat.retry}
                 onEdit={chat.edit}
               />
             ))}
 
-            {/* Khi dòng suy nghĩ đã chảy thì nó thay chỗ cho dòng chờ chung. */}
-            <ToolStatus
-              tools={chat.tools}
-              thinking={chat.phase === 'thinking' && !chat.thinking}
-            />
-
-            {draft && (
-              <MessageBubble
-                message={draft}
-                streaming
-                interpreting={
-                  chat.phase === 'interpreting' ||
-                  (chat.phase === 'thinking' && Boolean(chat.thinking))
-                }
-                thinking={chat.thinking}
-              />
-            )}
+            {draft && <MessageBubble message={draft} activities={chat.turn.activities} />}
 
             {chat.draw && !pickerOpen && (
               <DrawPrompt pickCount={chat.draw.pickCount} onOpen={() => setPickerOpen(true)} />
@@ -226,7 +209,7 @@ export default function ChatPage() {
         </main>
 
         <Composer
-          disabled={chat.phase !== 'idle'}
+          disabled={chat.busy}
           onSend={chat.send}
           onActivity={chat.noteActivity}
         />

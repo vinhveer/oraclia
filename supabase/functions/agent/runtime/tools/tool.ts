@@ -1,6 +1,8 @@
 import type { AgentEvent, Casting, ToolDefinition } from '../../../_shared/types.ts'
 import type { Deck } from '../tarot/deck.ts'
 import type { IChingCaster } from '../iching/caster.ts'
+import type { Lazy } from '../lazy.ts'
+import type { CatalogRepository } from '../repositories/catalog.ts'
 import type { CastingRepository, ReadingRepository } from '../repositories/readings.ts'
 import type { MemoryRepository } from '../repositories/memories.ts'
 import type { ConversationRepository } from '../repositories/conversations.ts'
@@ -19,8 +21,9 @@ export interface ToolContext {
   conversationId: string
   runId: string
   question: string
-  deck: Deck
-  caster: IChingCaster
+  deck: Lazy<Deck>
+  caster: Lazy<IChingCaster>
+  catalog: CatalogRepository
   readings: ReadingRepository
   castings: CastingRepository
   memories: MemoryRepository

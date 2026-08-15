@@ -40,7 +40,7 @@ export class DrawCardsTool extends Tool {
     const chosen = positions.length ? positions : FALLBACK_POSITIONS
     const reason = String(args.reason ?? '').split(/\s+/).join(' ').slice(0, 200)
 
-    const shuffled = context.deck.shuffle()
+    const shuffled = (await context.deck()).shuffle()
     const readingId = await context.readings.createPending({
       conversationId: context.conversationId,
       runId: context.runId,

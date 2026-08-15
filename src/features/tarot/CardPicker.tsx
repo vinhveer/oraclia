@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Button, Icon, IconButton } from '@/components'
+import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
 import type { PendingDraw } from '../chat/useChat'
 
@@ -128,7 +129,7 @@ export function CardPicker({
                   )}
                 >
                   <img
-                    src="/cards/CardBacks.png"
+                    src={asset("cards/CardBacks.png")}
                     alt=""
                     draggable={false}
                     className="size-full object-cover"

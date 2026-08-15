@@ -1,10 +1,7 @@
-import type { TarotCard, ToolDefinition } from '../../../_shared/types.ts'
+import type { ToolDefinition } from '../../../_shared/types.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
 
 export class LookupCardsTool extends Tool {
-  constructor(private readonly catalog: TarotCard[]) {
-    super()
-  }
 
   readonly definition: ToolDefinition = {
     type: 'function',
@@ -27,12 +24,13 @@ export class LookupCardsTool extends Tool {
     },
   }
 
-  async run(args: Record<string, unknown>, _context: ToolContext): Promise<ToolOutcome> {
+  async run(args: Record<string, unknown>, context: ToolContext): Promise<ToolOutcome> {
     const ids = (Array.isArray(args.card_ids) ? args.card_ids : []).map(String)
     const query = String(args.query ?? '').toLowerCase().trim()
-    let matches = this.catalog.filter((card) => ids.includes(card.id))
+    const catalog = await context.catalog.cards()
+    let matches = catalog.filter((card) => ids.includes(card.id))
     if (!matches.length && query) {
-      matches = this.catalog.filter(
+      matches = catalog.filter(
         (card) =>
           card.name.toLowerCase().includes(query) || card.name_vi.toLowerCase().includes(query),
       )

@@ -25,7 +25,7 @@ export class CastIChingTool extends Tool {
 
   async run(args: Record<string, unknown>, context: ToolContext): Promise<ToolOutcome> {
     const asked = String(args.question ?? '').split(/\s+/).join(' ').slice(0, 300)
-    const casting = context.caster.cast(asked || context.question)
+    const casting = (await context.caster()).cast(asked || context.question)
 
     await context.castings.create({
       conversationId: context.conversationId,

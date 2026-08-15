@@ -79,17 +79,23 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
     return payload?.choices?.[0]?.message?.content ?? ''
   }
 
-  private async post(body: unknown): Promise<Response> {
+  /** Lỗi tạm thời: hết lượt, quá tải, gateway chập chờn. Thử lại một lần là đủ. */
+  private static readonly RETRYABLE = new Set([408, 409, 425, 429, 500, 502, 503, 504])
+
+  private async post(body: unknown, attempt = 0): Promise<Response> {
     const response = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', authorization: `Bearer ${this.apiKey}` },
       body: JSON.stringify(body),
     })
-    if (!response.ok) {
-      const detail = await response.text().catch(() => '')
-      throw new Error(`Provider trả về ${response.status}: ${detail.slice(0, 300)}`)
+    if (response.ok) return response
+
+    const detail = await response.text().catch(() => '')
+    if (attempt === 0 && OpenAICompatibleAdapter.RETRYABLE.has(response.status)) {
+      await new Promise((resolve) => setTimeout(resolve, 1200))
+      return this.post(body, attempt + 1)
     }
-    return response
+    throw new Error(explain(response.status, detail))
   }
 
   private async *readSse(response: Response): AsyncGenerator<any> {
@@ -115,6 +121,34 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
         }
       }
     }
+  }
+}
+
+/**
+ * Provider hỏng thường trả về trang HTML của CDN chứ không phải JSON. Đổ nguyên
+ * đoạn đó ra màn hình thì người dùng nhận được một mớ thẻ `<!DOCTYPE html>`, nên
+ * lỗi được quy về vài câu đọc được.
+ */
+function explain(status: number, detail: string): string {
+  const looksLikeHtml = /^\s*<(!doctype|html)/i.test(detail)
+  const message = looksLikeHtml ? '' : extractMessage(detail)
+
+  if (status === 401 || status === 403) return 'Khóa API của provider không hợp lệ.'
+  if (status === 404) return 'Model đang chọn không tồn tại ở provider này.'
+  if (status === 429) return 'Provider đang giới hạn lượt gọi. Thử lại sau ít phút.'
+  if (status >= 500 || status === 409) return 'Provider đang quá tải. Thử lại sau ít phút.'
+  return message
+    ? `Provider từ chối yêu cầu: ${message.slice(0, 200)}`
+    : `Provider trả về lỗi ${status}.`
+}
+
+function extractMessage(detail: string): string {
+  try {
+    const parsed = JSON.parse(detail)
+    const message = parsed?.error?.message ?? parsed?.message
+    return typeof message === 'string' ? message : ''
+  } catch {
+    return detail.slice(0, 200)
   }
 }
 
