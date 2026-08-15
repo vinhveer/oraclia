@@ -20,6 +20,16 @@ export const supabase = createClient<Database>(url, anonKey, {
 
 export const functionsUrl = `${url.replace(/\/$/, '')}/functions/v1`
 
+/**
+ * Nơi Supabase gửi người dùng quay lại sau khi bấm link trong email. Dựng từ
+ * origin thật của trang đang chạy, nên dev về localhost còn bản deploy về
+ * GitHub Pages mà không cần đổi code.
+ */
+export function siteUrl(path = ''): string {
+  const base = `${window.location.origin}${import.meta.env.BASE_URL}`.replace(/\/$/, '')
+  return path ? `${base}/${path.replace(/^\//, '')}` : base
+}
+
 export async function accessToken(): Promise<string> {
   const { data } = await supabase.auth.getSession()
   const token = data.session?.access_token

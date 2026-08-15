@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/oraclia/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#6750a4" />
+    <meta
+      name="description"
+      content="Oraclia — tarot và Kinh Dịch để tự soi chiếu, chạy trên Supabase agent runtime."
+    />
+    <title>Oraclia</title>
+    <script>
+      // Apply the stored scheme before first paint so there is no light flash.
+      try {
+        const stored = localStorage.getItem('md3.mode')
+        const dark =
+          stored === 'dark' ||
+          (stored === null && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        if (dark) document.documentElement.classList.add('dark')
+      } catch {}
+    </script>
+    <script type="module" crossorigin src="/oraclia/assets/index-BLYmfaHA.js"></script>
+    <link rel="stylesheet" crossorigin href="/oraclia/assets/index-C97hqry2.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

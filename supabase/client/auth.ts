@@ -1,4 +1,4 @@
-import { supabase } from './client'
+import { supabase, siteUrl } from './client'
 import type { ProfileRow } from './database.types'
 
 export interface SessionUser {
@@ -25,7 +25,12 @@ export async function signUp(
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { display_name: displayName } },
+    options: {
+      data: { display_name: displayName },
+      // Không có dòng này thì link trong thư trỏ về Site URL của project, tức
+      // localhost, và người dùng thật sẽ bấm vào một đường dẫn chết.
+      emailRedirectTo: siteUrl(),
+    },
   })
   if (error) throw new Error(translate(error.message))
   return { needsConfirmation: !data.session }

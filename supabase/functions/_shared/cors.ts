@@ -3,13 +3,23 @@ const ALLOWED = (Deno.env.get('ALLOWED_ORIGINS') ?? '*')
   .map((value) => value.trim())
   .filter(Boolean)
 
+/**
+ * Trả đúng origin của người gọi khi nó nằm trong danh sách — trình duyệt từ chối
+ * một danh sách nhiều origin trong `access-control-allow-origin`, nên phải chọn
+ * một. Không khớp thì trả origin đầu tiên, coi như từ chối.
+ */
+function allowedOrigin(origin: string | null): string {
+  if (ALLOWED.includes('*')) return '*'
+  if (origin && ALLOWED.includes(origin)) return origin
+  return ALLOWED[0] ?? '*'
+}
+
 export function corsHeaders(origin: string | null): Record<string, string> {
-  const allow =
-    ALLOWED.includes('*') || !origin ? (ALLOWED.includes('*') ? '*' : ALLOWED[0]) : ALLOWED.includes(origin) ? origin : ALLOWED[0]
   return {
-    'access-control-allow-origin': allow,
+    'access-control-allow-origin': allowedOrigin(origin),
     'access-control-allow-headers': 'authorization, x-client-info, apikey, content-type',
     'access-control-allow-methods': 'POST, OPTIONS',
+    'access-control-max-age': '86400',
     vary: 'origin',
   }
 }

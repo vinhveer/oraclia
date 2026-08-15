@@ -14,7 +14,8 @@ export default function App() {
     <ThemeProvider>
       <SnackbarProvider>
         <SessionProvider>
-          <BrowserRouter>
+          {/* BASE_URL do Vite điền, nên dev ('/') và Pages ('/oraclia/') dùng chung. */}
+          <BrowserRouter basename={import.meta.env.BASE_URL}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route
