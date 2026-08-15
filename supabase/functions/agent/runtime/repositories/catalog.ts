@@ -1,4 +1,4 @@
-import type { Hexagram, TarotCard } from '../../../_shared/types.ts'
+import type { Hexagram, PlayingCard, TarotCard } from '../../../_shared/types.ts'
 import { Repository } from './base.ts'
 
 export class CatalogRepository extends Repository {
@@ -6,6 +6,12 @@ export class CatalogRepository extends Repository {
     const { data, error } = await this.db.from('cards').select('*').order('sort_order')
     if (error) throw new Error(`Không đọc được bộ bài: ${error.message}`)
     return (data ?? []) as TarotCard[]
+  }
+
+  async playingCards(): Promise<PlayingCard[]> {
+    const { data, error } = await this.db.from('playing_cards').select('*').order('sort_order')
+    if (error) throw new Error(`Không đọc được bộ bài tây: ${error.message}`)
+    return (data ?? []) as PlayingCard[]
   }
 
   async hexagrams(): Promise<Hexagram[]> {

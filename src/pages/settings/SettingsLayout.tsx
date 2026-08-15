@@ -23,8 +23,15 @@ export function SettingsLayout({
     <div className="min-h-dvh bg-surface text-on-surface">
       <div className="md-slide-up mx-auto flex max-w-2xl flex-col gap-6 px-4 py-6 sm:px-8">
         <header>
+          {/* Hộp bấm 56px bọc icon 26px nên icon thụt vào 15px; kéo lại cho
+              thẳng lề với mọi thứ bên dưới. */}
           <span className="-ml-[15px] block">
-            <IconButton icon="arrowBack" label="Quay lại" onClick={() => navigate('/chat')} />
+            <IconButton
+              icon="arrowBack"
+              label="Quay lại"
+              size="md"
+              onClick={() => navigate('/chat')}
+            />
           </span>
           <h1 className="mt-1 md-headline-sm text-on-surface">{title}</h1>
           {description && (

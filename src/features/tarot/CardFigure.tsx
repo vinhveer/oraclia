@@ -1,5 +1,6 @@
 import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
+import { deckStyle } from './decks'
 import type { DrawnCard } from '@db'
 
 /**
@@ -14,6 +15,7 @@ export function CardFigure({ card }: { card: DrawnCard }) {
         alt={card.name_vi}
         className={cn(
           'w-24 shrink-0 rounded-lg object-cover shadow-e1',
+          deckStyle(card.deck).aspect,
           card.orientation === 'reversed' && 'rotate-180',
         )}
       />
@@ -21,7 +23,9 @@ export function CardFigure({ card }: { card: DrawnCard }) {
         <p className="md-label-md text-on-surface-variant">{card.position}</p>
         <p className="md-title-md text-on-surface">{card.name_vi}</p>
         <p className="md-body-sm text-on-surface-variant">
-          {card.name} · {card.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}
+          {deckStyle(card.deck).hasOrientation
+            ? `${card.name} · ${card.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}`
+            : `Bộ ${deckStyle(card.deck).label}`}
         </p>
         <div className="mt-2 flex flex-wrap gap-1.5">
           {card.keywords.map((keyword) => (

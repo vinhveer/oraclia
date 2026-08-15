@@ -194,7 +194,7 @@ export default function ChatPage() {
             {draft && <MessageBubble message={draft} activities={chat.turn.activities} />}
 
             {chat.draw && !pickerOpen && (
-              <DrawPrompt pickCount={chat.draw.pickCount} onOpen={() => setPickerOpen(true)} />
+              <DrawPrompt draw={chat.draw} onOpen={() => setPickerOpen(true)} />
             )}
 
             {chat.reflecting !== 'idle' && (

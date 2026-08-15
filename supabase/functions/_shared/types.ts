@@ -12,8 +12,21 @@ export interface TarotCard {
   reversed: string
 }
 
+export interface PlayingCard {
+  id: string
+  rank: string
+  suit: string
+  name_vi: string
+  image: string
+  keywords: string[]
+  meaning: string
+}
+
+export type DeckKind = 'tarot' | 'playing'
+
 export interface DrawnCard {
   id: string
+  deck: DeckKind
   name: string
   name_vi: string
   arcana: string
@@ -93,6 +106,7 @@ export type AgentEvent =
       type: 'draw.requested'
       run_id: string
       reading_id: string
+      deck: DeckKind
       deck_size: number
       pick_count: number
       positions: string[]

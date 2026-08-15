@@ -13,9 +13,44 @@ const DEFAULT_ANON_KEY =
 const url = import.meta.env.VITE_SUPABASE_URL || DEFAULT_URL
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || DEFAULT_ANON_KEY
 
+const REMEMBER_KEY = 'oraclia.remember'
+
+const remembering = () => localStorage.getItem(REMEMBER_KEY) !== '0'
+
+/**
+ * Nhớ đăng nhập hay không quyết định phiên nằm ở đâu: localStorage thì sống qua
+ * lần mở trình duyệt sau, sessionStorage thì mất khi đóng tab. Phải chọn trước
+ * khi đăng nhập, vì lúc đó Supabase mới ghi token xuống.
+ */
+export function setRemember(value: boolean): void {
+  localStorage.setItem(REMEMBER_KEY, value ? '1' : '0')
+  // Dọn token ở kho không dùng nữa, kẻo lần sau đọc nhầm phiên cũ.
+  const stale = value ? sessionStorage : localStorage
+  for (const key of Object.keys(stale)) {
+    if (key.startsWith('sb-')) stale.removeItem(key)
+  }
+}
+
+export const isRemembering = (): boolean => remembering()
+
+const sessionStore = {
+  getItem: (key: string) => (remembering() ? localStorage : sessionStorage).getItem(key),
+  setItem: (key: string, value: string) =>
+    (remembering() ? localStorage : sessionStorage).setItem(key, value),
+  removeItem: (key: string) => {
+    localStorage.removeItem(key)
+    sessionStorage.removeItem(key)
+  },
+}
+
 /** The single browser connection. Everything else in this folder builds on it. */
 export const supabase = createClient<Database>(url, anonKey, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storage: sessionStore,
+  },
 })
 
 export const functionsUrl = `${url.replace(/\/$/, '')}/functions/v1`

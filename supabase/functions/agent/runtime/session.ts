@@ -16,10 +16,12 @@ import { ToolCallRepository } from './repositories/tool-calls.ts'
 import { StreamController } from './stream.ts'
 import { provisionalTitle, Titler } from './titler.ts'
 import { Deck } from './tarot/deck.ts'
+import { PlayingDeck } from './tarot/playing-deck.ts'
 import { CastIChingTool } from './tools/cast-iching.ts'
 import { CompactHistoryTool } from './tools/compact-history.ts'
 import { RememberTool } from './tools/remember.ts'
 import { DrawCardsTool } from './tools/draw-cards.ts'
+import { DrawPlayingCardsTool } from './tools/draw-playing-cards.ts'
 import { LookupCardsTool } from './tools/lookup-cards.ts'
 import { ToolRegistry } from './tools/registry.ts'
 import { PromptBuilder as Builder } from './prompts/builder.ts'
@@ -156,12 +158,16 @@ export class AgentSession {
     const deckOrder = await this.readings.deck(reading.id)
     if (!deckOrder.length) throw new AgentError(409, 'Bộ bài của lượt này không còn khả dụng.')
 
-    // Lượt lật bài thì bắt buộc phải có bộ bài, nhưng bảng quẻ vẫn để lười.
-    const cards = await this.catalog.cards()
+    // Lật đúng bộ đã xáo lúc đầu; bảng quẻ vẫn để lười.
+    const isPlaying = reading.deck === 'playing'
+    const cards = isPlaying ? undefined : await this.catalog.cards()
 
     let revealed
     try {
-      revealed = new Deck(cards).reveal(deckOrder, indices, reading.positions)
+      const deck = isPlaying
+        ? new PlayingDeck(await this.catalog.playingCards())
+        : new Deck(cards!)
+      revealed = deck.reveal(deckOrder, indices, reading.positions)
     } catch (exception) {
       throw new AgentError(
         422,
@@ -170,12 +176,16 @@ export class AgentSession {
     }
     await this.readings.markRevealed(reading.id, revealed)
 
-    // Đóng lại đúng tool call đang mở, theo id, để provider chấp nhận transcript.
+    // Nối lại đúng lời gọi đã mở lượt rút này, theo id đã lưu cùng hàng reading.
+    // Dò theo tên công cụ thì mỗi công cụ ngắt mới lại phải sửa chỗ này.
     const state = run.state as ModelMessage[]
-    const pendingCall = [...state]
+    const openCalls = [...state]
       .reverse()
-      .find((message) => message.role === 'assistant' && message.tool_calls?.length)
-      ?.tool_calls?.find((call) => call.function.name === 'draw_cards')
+      .find((message) => message.role === 'assistant' && message.tool_calls?.length)?.tool_calls
+    const pendingCall =
+      openCalls?.find((call) => call.id === reading.tool_call_id) ??
+      // Hàng cũ tạo trước khi có cột này thì lấy lời gọi rút bài gần nhất.
+      openCalls?.find((call) => call.function.name.startsWith('draw_'))
     if (!pendingCall) throw new AgentError(409, 'Không tìm thấy lượt rút bài đang chờ.')
 
     state.push({
@@ -270,12 +280,14 @@ export class AgentSession {
           cards: null,
           persistMessage: false,
           toolContext: {
+            callId: '',
             userId: this.userId,
             conversationId,
             runId,
             question: '(reflect)',
             // Lượt phản tư không đụng tới bài hay quẻ.
             deck: memo(async () => new Deck([])),
+            playingDeck: memo(async () => new PlayingDeck([])),
             caster: memo(async () => new IChingCaster([])),
             catalog: this.catalog,
             readings: this.readings,
@@ -299,7 +311,12 @@ export class AgentSession {
     cards?: Awaited<ReturnType<CatalogRepository['cards']>>
   }): { agent: Agent; run: AgentRun } {
     const registry = new ToolRegistry(
-      [new DrawCardsTool(), new LookupCardsTool(), new CastIChingTool()],
+      [
+        new DrawCardsTool(),
+        new DrawPlayingCardsTool(),
+        new LookupCardsTool(),
+        new CastIChingTool(),
+      ],
       this.toolCalls,
     )
 
@@ -317,6 +334,7 @@ export class AgentSession {
       userId: this.userId,
       cards: input.revealed ?? null,
       toolContext: {
+        callId: '',
         userId: this.userId,
         conversationId: input.conversationId,
         runId: input.runId,
@@ -325,6 +343,7 @@ export class AgentSession {
         // chỉ trò chuyện chứ không rút bài. Nạp sẵn là bắt mọi câu hỏi trả giá
         // cho khả năng có thể cần tới.
         deck: memo(async () => new Deck(input.cards ?? (await this.catalog.cards()))),
+        playingDeck: memo(async () => new PlayingDeck(await this.catalog.playingCards())),
         caster: memo(async () => new IChingCaster(await this.catalog.hexagrams())),
         catalog: this.catalog,
         readings: this.readings,

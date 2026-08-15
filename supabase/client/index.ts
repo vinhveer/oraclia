@@ -1,4 +1,4 @@
-export { supabase, accessToken, functionsUrl, siteUrl } from './client'
+export { supabase, accessToken, functionsUrl, siteUrl, setRemember, isRemembering } from './client'
 export { signIn, signUp, signOut, currentUser, onAuthChange, type SessionUser } from './auth'
 export {
   listConversations,
@@ -19,4 +19,4 @@ export {
 } from './queries'
 export { ask, selectCards, reflect, type AgentEvent, type AskInput, type SelectInput } from './agent'
 export { subscribeToConversation } from './realtime'
-export type { Casting, DrawnCard, Hexagram, MessageRow, Orientation } from './database.types'
+export type { Casting, DeckKind, DrawnCard, Hexagram, MessageRow, Orientation } from './database.types'

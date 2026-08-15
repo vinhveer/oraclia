@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button, Icon, IconButton } from '@/components'
 import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
+import { deckStyle } from './decks'
 import type { PendingDraw } from '../chat/useChat'
 
 /**
@@ -21,6 +22,7 @@ export function CardPicker({
   onClose: () => void
 }) {
   const [selected, setSelected] = useState<number[]>([])
+  const style = deckStyle(draw.deck)
   const remaining = draw.pickCount - selected.length
   const ready = remaining === 0
 
@@ -70,7 +72,9 @@ export function CardPicker({
       >
         <header className="flex shrink-0 items-start gap-4 border-b border-outline-variant px-5 py-4">
           <div className="min-w-0 flex-1">
-            <h2 className="md-title-lg text-on-surface">Chọn {draw.pickCount} lá từ bộ bài</h2>
+            <h2 className="md-title-lg text-on-surface">
+            Chọn {draw.pickCount} lá từ bộ {style.label}
+          </h2>
             {draw.reason && (
               <p className="mt-1 md-body-md text-on-surface-variant">{draw.reason}</p>
             )}
@@ -120,7 +124,8 @@ export function CardPicker({
                   aria-pressed={picked}
                   aria-label={`Lá thứ ${index + 1}`}
                   className={cn(
-                    'relative aspect-[300/527] overflow-hidden rounded-md transition-all duration-200',
+                    'relative overflow-hidden rounded-md transition-all duration-200',
+                    style.aspect,
                     picked
                       ? '-translate-y-1 ring-2 ring-primary shadow-e2'
                       : 'ring-1 ring-outline-variant hover:-translate-y-0.5 hover:ring-outline',
@@ -129,7 +134,7 @@ export function CardPicker({
                   )}
                 >
                   <img
-                    src={asset("cards/CardBacks.png")}
+                    src={asset(style.back)}
                     alt=""
                     draggable={false}
                     className="size-full object-cover"
@@ -170,7 +175,13 @@ export function CardPicker({
   )
 }
 
-export function DrawPrompt({ pickCount, onOpen }: { pickCount: number; onOpen: () => void }) {
+export function DrawPrompt({
+  draw,
+  onOpen,
+}: {
+  draw: PendingDraw
+  onOpen: () => void
+}) {
   return (
     <button
       type="button"
@@ -179,7 +190,7 @@ export function DrawPrompt({ pickCount, onOpen }: { pickCount: number; onOpen: (
     >
       <Icon name="sparkle" className="text-primary" />
       <span className="md-body-lg text-on-surface">
-        Oraclia đã xáo bài — chọn {pickCount} lá để tiếp tục.
+        Oraclia đã xáo bộ {deckStyle(draw.deck).label} — chọn {draw.pickCount} lá để tiếp tục.
       </span>
     </button>
   )

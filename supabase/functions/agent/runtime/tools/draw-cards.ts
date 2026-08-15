@@ -48,6 +48,8 @@ export class DrawCardsTool extends Tool {
       question: context.question,
       positions: chosen,
       reason,
+      deck: 'tarot',
+      toolCallId: context.callId,
       shuffled,
     })
 
@@ -55,6 +57,7 @@ export class DrawCardsTool extends Tool {
       type: 'draw.requested',
       run_id: context.runId,
       reading_id: readingId,
+      deck: 'tarot',
       deck_size: shuffled.length,
       pick_count: chosen.length,
       positions: chosen,

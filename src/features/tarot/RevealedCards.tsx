@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Dialog, Icon } from '@/components'
 import { asset } from '@/lib/asset'
 import { cn } from '@/lib/cn'
+import { deckStyle } from './decks'
 import type { DrawnCard } from '@db'
 
 export function RevealedCards({ cards }: { cards: DrawnCard[] }) {
@@ -21,13 +22,16 @@ export function RevealedCards({ cards }: { cards: DrawnCard[] }) {
               src={asset(card.image)}
               alt={card.name_vi}
               className={cn(
-                'aspect-[300/527] w-full rounded-md object-cover',
+                'w-full rounded-md object-cover',
+                deckStyle(card.deck).aspect,
                 card.orientation === 'reversed' && 'rotate-180',
               )}
             />
             <span className="mt-2 block md-label-lg text-on-surface">{card.name_vi}</span>
             <span className="block md-label-sm text-on-surface-variant">
-              {card.orientation === 'reversed' ? 'Ngược' : 'Xuôi'} · {card.position}
+              {deckStyle(card.deck).hasOrientation
+                ? `${card.orientation === 'reversed' ? 'Ngược' : 'Xuôi'} · ${card.position}`
+                : card.position}
             </span>
           </button>
         ))}
@@ -53,7 +57,9 @@ export function RevealedCards({ cards }: { cards: DrawnCard[] }) {
             </div>
             <p className="md-body-md text-on-surface-variant">
               <Icon name="star" size={16} className="mr-1 inline align-[-2px]" />
-              {active.position} · {active.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}
+              {active.position}
+              {deckStyle(active.deck).hasOrientation &&
+                ` · ${active.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}`}
             </p>
             <p className="md-body-lg text-on-surface">{active.meaning}</p>
           </div>

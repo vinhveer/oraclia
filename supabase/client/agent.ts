@@ -1,5 +1,5 @@
 import { accessToken, functionsUrl } from './client'
-import type { Casting, DrawnCard } from './database.types'
+import type { Casting, DeckKind, DrawnCard } from './database.types'
 
 export type AgentEvent =
   | { type: 'run.started'; run_id: string; conversation_id: string }
@@ -12,6 +12,7 @@ export type AgentEvent =
       type: 'draw.requested'
       run_id: string
       reading_id: string
+      deck: DeckKind
       deck_size: number
       pick_count: number
       positions: string[]

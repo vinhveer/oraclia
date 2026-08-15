@@ -49,7 +49,7 @@ export class ToolRegistry {
     }
 
     try {
-      const outcome = await tool.run(args, context)
+      const outcome = await tool.run(args, { ...context, callId: call.id })
       await finish(outcome.kind === 'interrupt' ? 'awaiting_input' : 'completed', {
         summary: outcome.summary,
       })

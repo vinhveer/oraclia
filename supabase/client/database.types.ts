@@ -6,8 +6,11 @@
 
 export type Orientation = 'upright' | 'reversed'
 
+export type DeckKind = 'tarot' | 'playing'
+
 export type DrawnCard = {
   id: string
+  deck: DeckKind
   name: string
   name_vi: string
   arcana: string

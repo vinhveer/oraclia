@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Button, CircularProgress, Icon, TextField, useSnackbar } from '@/components'
+import { Button, Checkbox, CircularProgress, Icon, TextField, useSnackbar } from '@/components'
 import { useSession } from '@/features/auth/SessionProvider'
-import { signIn, signUp } from '@db'
+import { isRemembering, setRemember, signIn, signUp } from '@db'
 
 export default function LoginPage() {
   const { user, ready } = useSession()
@@ -15,6 +15,7 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [sentTo, setSentTo] = useState('')
   const [visible, setVisible] = useState(false)
+  const [remember, setRememberChoice] = useState(isRemembering)
 
   if (ready && user) return <Navigate to="/chat" replace />
 
@@ -26,6 +27,8 @@ export default function LoginPage() {
     // Đăng nhập xong thì phiên còn cập nhật thêm một nhịp nữa mới chuyển trang;
     // tắt trạng thái chờ ngay lúc này sẽ làm nút nhấp nháy trước khi rời màn.
     let keepBusy = false
+    // Phải đặt trước khi đăng nhập: nó quyết định token được cất ở đâu.
+    setRemember(remember)
     try {
       if (mode === 'signin') {
         await signIn(email.trim(), password)
@@ -133,6 +136,12 @@ export default function LoginPage() {
             onTrailingIconClick={() => setVisible((current) => !current)}
             supportingText={mode === 'signup' ? 'Ít nhất 6 ký tự.' : undefined}
             errorText={error || undefined}
+          />
+
+          <Checkbox
+            label="Ghi nhớ đăng nhập trên thiết bị này"
+            checked={remember}
+            onChange={(event) => setRememberChoice(event.target.checked)}
           />
 
           <Button type="submit" fullWidth disabled={busy || !email || password.length < 6}>

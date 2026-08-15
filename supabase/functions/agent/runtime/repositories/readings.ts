@@ -1,10 +1,12 @@
 import type { Db } from '../../../_shared/db.ts'
-import type { Casting, HiddenCard } from '../../../_shared/types.ts'
+import type { Casting, DeckKind, HiddenCard } from '../../../_shared/types.ts'
 import { Repository } from './base.ts'
 
 export interface ReadingRow {
   id: string
   positions: string[]
+  deck: DeckKind
+  tool_call_id: string | null
   status: 'pending' | 'revealed' | 'expired'
 }
 
@@ -27,6 +29,8 @@ export class ReadingRepository extends Repository {
     question: string
     positions: string[]
     reason: string
+    deck: DeckKind
+    toolCallId: string
     shuffled: HiddenCard[]
   }): Promise<string> {
     const { data, error } = await this.db
@@ -38,6 +42,8 @@ export class ReadingRepository extends Repository {
         question: input.question,
         positions: input.positions,
         reason: input.reason,
+        deck: input.deck,
+        tool_call_id: input.toolCallId,
         status: 'pending',
       })
       .select('id')
@@ -55,7 +61,7 @@ export class ReadingRepository extends Repository {
   async pending(readingId: string, runId: string): Promise<ReadingRow | null> {
     const { data } = await this.db
       .from('readings')
-      .select('id, positions, status')
+      .select('id, positions, deck, tool_call_id, status')
       .eq('id', readingId)
       .eq('run_id', runId)
       .maybeSingle()

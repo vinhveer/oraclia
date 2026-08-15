@@ -8,6 +8,7 @@ import {
   subscribeToConversation,
   type AgentEvent,
   type Casting,
+  type DeckKind,
   type DrawnCard,
   type Message,
 } from '@db'
@@ -16,6 +17,7 @@ import { hasIndicator, IDLE_TURN, reduceTurn, startTurn, type TurnState } from '
 export interface PendingDraw {
   runId: string
   readingId: string
+  deck: DeckKind
   deckSize: number
   pickCount: number
   positions: string[]
@@ -210,6 +212,7 @@ export function useChat(
           setDraw({
             runId: event.run_id,
             readingId: event.reading_id,
+            deck: event.deck,
             deckSize: event.deck_size,
             pickCount: event.pick_count,
             positions: event.positions,
