@@ -27,7 +27,13 @@ export default function ChatPage() {
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [searching, setSearching] = useState(false)
   const [listLoading, setListLoading] = useState(true)
-  const bottom = useRef<HTMLDivElement>(null)
+  const main = useRef<HTMLElement>(null)
+  /**
+   * Chỉ bám đáy khi người đọc đang ở đáy. Trước đây cứ nội dung đổi là kéo
+   * xuống, mà bộ đệm nhả chữ 24ms một lần, nên vuốt lên đọc lại là bị giật
+   * xuống ngay.
+   */
+  const [pinned, setPinned] = useState(true)
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const conversationId = id ?? null
@@ -60,8 +66,34 @@ export default function ChatPage() {
   }, [chat.draw])
 
   useEffect(() => {
-    bottom.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chat.messages, chat.turn, chat.draw, chat.clarify])
+    if (!pinned) return
+    const node = main.current
+    if (!node) return
+    // Nhảy thẳng chứ không cuộn mượt: nội dung dài thêm liên tục nên animation
+    // bị cắt giữa chừng, nhìn giật hơn là đứng yên.
+    node.scrollTop = node.scrollHeight
+  }, [chat.messages, chat.turn, chat.draw, chat.clarify, pinned])
+
+  // Đổi cuộc trò chuyện thì luôn bắt đầu ở đáy.
+  useEffect(() => {
+    setPinned(true)
+  }, [conversationId])
+
+  function trackScroll(node: HTMLElement) {
+    const gap = node.scrollHeight - node.scrollTop - node.clientHeight
+    setPinned(gap < 96)
+  }
+
+  /** Người dùng vừa làm gì đó: kéo họ về đáy để thấy kết quả. */
+  function stickToBottom() {
+    setPinned(true)
+  }
+
+  function jumpToBottom() {
+    setPinned(true)
+    const node = main.current
+    if (node) node.scrollTo({ top: node.scrollHeight, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     if (chat.error) snackbar({ message: chat.error })
@@ -164,7 +196,11 @@ export default function ChatPage() {
           />
         </span>
 
-        <main className="flex-1 overflow-y-auto">
+        <main
+          ref={main}
+          onScroll={(event) => trackScroll(event.currentTarget)}
+          className="flex-1 overflow-y-auto"
+        >
           <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 pt-16 pb-8 sm:px-8 lg:pt-8">
             {!chat.messages.length && !chat.loading && (
               <div className="md-stagger pt-[14vh]">
@@ -198,8 +234,14 @@ export default function ChatPage() {
               <ClarifyPrompt
                 clarify={chat.clarify}
                 busy={chat.busy && !chat.clarify}
-                onAnswer={(answer) => chat.respond(answer)}
-                onSkip={() => chat.respond('', true)}
+                onAnswer={(answer) => {
+                  stickToBottom()
+                  chat.respond(answer)
+                }}
+                onSkip={() => {
+                  stickToBottom()
+                  chat.respond('', true)
+                }}
               />
             )}
 
@@ -213,14 +255,26 @@ export default function ChatPage() {
                 {chat.reflecting === 'saved' ? 'Đã ghi nhớ.' : 'Đang ghi nhớ...'}
               </p>
             )}
-
-            <div ref={bottom} />
           </div>
         </main>
 
+        {!pinned && (
+          <button
+            type="button"
+            onClick={jumpToBottom}
+            aria-label="Xuống cuối"
+            className="md-fade-in absolute right-4 bottom-28 z-20 grid size-11 place-items-center rounded-full bg-surface-high text-on-surface shadow-e2 transition-colors hover:bg-surface-highest"
+          >
+            <Icon name="chevronDown" size={22} />
+          </button>
+        )}
+
         <Composer
           disabled={chat.busy}
-          onSend={chat.send}
+          onSend={(question) => {
+            stickToBottom()
+            chat.send(question)
+          }}
           onActivity={chat.noteActivity}
         />
       </div>
@@ -231,6 +285,7 @@ export default function ChatPage() {
           busy={false}
           onConfirm={(indices) => {
             setPickerOpen(false)
+            stickToBottom()
             chat.submit(indices)
           }}
           onClose={() => setPickerOpen(false)}
