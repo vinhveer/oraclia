@@ -7,6 +7,8 @@ export class PromptBuilder {
     private readonly settings: UserSettings,
     /** Những điều agent đã tự ghi nhớ về người hỏi qua các cuộc trước. */
     private readonly memories: string[] = [],
+    /** Các câu làm rõ đã hỏi gần đây, để không hỏi lại theo cùng một khuôn. */
+    private readonly askedBefore: string[] = [],
   ) {}
 
   /**
@@ -33,6 +35,17 @@ export class PromptBuilder {
       messages.push({
         role: 'system',
         content: `${profile}\n\nTôn trọng những điều trên, trừ khi chúng mâu thuẫn với nguyên tắc an toàn.`,
+      })
+    }
+
+    if (this.askedBefore.length) {
+      messages.push({
+        role: 'system',
+        content:
+          `Những câu bạn đã hỏi người này gần đây:\n${this.askedBefore
+            .map((item) => `- ${item}`)
+            .join('\n')}\n\nLần này phải mở đầu khác hẳn những câu trên và chọt vào một góc ` +
+          `khác. Lặp lại cùng một khuôn câu là dấu hiệu của máy móc, người ta nhận ra ngay.`,
       })
     }
 

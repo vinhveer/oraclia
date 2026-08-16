@@ -46,6 +46,28 @@ export class ClarificationRepository extends Repository {
     return (data as ClarificationRow) ?? null
   }
 
+  /**
+   * Các câu đã hỏi gần đây. Dặn suông "đừng lặp mô típ" thì model không biết mô
+   * típ của nó là gì; đưa thẳng câu cũ vào prompt mới có cái để tránh.
+   */
+  async recentQuestions(limit = 8): Promise<string[]> {
+    const { data } = await this.db
+      .from('clarifications')
+      .select('question')
+      .order('created_at', { ascending: false })
+      .limit(limit)
+    return (data ?? []).map((row) => row.question as string)
+  }
+
+  /** Đã hỏi mấy câu trong chính lượt này. */
+  async countForRun(runId: string): Promise<number> {
+    const { count } = await this.db
+      .from('clarifications')
+      .select('id', { count: 'exact', head: true })
+      .eq('run_id', runId)
+    return count ?? 0
+  }
+
   async answer(id: string, answer: string, skipped: boolean): Promise<void> {
     await this.db
       .from('clarifications')

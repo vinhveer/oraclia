@@ -91,11 +91,12 @@ export class AgentSession {
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
     )
 
-    const [state, prompt, settings, memories, uncompacted] = await Promise.all([
+    const [state, prompt, settings, memories, asked, uncompacted] = await Promise.all([
       this.conversations.state(conversationId),
       this.prompts.active('reader'),
       this.prompts.userSettings(),
       this.memories.list(40),
+      this.clarifications.recentQuestions(8),
       this.conversations.uncompactedCount(conversationId),
     ])
 
@@ -131,6 +132,7 @@ export class AgentSession {
       prompt.body,
       settings,
       memories.map((row) => row.content),
+      asked,
     )
     const messages = builder.runMessages(state.summary, state.recent, question)
     const runId = await this.runs.create({
@@ -345,12 +347,24 @@ export class AgentSession {
       ?.tool_calls?.find((item) => item.function.name === 'ask_user')
     if (!call) throw new AgentError(409, 'Không tìm thấy câu hỏi đang chờ.')
 
+    // Nhắc ngay tại chỗ thay vì trông vào prompt tĩnh: model đọc tool result sát
+    // lúc quyết định, nên chỉ dẫn đặt ở đây mới được nghe. Dặn trong prompt dài
+    // 5000 chữ thì nó hỏi một câu rồi đọc luôn.
+    const asked = await this.clarifications.countForRun(run.id)
+    const nudge = skipped
+      ? 'Người hỏi bỏ qua câu này. Đừng hỏi nữa, viết bài đọc ngay với những gì đang có.'
+      : asked >= 3
+        ? 'Đã hỏi đủ ba câu. Không hỏi thêm. Viết bài đọc đầy đủ ngay bây giờ.'
+        : `Đây là câu làm rõ thứ ${asked} của lượt này, còn được hỏi thêm ${3 - asked} câu. ` +
+          'Nếu vẫn còn một mấu chốt chưa rõ — người nào dính vào, điều gì đang giấu, ' +
+          'quyết định nào đang treo, mọi thứ đổi từ khi nào — thì gọi `ask_user` thêm một ' +
+          'câu SÂU HƠN câu vừa rồi, dựa vào một lá khác và mở đầu khác đi. Đủ để đọc trúng ' +
+          'rồi thì viết bài đọc.'
+
     state.push({
       role: 'tool',
       tool_call_id: call.id,
-      content: skipped
-        ? 'Người hỏi bỏ qua câu này. Đừng hỏi lại nữa, hãy bói với những gì đang có.'
-        : `Người hỏi trả lời: ${answer}`,
+      content: skipped ? nudge : `Người hỏi trả lời: ${answer}\n\n(${nudge})`,
     })
     await this.runs.setStatus(run.id, 'running')
 
