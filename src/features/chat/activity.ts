@@ -6,7 +6,12 @@ import type { AgentEvent } from '@db'
  * sót một tổ hợp và màn hình đứng im. Ở đây mọi sự kiện đi qua đúng một hàm
  * thuần, và giao diện chỉ việc vẽ lại danh sách này.
  */
-export type ActivityKind = 'listening' | 'thinking' | 'tool' | 'awaiting_cards'
+export type ActivityKind =
+  | 'listening'
+  | 'thinking'
+  | 'tool'
+  | 'awaiting_cards'
+  | 'awaiting_answer'
 
 export interface Activity {
   id: string
@@ -40,6 +45,7 @@ const TOOL_LABELS: Record<string, string> = {
   draw_cards: 'Xáo bài',
   cast_iching: 'Gieo quẻ Kinh Dịch',
   lookup_cards: 'Tra nghĩa lá bài',
+  ask_user: 'Hỏi lại cho rõ',
   remember: 'Ghi nhớ',
   compact_history: 'Cô đọng bộ nhớ',
 }
@@ -127,6 +133,21 @@ export function reduceTurn(state: TurnState, event: AgentEvent): TurnState {
       return { ...state, activities: state.answering ? done : waiting(done) }
     }
 
+    case 'clarify.requested':
+      return {
+        ...state,
+        activities: [
+          ...settle(activities),
+          {
+            id: `clarify-${event.clarification_id}`,
+            kind: 'awaiting_answer',
+            label: 'Chờ bạn trả lời',
+            detail: event.question,
+            status: 'running',
+          },
+        ],
+      }
+
     case 'draw.requested':
       return {
         ...state,
@@ -172,6 +193,7 @@ function describeArguments(name: string, args: Record<string, unknown>): string 
     const positions = Array.isArray(args.positions) ? args.positions.length : 0
     return positions ? `Chuẩn bị ${positions} lá` : 'Chuẩn bị lượt rút bài'
   }
+  if (name === 'ask_user') return 'Làm rõ vấn đề trước khi bói'
   if (name === 'cast_iching') return 'Ba đồng xu, sáu lần gieo'
   if (name === 'lookup_cards') return 'Tra nghĩa tham khảo'
   return ''

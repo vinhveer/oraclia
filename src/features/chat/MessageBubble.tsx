@@ -41,6 +41,13 @@ export function MessageBubble({
     )
   }
 
+  // Việc đã xong thuộc về quá khứ nên nằm trên nội dung; việc đang chạy là hiện
+  // tại nên luôn nằm dưới cùng. Trước đây gộp làm một khối đặt trên nội dung,
+  // nên sau một lượt hỏi làm rõ, chỉ báo mới bị đẩy lên trên đoạn chữ đã stream
+  // ở lượt trước — cuối màn hình chỉ còn chữ cũ đứng im.
+  const settled = activities.filter((item) => item.status !== 'running')
+  const running = activities.filter((item) => item.status === 'running')
+
   const cards = message.cards ?? []
   const told = toldCards(message.content)
   // Lưới chứa những lá chưa tới lượt kể, nên nó vơi dần khi Oraclia đi qua từng
@@ -53,16 +60,18 @@ export function MessageBubble({
       {pending.length > 0 && <RevealedCards cards={pending} />}
       {message.hexagram ? <HexagramView casting={message.hexagram} /> : null}
 
-      <ActivityTrace activities={activities} />
+      <ActivityTrace activities={settled} />
 
       {message.content && (
-        <div className={pending.length || message.hexagram || activities.length ? 'mt-5' : ''}>
+        <div className={pending.length || message.hexagram || settled.length ? 'mt-5' : ''}>
           <Markdown
             text={message.content}
             slots={(index) => (cards[index] ? <CardFigure card={cards[index]} /> : null)}
           />
         </div>
       )}
+
+      <ActivityTrace activities={running} />
     </article>
   )
 }

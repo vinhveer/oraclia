@@ -52,33 +52,55 @@ export class PromptBuilder {
 
   /** Những gì model thấy sau khi người hỏi đã tự tay chọn bài. */
   static drawResult(question: string, cards: DrawnCard[]): string {
+    const playing = cards.every((card) => card.deck === 'playing')
     const lines = cards
       .map(
         (card, index) =>
-          `- ${card.position}: ${card.name_vi} (${card.name}), ${card.orientation}\n` +
+          `- ${card.position}: ${card.name_vi} (${card.name})` +
+          `${playing ? '' : `, ${card.orientation}`}\n` +
           `  Từ khóa: ${card.keywords.join(', ')}\n  Nghĩa tham khảo: ${card.meaning}\n` +
           `  Chèn bằng: [[card:${index + 1}]]`,
       )
       .join('\n')
-    const lower = 180 + 160 * cards.length
+    const range = PromptBuilder.readingLength(cards.length, playing)
+    const kind = playing ? 'bài tây' : 'tarot'
+    const cardDetail = playing
+      ? 'Mỗi lá chỉ cần 2-3 câu và không nhắc chiều xuôi/ngược.'
+      : 'Mỗi lá cần 3-5 câu; chỉ nói chiều xuôi/ngược khi nó thật sự làm đổi trọng tâm.'
 
-    return `Người hỏi đã tự chọn ${cards.length} lá cho câu hỏi: ${question}
+    return `Người hỏi đã tự chọn ${cards.length} lá ${kind} cho câu hỏi: ${question}
 
 ${lines}
 
-Hãy kể lần lượt từng lá theo đúng thứ tự trên, như đang lật bài cùng người hỏi:
-mở đầu bằng một câu dẫn ngắn, rồi với mỗi lá viết một câu dẫn dắt ("Đầu tiên,
-bạn rút được lá này", "Nhưng rồi bạn lại rút được lá này", ...), xuống dòng, đặt
-đúng mã [[card:N]] của lá đó trên một dòng riêng, rồi diễn giải lá ấy trong
-2-4 đoạn: nó nói gì ở vị trí này, chiều xuôi/ngược đổi nghĩa ra sao, và nó liên
-hệ thế nào với câu hỏi cùng những lá trước đó.
+Trình bày bằng đúng ba tiêu đề Markdown sau:
+
+1. "### Bức tranh chung" — phần này TUYỆT ĐỐI không chứa mã [[card:N]] nào; mọi
+mã đều nằm ở mục 2. Với nhiều lá, gom cả trải bài thành một diễn biến rõ từ đầu
+đến cuối trong 2-4 câu; với một lá, nói thẳng kết luận nổi bật, không cố tạo
+diễn biến.
+2. "### Từng lá" — đi đúng thứ tự. Trước phần giải mỗi lá, đặt đúng mã [[card:N]]
+trên một dòng riêng, rồi ghi **vị trí — tên lá** và viết một đoạn gọn về vai trò
+của lá trong câu chuyện chung. ${cardDetail}
+3. "### Tóm lại" — mở bằng một câu in đậm chốt câu trả lời, sau đó nêu 1-2 việc
+người hỏi nên làm hoặc nên tránh. Không kết bằng một câu chiêm nghiệm mơ hồ.
 
 Bắt buộc: mỗi mã [[card:N]] chỉ xuất hiện đúng một lần, nằm riêng một dòng,
 không nằm trong ngoặc hay câu văn. Đừng dùng mã nào ngoài danh sách trên.
 
-Sau khi đi hết các lá, khép lại bằng phần mối liên hệ chung, điều nên cân nhắc
-và một câu kết chiêm nghiệm. Không lặp lại nguyên văn nghĩa tham khảo. Độ dài
-khoảng ${lower}-${lower + 400} từ.`
+Không lặp lại nguyên văn nghĩa tham khảo, không mở từng lá bằng những câu máy
+móc như "Đầu tiên, bạn rút được...". Độ dài toàn bài khoảng ${range} từ.`
+  }
+
+  private static readingLength(count: number, playing: boolean): string {
+    if (playing) {
+      if (count === 1) return '90-140'
+      if (count <= 3) return '160-250'
+      return '250-340'
+    }
+    if (count === 1) return '150-200'
+    if (count <= 3) return '240-330'
+    if (count <= 5) return '330-450'
+    return '430-560'
   }
 
   /**

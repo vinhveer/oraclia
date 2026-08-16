@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
+  answerClarify,
   ask,
   deleteMessagesFrom,
   listMessages,
@@ -22,6 +23,15 @@ export interface PendingDraw {
   pickCount: number
   positions: string[]
   reason: string
+}
+
+export interface PendingClarify {
+  runId: string
+  clarificationId: string
+  question: string
+  basedOn: string
+  options: string[]
+  allowFreeText: boolean
 }
 
 export const DRAFT_ID = 'draft'
@@ -53,6 +63,7 @@ export function useChat(
   const [messages, setMessages] = useState<Message[]>([])
   const [turn, setTurn] = useState<TurnState>(IDLE_TURN)
   const [draw, setDraw] = useState<PendingDraw | null>(null)
+  const [clarify, setClarify] = useState<PendingClarify | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [reflecting, setReflecting] = useState<'idle' | 'thinking' | 'saved'>('idle')
@@ -71,7 +82,8 @@ export function useChat(
   const reflectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const reflectAbort = useRef<AbortController | null>(null)
 
-  const busy = draw !== null || turn.activities.length > 0 || turn.answering
+  const busy =
+    draw !== null || clarify !== null || turn.activities.length > 0 || turn.answering
 
   const cancelReflection = useCallback(() => {
     if (reflectTimer.current) clearTimeout(reflectTimer.current)
@@ -112,6 +124,7 @@ export function useChat(
     cancelReflection()
     setTurn(IDLE_TURN)
     setDraw(null)
+    setClarify(null)
     setError('')
     queue.current = ''
     if (!conversationId) {
@@ -208,6 +221,16 @@ export function useChat(
         case 'conversation.titled':
           onTitle?.(event.conversation_id, event.title)
           break
+        case 'clarify.requested':
+          setClarify({
+            runId: event.run_id,
+            clarificationId: event.clarification_id,
+            question: event.question,
+            basedOn: event.based_on,
+            options: event.options,
+            allowFreeText: event.allow_free_text,
+          })
+          break
         case 'draw.requested':
           setDraw({
             runId: event.run_id,
@@ -292,7 +315,9 @@ export function useChat(
         await ask(
           { conversationId, question: trimmed },
           (event) => {
-            if (event.type === 'draw.requested') parked = true
+            if (event.type === 'draw.requested' || event.type === 'clarify.requested') {
+              parked = true
+            }
             handle(event)
           },
           controller.signal,
@@ -318,19 +343,63 @@ export function useChat(
       setError('')
       // Chỉ báo phải có ngay từ lúc bấm, không đợi server trả sự kiện đầu tiên.
       setTurn(startTurn())
+      let parked = false
       try {
         await selectCards(
           { runId: pending.runId, readingId: pending.readingId, indices },
-          handle,
+          (event) => {
+            if (event.type === 'draw.requested' || event.type === 'clarify.requested') {
+              parked = true
+            }
+            handle(event)
+          },
           controller.signal,
         )
       } catch (exception) {
         setError(describe(exception))
       } finally {
-        await finishTurn(false)
+        await finishTurn(parked)
       }
     },
     [draw, finishTurn, handle],
+  )
+
+  /** Trả lời câu hỏi làm rõ; `skipped` là khi người dùng muốn bói luôn. */
+  const respond = useCallback(
+    async (answer: string, skipped = false) => {
+      if (!clarify) return
+      const pending = clarify
+      const controller = new AbortController()
+      abort.current = controller
+      streamingRef.current = true
+      queue.current = ''
+      setClarify(null)
+      setError('')
+      setTurn(startTurn())
+      let parked = false
+      try {
+        await answerClarify(
+          {
+            runId: pending.runId,
+            clarificationId: pending.clarificationId,
+            answer,
+            skipped,
+          },
+          (event) => {
+            if (event.type === 'draw.requested' || event.type === 'clarify.requested') {
+              parked = true
+            }
+            handle(event)
+          },
+          controller.signal,
+        )
+      } catch (exception) {
+        setError(describe(exception))
+      } finally {
+        await finishTurn(parked)
+      }
+    },
+    [clarify, finishTurn, handle],
   )
 
   const cancelDraw = useCallback(() => {
@@ -374,6 +443,8 @@ export function useChat(
     turn,
     busy,
     draw,
+    clarify,
+    respond,
     error,
     loading,
     reflecting,

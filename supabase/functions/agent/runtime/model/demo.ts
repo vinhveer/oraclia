@@ -69,10 +69,10 @@ function planPositions(question: string): string[] {
 
 /** Đọc lại đúng các dòng lá mà prompt builder đã viết ra, để chữ mẫu gọi đúng tên lá. */
 function parseDrawResult(content: string) {
-  const cards: { position: string; name_vi: string; orientation: string; meaning: string }[] = []
+  const cards: { position: string; name_vi: string; orientation?: string; meaning: string }[] = []
   const lines = content.split('\n')
   for (let index = 0; index < lines.length; index += 1) {
-    const header = lines[index].match(/^- (.+?): (.+?) \(.+?\), (upright|reversed)$/)
+    const header = lines[index].match(/^- (.+?): (.+?) \(.+?\)(?:, (upright|reversed))?$/)
     if (!header) continue
     const meaning = lines[index + 2]?.replace(/^\s*Nghĩa tham khảo:\s*/, '').trim() ?? ''
     cards.push({ position: header[1], name_vi: header[2], orientation: header[3], meaning })
@@ -84,17 +84,24 @@ function demoReading(messages: ModelMessage[]): string {
   const toolResult = [...messages].reverse().find((message) => message.role === 'tool')
   const cards = parseDrawResult(toolResult?.content ?? '')
   const head =
-    'Câu hỏi này đang mời bạn nhìn chậm và thành thật hơn vào điều bạn thực sự có thể chọn.\n\n'
+    '### Bức tranh chung\n\n' +
+    'Trải bài cho thấy vấn đề đang đi từ chỗ chưa rõ sang một lựa chọn cụ thể. ' +
+    'Điểm quan trọng là nhìn đúng phần bạn có thể chủ động.\n\n' +
+    '### Từng lá\n\n'
   const body = cards
     .map(
       (card, index) =>
-        `Đầu tiên, bạn rút được lá này\n\n[[card:${index + 1}]]\n\n**${card.position} — ${
-          card.name_vi
-        }** ở chiều ${card.orientation === 'reversed' ? 'ngược' : 'xuôi'}. ${card.meaning}\n\n`,
+        `[[card:${index + 1}]]\n\n**${card.position} — ${card.name_vi}**${
+          card.orientation
+            ? ` ở chiều ${card.orientation === 'reversed' ? 'ngược' : 'xuôi'}`
+            : ''
+        }. ${card.meaning}\n\n`,
     )
     .join('')
   const tail =
-    'Các lá cùng nhắc bạn phân biệt điều mình kiểm soát được với điều chỉ có thể đón nhận.\n\n' +
-    '> Sự sáng rõ thường đến sau khi ta đủ bình tĩnh để đặt đúng câu hỏi.'
+    '### Tóm lại\n\n' +
+    '**Bạn cần chốt phần mình kiểm soát được trước khi chờ tình thế tự thay đổi.**\n\n' +
+    '- Chọn một việc có thể làm ngay và đặt thời hạn rõ.\n' +
+    '- Đừng quyết định chỉ để thoát khỏi cảm giác sốt ruột.'
   return head + body + tail
 }

@@ -17,6 +17,6 @@ export {
   type Message,
   type UserSettings,
 } from './queries'
-export { ask, selectCards, reflect, type AgentEvent, type AskInput, type SelectInput } from './agent'
+export { ask, selectCards, reflect, answerClarify, type AgentEvent, type AskInput, type SelectInput, type ClarifyInput } from './agent'
 export { subscribeToConversation } from './realtime'
 export type { Casting, DeckKind, DrawnCard, Hexagram, MessageRow, Orientation } from './database.types'

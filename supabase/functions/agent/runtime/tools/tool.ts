@@ -6,6 +6,7 @@ import type { Lazy } from '../lazy.ts'
 import type { CatalogRepository } from '../repositories/catalog.ts'
 import type { CastingRepository, ReadingRepository } from '../repositories/readings.ts'
 import type { MemoryRepository } from '../repositories/memories.ts'
+import type { ClarificationRepository } from '../repositories/clarifications.ts'
 import type { ConversationRepository } from '../repositories/conversations.ts'
 
 /**
@@ -31,6 +32,7 @@ export interface ToolContext {
   readings: ReadingRepository
   castings: CastingRepository
   memories: MemoryRepository
+  clarifications: ClarificationRepository
   conversations: ConversationRepository
   emit: (event: AgentEvent) => void
   /** Quẻ vừa gieo trong run này, để gắn vào tin nhắn khi lưu. */

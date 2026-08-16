@@ -8,6 +8,7 @@ import { createModelAdapter, type ModelAdapter } from './model/factory.ts'
 import { PromptBuilder } from './prompts/builder.ts'
 import { CatalogRepository } from './repositories/catalog.ts'
 import { MemoryRepository } from './repositories/memories.ts'
+import { ClarificationRepository } from './repositories/clarifications.ts'
 import { ConversationRepository } from './repositories/conversations.ts'
 import { PromptRepository } from './repositories/prompts.ts'
 import { CastingRepository, ReadingRepository } from './repositories/readings.ts'
@@ -17,6 +18,7 @@ import { StreamController } from './stream.ts'
 import { provisionalTitle, Titler } from './titler.ts'
 import { Deck } from './tarot/deck.ts'
 import { PlayingDeck } from './tarot/playing-deck.ts'
+import { AskUserTool } from './tools/ask-user.ts'
 import { CastIChingTool } from './tools/cast-iching.ts'
 import { CompactHistoryTool } from './tools/compact-history.ts'
 import { RememberTool } from './tools/remember.ts'
@@ -48,6 +50,7 @@ export class AgentSession {
   readonly prompts: PromptRepository
   readonly toolCalls: ToolCallRepository
   readonly memories: MemoryRepository
+  readonly clarifications: ClarificationRepository
   readonly adapter: ModelAdapter
 
   constructor(
@@ -63,6 +66,7 @@ export class AgentSession {
     this.prompts = new PromptRepository(db)
     this.toolCalls = new ToolCallRepository(db)
     this.memories = new MemoryRepository(db)
+    this.clarifications = new ClarificationRepository(db)
     this.adapter = createModelAdapter()
   }
 
@@ -303,11 +307,73 @@ export class AgentSession {
             readings: this.readings,
             castings: this.castings,
             memories: this.memories,
+            clarifications: this.clarifications,
             conversations: this.conversations,
             emit: (event) => stream.emit(event),
           },
         },
       },
+    }
+  }
+
+  /**
+   * Người hỏi vừa trả lời câu làm rõ: nối câu trả lời vào đúng tool call đang
+   * mở rồi cho run chạy tiếp — cùng khuôn với lượt lật bài.
+   */
+  async answerClarification(payload: Record<string, unknown>, stream: StreamController) {
+    const runId = String(payload.run_id ?? '')
+    const clarificationId = String(payload.clarification_id ?? '')
+    const skipped = payload.skipped === true
+    const answer = String(payload.answer ?? '').split(/\s+/).join(' ').trim().slice(0, 500)
+    if (!skipped && !answer) throw new AgentError(422, 'Chưa có câu trả lời.')
+
+    const run = await this.runs.get(runId)
+    if (!run || run.status !== 'awaiting_input') {
+      throw new AgentError(409, 'Câu hỏi này đã hết hạn.')
+    }
+    const pending = await this.clarifications.pending(clarificationId, runId)
+    if (!pending || pending.status !== 'pending') {
+      throw new AgentError(409, 'Câu hỏi này đã được trả lời.')
+    }
+
+    await this.clarifications.answer(clarificationId, answer, skipped)
+
+    const state = run.state as ModelMessage[]
+    const call = [...state]
+      .reverse()
+      .find((message) => message.role === 'assistant' && message.tool_calls?.length)
+      ?.tool_calls?.find((item) => item.function.name === 'ask_user')
+    if (!call) throw new AgentError(409, 'Không tìm thấy câu hỏi đang chờ.')
+
+    state.push({
+      role: 'tool',
+      tool_call_id: call.id,
+      content: skipped
+        ? 'Người hỏi bỏ qua câu này. Đừng hỏi lại nữa, hãy bói với những gì đang có.'
+        : `Người hỏi trả lời: ${answer}`,
+    })
+    await this.runs.setStatus(run.id, 'running')
+
+    // Bài và quẻ đã ra ở lượt trước của chính run này; không mang theo thì tin
+    // nhắn cuối lưu ra sẽ trống trơn dù trên màn hình vẫn thấy.
+    const [revealed, casting] = await Promise.all([
+      this.readings.latestRevealed(run.id),
+      this.castings.latest(run.id),
+    ])
+    const built = this.buildRun({
+      runId: run.id,
+      conversationId: run.conversation_id,
+      question: run.question,
+      stream,
+      revealed: revealed ?? undefined,
+    })
+    built.run.casting = casting
+
+    return {
+      runId: run.id,
+      conversationId: run.conversation_id,
+      messages: state,
+      agentRun: built,
     }
   }
 
@@ -342,6 +408,7 @@ export class AgentSession {
   }): { agent: Agent; run: AgentRun } {
     const registry = new ToolRegistry(
       [
+        new AskUserTool(),
         new DrawCardsTool(),
         new DrawPlayingCardsTool(),
         new LookupCardsTool(),
@@ -379,6 +446,7 @@ export class AgentSession {
         readings: this.readings,
         castings: this.castings,
         memories: this.memories,
+        clarifications: this.clarifications,
         conversations: this.conversations,
         emit: (event) => input.stream.emit(event),
       },

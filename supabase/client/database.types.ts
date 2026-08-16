@@ -34,6 +34,16 @@ export type Hexagram = {
   advice: string
 }
 
+export type HexagramLineRow = {
+  hexagram_number: number
+  line_number: number
+  source_text: string
+  translation_vi: string | null
+  source_name: string
+  source_url: string
+  review_status: 'source_only' | 'draft' | 'reviewed'
+}
+
 export type Casting = {
   question: string
   tosses: number[]
@@ -157,6 +167,8 @@ export interface Database {
       readings: Table<ReadingRow>
       user_settings: Table<UserSettingsRow>
       memories: Table<MemoryRow>
+      hexagrams: Table<Hexagram>
+      hexagram_lines: Table<HexagramLineRow>
     }
     Views: { [_ in never]: never }
     Functions: { [_ in never]: never }

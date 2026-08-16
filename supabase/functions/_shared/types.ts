@@ -56,6 +56,16 @@ export interface Hexagram {
   advice: string
 }
 
+export interface HexagramLine {
+  hexagram_number: number
+  line_number: number
+  source_text: string
+  translation_vi: string | null
+  source_name: string
+  source_url: string
+  review_status: 'source_only' | 'draft' | 'reviewed'
+}
+
 /** 6 = lão âm, 7 = thiếu dương, 8 = thiếu âm, 9 = lão dương. */
 export type TossValue = 6 | 7 | 8 | 9
 
@@ -111,6 +121,15 @@ export type AgentEvent =
       pick_count: number
       positions: string[]
       reason: string
+    }
+  | {
+      type: 'clarify.requested'
+      run_id: string
+      clarification_id: string
+      question: string
+      based_on: string
+      options: string[]
+      allow_free_text: boolean
     }
   | { type: 'cards.revealed'; cards: DrawnCard[] }
   | { type: 'iching.cast'; casting: Casting }

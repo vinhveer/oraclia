@@ -78,12 +78,37 @@ export class ReadingRepository extends Repository {
     return (data?.shuffled ?? []) as HiddenCard[]
   }
 
+  /** Các lá đã lật trong run này, để nối lại sau một lượt hỏi làm rõ. */
+  async latestRevealed(runId: string): Promise<DrawnCard[] | null> {
+    const { data } = await this.db
+      .from('readings')
+      .select('revealed')
+      .eq('run_id', runId)
+      .eq('status', 'revealed')
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    return (data?.revealed as DrawnCard[]) ?? null
+  }
+
   async markRevealed(readingId: string, revealed: unknown): Promise<void> {
     await this.db.from('readings').update({ status: 'revealed', revealed }).eq('id', readingId)
   }
 }
 
 export class CastingRepository extends Repository {
+  /** Quẻ vừa gieo trong run này, để nối lại sau một lượt hỏi làm rõ. */
+  async latest(runId: string): Promise<Casting | null> {
+    const { data } = await this.db
+      .from('castings')
+      .select('payload')
+      .eq('run_id', runId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    return (data?.payload as Casting) ?? null
+  }
+
   async create(input: {
     conversationId: string
     runId: string
@@ -100,6 +125,7 @@ export class CastingRepository extends Repository {
       primary_number: casting.primary.number,
       changed_number: casting.changed?.number ?? null,
       moving_lines: casting.movingLines,
+      payload: casting,
     })
     if (error) throw new Error(`Không lưu được quẻ: ${error.message}`)
   }

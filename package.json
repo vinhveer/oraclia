@@ -11,6 +11,8 @@
     "db:start": "supabase start",
     "db:reset": "supabase db reset",
     "db:types": "supabase gen types typescript --local > supabase/client/database.types.ts",
+    "iching:refresh-lines": "node scripts/fetch-iching-lines.mjs",
+    "check:readings": "node scripts/verify-reading-data.mjs",
     "functions:serve": "supabase functions serve agent --env-file supabase/.env.local",
     "db:stop": "supabase stop",
     "db:status": "supabase status"

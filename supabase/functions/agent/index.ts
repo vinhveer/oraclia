@@ -2,6 +2,7 @@
 //
 //   { action: 'message', conversation_id?, question }        -> mở một run mới
 //   { action: 'select_cards', run_id, reading_id, indices }  -> nối tiếp run đang đỗ
+//   { action: 'answer_clarify', run_id, clarification_id, answer } -> trả lời câu hỏi làm rõ
 //   { action: 'reflect', conversation_id }                   -> lượt phản tư nền
 //
 // Cả hai đều trả về Server-Sent Events. File này chỉ lo HTTP; mọi thứ khác nằm
@@ -30,6 +31,17 @@ Deno.serve(async (request) => {
     const payload = await request.json().catch(() => ({}))
     const stream = new StreamController()
     const session = new AgentSession(db, serviceClient(), data.user.id)
+
+    if (payload.action === 'answer_clarify') {
+      const resumed = await session.answerClarification(payload, stream)
+      stream.emit({
+        type: 'run.started',
+        run_id: resumed.runId,
+        conversation_id: resumed.conversationId,
+      })
+      detach(stream, () => resumed.agentRun.agent.run(resumed.agentRun.run, resumed.messages))
+      return stream.response(request)
+    }
 
     if (payload.action === 'reflect') {
       const reflection = await session.reflect(payload, stream)

@@ -22,6 +22,8 @@ export interface AgentRun {
   userId: string
   /** Các lá đã lật trong run này, gắn vào tin nhắn của trợ lý khi lưu. */
   cards: DrawnCard[] | null
+  /** Quẻ đã gieo trước đó trong cùng run, khi lượt này chỉ là phần nối tiếp. */
+  casting?: Casting | null
   /**
    * Lượt phản tư chạy sau lưng người dùng: nó chỉ gọi tool, và chữ nó viết ra
    * không phải câu trả lời nên không được lưu vào hội thoại.
@@ -42,7 +44,10 @@ export class Agent {
     const { adapter, registry, runs, conversations, stream } = this.deps
     const tools = registry.definitions()
     const state = [...messages]
-    let casting: Casting | null = null
+    // Giữ lại quẻ đã gieo ở lượt trước của cùng run: một lượt hỏi làm rõ xen vào
+    // giữa sẽ cắt run làm hai request, và nếu không mang theo thì tin nhắn cuối
+    // mất quẻ.
+    let casting: Casting | null = run.casting ?? null
 
     const toolContext: ToolContext = {
       ...run.toolContext,

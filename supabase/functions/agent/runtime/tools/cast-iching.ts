@@ -1,4 +1,4 @@
-import type { Casting, ToolDefinition } from '../../../_shared/types.ts'
+import type { Casting, HexagramLine, ToolDefinition } from '../../../_shared/types.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
 
 export class CastIChingTool extends Tool {
@@ -26,6 +26,10 @@ export class CastIChingTool extends Tool {
   async run(args: Record<string, unknown>, context: ToolContext): Promise<ToolOutcome> {
     const asked = String(args.question ?? '').split(/\s+/).join(' ').slice(0, 300)
     const casting = (await context.caster()).cast(asked || context.question)
+    const movingLineTexts = await context.catalog.hexagramLines(
+      casting.primary.number,
+      casting.movingLines,
+    )
 
     await context.castings.create({
       conversationId: context.conversationId,
@@ -39,7 +43,7 @@ export class CastIChingTool extends Tool {
     return {
       kind: 'result',
       summary: this.summarise(casting),
-      content: this.describe(casting),
+      content: this.describe(casting, movingLineTexts),
     }
   }
 
@@ -51,7 +55,7 @@ export class CastIChingTool extends Tool {
   }
 
   /** Những gì model đọc được sau khi gieo. */
-  private describe(casting: Casting): string {
+  private describe(casting: Casting, movingLineTexts: HexagramLine[]): string {
     const lineText = casting.tosses
       .map((toss, index) => {
         const label =
@@ -64,6 +68,17 @@ export class CastIChingTool extends Tool {
       ? `Quẻ biến: ${casting.changed.number}. ${casting.changed.full_name} — ${casting.changed.meaning}`
       : 'Không có hào động, nên không có quẻ biến: tình thế hiện tại là câu trả lời.'
 
+    const moving = movingLineTexts.length
+      ? `Dữ liệu hào động:\n${movingLineTexts
+          .map((line) => {
+            const reference = line.translation_vi && line.review_status === 'reviewed'
+              ? `Bản Việt đã duyệt: ${line.translation_vi}`
+              : `Nguyên văn Hán cổ: ${line.source_text}\n  Trạng thái: chưa có bản Việt được duyệt`
+            return `- Hào ${line.line_number}: ${reference}`
+          })
+          .join('\n')}`
+      : 'Không có hào động cần tra hào từ.'
+
     return `Người hỏi vừa gieo quẻ cho câu hỏi: ${casting.question}
 
 Quẻ chính: ${casting.primary.number}. ${casting.primary.full_name} (${casting.primary.lower_trigram} dưới, ${casting.primary.upper_trigram} trên)
@@ -71,14 +86,17 @@ Từ khóa: ${casting.primary.keywords.join(', ')}
 Ý nghĩa tham khảo: ${casting.primary.meaning}
 Lời khuyên tham khảo: ${casting.primary.advice}
 
-Sáu hào từ dưới lên:
+Kết quả sáu lần gieo, từ dưới lên:
 ${lineText}
 Hào động: ${casting.movingLines.length ? casting.movingLines.join(', ') : 'không có'}
+${moving}
 ${changed}
 
-Hãy luận quẻ theo mạch: tượng quẻ chính và vì sao nó ứng với câu hỏi; ý nghĩa
-của (các) hào động ở đúng vị trí của nó; hướng chuyển sang quẻ biến nếu có; và
-điều nên làm. Nói rõ đây là một cách soi chiếu, không phải dự đoán chắc chắn.
-Không bịa thêm hào động hay quẻ khác ngoài dữ liệu trên.`
+Viết 220-350 từ, dùng đúng ba tiêu đề Markdown: "### Thế quẻ" chốt tình hình hiện tại;
+"### Điểm chuyển" gộp các hào động và hướng sang quẻ biến trong một đoạn ngắn; "### Nên làm"
+nêu 1-2 hành động cụ thể. Không giảng lần lượt đủ sáu hào. Mỗi hào động tối đa
+một câu. Nếu dữ liệu chỉ có nguyên văn Hán cổ, diễn giải thận trọng bằng lời đời
+thường, không chép Hán văn ra câu trả lời và không gọi đó là bản dịch chuẩn.
+Không bịa thêm lời hào, hào động hay quẻ khác ngoài dữ liệu trên.`
   }
 }

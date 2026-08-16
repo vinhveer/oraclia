@@ -5,6 +5,7 @@ import { Composer } from '@/features/chat/Composer'
 import { MessageBubble } from '@/features/chat/MessageBubble'
 import { Sidebar } from '@/features/chat/Sidebar'
 import { DRAFT_ID, useChat } from '@/features/chat/useChat'
+import { ClarifyPrompt } from '@/features/chat/ClarifyPrompt'
 import { CardPicker, DrawPrompt } from '@/features/tarot/CardPicker'
 import {
   createConversation,
@@ -60,7 +61,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     bottom.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [chat.messages, chat.turn, chat.draw])
+  }, [chat.messages, chat.turn, chat.draw, chat.clarify])
 
   useEffect(() => {
     if (chat.error) snackbar({ message: chat.error })
@@ -192,6 +193,15 @@ export default function ChatPage() {
             ))}
 
             {draft && <MessageBubble message={draft} activities={chat.turn.activities} />}
+
+            {chat.clarify && (
+              <ClarifyPrompt
+                clarify={chat.clarify}
+                busy={chat.busy && !chat.clarify}
+                onAnswer={(answer) => chat.respond(answer)}
+                onSkip={() => chat.respond('', true)}
+              />
+            )}
 
             {chat.draw && !pickerOpen && (
               <DrawPrompt draw={chat.draw} onOpen={() => setPickerOpen(true)} />

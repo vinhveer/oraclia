@@ -18,6 +18,15 @@ export type AgentEvent =
       positions: string[]
       reason: string
     }
+  | {
+      type: 'clarify.requested'
+      run_id: string
+      clarification_id: string
+      question: string
+      based_on: string
+      options: string[]
+      allow_free_text: boolean
+    }
   | { type: 'cards.revealed'; cards: DrawnCard[] }
   | { type: 'iching.cast'; casting: Casting }
   | { type: 'conversation.titled'; conversation_id: string; title: string }
@@ -67,6 +76,32 @@ export function selectCards(
  * Lượt phản tư chạy sau lưng: agent tự quyết định ghi nhớ hay cô đọng. Gọi khi
  * người dùng ngừng gõ một lúc, và im lặng bỏ qua nếu không có gì mới.
  */
+export interface ClarifyInput {
+  runId: string
+  clarificationId: string
+  answer: string
+  skipped?: boolean
+}
+
+/** Trả lời câu hỏi làm rõ rồi cho lượt bói chạy tiếp. */
+export function answerClarify(
+  input: ClarifyInput,
+  onEvent: (event: AgentEvent) => void,
+  signal: AbortSignal,
+) {
+  return call(
+    {
+      action: 'answer_clarify',
+      run_id: input.runId,
+      clarification_id: input.clarificationId,
+      answer: input.answer,
+      skipped: input.skipped ?? false,
+    },
+    onEvent,
+    signal,
+  )
+}
+
 export function reflect(
   conversationId: string,
   onEvent: (event: AgentEvent) => void,
