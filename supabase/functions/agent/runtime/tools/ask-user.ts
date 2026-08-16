@@ -27,8 +27,12 @@ export class AskUserTool extends Tool {
           question: {
             type: 'string',
             description:
-              'Phỏng đoán để người hỏi gật hay lắc, dạng "Có phải gần đây bạn...?". ' +
-              'Không hỏi dạng phân loại hay dạng trống.',
+              'Phỏng đoán để người hỏi gật hay lắc. CHỈ hỏi thứ họ chứng kiến được: việc đã ' +
+              'xảy ra, ai dính vào, ai nói gì làm gì, chuyện bắt đầu từ khi nào, và cảm giác ' +
+              'của CHÍNH họ. CẤM hỏi bụng dạ người khác (kể cả người thân): họ nghĩ gì, giận ' +
+              'vì sao, còn thương không, định làm gì. CẤM hỏi chuyện sắp tới và kết quả. ' +
+              'Phép thử: nếu họ phải bói mới biết câu trả lời thì đó là việc của bạn, không ' +
+              'phải câu để hỏi họ. Không hỏi dạng phân loại hay dạng trống.',
           },
           options: {
             type: 'array',

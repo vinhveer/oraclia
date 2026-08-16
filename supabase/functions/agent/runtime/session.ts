@@ -355,11 +355,11 @@ export class AgentSession {
       ? 'Người hỏi bỏ qua câu này. Đừng hỏi nữa, viết bài đọc ngay với những gì đang có.'
       : asked >= 3
         ? 'Đã hỏi đủ ba câu. Không hỏi thêm. Viết bài đọc đầy đủ ngay bây giờ.'
-        : `Đây là câu làm rõ thứ ${asked} của lượt này, còn được hỏi thêm ${3 - asked} câu. ` +
-          'Nếu vẫn còn một mấu chốt chưa rõ — người nào dính vào, điều gì đang giấu, ' +
-          'quyết định nào đang treo, mọi thứ đổi từ khi nào — thì gọi `ask_user` thêm một ' +
-          'câu SÂU HƠN câu vừa rồi, dựa vào một lá khác và mở đầu khác đi. Đủ để đọc trúng ' +
-          'rồi thì viết bài đọc.'
+        : `Đây là câu làm rõ thứ ${asked} của lượt này (trần là 3, không phải chỉ tiêu). ` +
+          'Chỉ hỏi tiếp khi còn một mấu chốt THẬT khiến bài đọc sẽ khác đi — người nào ' +
+          'dính vào, điều gì đang giấu, quyết định nào đang treo, mọi thứ đổi từ khi nào ' +
+          '— và họ phải tự trả lời được. Không còn gì như thế thì viết bài đọc ngay, ' +
+          'đừng hỏi thêm cho có.'
 
     state.push({
       role: 'tool',
