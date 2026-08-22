@@ -121,22 +121,32 @@ export function useChat(
   }, [])
 
   useEffect(() => {
+    // Câu hỏi đầu tiên bắt đầu ở /chat. Khi nhận run.started, URL được thay bằng
+    // conversation vừa tạo và effect này chạy lại. Đó vẫn là cùng một lượt nên
+    // không được xoá draft, hàng đợi token hay trạng thái hoạt động giữa stream.
+    const adoptingCurrentRun =
+      streamingRef.current && startedIn.current !== null && startedIn.current === conversationId
+
     cancelReflection()
-    setTurn(IDLE_TURN)
-    setDraw(null)
-    setClarify(null)
-    setError('')
-    queue.current = ''
+    if (!adoptingCurrentRun) {
+      setTurn(IDLE_TURN)
+      setDraw(null)
+      setClarify(null)
+      setError('')
+      queue.current = ''
+    }
     if (!conversationId) {
       setMessages([])
       return
     }
     let active = true
-    setLoading(true)
-    listMessages(conversationId)
-      .then((rows) => active && setMessages(rows))
-      .catch((exception) => active && setError(describe(exception)))
-      .finally(() => active && setLoading(false))
+    if (!adoptingCurrentRun) {
+      setLoading(true)
+      listMessages(conversationId)
+        .then((rows) => active && setMessages(rows))
+        .catch((exception) => active && setError(describe(exception)))
+        .finally(() => active && setLoading(false))
+    }
     // Tab khác (hoặc một lượt chạy nơi khác) ghi thẳng vào Postgres; soi theo,
     // nhưng không bao giờ trong lúc chính tab này đang stream.
     const unsubscribe = subscribeToConversation(conversationId, (row) => {

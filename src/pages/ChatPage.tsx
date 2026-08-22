@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { CircularProgress, Icon, IconButton, useSnackbar } from '@/components'
 import { Composer } from '@/features/chat/Composer'
@@ -34,6 +34,10 @@ export default function ChatPage() {
    * xuống ngay.
    */
   const [pinned, setPinned] = useState(true)
+  // Ref là nguồn quyết định đồng bộ cho mỗi frame; state chỉ dùng để render nút
+  // xuống cuối. Nhờ vậy một scroll event do chiều cao nội dung vừa đổi không thể
+  // chen giữa render và effect rồi vô tình tắt chế độ bám đáy.
+  const pinnedRef = useRef(true)
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const conversationId = id ?? null
@@ -65,31 +69,36 @@ export default function ChatPage() {
     if (chat.draw) setPickerOpen(true)
   }, [chat.draw])
 
-  useEffect(() => {
-    if (!pinned) return
+  useLayoutEffect(() => {
+    if (!pinnedRef.current) return
     const node = main.current
     if (!node) return
     // Nhảy thẳng chứ không cuộn mượt: nội dung dài thêm liên tục nên animation
     // bị cắt giữa chừng, nhìn giật hơn là đứng yên.
     node.scrollTop = node.scrollHeight
-  }, [chat.messages, chat.turn, chat.draw, chat.clarify, pinned])
+  }, [chat.messages, chat.turn, chat.draw, chat.clarify])
 
   // Đổi cuộc trò chuyện thì luôn bắt đầu ở đáy.
   useEffect(() => {
+    pinnedRef.current = true
     setPinned(true)
   }, [conversationId])
 
   function trackScroll(node: HTMLElement) {
     const gap = node.scrollHeight - node.scrollTop - node.clientHeight
-    setPinned(gap < 96)
+    const next = gap < 96
+    pinnedRef.current = next
+    setPinned(next)
   }
 
   /** Người dùng vừa làm gì đó: kéo họ về đáy để thấy kết quả. */
   function stickToBottom() {
+    pinnedRef.current = true
     setPinned(true)
   }
 
   function jumpToBottom() {
+    pinnedRef.current = true
     setPinned(true)
     const node = main.current
     if (node) node.scrollTo({ top: node.scrollHeight, behavior: 'smooth' })
