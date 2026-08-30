@@ -40,25 +40,55 @@ export async function signOut(): Promise<void> {
   await supabase.auth.signOut()
 }
 
+/**
+ * Phiên đọc từ kho cục bộ: không chạm mạng nên trả về ngay khi mở trang. Đây là
+ * thứ quyết định người dùng đã đăng nhập hay chưa; hồ sơ chỉ là phần tô thêm.
+ */
 export async function currentUser(): Promise<SessionUser | null> {
-  const { data } = await supabase.auth.getUser()
-  if (!data.user) return null
-  const { data: profile } = await supabase
+  const { data } = await supabase.auth.getSession()
+  return fromAuthUser(data.session?.user ?? null)
+}
+
+/** Tên hiển thị và vai trò nằm ở bảng profiles; gọi sau khi màn hình đã lên. */
+export async function loadProfile(user: SessionUser): Promise<SessionUser> {
+  const { data } = await supabase
     .from('profiles')
     .select('display_name, role')
-    .eq('id', data.user.id)
+    .eq('id', user.id)
     .maybeSingle<Pick<ProfileRow, 'display_name' | 'role'>>()
+  if (!data) return user
   return {
-    id: data.user.id,
-    email: data.user.email ?? '',
-    displayName: profile?.display_name || (data.user.email ?? '').split('@')[0],
-    role: profile?.role ?? 'user',
+    ...user,
+    displayName: data.display_name || user.displayName,
+    role: data.role ?? user.role,
   }
 }
 
+interface AuthUserLike {
+  id: string
+  email?: string | null
+  user_metadata?: { display_name?: string | null } | null
+}
+
+function fromAuthUser(user: AuthUserLike | null): SessionUser | null {
+  if (!user) return null
+  const email = user.email ?? ''
+  return {
+    id: user.id,
+    email,
+    displayName: user.user_metadata?.display_name || email.split('@')[0],
+    role: 'user',
+  }
+}
+
+/**
+ * Supabase giữ một khoá nội bộ trong lúc chạy callback này. Gọi tiếp một hàm
+ * supabase (kể cả truy vấn bảng) ngay trong callback sẽ chờ chính khoá đó và
+ * treo cứng tab cho tới khi tải lại — nên ở đây chỉ đọc từ session có sẵn.
+ */
 export function onAuthChange(handler: (user: SessionUser | null) => void): () => void {
-  const { data } = supabase.auth.onAuthStateChange(() => {
-    currentUser().then(handler).catch(() => handler(null))
+  const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+    handler(fromAuthUser(session?.user ?? null))
   })
   return () => data.subscription.unsubscribe()
 }

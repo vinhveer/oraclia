@@ -1,5 +1,5 @@
 export { supabase, accessToken, functionsUrl, siteUrl, setRemember, isRemembering } from './client'
-export { signIn, signUp, signOut, currentUser, onAuthChange, type SessionUser } from './auth'
+export { signIn, signUp, signOut, currentUser, loadProfile, onAuthChange, type SessionUser } from './auth'
 export {
   listConversations,
   createConversation,

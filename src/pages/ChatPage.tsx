@@ -78,6 +78,48 @@ export default function ChatPage() {
     node.scrollTop = node.scrollHeight
   }, [chat.messages, chat.turn, chat.draw, chat.clarify])
 
+  /**
+   * Ý muốn đọc lại đến từ ngón tay, không đến từ sự kiện scroll. Trong lúc nhả
+   * chữ, cứ 24ms nội dung lại dài thêm và layout effect kéo scrollTop về đáy —
+   * cú vuốt lên bị xoá trước khi trình duyệt kịp bắn scroll event, nên người
+   * dùng thấy màn hình như bị khoá. Bắt thẳng wheel/touch/phím để nhả bám đáy
+   * ngay trong cùng một frame với thao tác.
+   */
+  useEffect(() => {
+    const node = main.current
+    if (!node) return
+    const release = () => {
+      // Nội dung chưa tràn thì không có gì để cuộn: đừng hiện nút xuống cuối.
+      if (node.scrollHeight <= node.clientHeight + 8) return
+      pinnedRef.current = false
+      setPinned(false)
+    }
+    const onWheel = (event: WheelEvent) => {
+      if (event.deltaY < 0) release()
+    }
+    let startY = 0
+    const onTouchStart = (event: TouchEvent) => {
+      startY = event.touches[0]?.clientY ?? 0
+    }
+    const onTouchMove = (event: TouchEvent) => {
+      // Kéo ngón xuống tức là đẩy nội dung lên trên: đang xem lại phần cũ.
+      if ((event.touches[0]?.clientY ?? 0) - startY > 4) release()
+    }
+    const onKey = (event: KeyboardEvent) => {
+      if (['ArrowUp', 'PageUp', 'Home'].includes(event.key)) release()
+    }
+    node.addEventListener('wheel', onWheel, { passive: true })
+    node.addEventListener('touchstart', onTouchStart, { passive: true })
+    node.addEventListener('touchmove', onTouchMove, { passive: true })
+    node.addEventListener('keydown', onKey)
+    return () => {
+      node.removeEventListener('wheel', onWheel)
+      node.removeEventListener('touchstart', onTouchStart)
+      node.removeEventListener('touchmove', onTouchMove)
+      node.removeEventListener('keydown', onKey)
+    }
+  }, [])
+
   // Đổi cuộc trò chuyện thì luôn bắt đầu ở đáy.
   useEffect(() => {
     pinnedRef.current = true
@@ -208,7 +250,7 @@ export default function ChatPage() {
         <main
           ref={main}
           onScroll={(event) => trackScroll(event.currentTarget)}
-          className="flex-1 overflow-y-auto"
+          className="flex-1 overflow-y-auto [overflow-anchor:none]"
         >
           <div className="mx-auto flex max-w-3xl flex-col gap-8 px-4 pt-16 pb-8 sm:px-8 lg:pt-8">
             {!chat.messages.length && !chat.loading && (

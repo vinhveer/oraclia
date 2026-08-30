@@ -1,5 +1,6 @@
 import type { ChatTurn, DrawnCard, ModelMessage } from '../../../_shared/types.ts'
 import type { UserSettings } from '../repositories/prompts.ts'
+import { spreadSignals } from '../tarot/spread.ts'
 
 export class PromptBuilder {
   constructor(
@@ -81,10 +82,23 @@ export class PromptBuilder {
       ? 'Mỗi lá chỉ cần 2-3 câu và không nhắc chiều xuôi/ngược.'
       : 'Mỗi lá cần 3-5 câu; chỉ nói chiều xuôi/ngược khi nó thật sự làm đổi trọng tâm.'
 
+    const signals = spreadSignals(cards)
+    // Đếm sẵn ở đây thì lượt nào cũng có và luôn khớp bài thật; để model tự nhìn
+    // ra cấu trúc thì lúc thấy lúc không.
+    const structure = signals.length
+      ? `\nTín hiệu cấu trúc của cả trải bài (đã tính từ chính các lá trên):
+${signals.map((item) => `- ${item}`).join('\n')}
+
+Dệt những tín hiệu này vào phần Bức tranh chung và phần chốt, bằng lời của mình.
+Không liệt kê lại chúng như thống kê, không nói "trải bài có bao nhiêu phần trăm".
+Tín hiệu nào không giúp trả lời câu hỏi thì bỏ qua, đừng cố nhét cho đủ.
+`
+      : ''
+
     return `Người hỏi đã tự chọn ${cards.length} lá ${kind} cho câu hỏi: ${question}
 
 ${lines}
-
+${structure}
 Trình bày bằng đúng ba tiêu đề Markdown sau:
 
 1. "### Bức tranh chung" — phần này TUYỆT ĐỐI không chứa mã [[card:N]] nào; mọi
