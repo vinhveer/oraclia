@@ -38,6 +38,13 @@ export default function ChatPage() {
   // xuống cuối. Nhờ vậy một scroll event do chiều cao nội dung vừa đổi không thể
   // chen giữa render và effect rồi vô tình tắt chế độ bám đáy.
   const pinnedRef = useRef(true)
+  /**
+   * Vị trí cuối cùng do chính chúng ta ghi xuống. Đây mới là mốc đáng tin để
+   * biết người dùng có tự cuộn lên hay không: so với nó thì mọi kiểu cuộn — con
+   * lăn, kéo thanh cuộn, phím, vuốt — đều lộ ra như nhau, không phụ thuộc vào
+   * việc trình duyệt bắn scroll event sớm hay muộn.
+   */
+  const autoTop = useRef(0)
   const searchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const conversationId = id ?? null
@@ -76,6 +83,7 @@ export default function ChatPage() {
     // Nhảy thẳng chứ không cuộn mượt: nội dung dài thêm liên tục nên animation
     // bị cắt giữa chừng, nhìn giật hơn là đứng yên.
     node.scrollTop = node.scrollHeight
+    autoTop.current = node.scrollTop
   }, [chat.messages, chat.turn, chat.draw, chat.clarify])
 
   /**
@@ -124,11 +132,21 @@ export default function ChatPage() {
   useEffect(() => {
     pinnedRef.current = true
     setPinned(true)
+    autoTop.current = 0
   }, [conversationId])
 
   function trackScroll(node: HTMLElement) {
+    // Đang bám đáy mà vị trí lùi lên trên chỗ ta vừa ghi xuống thì chỉ có thể do
+    // người dùng tự cuộn: nhả bám đáy ngay, đừng đợi tính khoảng cách tới đáy —
+    // trong lúc nhả chữ, đáy lùi ra xa liên tục nên phép tính đó luôn trễ một nhịp.
+    if (pinnedRef.current && node.scrollTop < autoTop.current - 8) {
+      pinnedRef.current = false
+      setPinned(false)
+      return
+    }
     const gap = node.scrollHeight - node.scrollTop - node.clientHeight
     const next = gap < 96
+    if (next) autoTop.current = node.scrollTop
     pinnedRef.current = next
     setPinned(next)
   }
@@ -137,13 +155,18 @@ export default function ChatPage() {
   function stickToBottom() {
     pinnedRef.current = true
     setPinned(true)
+    autoTop.current = main.current?.scrollTop ?? 0
   }
 
   function jumpToBottom() {
     pinnedRef.current = true
     setPinned(true)
     const node = main.current
-    if (node) node.scrollTo({ top: node.scrollHeight, behavior: 'smooth' })
+    if (!node) return
+    // Cuộn mượt đi qua nhiều vị trí trung gian nhỏ hơn mốc cũ; hạ mốc xuống
+    // trước để chính cú cuộn này không bị hiểu là người dùng đang cuộn lên.
+    autoTop.current = 0
+    node.scrollTo({ top: node.scrollHeight, behavior: 'smooth' })
   }
 
   useEffect(() => {
