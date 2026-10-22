@@ -13,54 +13,38 @@ export class PromptBuilder {
   ) {}
 
   /**
-   * Mở đầu một run: system prompt, hồ sơ người dùng, rồi bối cảnh cuộc trò
-   * chuyện. Hồ sơ đứng riêng vì nó áp cho mọi cuộc, khác với summary vốn chỉ
-   * thuộc về một cuộc.
+   * Mở đầu một run: prompt tĩnh đứng một mình ở đầu để provider cache được, rồi
+   * một khối <context> gom mọi thứ thay đổi theo người và theo cuộc, rồi lịch sử
+   * dưới dạng lượt chat thật, cuối cùng là câu hỏi.
    */
-  runMessages(summary: string, recent: ChatTurn[], question: string): ModelMessage[] {
-    const messages: ModelMessage[] = [{ role: 'system', content: this.system }]
-
-    const profile = [
-      this.settings.aboutYou && `Điều người hỏi muốn bạn biết về họ:\n${this.settings.aboutYou}`,
+  runMessages(summary: string, history: ModelMessage[], question: string): ModelMessage[] {
+    const sections = [
+      this.settings.aboutYou && `<about_user>\n${this.settings.aboutYou}\n</about_user>`,
       this.memories.length &&
-        `Những điều bạn đã ghi nhớ về họ từ trước:\n${this.memories
+        `<memories>\nNhững điều bạn đã ghi nhớ về người hỏi từ trước:\n${this.memories
           .map((fact) => `- ${fact}`)
-          .join('\n')}`,
+          .join('\n')}\n</memories>`,
       this.settings.responseStyle &&
-        `Cách người hỏi muốn được trả lời:\n${this.settings.responseStyle}`,
-    ]
-      .filter(Boolean)
-      .join('\n\n')
+        `<response_style>\n${this.settings.responseStyle}\n</response_style>`,
+      this.askedBefore.length &&
+        `<asked_before>\nCâu làm rõ đã hỏi trong cuộc này — lần này mở đầu khác và chọt vào góc khác:\n${this.askedBefore
+          .map((item) => `- ${item}`)
+          .join('\n')}\n</asked_before>`,
+      summary && `<conversation_summary>\n${summary}\n</conversation_summary>`,
+    ].filter(Boolean)
 
-    if (profile) {
-      messages.push({
-        role: 'system',
-        content: `${profile}\n\nTôn trọng những điều trên, trừ khi chúng mâu thuẫn với nguyên tắc an toàn.`,
-      })
-    }
-
-    if (this.askedBefore.length) {
+    const messages: ModelMessage[] = [{ role: 'system', content: this.system }]
+    if (sections.length) {
       messages.push({
         role: 'system',
         content:
-          `Những câu bạn đã hỏi người này gần đây:\n${this.askedBefore
-            .map((item) => `- ${item}`)
-            .join('\n')}\n\nLần này phải mở đầu khác hẳn những câu trên và chọt vào một góc ` +
-          `khác. Lặp lại cùng một khuôn câu là dấu hiệu của máy móc, người ta nhận ra ngay.`,
+          `<context>\n${sections.join('\n\n')}\n</context>\n\n` +
+          'Tôn trọng hồ sơ và cách trả lời người hỏi muốn, trừ khi trái nguyên tắc an toàn. ' +
+          'Dùng bối cảnh cũ khi nó thật sự giúp trả lời câu hỏi mới; không nhắc rằng bạn đang ' +
+          'đọc bản tóm tắt hay bộ nhớ.',
       })
     }
-
-    messages.push({
-      role: 'system',
-      content:
-        `Bối cảnh cô đọng của cuộc trò chuyện:\n${summary || '(chưa có)'}\n\n` +
-        `Các lượt gần nhất:\n${
-          recent.map((turn) => `${turn.role}: ${turn.content}`).join('\n') || '(chưa có)'
-        }\n\nGhi nhớ chi tiết quan trọng trong bối cảnh nhưng không nhắc rằng bạn đang dùng ` +
-        `summary. Ưu tiên câu hỏi mới và chỉ liên hệ với chuyện cũ khi thật sự hữu ích.`,
-    })
-
-    messages.push({ role: 'user', content: question })
+    messages.push(...history, { role: 'user', content: question })
     return messages
   }
 

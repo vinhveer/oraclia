@@ -1,6 +1,8 @@
 import type { Db } from '../../_shared/db.ts'
 import type { AgentEvent, ModelMessage } from '../../_shared/types.ts'
 import { AgentError } from './errors.ts'
+import { Compactor } from './compactor.ts'
+import { buildHistory } from './history.ts'
 import { clarifyResult } from './policy.ts'
 import { Agent, type AgentRun } from './agent.ts'
 import { IChingCaster } from './iching/caster.ts'
@@ -55,6 +57,7 @@ export class AgentSession {
   readonly adapter: ModelAdapter
   /** Model cho việc nền (tiêu đề, phản tư); không ai ngồi chờ nó. */
   readonly fastAdapter: ModelAdapter
+  readonly compactor: Compactor
 
   constructor(
     private readonly db: Db,
@@ -72,6 +75,7 @@ export class AgentSession {
     this.clarifications = new ClarificationRepository(db)
     this.adapter = createModelAdapter('main')
     this.fastAdapter = createModelAdapter('fast')
+    this.compactor = new Compactor(this.conversations, this.fastAdapter)
   }
 
   async enforceRateLimit(): Promise<void> {
@@ -98,14 +102,14 @@ export class AgentSession {
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
     )
 
-    const [state, prompt, settings, memories, asked, uncompacted] = await Promise.all([
+    const [state, prompt, settings, memories, asked] = await Promise.all([
       this.conversations.state(conversationId),
       this.prompts.active('reader', Deno.env.get('READER_PROMPT_VERSION') || undefined),
       this.prompts.userSettings(),
       this.memories.list(40),
-      this.clarifications.recentQuestions(8),
-      this.conversations.uncompactedCount(conversationId),
+      this.clarifications.recentQuestions(conversationId, 4),
     ])
+    const history = buildHistory(state.pending)
 
     await this.conversations.addMessage(conversationId, this.userId, 'user', question)
     // Dọn run của chính người này đã chết giữa chừng; không chặn câu hỏi mới.
@@ -143,7 +147,7 @@ export class AgentSession {
       memories.map((row) => row.content),
       asked,
     )
-    const messages = builder.runMessages(state.summary, state.recent, question)
+    const messages = builder.runMessages(state.summary, history.turns, question)
     const runId = await this.runs.create({
       conversationId,
       userId: this.userId,
@@ -153,7 +157,11 @@ export class AgentSession {
       state: messages,
     })
 
-    if (uncompacted > REFLECT_SAFETY_NET) this.reflectInBackground(conversationId)
+    // Phần tràn khỏi ngân sách được gấp vào bản tóm tắt ngay sau lượt này, để
+    // câu hỏi kế tiếp đã có nó. Lượt phản tư (nhớ điều về người hỏi) vẫn là lưới
+    // an toàn cho người hỏi dồn dập không bao giờ ngừng đủ lâu.
+    if (history.overflow > 0) this.inBackground(() => this.compactor.compact(conversationId))
+    if (state.pending.length > REFLECT_SAFETY_NET) this.reflectInBackground(conversationId)
 
     return {
       runId,
@@ -397,15 +405,21 @@ export class AgentSession {
    */
   private reflectInBackground(conversationId: string): void {
     const silent = new StreamController()
-    const task = this.reflect({ conversation_id: conversationId }, silent)
-      .then((reflection) =>
-        reflection?.agentRun.agent.run(reflection.agentRun.run, reflection.messages),
-      )
-      .catch(() => undefined)
-      .finally(() => silent.close())
+    this.inBackground(() =>
+      this.reflect({ conversation_id: conversationId }, silent)
+        .then((reflection) =>
+          reflection?.agentRun.agent.run(reflection.agentRun.run, reflection.messages),
+        )
+        .finally(() => silent.close()),
+    )
+  }
 
-    // Worker bị dừng ngay khi response chính đóng, mà lượt phản tư còn chạy lâu
-    // hơn câu trả lời; không giữ lại thì nó chết giữa chừng mà không báo gì.
+  /**
+   * Worker bị dừng ngay khi response chính đóng, mà việc nền còn chạy lâu hơn câu
+   * trả lời; không giữ lại thì nó chết giữa chừng mà không báo gì.
+   */
+  private inBackground(work: () => Promise<unknown>): void {
+    const task = work().catch(() => undefined)
     const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } })
       .EdgeRuntime
     runtime?.waitUntil?.(task)

@@ -1,14 +1,17 @@
 import type { Casting, ChatTurn, DrawnCard } from '../../../_shared/types.ts'
+import type { HistoryRow } from '../history.ts'
 import { Repository } from './base.ts'
 
 export interface ConversationState {
   id: string
   title: string
   summary: string
-  recent: ChatTurn[]
+  /** Mọi tin chưa cô đọng, theo thứ tự thời gian; history.ts tự cắt theo ngân sách. */
+  pending: HistoryRow[]
 }
 
-const WINDOW = 8
+/** Trần số dòng tải về; ngân sách ký tự mới là thứ thật sự cắt. */
+const PENDING_LIMIT = 120
 
 export class ConversationRepository extends Repository {
   /** Trả về id cuộc trò chuyện, tạo mới nếu chưa có hoặc id không thuộc về người gọi. */
@@ -34,26 +37,27 @@ export class ConversationRepository extends Repository {
   async state(conversationId: string): Promise<ConversationState> {
     const { data, error } = await this.db
       .from('conversations')
-      .select('id, title, context_summary')
+      .select('id, title, context_summary, compacted_until')
       .eq('id', conversationId)
       .single()
     if (error) throw new Error('Không tìm thấy cuộc trò chuyện.')
 
-    const { data: rows } = await this.db
+    // Lấy từ mốc cô đọng trở đi, không phải "8 tin cuối": phần nằm giữa bản tóm
+    // tắt và cửa sổ cố định trước đây là chỗ model mất trí nhớ.
+    let query = this.db
       .from('messages')
-      .select('role, content, created_at')
+      .select('role, content, cards, hexagram, created_at')
       .eq('conversation_id', conversationId)
       .order('created_at', { ascending: false })
-      .limit(WINDOW)
+      .limit(PENDING_LIMIT)
+    if (data.compacted_until) query = query.gt('created_at', data.compacted_until)
+    const { data: rows } = await query
 
     return {
       id: data.id,
       title: data.title,
       summary: data.context_summary ?? '',
-      recent: (rows ?? [])
-        .reverse()
-        .filter((row) => row.role !== 'system')
-        .map((row) => ({ role: row.role as ChatTurn['role'], content: row.content })),
+      pending: ((rows ?? []) as HistoryRow[]).reverse(),
     }
   }
 
@@ -129,18 +133,6 @@ export class ConversationRepository extends Repository {
       .limit(1)
       .maybeSingle()
     return data?.created_at ?? null
-  }
-
-  /** Đếm không tải dữ liệu, để dùng được trên đường đi chính mà không tốn gì. */
-  async uncompactedCount(conversationId: string): Promise<number> {
-    const marker = await this.summaryMarker(conversationId)
-    let query = this.db
-      .from('messages')
-      .select('id', { count: 'exact', head: true })
-      .eq('conversation_id', conversationId)
-    if (marker?.compacted_until) query = query.gt('created_at', marker.compacted_until)
-    const { count } = await query
-    return count ?? 0
   }
 
   async pendingSince(conversationId: string, since: string | null) {

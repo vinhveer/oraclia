@@ -50,10 +50,13 @@ export class ClarificationRepository extends Repository {
    * Các câu đã hỏi gần đây. Dặn suông "đừng lặp mô típ" thì model không biết mô
    * típ của nó là gì; đưa thẳng câu cũ vào prompt mới có cái để tránh.
    */
-  async recentQuestions(limit = 8): Promise<string[]> {
+  async recentQuestions(conversationId: string, limit = 4): Promise<string[]> {
+    // Chỉ trong cuộc này: câu hỏi của chuyện tình cảm tuần trước chẳng liên quan
+    // gì tới câu hỏi công việc hôm nay, đưa vào chỉ làm nhiễu.
     const { data } = await this.db
       .from('clarifications')
       .select('question')
+      .eq('conversation_id', conversationId)
       .order('created_at', { ascending: false })
       .limit(limit)
     return (data ?? []).map((row) => row.question as string)
