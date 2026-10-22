@@ -2,6 +2,7 @@ import type { Casting, DrawnCard, ModelMessage } from '../../_shared/types.ts'
 import type { ModelAdapter } from './model/factory.ts'
 import type { ConversationRepository } from './repositories/conversations.ts'
 import type { RunRepository } from './repositories/runs.ts'
+import { checkToolCall } from './policy.ts'
 import type { ToolRegistry } from './tools/registry.ts'
 import type { ToolContext } from './tools/tool.ts'
 import type { StreamController } from './stream.ts'
@@ -89,14 +90,22 @@ export class Agent {
           result,
         })
 
+        // Mỗi bước một tool. Đã xin parallel_tool_calls=false, nhưng không phải
+        // provider nào cũng nghe; call thứ hai trở đi bị bỏ ngay từ đây để
+        // transcript không có call nào thiếu kết quả.
+        const calls = result.toolCalls.slice(0, 1)
         const assistantTurn: ModelMessage = {
           role: 'assistant',
           content: result.content || null,
-          ...(result.toolCalls.length ? { tool_calls: result.toolCalls } : {}),
+          ...(calls.length ? { tool_calls: calls } : {}),
         }
         state.push(assistantTurn)
+        if (calls.length && result.content) {
+          // Chữ viết ra trước một tool call là câu dở dang; báo client bỏ bản nháp.
+          stream.emit({ type: 'draft.discarded' })
+        }
 
-        if (!result.toolCalls.length) {
+        if (!calls.length) {
           if (run.persistMessage !== false) {
             // Chạm trần max_tokens: lưu phần đã có nhưng nói rõ là bị cắt, để người
             // đọc không tưởng bài đọc kết thúc lửng là cố ý.
@@ -122,10 +131,15 @@ export class Agent {
         }
 
         let interrupted = false
-        const answered: typeof result.toolCalls = []
-        for (const call of result.toolCalls) {
+        const answered: typeof calls = []
+        const guard = (call: (typeof calls)[number], args: Record<string, unknown>) =>
+          checkToolCall(call, args, {
+            transcript: state,
+            revealedNames: revealedNames(run.cards, casting),
+          })
+        for (const call of calls) {
           answered.push(call)
-          const outcome = await registry.execute(call, toolContext)
+          const outcome = await registry.execute(call, toolContext, guard)
           if (outcome.kind === 'interrupt') {
             interrupted = true
             break
@@ -159,4 +173,13 @@ export class Agent {
     await runs.save(run.runId, state, steps, 'failed', 'Vòng lặp vượt quá số bước cho phép.')
     stream.emit({ type: 'run.error', message: 'Không thể hoàn tất lượt đọc này.' })
   }
+}
+
+function revealedNames(cards: DrawnCard[] | null, casting: Casting | null): string[] {
+  const names = (cards ?? []).flatMap((card) => [card.name_vi, card.name])
+  if (casting) {
+    names.push(casting.primary.name, casting.primary.full_name)
+    if (casting.changed) names.push(casting.changed.name, casting.changed.full_name)
+  }
+  return names.filter(Boolean)
 }

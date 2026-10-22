@@ -25,13 +25,14 @@ compact_history khi hội thoại đã dài. Không có gì đáng lưu thì tr�
 export type PromptSlug = 'reader' | 'reflector'
 
 export class PromptRepository extends Repository {
-  async active(slug: PromptSlug): Promise<LoadedPrompt> {
-    const { data } = await this.db
-      .from('prompts')
-      .select('version, body')
-      .eq('slug', slug)
-      .eq('is_active', true)
-      .maybeSingle()
+  /**
+   * Prompt đang bật của slug. `version` ép một phiên bản cụ thể, kể cả chưa bật —
+   * dùng để eval so phiên bản mới với bản đang chạy trước khi đổi.
+   */
+  async active(slug: PromptSlug, version?: string): Promise<LoadedPrompt> {
+    let query = this.db.from('prompts').select('version, body').eq('slug', slug)
+    query = version ? query.eq('version', version) : query.eq('is_active', true)
+    const { data } = await query.maybeSingle()
     if (data?.body) return { version: data.version, body: data.body }
     return { version: 'fallback', body: FALLBACK[slug] }
   }

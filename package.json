@@ -15,7 +15,8 @@
     "check:readings": "node scripts/verify-reading-data.mjs",
     "functions:serve": "supabase functions serve --env-file supabase/.env.local",
     "db:stop": "supabase stop",
-    "db:status": "supabase status"
+    "db:status": "supabase status",
+    "test:functions": "deno test --config supabase/functions/deno.json --no-lock supabase/functions"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",

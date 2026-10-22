@@ -113,6 +113,8 @@ export interface ToolDefinition {
 export type AgentEvent =
   | { type: 'run.started'; run_id: string; conversation_id: string }
   | { type: 'message.delta'; content: string }
+  /** Chữ vừa chảy ra là phần dẫn trước một tool call, không phải câu trả lời. */
+  | { type: 'draft.discarded' }
   | { type: 'thinking.delta'; content: string }
   | { type: 'tool.started'; call_id: string; name: string; arguments: Record<string, unknown> }
   | { type: 'tool.completed'; call_id: string; name: string; summary: string }

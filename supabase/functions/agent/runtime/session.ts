@@ -1,6 +1,7 @@
 import type { Db } from '../../_shared/db.ts'
 import type { AgentEvent, ModelMessage } from '../../_shared/types.ts'
 import { AgentError } from './errors.ts'
+import { clarifyResult } from './policy.ts'
 import { Agent, type AgentRun } from './agent.ts'
 import { IChingCaster } from './iching/caster.ts'
 import { memo } from './lazy.ts'
@@ -99,7 +100,7 @@ export class AgentSession {
 
     const [state, prompt, settings, memories, asked, uncompacted] = await Promise.all([
       this.conversations.state(conversationId),
-      this.prompts.active('reader'),
+      this.prompts.active('reader', Deno.env.get('READER_PROMPT_VERSION') || undefined),
       this.prompts.userSettings(),
       this.memories.list(40),
       this.clarifications.recentQuestions(8),
@@ -356,24 +357,13 @@ export class AgentSession {
       ?.tool_calls?.find((item) => item.function.name === 'ask_user')
     if (!call) throw new AgentError(409, 'Không tìm thấy câu hỏi đang chờ.')
 
-    // Nhắc ngay tại chỗ thay vì trông vào prompt tĩnh: model đọc tool result sát
-    // lúc quyết định, nên chỉ dẫn đặt ở đây mới được nghe. Dặn trong prompt dài
-    // 5000 chữ thì nó hỏi một câu rồi đọc luôn.
+    // Chỉ báo sự thật: đã hỏi mấy câu, còn mấy câu. Trần và luật "bỏ qua thì
+    // thôi hỏi" do policy ép ở lượt gọi kế, không cần dặn bằng chữ ở đây nữa.
     const asked = await this.clarifications.countForRun(run.id)
-    const nudge = skipped
-      ? 'Người hỏi bỏ qua câu này. Đừng hỏi nữa, viết bài đọc ngay với những gì đang có.'
-      : asked >= 3
-        ? 'Đã hỏi đủ ba câu. Không hỏi thêm. Viết bài đọc đầy đủ ngay bây giờ.'
-        : `Đây là câu làm rõ thứ ${asked} của lượt này (trần là 3, không phải chỉ tiêu). ` +
-          'Chỉ hỏi tiếp khi còn một mấu chốt THẬT khiến bài đọc sẽ khác đi — người nào ' +
-          'dính vào, điều gì đang giấu, quyết định nào đang treo, mọi thứ đổi từ khi nào ' +
-          '— và họ phải tự trả lời được. Không còn gì như thế thì viết bài đọc ngay, ' +
-          'đừng hỏi thêm cho có.'
-
     state.push({
       role: 'tool',
       tool_call_id: call.id,
-      content: skipped ? nudge : `Người hỏi trả lời: ${answer}\n\n(${nudge})`,
+      content: clarifyResult(answer, skipped, asked),
     })
     await this.runs.setStatus(run.id, 'running')
 

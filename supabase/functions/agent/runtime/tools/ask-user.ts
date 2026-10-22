@@ -1,7 +1,7 @@
 import type { ToolDefinition } from '../../../_shared/types.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
 
-const MAX_OPTIONS = 5
+const MAX_OPTIONS = 4
 
 /**
  * Hỏi lại người dùng một câu để làm rõ vấn đề. Đây là tool **ngắt**: run đỗ ở
