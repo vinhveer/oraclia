@@ -52,6 +52,8 @@ export class AgentSession {
   readonly memories: MemoryRepository
   readonly clarifications: ClarificationRepository
   readonly adapter: ModelAdapter
+  /** Model cho việc nền (tiêu đề, phản tư); không ai ngồi chờ nó. */
+  readonly fastAdapter: ModelAdapter
 
   constructor(
     private readonly db: Db,
@@ -67,7 +69,8 @@ export class AgentSession {
     this.toolCalls = new ToolCallRepository(db)
     this.memories = new MemoryRepository(db)
     this.clarifications = new ClarificationRepository(db)
-    this.adapter = createModelAdapter()
+    this.adapter = createModelAdapter('main')
+    this.fastAdapter = createModelAdapter('fast')
   }
 
   async enforceRateLimit(): Promise<void> {
@@ -124,7 +127,7 @@ export class AgentSession {
     // khiến người hỏi ngồi nhìn màn hình trống gần chín giây — model có reasoning
     // nghĩ khá lâu cho cả một câu tiêu đề. Nó vẫn kịp về trước khi câu trả lời
     // bắt đầu chảy, nên sidebar không thấy khác gì.
-    new Titler(this.conversations, this.adapter)
+    new Titler(this.conversations, this.fastAdapter)
       .ensureTitle(conversationId, question)
       .then((title) => {
         if (title) {
@@ -269,7 +272,7 @@ export class AgentSession {
     const runId = await this.runs.create({
       conversationId,
       userId: this.userId,
-      model: this.adapter.name,
+      model: this.fastAdapter.name,
       promptVersion: `reflect:${prompt.version}`,
       question: '(reflect)',
       state: messages,
@@ -280,7 +283,7 @@ export class AgentSession {
       this.toolCalls,
     )
     const agent = new Agent({
-      adapter: this.adapter,
+      adapter: this.fastAdapter,
       registry,
       runs: this.runs,
       conversations: this.conversations,

@@ -1,8 +1,27 @@
 import type { ModelMessage, ModelToolCall, ToolDefinition } from '../../../_shared/types.ts'
 
+/** Tinh chỉnh theo model, đọc từ biến môi trường. Trường nào trống thì không gửi. */
+export interface ModelProfile {
+  temperature?: number
+  maxTokens?: number
+  reasoningEffort?: string
+}
+
+export interface ModelUsage {
+  inputTokens: number
+  outputTokens: number
+  cachedTokens: number
+  reasoningTokens: number
+}
+
 export interface ModelStep {
   content: string
   toolCalls: ModelToolCall[]
+  /** `stop`, `tool_calls`, `length`… — `length` nghĩa là câu trả lời bị cắt cụt. */
+  finishReason?: string
+  usage?: ModelUsage
+  /** Mili giây từ lúc gửi tới byte nội dung đầu tiên (chữ, reasoning hoặc tool call). */
+  ttftMs?: number
 }
 
 export interface StepHandlers {

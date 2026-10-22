@@ -4,6 +4,15 @@ import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
 /**
  * Giữ cho môi trường dev vẫn dùng được khi chưa có API key: đi đúng vòng lặp
  * ấy, gọi tool thật, chỉ phần chữ là mẫu.
+ *
+ * E2E điều khiển kịch bản bằng marker trong câu hỏi:
+ *   [e2e:chat]     trả lời thẳng, không tool
+ *   [e2e:clarify]  rút bài → hỏi làm rõ → đọc
+ *   [e2e:iching]   gieo quẻ → đọc
+ *   [e2e:playing]  rút bài tây → đọc
+ *   [e2e:long]     rút bài → bài đọc rất dài, chảy chậm (thử cuộn, rời trang giữa stream)
+ *   [e2e:error]    model ném lỗi
+ * Không marker thì như cũ: rút tarot theo độ dài câu hỏi rồi đọc.
  */
 export class DemoAdapter extends ModelAdapter {
   readonly name = 'demo'
@@ -14,25 +23,42 @@ export class DemoAdapter extends ModelAdapter {
     tools: ToolDefinition[],
     handlers: StepHandlers,
   ): Promise<ModelStep> {
-    const drawn = messages.some((message) => message.role === 'tool')
-    if (!drawn && tools.some((tool) => tool.function.name === 'draw_cards')) {
-      const positions = planPositions(lastUserText(messages))
-      return {
-        content: '',
-        toolCalls: [
-          {
-            id: 'demo_draw',
-            type: 'function',
-            function: {
-              name: 'draw_cards',
-              arguments: JSON.stringify({
-                positions,
-                reason: `Demo mode chọn ${positions.length} lá theo độ dài câu hỏi.`,
-              }),
-            },
-          },
-        ],
-      }
+    const question = lastUserText(messages)
+    const scenario = question.match(/\[e2e:(\w+)\]/)?.[1] ?? 'default'
+    const done = toolResults(messages)
+    const has = (name: string) => tools.some((tool) => tool.function.name === name)
+
+    if (scenario === 'error') throw new Error('Demo: lỗi giả lập từ provider.')
+
+    if (scenario === 'chat' || !has('draw_cards')) {
+      await stream(handlers, 'Mình nghe đây. Đây là câu trả lời mẫu, không rút bài.', 15)
+      return { content: 'Mình nghe đây. Đây là câu trả lời mẫu, không rút bài.', toolCalls: [] }
+    }
+
+    if (scenario === 'iching' && !done.has('cast_iching')) {
+      return call('cast_iching', { question: question.replace(/\[e2e:\w+\]/, '').trim() })
+    }
+    if (scenario === 'playing' && !done.has('draw_playing_cards')) {
+      return call('draw_playing_cards', {
+        positions: ['Chuyện đang tới', 'Lời khuyên'],
+        reason: 'Demo bài tây hai lá.',
+      })
+    }
+    if (!['iching', 'playing'].includes(scenario) && !done.has('draw_cards')) {
+      const positions = planPositions(question.replace(/\[e2e:\w+\]/, ''))
+      return call('draw_cards', {
+        positions,
+        reason: `Demo mode chọn ${positions.length} lá theo độ dài câu hỏi.`,
+      })
+    }
+    if (scenario === 'clarify' && !done.has('ask_user')) {
+      const first = parseDrawResult(done.get('draw_cards') ?? '')[0]
+      return call('ask_user', {
+        based_on: first?.name_vi ?? '',
+        question: 'Chuyện này bắt đầu từ khi bạn đổi chỗ làm phải không?',
+        options: ['Đúng vậy', 'Không phải', 'Trước đó nữa'],
+        allow_free_text: true,
+      })
     }
 
     for (const thought of ['Đọc lại câu hỏi', ' và các lá vừa lật', ' để tìm mạch chung...']) {
@@ -40,17 +66,64 @@ export class DemoAdapter extends ModelAdapter {
       handlers.onReasoning?.(thought)
     }
 
-    const text = demoReading(messages)
-    for (let index = 0; index < text.length; index += 18) {
-      await new Promise((resolve) => setTimeout(resolve, 15))
-      handlers.onDelta(text.slice(index, index + 18))
-    }
-    return { content: text, toolCalls: [] }
+    const text =
+      scenario === 'iching'
+        ? ichingReading()
+        : demoReading(messages, scenario === 'long' ? 20 : 1)
+    await stream(handlers, text, scenario === 'long' ? 40 : 15)
+    return { content: text, toolCalls: [], finishReason: 'stop' }
   }
 
   async complete(messages: ModelMessage[]): Promise<string> {
     return (messages.at(-1)?.content ?? '').slice(-5000)
   }
+}
+
+let callCounter = 0
+
+function call(name: string, args: Record<string, unknown>): ModelStep {
+  callCounter += 1
+  return {
+    content: '',
+    toolCalls: [
+      {
+        id: `demo_${name}_${callCounter}`,
+        type: 'function',
+        function: { name, arguments: JSON.stringify(args) },
+      },
+    ],
+    finishReason: 'tool_calls',
+  }
+}
+
+async function stream(handlers: StepHandlers, text: string, delayMs: number): Promise<void> {
+  for (let index = 0; index < text.length; index += 18) {
+    await new Promise((resolve) => setTimeout(resolve, delayMs))
+    handlers.onDelta(text.slice(index, index + 18))
+  }
+}
+
+/** Kết quả tool đã có trong transcript, theo tên tool. */
+function toolResults(messages: ModelMessage[]): Map<string, string> {
+  const names = new Map<string, string>()
+  for (const message of messages) {
+    for (const item of message.tool_calls ?? []) names.set(item.id, item.function.name)
+  }
+  const results = new Map<string, string>()
+  for (const message of messages) {
+    if (message.role !== 'tool' || !message.tool_call_id) continue
+    const name = names.get(message.tool_call_id)
+    if (name) results.set(name, message.content ?? '')
+  }
+  return results
+}
+
+function ichingReading(): string {
+  return (
+    '### Thế quẻ\n\nQuẻ mẫu cho thấy thời điểm cần kiên nhẫn tích lực trước khi hành động.\n\n' +
+    '### Điểm chuyển\n\nHào động nhắc rằng thay đổi đến từ một quyết định nhỏ nhưng rõ ràng.\n\n' +
+    '### Nên làm\n\n**Giữ nhịp đều, chuẩn bị kỹ rồi mới bước.**'
+  )
 }
 
 function lastUserText(messages: ModelMessage[]): string {
@@ -80,9 +153,9 @@ function parseDrawResult(content: string) {
   return cards
 }
 
-function demoReading(messages: ModelMessage[]): string {
-  const toolResult = [...messages].reverse().find((message) => message.role === 'tool')
-  const cards = parseDrawResult(toolResult?.content ?? '')
+function demoReading(messages: ModelMessage[], repeat = 1): string {
+  const results = toolResults(messages)
+  const cards = parseDrawResult(results.get('draw_cards') ?? results.get('draw_playing_cards') ?? '')
   const head =
     '### Bức tranh chung\n\n' +
     'Trải bài cho thấy vấn đề đang đi từ chỗ chưa rõ sang một lựa chọn cụ thể. ' +
@@ -95,7 +168,9 @@ function demoReading(messages: ModelMessage[]): string {
           card.orientation
             ? ` ở chiều ${card.orientation === 'reversed' ? 'ngược' : 'xuôi'}`
             : ''
-        }. ${card.meaning}\n\n`,
+        }. ${card.meaning}\n\n${'Lá này còn gợi ý nhìn lại nhịp sống thường ngày. '.repeat(repeat - 1)}${
+          repeat > 1 ? '\n\n' : ''
+        }`,
     )
     .join('')
   const tail =

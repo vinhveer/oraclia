@@ -94,6 +94,11 @@ export interface ModelToolCall {
   id: string
   type: 'function'
   function: { name: string; arguments: string }
+  /**
+   * Dữ liệu riêng của provider gắn trên tool call (vd. thought signature của
+   * Gemini). Phải gửi trả nguyên vẹn ở lượt sau, nếu không provider từ chối.
+   */
+  extra_content?: unknown
 }
 
 export interface ToolDefinition {

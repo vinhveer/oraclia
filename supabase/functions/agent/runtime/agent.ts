@@ -74,11 +74,20 @@ export class Agent {
           return
         }
 
+        const stepStarted = Date.now()
         const result = await adapter.step(state, tools, {
           onDelta: (delta) => stream.emit({ type: 'message.delta', content: delta }),
           onReasoning: (delta) => stream.emit({ type: 'thinking.delta', content: delta }),
         })
         steps += 1
+        void runs.recordCall({
+          runId: run.runId,
+          userId: run.userId,
+          step: steps,
+          model: adapter.name,
+          latencyMs: Date.now() - stepStarted,
+          result,
+        })
 
         const assistantTurn: ModelMessage = {
           role: 'assistant',
@@ -89,11 +98,19 @@ export class Agent {
 
         if (!result.toolCalls.length) {
           if (run.persistMessage !== false) {
+            // Chạm trần max_tokens: lưu phần đã có nhưng nói rõ là bị cắt, để người
+            // đọc không tưởng bài đọc kết thúc lửng là cố ý.
+            let content = result.content
+            if (result.finishReason === 'length') {
+              const notice = '\n\n*(Bài đọc bị cắt vì vượt giới hạn độ dài.)*'
+              content += notice
+              stream.emit({ type: 'message.delta', content: notice })
+            }
             const messageId = await conversations.addMessage(
               run.conversationId,
               run.userId,
               'assistant',
-              result.content,
+              content,
               run.cards,
               casting,
             )

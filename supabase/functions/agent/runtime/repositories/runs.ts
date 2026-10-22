@@ -1,4 +1,5 @@
 import type { ModelMessage } from '../../../_shared/types.ts'
+import type { ModelStep } from '../model/adapter.ts'
 import { Repository } from './base.ts'
 
 export type RunStatus = 'running' | 'awaiting_input' | 'completed' | 'failed'
@@ -96,5 +97,37 @@ export class RunRepository extends Repository {
       .not('prompt_version', 'like', 'reflect:%')
     if (error) throw new Error(`Không kiểm tra được hạn mức: ${error.message}`)
     return count ?? 0
+  }
+
+  /** Ghi một lượt gọi model. Hỏng thì bỏ qua: số liệu không được làm vỡ câu trả lời. */
+  async recordCall(input: {
+    runId: string
+    userId: string
+    step: number
+    model: string
+    latencyMs: number
+    result: ModelStep
+  }): Promise<void> {
+    const { result } = input
+    await this.db
+      .from('model_calls')
+      .insert({
+        run_id: input.runId,
+        user_id: input.userId,
+        step: input.step,
+        model: input.model,
+        input_tokens: result.usage?.inputTokens ?? 0,
+        output_tokens: result.usage?.outputTokens ?? 0,
+        cached_tokens: result.usage?.cachedTokens ?? 0,
+        reasoning_tokens: result.usage?.reasoningTokens ?? 0,
+        ttft_ms: result.ttftMs ?? null,
+        latency_ms: input.latencyMs,
+        finish_reason: result.finishReason ?? null,
+        tool_names: result.toolCalls.map((call) => call.function.name),
+      })
+      .then(
+        () => undefined,
+        () => undefined,
+      )
   }
 }

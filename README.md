@@ -21,6 +21,10 @@ Secrets (xem `supabase/.env.local.example`):
 LLM_API_KEY=            # để trống = demo mode
 LLM_BASE_URL=https://api.openai.com/v1
 LLM_MODEL=gpt-4.1-mini
+LLM_MODEL_FAST=          # tiêu đề + phản tư; trống = LLM_MODEL
+LLM_TEMPERATURE=         # trống = 0.75, "none" = không gửi
+LLM_MAX_TOKENS=
+LLM_REASONING_EFFORT=    # low | medium | high
 AGENT_RUNS_PER_HOUR=60
 ALLOWED_ORIGINS=https://nguyenquangvinh.id.vn,http://localhost:5173
 ```
