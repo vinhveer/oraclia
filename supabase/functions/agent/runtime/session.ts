@@ -1,5 +1,5 @@
 import type { Db } from '../../_shared/db.ts'
-import type { ModelMessage } from '../../_shared/types.ts'
+import type { AgentEvent, ModelMessage } from '../../_shared/types.ts'
 import { AgentError } from './errors.ts'
 import { Agent, type AgentRun } from './agent.ts'
 import { IChingCaster } from './iching/caster.ts'
@@ -72,7 +72,10 @@ export class AgentSession {
 
   async enforceRateLimit(): Promise<void> {
     const since = new Date(Date.now() - 60 * 60 * 1000).toISOString()
-    if ((await this.runs.countSince(this.userId, since)) >= RUNS_PER_HOUR) {
+    const used = await this.runs.countSince(this.userId, since).catch(() => {
+      throw new AgentError(503, 'Hệ thống đang bận, thử lại sau ít phút.')
+    })
+    if (used >= RUNS_PER_HOUR) {
       throw new AgentError(
         429,
         'Bạn đã hỏi khá nhiều trong một giờ qua. Hãy nghỉ một chút rồi quay lại.',
@@ -101,6 +104,8 @@ export class AgentSession {
     ])
 
     await this.conversations.addMessage(conversationId, this.userId, 'user', question)
+    // Dọn run của chính người này đã chết giữa chừng; không chặn câu hỏi mới.
+    this.runs.sweepStale().catch(() => undefined)
 
     // Tiêu đề tạm cắt từ chính câu hỏi, hiện ngay lập tức; model thay bằng bản
     // gọn hơn khi nó viết xong.
@@ -223,6 +228,7 @@ export class AgentSession {
         stream,
         revealed,
         cards,
+        stepsTaken: run.step_count,
       }),
     }
   }
@@ -311,7 +317,7 @@ export class AgentSession {
             memories: this.memories,
             clarifications: this.clarifications,
             conversations: this.conversations,
-            emit: (event) => stream.emit(event),
+            emit: (event: AgentEvent) => stream.emit(event),
           },
         },
       },
@@ -380,6 +386,7 @@ export class AgentSession {
       question: run.question,
       stream,
       revealed: revealed ?? undefined,
+      stepsTaken: run.step_count,
     })
     built.run.casting = casting
 
@@ -419,6 +426,7 @@ export class AgentSession {
     revealed?: Awaited<ReturnType<Deck['reveal']>>
     /** Đã nạp sẵn ở lượt lật bài; các lượt khác để tool tự nạp khi cần. */
     cards?: Awaited<ReturnType<CatalogRepository['cards']>>
+    stepsTaken?: number
   }): { agent: Agent; run: AgentRun } {
     const registry = new ToolRegistry(
       [
@@ -444,6 +452,7 @@ export class AgentSession {
       conversationId: input.conversationId,
       userId: this.userId,
       cards: input.revealed ?? null,
+      stepsTaken: input.stepsTaken ?? 0,
       toolContext: {
         callId: '',
         userId: this.userId,

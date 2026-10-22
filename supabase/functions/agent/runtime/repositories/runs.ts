@@ -9,7 +9,14 @@ export interface RunRow {
   question: string
   state: ModelMessage[]
   status: RunStatus
+  step_count: number
 }
+
+/**
+ * Run còn `running` mà lâu không được ghi là worker đã chết giữa chừng: mỗi bước
+ * đều checkpoint, nên một run sống không bao giờ im lâu đến thế.
+ */
+const STALE_AFTER_MS = 5 * 60 * 1000
 
 export class RunRepository extends Repository {
   async create(input: {
@@ -40,7 +47,7 @@ export class RunRepository extends Repository {
   async get(runId: string): Promise<RunRow | null> {
     const { data } = await this.db
       .from('agent_runs')
-      .select('id, conversation_id, question, state, status')
+      .select('id, conversation_id, question, state, status, step_count')
       .eq('id', runId)
       .maybeSingle()
     return (data as RunRow) ?? null
@@ -60,17 +67,34 @@ export class RunRepository extends Repository {
   }
 
   async setStatus(runId: string, status: RunStatus): Promise<void> {
-    await this.db.from('agent_runs').update({ status }).eq('id', runId)
+    await this.db
+      .from('agent_runs')
+      .update({ status, updated_at: new Date().toISOString() })
+      .eq('id', runId)
   }
 
-  /** Đếm số run trong một giờ để chặn lạm dụng; RLS làm cho nó tự per-user. */
+  /** Đánh dấu hỏng những run mà worker đã chết giữa chừng, để chúng không treo mãi. */
+  async sweepStale(): Promise<void> {
+    await this.db
+      .from('agent_runs')
+      .update({ status: 'failed', error: 'Run bị gián đoạn.', updated_at: new Date().toISOString() })
+      .eq('status', 'running')
+      .lt('updated_at', new Date(Date.now() - STALE_AFTER_MS).toISOString())
+  }
+
+  /**
+   * Đếm số câu hỏi trong một giờ để chặn lạm dụng; RLS làm cho nó tự per-user.
+   * Lượt phản tư là việc của hệ thống, không tính vào hạn mức của người hỏi.
+   * Không đếm được thì ném lỗi: trả 0 là mở toang giới hạn đúng lúc DB trục trặc.
+   */
   async countSince(userId: string, since: string): Promise<number> {
     const { count, error } = await this.db
       .from('agent_runs')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId)
       .gte('created_at', since)
-    if (error) return 0
+      .not('prompt_version', 'like', 'reflect:%')
+    if (error) throw new Error(`Không kiểm tra được hạn mức: ${error.message}`)
     return count ?? 0
   }
 }

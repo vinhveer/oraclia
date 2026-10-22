@@ -2,6 +2,13 @@ import type { ModelMessage, ModelToolCall, ToolDefinition } from '../../../_shar
 import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
 
 /**
+ * Provider im lặng quá lâu — không byte nào, kể cả reasoning — thì coi như treo.
+ * Đo theo khoảng lặng chứ không theo tổng thời gian, vì một bài đọc dài có reasoning
+ * có thể chảy vài phút mà vẫn khoẻ.
+ */
+const IDLE_TIMEOUT_MS = 90_000
+
+/**
  * Bất kỳ provider nào tương thích OpenAI Chat Completions — OpenAI, OpenRouter,
  * endpoint compat của Gemini, gateway nội bộ. Chỉ ba biến môi trường phân biệt.
  */
@@ -75,7 +82,8 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
     })
     // Có gateway nối thêm `data: [DONE]` vào cả lượt không streaming, làm
     // .json() ném lỗi; đọc text rồi cắt đúng object.
-    const payload = parseLoose(await response.text())
+    const raw = await response.text().finally(() => this.watchdogs.get(response)?.stop())
+    const payload = parseLoose(raw)
     return payload?.choices?.[0]?.message?.content ?? ''
   }
 
@@ -83,12 +91,25 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
   private static readonly RETRYABLE = new Set([408, 409, 425, 429, 500, 502, 503, 504])
 
   private async post(body: unknown, attempt = 0): Promise<Response> {
-    const response = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', authorization: `Bearer ${this.apiKey}` },
-      body: JSON.stringify(body),
-    })
-    if (response.ok) return response
+    const watchdog = new IdleWatchdog(IDLE_TIMEOUT_MS)
+    let response: Response
+    try {
+      response = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: `Bearer ${this.apiKey}` },
+        body: JSON.stringify(body),
+        signal: watchdog.signal,
+      })
+    } catch (exception) {
+      watchdog.stop()
+      if (watchdog.fired) throw new Error('Provider không phản hồi. Thử lại sau ít phút.')
+      throw exception
+    }
+    if (response.ok) {
+      this.watchdogs.set(response, watchdog)
+      return response
+    }
+    watchdog.stop()
 
     const detail = await response.text().catch(() => '')
     if (attempt === 0 && OpenAICompatibleAdapter.RETRYABLE.has(response.status)) {
@@ -98,14 +119,30 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
     throw new Error(explain(response.status, detail))
   }
 
+  /** Bộ canh của từng response đang đọc, để mỗi khung đến là đặt lại đồng hồ. */
+  private readonly watchdogs = new WeakMap<Response, IdleWatchdog>()
+
   private async *readSse(response: Response): AsyncGenerator<any> {
     const reader = response.body?.getReader()
     if (!reader) return
+    const watchdog = this.watchdogs.get(response)
     const decoder = new TextDecoder()
     let buffer = ''
     while (true) {
-      const { value, done } = await reader.read()
-      if (done) break
+      let chunk: ReadableStreamReadResult<Uint8Array>
+      try {
+        chunk = await reader.read()
+      } catch (exception) {
+        watchdog?.stop()
+        if (watchdog?.fired) throw new Error('Provider ngừng trả lời giữa chừng. Thử lại sau.')
+        throw exception
+      }
+      const { value, done } = chunk
+      if (done) {
+        watchdog?.stop()
+        break
+      }
+      watchdog?.reset()
       buffer += decoder.decode(value, { stream: true })
       const lines = buffer.split('\n')
       buffer = lines.pop() ?? ''
@@ -163,5 +200,32 @@ function parseLoose(raw: string): any {
     } catch {
       return null
     }
+  }
+}
+
+/** Huỷ request khi không có byte nào đến trong một khoảng; mỗi khung mới đặt lại đồng hồ. */
+class IdleWatchdog {
+  private readonly controller = new AbortController()
+  private timer: ReturnType<typeof setTimeout> | undefined
+  fired = false
+
+  constructor(private readonly ms: number) {
+    this.reset()
+  }
+
+  get signal(): AbortSignal {
+    return this.controller.signal
+  }
+
+  reset(): void {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      this.fired = true
+      this.controller.abort()
+    }, this.ms)
+  }
+
+  stop(): void {
+    clearTimeout(this.timer)
   }
 }

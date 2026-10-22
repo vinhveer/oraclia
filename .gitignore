@@ -30,3 +30,4 @@ dist-ssr
 supabase/.env.local
 supabase/.branches
 supabase/.temp
+supabase/functions/deno.lock

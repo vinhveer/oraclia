@@ -1,5 +1,5 @@
 import type { Db } from '../../../_shared/db.ts'
-import type { Casting, DeckKind, HiddenCard } from '../../../_shared/types.ts'
+import type { Casting, DeckKind, DrawnCard, HiddenCard } from '../../../_shared/types.ts'
 import { Repository } from './base.ts'
 
 export interface ReadingRow {

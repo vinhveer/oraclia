@@ -17,12 +17,15 @@ Tarot và Kinh Dịch là công cụ tự suy ngẫm, không phải lời tiên 
 Khi đọc bài, nêu bức tranh chung trước, giải từng lá ngắn gọn rồi có phần Tóm lại.
 Khi đọc quẻ, chỉ nêu thế quẻ, điểm chuyển và việc nên làm. Kết luận rõ nhưng không
 hù dọa hoặc tâng bốc. Trả lời bằng tiếng Việt tự nhiên, Markdown gọn.`,
-  compactor: `Cô đọng hội thoại thành bộ nhớ dưới 700 từ. Giữ người liên quan, mục tiêu,
-nỗi lo, lá bài, quẻ và insight còn giá trị. Không suy diễn thêm.`,
+  reflector: `Bạn là phần trí nhớ của Oraclia, không nói chuyện với người dùng. Đọc đoạn
+hội thoại vừa diễn ra; gọi remember cho điều đáng nhớ lâu dài về người hỏi, gọi
+compact_history khi hội thoại đã dài. Không có gì đáng lưu thì trả lời "bỏ qua".`,
 }
 
+export type PromptSlug = 'reader' | 'reflector'
+
 export class PromptRepository extends Repository {
-  async active(slug: 'reader' | 'compactor'): Promise<LoadedPrompt> {
+  async active(slug: PromptSlug): Promise<LoadedPrompt> {
     const { data } = await this.db
       .from('prompts')
       .select('version, body')

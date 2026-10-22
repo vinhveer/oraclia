@@ -6,7 +6,13 @@ import type { ToolRegistry } from './tools/registry.ts'
 import type { ToolContext } from './tools/tool.ts'
 import type { StreamController } from './stream.ts'
 
+/** Số lượt model tối đa trong một request. */
 const MAX_STEPS = 6
+/**
+ * Trần cho cả run, cộng dồn qua mọi lần nối tiếp (lật bài, trả lời làm rõ).
+ * Thiếu nó thì mỗi request lại được 6 bước mới và một run có thể chạy mãi.
+ */
+const MAX_RUN_STEPS = 14
 
 export interface AgentDeps {
   adapter: ModelAdapter
@@ -29,6 +35,8 @@ export interface AgentRun {
    * không phải câu trả lời nên không được lưu vào hội thoại.
    */
   persistMessage?: boolean
+  /** Số bước run đã đi ở các request trước, đọc từ `agent_runs.step_count`. */
+  stepsTaken?: number
   toolContext: Omit<ToolContext, 'onCasting'>
 }
 
@@ -56,65 +64,82 @@ export class Agent {
       },
     }
 
-    for (let step = 0; step < MAX_STEPS; step += 1) {
-      if (stream.aborted) {
-        await runs.save(run.runId, state, step, 'failed', 'Kết nối bị ngắt.')
-        return
-      }
+    let steps = run.stepsTaken ?? 0
+    const budget = Math.min(steps + MAX_STEPS, MAX_RUN_STEPS)
 
-      const result = await adapter.step(state, tools, {
-        onDelta: (delta) => stream.emit({ type: 'message.delta', content: delta }),
-        onReasoning: (delta) => stream.emit({ type: 'thinking.delta', content: delta }),
-      })
-
-      const assistantTurn: ModelMessage = {
-        role: 'assistant',
-        content: result.content || null,
-        ...(result.toolCalls.length ? { tool_calls: result.toolCalls } : {}),
-      }
-      state.push(assistantTurn)
-
-      if (!result.toolCalls.length) {
-        if (run.persistMessage !== false) {
-          const messageId = await conversations.addMessage(
-            run.conversationId,
-            run.userId,
-            'assistant',
-            result.content,
-            run.cards,
-            casting,
-          )
-          stream.emit({ type: 'message.completed', message_id: messageId })
+    try {
+      while (steps < budget) {
+        if (stream.aborted) {
+          await runs.save(run.runId, state, steps, 'failed', 'Kết nối bị ngắt.')
+          return
         }
-        await runs.save(run.runId, state, step + 1, 'completed', null)
-        stream.emit({ type: 'run.completed', run_id: run.runId, status: 'completed' })
-        return
-      }
 
-      let interrupted = false
-      const answered: typeof result.toolCalls = []
-      for (const call of result.toolCalls) {
-        answered.push(call)
-        const outcome = await registry.execute(call, toolContext)
-        if (outcome.kind === 'interrupt') {
-          interrupted = true
-          break
+        const result = await adapter.step(state, tools, {
+          onDelta: (delta) => stream.emit({ type: 'message.delta', content: delta }),
+          onReasoning: (delta) => stream.emit({ type: 'thinking.delta', content: delta }),
+        })
+        steps += 1
+
+        const assistantTurn: ModelMessage = {
+          role: 'assistant',
+          content: result.content || null,
+          ...(result.toolCalls.length ? { tool_calls: result.toolCalls } : {}),
         }
-        state.push({ role: 'tool', tool_call_id: call.id, content: outcome.content })
-      }
+        state.push(assistantTurn)
 
-      if (interrupted) {
-        // Mọi tool call còn nằm trong transcript đều phải có kết quả tương ứng,
-        // nếu không provider sẽ từ chối request nối tiếp. Những call xếp sau
-        // chỗ ngắt thì chưa chạy, nên bỏ đi.
-        assistantTurn.tool_calls = answered
-        await runs.save(run.runId, state, step + 1, 'awaiting_input', null)
-        stream.emit({ type: 'run.completed', run_id: run.runId, status: 'awaiting_input' })
-        return
+        if (!result.toolCalls.length) {
+          if (run.persistMessage !== false) {
+            const messageId = await conversations.addMessage(
+              run.conversationId,
+              run.userId,
+              'assistant',
+              result.content,
+              run.cards,
+              casting,
+            )
+            stream.emit({ type: 'message.completed', message_id: messageId })
+          }
+          await runs.save(run.runId, state, steps, 'completed', null)
+          stream.emit({ type: 'run.completed', run_id: run.runId, status: 'completed' })
+          return
+        }
+
+        let interrupted = false
+        const answered: typeof result.toolCalls = []
+        for (const call of result.toolCalls) {
+          answered.push(call)
+          const outcome = await registry.execute(call, toolContext)
+          if (outcome.kind === 'interrupt') {
+            interrupted = true
+            break
+          }
+          state.push({ role: 'tool', tool_call_id: call.id, content: outcome.content })
+        }
+
+        if (interrupted) {
+          // Mọi tool call còn nằm trong transcript đều phải có kết quả tương ứng,
+          // nếu không provider sẽ từ chối request nối tiếp. Những call xếp sau
+          // chỗ ngắt thì chưa chạy, nên bỏ đi.
+          assistantTurn.tool_calls = answered
+          await runs.save(run.runId, state, steps, 'awaiting_input', null)
+          stream.emit({ type: 'run.completed', run_id: run.runId, status: 'awaiting_input' })
+          return
+        }
+
+        // Checkpoint sau mỗi vòng tool: worker chết ở bước sau thì transcript
+        // tới đây vẫn còn, và updated_at mới cho biết run vẫn đang sống.
+        await runs.save(run.runId, state, steps, 'running', null)
       }
+    } catch (exception) {
+      // Lỗi giữa chừng phải khép run lại; để nguyên `running` thì nó treo tới
+      // khi bị quét, còn người hỏi không biết vì sao.
+      const message = exception instanceof Error ? exception.message : 'Không thể đọc bài lúc này.'
+      await runs.save(run.runId, state, steps, 'failed', message).catch(() => undefined)
+      stream.emit({ type: 'run.error', message })
+      return
     }
 
-    await runs.save(run.runId, state, MAX_STEPS, 'failed', 'Vòng lặp vượt quá số bước cho phép.')
+    await runs.save(run.runId, state, steps, 'failed', 'Vòng lặp vượt quá số bước cho phép.')
     stream.emit({ type: 'run.error', message: 'Không thể hoàn tất lượt đọc này.' })
   }
 }

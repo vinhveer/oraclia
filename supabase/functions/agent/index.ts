@@ -86,12 +86,19 @@ Deno.serve(async (request) => {
   }
 })
 
-/** Vòng lặp sống lâu hơn handler; stream mở là thứ giữ worker chạy tiếp. */
+/**
+ * Vòng lặp sống lâu hơn handler. Stream mở giữ worker chạy, nhưng người hỏi
+ * khoá màn hình hay mất sóng là stream đóng; `waitUntil` giữ worker tới khi bước
+ * đang dở viết xong và lưu lại, để mở app ra vẫn thấy câu trả lời.
+ */
 function detach(stream: StreamController, work: () => Promise<void>): void {
-  work()
+  const task = work()
     .catch((exception) => {
       const message = exception instanceof Error ? exception.message : 'Không thể đọc bài lúc này.'
       stream.emit({ type: 'run.error', message })
     })
     .finally(() => stream.close())
+  const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } })
+    .EdgeRuntime
+  runtime?.waitUntil?.(task)
 }

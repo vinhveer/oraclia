@@ -165,9 +165,4 @@ móc như "Đầu tiên, bạn rút được...". Độ dài toàn bài khoảng
       },
     ]
   }
-
-  static compactionInput(current: string, turns: ChatTurn[]): string {
-    const transcript = turns.map((turn) => `${turn.role}: ${turn.content}`).join('\n')
-    return `Bộ nhớ cũ:\n${current || '(chưa có)'}\n\nLượt cần gộp:\n${transcript}`
-  }
 }

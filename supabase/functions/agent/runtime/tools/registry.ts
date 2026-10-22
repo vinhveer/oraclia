@@ -23,6 +23,13 @@ export class ToolRegistry {
   async execute(call: ModelToolCall, context: ToolContext): Promise<ToolOutcome> {
     const started = Date.now()
     const args = parseArguments(call.function.arguments)
+    if (!args) {
+      // Đoán thành `{}` thì tool chạy với tham số rỗng và model không biết mình
+      // sai ở đâu; trả lỗi rõ để nó gọi lại cho đúng.
+      const message = `Tham số của ${call.function.name} không phải JSON hợp lệ. Gọi lại với một object JSON đúng schema.`
+      context.emit({ type: 'tool.failed', call_id: call.id, name: call.function.name, message })
+      return { kind: 'result', content: JSON.stringify({ error: message }), summary: message }
+    }
     context.emit({
       type: 'tool.started',
       call_id: call.id,
@@ -69,18 +76,21 @@ export class ToolRegistry {
   }
 }
 
-function parseArguments(raw: string): Record<string, unknown> {
+function parseArguments(raw: string): Record<string, unknown> | null {
+  const asObject = (value: unknown) =>
+    value && typeof value === 'object' && !Array.isArray(value)
+      ? (value as Record<string, unknown>)
+      : null
   try {
-    const parsed = JSON.parse(raw || '{}')
-    return parsed && typeof parsed === 'object' ? parsed : {}
+    return asObject(JSON.parse(raw || '{}'))
   } catch {
     // Có provider bọc tham số trong văn xuôi hoặc dấu ```; vớt lấy object.
     const match = raw.match(/\{[\s\S]*\}/)
-    if (!match) return {}
+    if (!match) return null
     try {
-      return JSON.parse(match[0])
+      return asObject(JSON.parse(match[0]))
     } catch {
-      return {}
+      return null
     }
   }
 }
