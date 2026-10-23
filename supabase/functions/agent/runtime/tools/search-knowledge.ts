@@ -33,7 +33,9 @@ export class SearchKnowledgeTool extends Tool {
           kinds: {
             type: 'array',
             items: { type: 'string', enum: KINDS },
-            description: 'Giới hạn loại mục, bỏ trống để tìm tất cả.',
+            description:
+              'Giới hạn loại mục theo bộ đang đọc: tarot → card, suit; bài tây → playing; ' +
+              'Kinh Dịch → hexagram, hexagram_line. Bỏ trống thì tìm cả ba bộ lẫn nhau.',
           },
         },
         required: ['query_vi', 'query_en'],

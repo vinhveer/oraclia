@@ -13,6 +13,7 @@ const cases = JSON.parse(await readFile(new URL('./retrieval-cases.json', import
 
 let top1 = 0
 let top3 = 0
+let family3 = 0
 for (const item of cases) {
   let embedding = null
   if (item.en) {
@@ -22,15 +23,29 @@ for (const item of cases) {
   const rows = await post('/rest/v1/rpc/match_knowledge', {
     query_text: item.vi,
     query_embedding: embedding,
+    // Như model gọi search_knowledge: lọc theo bộ đang đọc khi ca có ghi.
+    kinds: item.kinds ?? null,
     include_drafts: drafts,
     match_count: 3,
   })
   const ids = rows.map((row) => row.id)
   if (ids[0] === item.expect) top1 += 1
   if (ids.includes(item.expect)) top3 += 1
+  if (ids.some((id) => family(id) === family(item.expect))) family3 += 1
   console.log(`${ids[0] === item.expect ? '✓' : '✗'} ${item.vi.padEnd(46)} → ${ids.join(', ')}`)
 }
-console.log(`\nTop-1: ${top1}/${cases.length} · Top-3: ${top3}/${cases.length}`)
+console.log(
+  `\nTop-1: ${top1}/${cases.length} · Top-3: ${top3}/${cases.length} · ` +
+    `Top-3 cùng lá/quẻ: ${family3}/${cases.length}`,
+)
+
+/** Cùng lá khác chiều, hay hào của đúng quẻ ấy, vẫn là tri thức dùng được. */
+function family(id) {
+  const [kind, a] = id.split(':')
+  if (kind === 'card') return `card:${a}`
+  if (kind === 'line') return `hexagram:${a}`
+  return id
+}
 
 async function post(path, body) {
   const response = await fetch(`${url}${path}`, { method: 'POST', headers, body: JSON.stringify(body) })
