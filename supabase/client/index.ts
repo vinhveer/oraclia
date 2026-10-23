@@ -25,6 +25,8 @@ export {
   listMemories,
   updateMemory,
   deleteMemory,
+  forgetEverything,
+  type Forgotten,
   rateMessage,
   listRatings,
   type Memory,

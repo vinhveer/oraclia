@@ -543,6 +543,7 @@ export type Database = {
         Row: {
           cached_tokens: number
           created_at: string
+          fallback_reason: string | null
           finish_reason: string | null
           id: string
           input_tokens: number
@@ -559,6 +560,7 @@ export type Database = {
         Insert: {
           cached_tokens?: number
           created_at?: string
+          fallback_reason?: string | null
           finish_reason?: string | null
           id?: string
           input_tokens?: number
@@ -575,6 +577,7 @@ export type Database = {
         Update: {
           cached_tokens?: number
           created_at?: string
+          fallback_reason?: string | null
           finish_reason?: string | null
           id?: string
           input_tokens?: number
@@ -954,6 +957,7 @@ export type Database = {
     Functions: {
       delete_messages_from: { Args: { message_id: string }; Returns: number }
       f_unaccent: { Args: { value: string }; Returns: string }
+      forget_everything: { Args: never; Returns: Json }
       is_admin: { Args: never; Returns: boolean }
       kb_document: {
         Args: { body: string; keywords: string[]; title: string }
@@ -1008,6 +1012,7 @@ export type Database = {
           importance: number
           kind: string
           reason: string
+          updated_at: string
         }[]
       }
       show_limit: { Args: never; Returns: number }

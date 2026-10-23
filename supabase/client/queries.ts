@@ -124,6 +124,22 @@ export async function deleteMemory(id: string): Promise<void> {
   if (error) throw new Error(error.message)
 }
 
+export interface Forgotten {
+  memories: number
+  readings: number
+  summaries: number
+}
+
+/**
+ * Quên mọi thứ Oraclia tự nhớ: điều đã ghi nhớ, trí nhớ về các lượt xem cũ, bản
+ * tóm tắt của mọi cuộc trò chuyện. Giữ phần "Về bạn" và các cuộc trò chuyện.
+ */
+export async function forgetEverything(): Promise<Forgotten> {
+  const { data, error } = await supabase.rpc('forget_everything')
+  if (error) throw new Error(error.message)
+  return data as unknown as Forgotten
+}
+
 export type Rating = 1 | -1
 
 /** Một đánh giá cho mỗi câu trả lời; bấm lại thì ghi đè. */

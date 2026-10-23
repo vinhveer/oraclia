@@ -38,13 +38,31 @@ const accentColors: Record<string, MantineColorsTuple> = {
   rose: ['#fff4f4', '#ffe9e8', '#ffdad9', '#ffc7c5', '#ffb3b2', '#e69696', '#c16b6d', '#9c4146', '#7e2a30', '#5e151c'],
 }
 
+/**
+ * Đỏ cho hành động nguy hiểm, lấy từ màu error của bộ M3 cũ. Đỏ mặc định của
+ * Mantine (#f03e3e ở sắc độ 7) chỉ đạt ~3.9:1 với chữ trắng và ~3.3:1 khi làm chữ
+ * trên nền sáng — nút "Xoá toàn bộ ký ức" trượt kiểm tra tương phản.
+ */
+const red: MantineColorsTuple = [
+  '#fff8f7',
+  '#ffedea',
+  '#ffdad6',
+  '#ffc5bf',
+  '#f2b8b5',
+  '#e07a72',
+  '#cc4a40',
+  '#b3261e',
+  '#8c1d18',
+  '#601410',
+]
+
 export function buildTheme(palette: Palette): MantineThemeOverride {
   return createTheme({
     primaryColor: palette.id,
     // Sáng: sắc độ đậm cho nút đặc. Tối: sắc độ nhạt hơn để không chói trên nền đen.
     primaryShade: { light: 7, dark: 4 },
     autoContrast: true,
-    colors: { ...accentColors, dark },
+    colors: { ...accentColors, dark, red },
     fontFamily: '"Be Vietnam Pro", system-ui, sans-serif',
     fontFamilyMonospace: 'ui-monospace, "SF Mono", Menlo, monospace',
     headings: {

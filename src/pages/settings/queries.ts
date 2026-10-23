@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { notifications } from '@mantine/notifications'
 import {
   deleteMemory,
+  forgetEverything,
   getUserSettings,
   listMemories,
   listRememberedSummaries,
@@ -52,6 +53,21 @@ export function useDeleteMemory() {
   return useMutation({
     mutationFn: deleteMemory,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: settingsKeys.memories }),
+    onError: fail,
+  })
+}
+
+export function useForgetEverything() {
+  return useMutation({
+    mutationFn: forgetEverything,
+    onSuccess: (result) => {
+      queryClient.invalidateQueries({ queryKey: settingsKeys.memories })
+      queryClient.invalidateQueries({ queryKey: settingsKeys.summaries })
+      const total = result.memories + result.readings + result.summaries
+      notifications.show({
+        message: total ? 'Oraclia đã quên hết những gì từng ghi nhớ về bạn.' : 'Không có gì để quên.',
+      })
+    },
     onError: fail,
   })
 }

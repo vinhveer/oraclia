@@ -101,6 +101,11 @@ test.describe('bảo mật API', () => {
       data: { query_text: 'ba kiếm' },
     })
     expect(rpc.status()).toBeGreaterThanOrEqual(400)
+    const forget = await request.post(`${url}/rest/v1/rpc/forget_everything`, {
+      headers: { ...anon, 'content-type': 'application/json' },
+      data: {},
+    })
+    expect(forget.status(), 'forget_everything').toBeGreaterThanOrEqual(400)
     const agent = await request.post(`${url}/functions/v1/agent`, {
       headers: { ...anon, 'content-type': 'application/json' },
       data: { action: 'message', question: 'xin chào bạn' },

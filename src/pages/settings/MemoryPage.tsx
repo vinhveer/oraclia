@@ -11,12 +11,13 @@ import {
   Title,
 } from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { IconPencil, IconTrash } from '@tabler/icons-react'
+import { IconPencil, IconTrash, IconTrashX } from '@tabler/icons-react'
 import type { Memory, MemoryKind } from '@db'
 import { RowsSkeleton } from '@/app/Skeletons'
 import { SettingsLayout } from './SettingsLayout'
 import {
   useDeleteMemory,
+  useForgetEverything,
   useMemories,
   useSaveSettings,
   useSummaries,
@@ -74,6 +75,7 @@ export default function MemoryPage() {
       )}
       <Memories />
       <Summaries />
+      <ForgetEverything />
     </SettingsLayout>
   )
 }
@@ -213,6 +215,47 @@ function Summaries() {
           </div>
         ))}
       </Stack>
+    </section>
+  )
+}
+
+/**
+ * Nút xoá sạch đặt cuối trang, tách khỏi các nút xoá từng điều: việc này không
+ * hoàn tác được nên phải xác nhận, và nói rõ cái gì mất, cái gì còn.
+ */
+function ForgetEverything() {
+  const forget = useForgetEverything()
+  return (
+    <section className={classes.danger}>
+      <Title order={2}>Xoá toàn bộ ký ức</Title>
+      <Text size="sm" c="dimmed" mt={4}>
+        Oraclia quên hết những gì đã tự ghi nhớ về bạn, cả các lượt xem cũ lẫn bộ nhớ của từng cuộc
+        trò chuyện. Phần “Về bạn” và các cuộc trò chuyện vẫn giữ nguyên.
+      </Text>
+      <Button
+        mt="sm"
+        color="red"
+        variant="outline"
+        leftSection={<IconTrashX size={18} />}
+        loading={forget.isPending}
+        onClick={() =>
+          modals.openConfirmModal({
+            title: 'Xoá toàn bộ ký ức?',
+            children: (
+              <Text size="sm">
+                Oraclia sẽ quên mọi điều đã tự ghi nhớ, mọi lượt xem cũ dùng để nhắc lại, và bộ nhớ cô
+                đọng của từng cuộc trò chuyện. Không hoàn tác được. Phần “Về bạn” và các cuộc trò
+                chuyện vẫn còn.
+              </Text>
+            ),
+            labels: { confirm: 'Xoá hết', cancel: 'Giữ lại' },
+            confirmProps: { color: 'red' },
+            onConfirm: () => forget.mutate(),
+          })
+        }
+      >
+        Xoá toàn bộ ký ức
+      </Button>
     </section>
   )
 }

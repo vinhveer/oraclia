@@ -1,5 +1,5 @@
 import { expect, test } from './fixtures'
-import { e2eUser } from './env'
+import { e2eUser, localSupabase } from './env'
 import { ask, openNav, waitForReading } from './helpers'
 
 test('passkey: tạo, đăng xuất, đăng nhập lại không cần mật khẩu, rồi xoá', async ({ browser }) => {
@@ -71,4 +71,59 @@ test('mở cuộc cũ: thấy khung xương trước, rồi nội dung thay vào
   await expect(page.getByRole('status', { name: 'Đang tải cuộc trò chuyện' })).toHaveCount(0)
   // Không lúc nào hiện màn chào của cuộc mới trong khi đang tải cuộc cũ.
   await expect(page.getByRole('heading', { name: 'Bạn đang nghĩ gì?' })).toHaveCount(0)
+})
+
+test('xoá toàn bộ ký ức: mất điều đã nhớ và lượt xem cũ, giữ phần "Về bạn"', async ({ page, request }) => {
+  test.skip(test.info().project.name !== 'desktop', 'một lần là đủ')
+  const { url, serviceKey } = localSupabase()
+  const admin = { apikey: serviceKey, authorization: `Bearer ${serviceKey}`, 'content-type': 'application/json' }
+  const users = await (await request.get(`${url}/auth/v1/admin/users?per_page=500`, { headers: admin })).json()
+  const userId = users.users.find((item: { email: string }) => item.email === e2eUser('desktop').email).id
+
+  // Một cuộc có bản tóm tắt và một lượt xem cũ gắn với nó.
+  await ask(page, '[e2e:chat] Cuộc để thử quên hết')
+  await waitForReading(page)
+  const conversationId = page.url().split('/chat/')[1]
+  await request.patch(`${url}/rest/v1/conversations?id=eq.${conversationId}`, {
+    headers: admin,
+    data: { context_summary: 'Tóm tắt sẽ bị quên' },
+  })
+  await request.post(`${url}/rest/v1/memories`, {
+    headers: admin,
+    data: [
+      { user_id: userId, content: 'Điều nhớ thứ nhất sẽ bị quên', kind: 'profile', importance: 2 },
+      { user_id: userId, content: 'Điều nhớ thứ hai sẽ bị quên', kind: 'preference', importance: 1 },
+    ],
+  })
+  await request.post(`${url}/rest/v1/reading_records`, {
+    headers: admin,
+    data: {
+      user_id: userId,
+      conversation_id: conversationId,
+      question: 'Lượt xem cũ sẽ bị quên',
+      kind: 'tarot',
+      record: '[Trải bài đã rút: Hiện tại → Ba Kiếm (xuôi)]',
+    },
+  })
+  await request.post(`${url}/rest/v1/user_settings`, {
+    headers: { ...admin, prefer: 'resolution=merge-duplicates' },
+    data: { user_id: userId, about_you: 'Phần về bạn phải còn' },
+  })
+
+  await page.goto('settings/memory')
+  await expect(page.getByText('Điều nhớ thứ nhất sẽ bị quên')).toBeVisible()
+  await page.getByRole('button', { name: 'Xoá toàn bộ ký ức' }).click()
+  await page.getByRole('button', { name: 'Xoá hết' }).click()
+  await expect(page.getByText('Oraclia đã quên hết')).toBeVisible()
+  await expect(page.getByText('Điều nhớ thứ nhất sẽ bị quên')).toHaveCount(0)
+
+  const count = async (table: string) =>
+    (await (await request.get(`${url}/rest/v1/${table}?user_id=eq.${userId}&select=id`, { headers: admin })).json()).length
+  expect(await count('memories')).toBe(0)
+  expect(await count('reading_records')).toBe(0)
+  const [conversation] = await (
+    await request.get(`${url}/rest/v1/conversations?id=eq.${conversationId}&select=context_summary`, { headers: admin })
+  ).json()
+  expect(conversation.context_summary).toBe('')
+  await expect(page.getByLabel('Về bạn')).toHaveValue('Phần về bạn phải còn')
 })
