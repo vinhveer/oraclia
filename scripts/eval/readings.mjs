@@ -157,6 +157,12 @@ function check(item, outcome) {
     not_truncated: !outcome.usage?.truncated,
     no_han_copied: !/\p{Script=Han}/u.test(text),
   }
+  // Tiếng Việt: kết thúc trọn câu, không sáo ngữ văn dịch mà prompt đã cấm, không
+  // dấu rời (NFD) làm vỡ chữ trên vài font và lệch tìm kiếm.
+  const ending = text.replace(/\*\(Bài đọc bị cắt[^)]*\)\*\s*$/, '').trim()
+  result.complete_ending = /[.!?…:)"”*]$/.test(ending)
+  result.no_cliche = !CLICHES.some((phrase) => text.toLowerCase().includes(phrase))
+  result.nfc = text === text.normalize('NFC')
   // Cá nhân hoá: dùng đúng điều nên dùng, không lôi điều không liên quan hay đã cũ.
   const said = (phrase) => text.toLowerCase().includes(phrase.toLowerCase())
   if (item.expect_mention?.length) result.memory_used = item.expect_mention.some(said)
@@ -183,6 +189,12 @@ function check(item, outcome) {
   }
   return result
 }
+
+/** Sáo ngữ và lối văn dịch prompt đã cấm; gặp là giọng đã trôi. */
+const CLICHES = [
+  'vũ trụ đang gửi', 'lá bài mời bạn', 'điều này cho thấy', 'không chỉ là', 'hành trình của bạn',
+  'năng lượng tích cực', 'hãy tin vào bản thân', 'mọi chuyện sẽ ổn thôi', 'một cách sâu sắc',
+]
 
 /** Đồng bộ với PromptBuilder.readingLength. */
 function range(count, playing) {
