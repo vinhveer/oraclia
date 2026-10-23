@@ -29,12 +29,15 @@ Deno.serve(async (request) => {
     return json({ vector: await embedder.embed(String(payload.text ?? '')) })
   }
 
+  // Hosted edge function có trần CPU mỗi request; 48 lần embed vượt trần
+  // (WORKER_RESOURCE_LIMIT), nên người gọi chọn được đợt nhỏ hơn.
+  const limit = Math.min(BATCH, Math.max(1, Number(payload.limit) || BATCH))
   const db = serviceClient()
   const { data: rows, error } = await db
     .from('knowledge_entries')
     .select('id, gist_en')
     .is('embedding', null)
-    .limit(BATCH)
+    .limit(limit)
   if (error) return json({ error: error.message }, 500)
 
   for (const row of rows ?? []) {

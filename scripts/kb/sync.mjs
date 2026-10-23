@@ -1,6 +1,10 @@
 // Đẩy supabase/knowledge/*.json vào bảng knowledge_entries rồi embed phần thay đổi.
 //
-//   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node scripts/kb/sync.mjs [--prune]
+//   SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node scripts/kb/sync.mjs [--prune] [--batch 8]
+//
+// Trên hosted, SUPABASE_SERVICE_ROLE_KEY phải là đúng khoá kb-embed thấy trong env
+// của nó — project dùng khoá mới thì là secret key `sb_secret_…`, không phải JWT
+// service_role cũ. --batch là số mục embed mỗi lần gọi; hosted có trần CPU nên để nhỏ.
 //
 // --prune xoá các hàng trong DB không còn trong file.
 import { contentHash, env, loadFiles, validate } from './entries.mjs'
@@ -9,6 +13,8 @@ const url = env('SUPABASE_URL').replace(/\/$/, '')
 const key = env('SUPABASE_SERVICE_ROLE_KEY')
 const headers = { apikey: key, authorization: `Bearer ${key}`, 'content-type': 'application/json' }
 const prune = process.argv.includes('--prune')
+const batchFlag = process.argv.indexOf('--batch')
+const batch = batchFlag >= 0 ? Number(process.argv[batchFlag + 1]) : 8
 
 const files = await loadFiles()
 const entries = [...files.values()].flat()
@@ -77,7 +83,7 @@ if (prune) {
 }
 
 for (;;) {
-  const result = await rest('POST', '/functions/v1/kb-embed', { action: 'sync' })
+  const result = await rest('POST', '/functions/v1/kb-embed', { action: 'sync', limit: batch })
   if (result.error) throw new Error(result.error)
   console.log(`Embed ${result.embedded}, còn ${result.remaining}.`)
   if (!result.remaining || !result.embedded) break
