@@ -50,7 +50,8 @@ test('trí nhớ: lượt phản tư ghi nhớ, sửa được và quên đượ
   await page.getByRole('button', { name: 'Sửa', exact: true }).first().click()
   await page.getByLabel('Sửa điều đã nhớ').fill('Làm thiết kế sản phẩm ở một công ty')
   await page.getByRole('button', { name: 'Lưu', exact: true }).first().click()
-  await expect(page.getByText('Làm thiết kế sản phẩm ở một công ty')).toBeVisible()
+  // `.first()`: lần chạy lại trên CI dùng chung user, có thể còn bản sửa của lần trước.
+  await expect(page.getByText('Làm thiết kế sản phẩm ở một công ty').first()).toBeVisible()
 })
 
 test('mobile: menu mở, chọn cuộc thì tự đóng; ô nhập giữ focus sau khi gửi', async ({ page }) => {

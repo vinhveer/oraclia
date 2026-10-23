@@ -190,13 +190,20 @@ export async function loadThread(id: string): Promise<void> {
 }
 
 /**
+ * Id server của các tin vừa bị cắt bởi hỏi lại / sửa câu hỏi. Realtime có thể
+ * báo trễ chính những tin đó (INSERT của lúc chúng được tạo) đúng lúc thread
+ * đang rảnh chờ server xoá; không chặn thì chúng được chèn lại vào màn hình.
+ */
+const removedIds = new Set<string>()
+
+/**
  * Tin mới từ tab khác hoặc thiết bị khác (Realtime). Realtime cũng báo lại cả
  * tin chính tab này vừa gửi, và có khi báo muộn — sau khi lượt đã đỗ chờ chọn
  * bài. Chèn mù thì câu hỏi hiện hai lần và lời xin rút bài bị đẩy khỏi cuối.
  */
 export function receiveRow(id: string, row: Message) {
   update(id, (thread) => {
-    if (!thread.loaded || isBusy(thread)) return {}
+    if (!thread.loaded || isBusy(thread) || removedIds.has(row.id)) return {}
     if (thread.messages.some((message) => message.serverId === row.id)) return {}
     const local = thread.messages.findIndex(
       (message) =>
@@ -473,12 +480,19 @@ export function cancel(key: string) {
  * phần trả lời cũ không còn treo dưới một câu hỏi đã đổi.
  */
 export async function resend(key: string, messageId: string, question: string): Promise<void> {
-  const thread = useChatStore.getState().threads[key]
-  if (!thread || isBusy(thread)) return
-  const index = thread.messages.findIndex((message) => message.id === messageId)
+  if (isBusy(useChatStore.getState().threads[key] ?? EMPTY)) return
+  // Tin vừa tạo tại chỗ có thể chưa được gắn id server. Không có id thì không xoá
+  // được ở server, và câu hỏi cũ sẽ quay lại ở lần tải trang sau.
+  const find = () => useChatStore.getState().threads[key]?.messages ?? []
+  if (!find().find((message) => message.id === messageId)?.serverId && key !== NEW_THREAD) {
+    await reconcile(key)
+  }
+  const messages = find()
+  const index = messages.findIndex((message) => message.id === messageId)
   if (index < 0) return
-  const target = thread.messages[index]
-  const removed = thread.messages.slice(index)
+  const target = messages[index]
+  const removed = messages.slice(index)
+  for (const message of removed) if (message.serverId) removedIds.add(message.serverId)
   // Cắt trên màn hình ngay khi bấm; đợi server xoá xong mới cắt thì câu trả lời
   // cũ còn treo đó cả nhịp, trông như chưa có gì xảy ra.
   update(key, (current) => ({ messages: current.messages.slice(0, index) }))
@@ -486,6 +500,7 @@ export async function resend(key: string, messageId: string, question: string): 
     try {
       await deleteMessagesFrom(target.serverId)
     } catch (exception) {
+      for (const message of removed) if (message.serverId) removedIds.delete(message.serverId)
       update(key, (current) => ({ messages: [...current.messages, ...removed], error: describe(exception) }))
       return
     }
