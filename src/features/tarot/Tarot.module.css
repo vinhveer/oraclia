@@ -1,0 +1,307 @@
+/* ---- Lá bài ------------------------------------------------------------- */
+
+.cardFrame {
+  display: inline-block;
+  flex-shrink: 0;
+  perspective: 800px;
+}
+
+.cardFace {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  background: var(--app-surface-strong);
+  box-shadow: var(--mantine-shadow-xs);
+}
+
+.cardFace[data-reversed] {
+  transform: rotate(180deg);
+}
+
+.cardFrame[data-reveal] {
+  animation: flip 420ms ease-out both;
+  transform-origin: center;
+}
+
+@keyframes flip {
+  from {
+    transform: rotateY(90deg);
+    opacity: 0.4;
+  }
+  to {
+    transform: rotateY(0);
+    opacity: 1;
+  }
+}
+
+.figure {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.25rem 0;
+  padding: 0.75rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+}
+
+.figureCaption {
+  min-width: 0;
+}
+
+.revealed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.revealedItem {
+  width: 112px;
+  padding: 8px;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+  text-align: left;
+  transition: border-color 150ms ease;
+  animation: fadeIn 200ms ease-out both;
+}
+
+.revealedItem:hover {
+  border-color: var(--mantine-primary-color-light-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ---- Quẻ ---------------------------------------------------------------- */
+
+.hexagram {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+}
+
+.hexagramCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+}
+
+.hexagramText {
+  flex: 1;
+  min-width: 12rem;
+}
+
+/* Hào 1 nằm đầu mảng nhưng hiển thị dưới cùng. */
+.lines {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+  width: 88px;
+}
+
+.line {
+  display: flex;
+  gap: 8px;
+  height: 9px;
+  animation: fadeIn 240ms ease-out both;
+}
+
+.line span {
+  flex: 1;
+  border-radius: 2px;
+  background: var(--mantine-color-text);
+}
+
+.line[data-moving] span {
+  background: var(--mantine-primary-color-filled);
+}
+
+/* ---- Chọn bài ----------------------------------------------------------- */
+
+.pickerContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.pickerBody {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 0.875rem;
+  padding: 0;
+  list-style: none;
+}
+
+.slot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px 4px 6px;
+  border: 1px dashed var(--app-border);
+  border-radius: var(--mantine-radius-sm);
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-dimmed);
+}
+
+.slot[data-filled] {
+  border-style: solid;
+  border-color: var(--mantine-primary-color-light-color);
+  background: var(--mantine-primary-color-light);
+  color: var(--mantine-color-text);
+}
+
+.slotNumber {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--app-surface-strong);
+}
+
+.slot[data-filled] .slotNumber {
+  background: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  gap: 8px;
+  padding-bottom: 0.5rem;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .deck {
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  }
+}
+
+.back {
+  position: relative;
+  aspect-ratio: var(--card-ratio);
+  border-radius: 5px;
+  overflow: hidden;
+  outline: 1px solid var(--app-border);
+  transition:
+    outline-color 120ms ease,
+    opacity 120ms ease;
+}
+
+.back img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.back:hover:not(:disabled) {
+  outline-color: var(--mantine-color-dimmed);
+}
+
+.back[data-picked] {
+  outline: 2px solid var(--mantine-primary-color-filled);
+}
+
+.back:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.backOrder {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 2px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--mantine-primary-color-filled);
+  color: var(--mantine-primary-color-contrast);
+}
+
+.pickerFooter {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 calc(var(--mantine-spacing-md) * -1) calc(var(--mantine-spacing-md) * -1);
+  padding: 0.75rem var(--mantine-spacing-md) calc(0.75rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--app-border);
+  background: var(--mantine-color-body);
+}
+
+.pickerActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Trên điện thoại nút chính chiếm trọn một hàng, dễ bấm bằng ngón cái. */
+.pickerConfirm {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .pickerActions {
+    display: flex;
+    width: auto;
+    margin-left: auto;
+  }
+}
+
+.drawPrompt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--mantine-primary-color-light-color);
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-primary-color-light);
+  transition: background-color 150ms ease;
+}
+
+.drawPrompt:hover {
+  background: var(--mantine-primary-color-light-hover);
+}
+
+.drawPromptIcon {
+  flex-shrink: 0;
+  color: var(--mantine-primary-color-filled);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardFrame[data-reveal],
+  .revealedItem,
+  .line {
+    animation: none;
+  }
+}

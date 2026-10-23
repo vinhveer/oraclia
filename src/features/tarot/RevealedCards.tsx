@@ -1,70 +1,70 @@
 import { useState } from 'react'
-import { Dialog, Icon } from '@/components'
-import { asset } from '@/lib/asset'
-import { cn } from '@/lib/cn'
-import { deckStyle } from './decks'
+import { Badge, Group, Modal, Stack, Text, UnstyledButton } from '@mantine/core'
 import type { DrawnCard } from '@db'
+import { CardImage } from './CardImage'
+import { deckStyle, orientationLabel } from './decks'
+import classes from './Tarot.module.css'
 
+/**
+ * Các lá vừa lật nhưng bài đọc chưa kể tới. Hàng này vơi dần khi Oraclia đi qua
+ * từng lá, vì lá đã kể thì nằm ngay trong dòng chữ.
+ */
 export function RevealedCards({ cards }: { cards: DrawnCard[] }) {
   const [active, setActive] = useState<DrawnCard | null>(null)
 
   return (
     <>
-      <div className="mt-4 flex flex-wrap gap-3">
-        {cards.map((card) => (
-          <button
-            key={`${card.position}-${card.id}`}
-            type="button"
-            onClick={() => setActive(card)}
-            className="md-slide-up group w-32 rounded-lg border border-outline-variant bg-surface-low p-2 text-left transition-shadow hover:shadow-e2"
-          >
-            <img
-              src={asset(card.image)}
-              alt={card.name_vi}
-              className={cn(
-                'w-full rounded-md object-cover',
-                deckStyle(card.deck).aspect,
-                card.orientation === 'reversed' && 'rotate-180',
-              )}
-            />
-            <span className="mt-2 block md-label-lg text-on-surface">{card.name_vi}</span>
-            <span className="block md-label-sm text-on-surface-variant">
-              {deckStyle(card.deck).hasOrientation
-                ? `${card.orientation === 'reversed' ? 'Ngược' : 'Xuôi'} · ${card.position}`
-                : card.position}
-            </span>
-          </button>
-        ))}
+      <div className={classes.revealed}>
+        {cards.map((card, index) => {
+          const deck = deckStyle(card.deck)
+          return (
+            <UnstyledButton
+              key={`${card.position}-${card.id}`}
+              className={classes.revealedItem}
+              onClick={() => setActive(card)}
+              style={{ animationDelay: `${index * 120}ms` }}
+            >
+              <CardImage card={card} width={96} reveal />
+              <Text size="sm" fw={600} mt={6} lineClamp={1}>
+                {card.name_vi}
+              </Text>
+              <Text size="xs" c="dimmed" lineClamp={1}>
+                {deck.hasOrientation
+                  ? `${orientationLabel(card.orientation)} · ${card.position}`
+                  : card.position}
+              </Text>
+            </UnstyledButton>
+          )
+        })}
       </div>
 
-      <Dialog
-        open={active !== null}
+      <Modal
+        opened={active !== null}
         onClose={() => setActive(null)}
-        headline={active ? `${active.name_vi} · ${active.name}` : ''}
-        icon="sparkle"
+        title={active ? `${active.name_vi} · ${active.name}` : ''}
+        size="md"
       >
         {active && (
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-wrap gap-2">
-              {active.keywords.map((keyword) => (
-                <span
-                  key={keyword}
-                  className="rounded-full bg-secondary-container px-3 py-1 md-label-md text-on-secondary-container"
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-            <p className="md-body-md text-on-surface-variant">
-              <Icon name="star" size={16} className="mr-1 inline align-[-2px]" />
-              {active.position}
-              {deckStyle(active.deck).hasOrientation &&
-                ` · ${active.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}`}
-            </p>
-            <p className="md-body-lg text-on-surface">{active.meaning}</p>
-          </div>
+          <Group align="flex-start" wrap="nowrap" gap="md">
+            <CardImage card={active} width={112} />
+            <Stack gap={8}>
+              <Text size="sm" c="dimmed">
+                {active.position}
+                {deckStyle(active.deck).hasOrientation &&
+                  ` · lá ${orientationLabel(active.orientation).toLowerCase()}`}
+              </Text>
+              <Group gap={6}>
+                {active.keywords.map((keyword) => (
+                  <Badge key={keyword} variant="light" radius="sm" tt="none" fw={500}>
+                    {keyword}
+                  </Badge>
+                ))}
+              </Group>
+              <Text>{active.meaning}</Text>
+            </Stack>
+          </Group>
         )}
-      </Dialog>
+      </Modal>
     </>
   )
 }

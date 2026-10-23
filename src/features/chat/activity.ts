@@ -43,8 +43,11 @@ const THINKING_LABEL = 'Oraclia đang suy nghĩ'
 
 const TOOL_LABELS: Record<string, string> = {
   draw_cards: 'Xáo bài',
+  draw_playing_cards: 'Xáo bài tây',
   cast_iching: 'Gieo quẻ Kinh Dịch',
   lookup_cards: 'Tra nghĩa lá bài',
+  search_knowledge: 'Tra cứu tri thức',
+  recall_readings: 'Nhớ lại lượt xem cũ',
   ask_user: 'Hỏi lại cho rõ',
   remember: 'Ghi nhớ',
   compact_history: 'Cô đọng bộ nhớ',
@@ -53,6 +56,21 @@ const TOOL_LABELS: Record<string, string> = {
 /** Bắt đầu một lượt: luôn có sẵn một chỉ báo trước cả khi server kịp trả lời. */
 export function startTurn(): TurnState {
   return { activities: [LISTENING], answering: false }
+}
+
+/**
+ * Nối tiếp một lượt đang đỗ (vừa lật bài, vừa trả lời làm rõ): giữ những gì đã
+ * làm, thêm một chỉ báo mới ở cuối — không xoá trắng như bắt đầu lượt mới.
+ */
+export function continueTurn(state: TurnState, label: string): TurnState {
+  const activities = settle(state.activities)
+  return {
+    answering: false,
+    activities: [
+      ...activities,
+      { id: `resume-${activities.length}`, kind: 'thinking', label, detail: '', status: 'running' },
+    ],
+  }
 }
 
 const settle = (activities: Activity[]): Activity[] =>
@@ -189,9 +207,12 @@ export function reduceTurn(state: TurnState, event: AgentEvent): TurnState {
 }
 
 function describeArguments(name: string, args: Record<string, unknown>): string {
-  if (name === 'draw_cards') {
+  if (name === 'draw_cards' || name === 'draw_playing_cards') {
     const positions = Array.isArray(args.positions) ? args.positions.length : 0
     return positions ? `Chuẩn bị ${positions} lá` : 'Chuẩn bị lượt rút bài'
+  }
+  if (name === 'search_knowledge' || name === 'recall_readings') {
+    return typeof args.query_vi === 'string' ? args.query_vi : ''
   }
   if (name === 'ask_user') return 'Làm rõ vấn đề trước khi bói'
   if (name === 'cast_iching') return 'Ba đồng xu, sáu lần gieo'

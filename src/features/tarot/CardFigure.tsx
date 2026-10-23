@@ -1,42 +1,39 @@
-import { asset } from '@/lib/asset'
-import { cn } from '@/lib/cn'
-import { deckStyle } from './decks'
+import { Badge, Group, Text } from '@mantine/core'
 import type { DrawnCard } from '@db'
+import { CardImage } from './CardImage'
+import { deckStyle, orientationLabel } from './decks'
+import classes from './Tarot.module.css'
 
 /**
  * Một lá đứng riêng giữa dòng diễn giải, dùng khi Oraclia kể lần lượt từng lá.
  * To hơn ô trong lưới vì lúc này nó là trung tâm của đoạn đang đọc.
  */
 export function CardFigure({ card }: { card: DrawnCard }) {
+  const deck = deckStyle(card.deck)
   return (
-    <figure className="md-slide-up my-1 flex items-center gap-4 rounded-xl border border-outline-variant bg-surface-low p-3">
-      <img
-        src={asset(card.image)}
-        alt={card.name_vi}
-        className={cn(
-          'w-24 shrink-0 rounded-lg object-cover shadow-e1',
-          deckStyle(card.deck).aspect,
-          card.orientation === 'reversed' && 'rotate-180',
+    <figure className={classes.figure}>
+      <CardImage card={card} width={88} reveal />
+      <figcaption className={classes.figureCaption}>
+        <Text size="sm" c="dimmed">
+          {card.position}
+        </Text>
+        <Text fw={600} size="lg" lh={1.35}>
+          {card.name_vi}
+        </Text>
+        <Text size="sm" c="dimmed">
+          {deck.hasOrientation
+            ? `${card.name} · ${orientationLabel(card.orientation).toLowerCase()}`
+            : `Bộ ${deck.label}`}
+        </Text>
+        {card.keywords.length > 0 && (
+          <Group gap={6} mt={8}>
+            {card.keywords.map((keyword) => (
+              <Badge key={keyword} variant="light" radius="sm" tt="none" fw={500}>
+                {keyword}
+              </Badge>
+            ))}
+          </Group>
         )}
-      />
-      <figcaption className="min-w-0">
-        <p className="md-label-md text-on-surface-variant">{card.position}</p>
-        <p className="md-title-md text-on-surface">{card.name_vi}</p>
-        <p className="md-body-sm text-on-surface-variant">
-          {deckStyle(card.deck).hasOrientation
-            ? `${card.name} · ${card.orientation === 'reversed' ? 'lá ngược' : 'lá xuôi'}`
-            : `Bộ ${deckStyle(card.deck).label}`}
-        </p>
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {card.keywords.map((keyword) => (
-            <span
-              key={keyword}
-              className="rounded-full bg-secondary-container px-2.5 py-0.5 md-label-sm text-on-secondary-container"
-            >
-              {keyword}
-            </span>
-          ))}
-        </div>
       </figcaption>
     </figure>
   )

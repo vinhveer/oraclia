@@ -1,0 +1,15 @@
+.page {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: 2.5rem 1rem calc(2.5rem + env(safe-area-inset-bottom));
+}
+
+.panel {
+  width: 100%;
+  max-width: 380px;
+}
+
+.mark {
+  color: var(--mantine-primary-color-filled);
+}

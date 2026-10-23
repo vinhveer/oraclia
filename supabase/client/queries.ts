@@ -1,5 +1,11 @@
 import { supabase } from './client'
-import type { ConversationRow, MessageRow, UserSettingsRow } from './database.types'
+import type {
+  ConversationRow,
+  MemoryKind,
+  MemoryRow,
+  MessageRow,
+  UserSettingsRow,
+} from './database.types'
 
 export type Conversation = Pick<ConversationRow, 'id' | 'title' | 'updated_at'>
 export type Message = Pick<
@@ -40,21 +46,28 @@ export async function listMessages(conversationId: string): Promise<Message[]> {
     .eq('conversation_id', conversationId)
     .order('created_at', { ascending: true })
   if (error) throw new Error(error.message)
-  return (data ?? []).filter((message) => message.role !== 'system')
+  // Cột jsonb về dưới dạng Json chung chung; hình dạng thật do agent ghi.
+  return ((data ?? []) as unknown as Message[]).filter((message) => message.role !== 'system')
 }
 
 /**
  * Tìm cả trong tiêu đề lẫn nội dung tin nhắn. Hai truy vấn rồi hợp nhất, vì
  * PostgREST không lọc bảng cha theo điều kiện của bảng con trong một lần gọi.
  */
-export async function searchConversations(term: string): Promise<Conversation[]> {
+export async function searchConversations(
+  term: string,
+  signal?: AbortSignal,
+): Promise<Conversation[]> {
   const needle = term.trim()
   if (!needle) return listConversations()
   const pattern = `%${needle.replace(/[%_]/g, (match) => `\\${match}`)}%`
+  // Gõ nhanh thì yêu cầu cũ bị huỷ, kết quả về muộn không đè lên kết quả mới.
+  const abortable = <T extends { abortSignal: (s: AbortSignal) => T }>(query: T) =>
+    signal ? query.abortSignal(signal) : query
 
   const [byTitle, byContent] = await Promise.all([
-    supabase.from('conversations').select('id, title, updated_at').ilike('title', pattern),
-    supabase.from('messages').select('conversation_id').ilike('content', pattern).limit(200),
+    abortable(supabase.from('conversations').select('id, title, updated_at').ilike('title', pattern)),
+    abortable(supabase.from('messages').select('conversation_id').ilike('content', pattern).limit(200)),
   ])
   if (byTitle.error) throw new Error(byTitle.error.message)
 
@@ -68,37 +81,75 @@ export async function searchConversations(term: string): Promise<Conversation[]>
   return [...merged.values()].sort((a, b) => b.updated_at.localeCompare(a.updated_at))
 }
 
-/** Dùng cho hỏi lại và sửa câu hỏi: cắt bỏ mọi tin nhắn từ mốc đó trở đi. */
-export async function deleteMessagesFrom(
-  conversationId: string,
-  fromCreatedAt: string,
-): Promise<void> {
-  const { error } = await supabase
-    .from('messages')
-    .delete()
-    .eq('conversation_id', conversationId)
-    .gte('created_at', fromCreatedAt)
+/**
+ * Dùng cho hỏi lại và sửa câu hỏi: cắt bỏ tin nhắn này và mọi tin sau nó. Server
+ * tự so giờ của chính nó, nên lệch đồng hồ ở máy người dùng không cắt sai.
+ */
+export async function deleteMessagesFrom(messageId: string): Promise<void> {
+  const { error } = await supabase.rpc('delete_messages_from', { message_id: messageId })
   if (error) throw new Error(error.message)
 }
 
-export interface Memory {
-  id: string
-  content: string
-  created_at: string
-}
+export type Memory = Pick<MemoryRow, 'id' | 'content' | 'kind' | 'importance' | 'created_at'>
 
 export async function listMemories(): Promise<Memory[]> {
   const { data, error } = await supabase
     .from('memories')
-    .select('id, content, created_at')
-    .order('created_at', { ascending: false })
+    .select('id, content, kind, importance, created_at')
+    .order('importance', { ascending: false })
+    .order('updated_at', { ascending: false })
   if (error) throw new Error(error.message)
   return (data ?? []) as Memory[]
+}
+
+export async function updateMemory(
+  id: string,
+  patch: { content?: string; kind?: MemoryKind; importance?: number },
+): Promise<void> {
+  const { error } = await supabase
+    .from('memories')
+    .update({
+      ...patch,
+      // Sửa tay thì bản tiếng Anh và vector cũ không còn khớp; để trống cho
+      // lượt phản tư sau viết lại, còn hơn để tìm kiếm trỏ sai nghĩa.
+      ...(patch.content ? { gist_en: '', embedding: null } : {}),
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', id)
+  if (error) throw new Error(error.message)
 }
 
 export async function deleteMemory(id: string): Promise<void> {
   const { error } = await supabase.from('memories').delete().eq('id', id)
   if (error) throw new Error(error.message)
+}
+
+export type Rating = 1 | -1
+
+/** Một đánh giá cho mỗi câu trả lời; bấm lại thì ghi đè. */
+export async function rateMessage(messageId: string, rating: Rating, note = ''): Promise<void> {
+  const { data: session } = await supabase.auth.getUser()
+  if (!session.user) throw new Error('Phiên đăng nhập đã hết hạn.')
+  const { error } = await supabase.from('message_feedback').upsert(
+    {
+      user_id: session.user.id,
+      message_id: messageId,
+      rating,
+      note,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,message_id' },
+  )
+  if (error) throw new Error(error.message)
+}
+
+export async function listRatings(conversationId: string): Promise<Record<string, Rating>> {
+  const { data, error } = await supabase
+    .from('message_feedback')
+    .select('message_id, rating, messages!inner(conversation_id)')
+    .eq('messages.conversation_id', conversationId)
+  if (error) return {}
+  return Object.fromEntries((data ?? []).map((row) => [row.message_id, row.rating as Rating]))
 }
 
 export type UserSettings = Pick<UserSettingsRow, 'about_you' | 'response_style'>

@@ -4,6 +4,8 @@ import type { Casting, DeckKind, DrawnCard } from './database.types'
 export type AgentEvent =
   | { type: 'run.started'; run_id: string; conversation_id: string }
   | { type: 'message.delta'; content: string }
+  /** Chữ vừa chảy là phần dẫn trước một tool call; bỏ khỏi bản nháp. */
+  | { type: 'draft.discarded' }
   | { type: 'thinking.delta'; content: string }
   | { type: 'tool.started'; call_id: string; name: string; arguments: Record<string, unknown> }
   | { type: 'tool.completed'; call_id: string; name: string; summary: string }

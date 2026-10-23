@@ -8,8 +8,12 @@ export {
   searchConversations,
   deleteMessagesFrom,
   listMemories,
+  updateMemory,
   deleteMemory,
+  rateMessage,
+  listRatings,
   type Memory,
+  type Rating,
   getUserSettings,
   saveUserSettings,
   listRememberedSummaries,
@@ -19,4 +23,12 @@ export {
 } from './queries'
 export { ask, selectCards, reflect, answerClarify, type AgentEvent, type AskInput, type SelectInput, type ClarifyInput } from './agent'
 export { subscribeToConversation } from './realtime'
-export type { Casting, DeckKind, DrawnCard, Hexagram, MessageRow, Orientation } from './database.types'
+export type {
+  Casting,
+  DeckKind,
+  DrawnCard,
+  Hexagram,
+  MemoryKind,
+  MessageRow,
+  Orientation,
+} from './database.types'

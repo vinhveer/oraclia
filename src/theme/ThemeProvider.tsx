@@ -1,70 +1,85 @@
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react'
-import { applyPalette, palettes, type Palette } from './palettes'
+import {
+  localStorageColorSchemeManager,
+  MantineProvider,
+  useComputedColorScheme,
+} from '@mantine/core'
+import { findPalette, palettes, type Palette } from './palettes'
+import { buildTheme, cssVariablesResolver } from './theme'
 
-type Mode = 'light' | 'dark'
+const COLOR_SCHEME_KEY = 'oraclia.color-scheme'
+const PALETTE_KEY = 'oraclia.palette'
 
-interface ThemeValue {
-  mode: Mode
-  toggleMode: () => void
+interface PaletteValue {
   palette: Palette
   setPaletteId: (id: string) => void
   palettes: Palette[]
 }
 
-const ThemeContext = createContext<ThemeValue | null>(null)
+const PaletteContext = createContext<PaletteValue | null>(null)
 
-const MODE_KEY = 'md3.mode'
-const PALETTE_KEY = 'md3.palette'
+const colorSchemeManager = localStorageColorSchemeManager({ key: COLOR_SCHEME_KEY })
 
-function initialMode(): Mode {
-  const stored = localStorage.getItem(MODE_KEY)
-  if (stored === 'light' || stored === 'dark') return stored
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+function storedPalette(): string | null {
+  try {
+    // Khoá cũ từ bản Material 3: giữ lựa chọn của người đã chọn trước đây.
+    return localStorage.getItem(PALETTE_KEY) ?? localStorage.getItem('md3.palette')
+  } catch {
+    return null
+  }
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<Mode>(initialMode)
-  const [paletteId, setPaletteId] = useState(
-    () => localStorage.getItem(PALETTE_KEY) ?? palettes[0].id,
-  )
-
-  const palette = useMemo(
-    () => palettes.find((entry) => entry.id === paletteId) ?? palettes[0],
-    [paletteId],
-  )
+  const [paletteId, setPaletteId] = useState(() => findPalette(storedPalette()).id)
+  const palette = findPalette(paletteId)
+  const theme = useMemo(() => buildTheme(palette), [palette])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', mode === 'dark')
-    localStorage.setItem(MODE_KEY, mode)
-  }, [mode])
+    try {
+      localStorage.setItem(PALETTE_KEY, palette.id)
+    } catch {
+      // Chế độ riêng tư chặn localStorage: vẫn chạy, chỉ không nhớ.
+    }
+    // Script trước khi vẽ (index.html) đọc thuộc tính này để tô thanh trình duyệt.
+    document.documentElement.dataset.palette = palette.id
+  }, [palette])
 
-  useEffect(() => {
-    applyPalette(palette, mode === 'dark')
-    localStorage.setItem(PALETTE_KEY, palette.id)
-  }, [palette, mode])
+  const value = useMemo(() => ({ palette, setPaletteId, palettes }), [palette])
 
-  const toggleMode = useCallback(() => {
-    setMode((current) => (current === 'dark' ? 'light' : 'dark'))
-  }, [])
-
-  const value = useMemo<ThemeValue>(
-    () => ({ mode, toggleMode, palette, setPaletteId, palettes }),
-    [mode, toggleMode, palette],
+  return (
+    <PaletteContext.Provider value={value}>
+      <MantineProvider
+        theme={theme}
+        colorSchemeManager={colorSchemeManager}
+        defaultColorScheme="auto"
+        cssVariablesResolver={cssVariablesResolver}
+      >
+        <ThemeColorMeta />
+        {children}
+      </MantineProvider>
+    </PaletteContext.Provider>
   )
-
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
-export function useTheme() {
-  const value = useContext(ThemeContext)
-  if (!value) throw new Error('useTheme must be used inside a <ThemeProvider>')
+/** Thanh địa chỉ trên mobile đổi màu theo nền, không đứng mãi một màu tím. */
+function ThemeColorMeta() {
+  const scheme = useComputedColorScheme('light')
+  useEffect(() => {
+    const color = scheme === 'dark' ? '#141218' : '#fdfbfe'
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', color)
+  }, [scheme])
+  return null
+}
+
+export function usePalette() {
+  const value = useContext(PaletteContext)
+  if (!value) throw new Error('usePalette must be used inside a <ThemeProvider>')
   return value
 }

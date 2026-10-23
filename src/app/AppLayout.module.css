@@ -1,0 +1,22 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  /* dvh: thanh địa chỉ mobile co giãn thì trang co theo, ô nhập không bị đẩy khuất. */
+  height: 100dvh;
+  min-height: 0;
+}
+
+.navbar {
+  background: var(--app-surface);
+  border-color: var(--app-border);
+}
+
+.header {
+  border-color: var(--app-border);
+  padding-top: env(safe-area-inset-top);
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+}

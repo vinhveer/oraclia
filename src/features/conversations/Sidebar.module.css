@@ -1,0 +1,72 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.top {
+  padding: 0.75rem;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  padding: 0 0.5rem;
+}
+
+.item {
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.itemLink {
+  min-height: 38px;
+  padding-right: 2.25rem;
+  border-radius: var(--mantine-radius-md);
+}
+
+.itemLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--mantine-font-size-sm);
+}
+
+.itemDelete {
+  position: absolute;
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+}
+
+/* Chuột thì hiện nút xoá khi rê vào; cảm ứng không có hover nên luôn hiện. */
+@media (hover: hover) {
+  .itemDelete {
+    opacity: 0;
+    transition: opacity 120ms ease;
+  }
+
+  .item:hover .itemDelete,
+  .item:focus-within .itemDelete {
+    opacity: 1;
+  }
+}
+
+.bottom {
+  padding: 0.5rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--app-border);
+}
+
+.settingsLink {
+  border-radius: var(--mantine-radius-md);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.undo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}

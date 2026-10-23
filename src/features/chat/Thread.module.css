@@ -1,0 +1,314 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.viewport {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-bottom: 1rem;
+}
+
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2rem;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .column {
+    padding: 2rem 1.5rem 2.5rem;
+  }
+}
+
+/* ---- Trống ------------------------------------------------------------- */
+
+.welcome {
+  padding-top: 12vh;
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  max-width: 560px;
+}
+
+.suggestion {
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  font-size: var(--mantine-font-size-sm);
+  color: var(--mantine-color-text);
+  transition: background-color 150ms ease;
+}
+
+.suggestion:hover {
+  background: var(--app-surface);
+}
+
+.loading {
+  display: grid;
+  place-items: center;
+  padding: 4rem 0;
+}
+
+/* ---- Tin người dùng ---------------------------------------------------- */
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.userBubble {
+  max-width: min(85%, 560px);
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--mantine-radius-lg);
+  background: var(--app-surface-strong);
+  font-size: var(--mantine-font-size-md);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.userActions,
+.assistantActions {
+  display: flex;
+  gap: 2px;
+  transition: opacity 150ms ease;
+}
+
+/* Chuột thì hiện khi rê vào; cảm ứng không có hover nên luôn hiện. */
+@media (hover: hover) {
+  .user .userActions,
+  .assistant:not(:last-child) .assistantActions {
+    opacity: 0;
+  }
+
+  .user:hover .userActions,
+  .user:focus-within .userActions,
+  .assistant:hover .assistantActions,
+  .assistant:focus-within .assistantActions {
+    opacity: 1;
+  }
+}
+
+.feedback[data-submitted] {
+  color: var(--mantine-primary-color-filled);
+}
+
+.editComposer {
+  align-self: flex-end;
+  width: min(100%, 560px);
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--mantine-primary-color-filled);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--app-surface);
+}
+
+.editInput {
+  width: 100%;
+  max-height: 240px;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.6;
+  color: inherit;
+}
+
+.editActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* ---- Tin Oraclia ------------------------------------------------------- */
+
+.assistant {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.clarify {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--mantine-primary-color-light-color);
+  border-radius: var(--mantine-radius-md);
+  background: var(--mantine-primary-color-light);
+}
+
+.clarifyInput {
+  flex: 1;
+}
+
+.reflecting {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--mantine-color-dimmed);
+}
+
+/* ---- Dòng hoạt động ---------------------------------------------------- */
+
+.trace {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.traceToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  padding: 2px 6px 2px 2px;
+  border-radius: var(--mantine-radius-sm);
+  color: var(--mantine-color-dimmed);
+}
+
+.traceToggle:hover {
+  color: var(--mantine-color-text);
+}
+
+.traceChevron {
+  transition: transform 150ms ease;
+}
+
+.traceChevron[data-open] {
+  transform: rotate(180deg);
+}
+
+.traceList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 0 2px;
+  padding-left: 12px;
+  border-left: 1px solid var(--app-border);
+}
+
+.traceRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: var(--mantine-color-dimmed);
+}
+
+.traceRow[data-status='running'] {
+  color: var(--mantine-color-text);
+}
+
+.traceRow[data-status='failed'] {
+  color: var(--mantine-color-red-filled);
+}
+
+.traceIcon {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.traceBody {
+  min-width: 0;
+}
+
+.traceDetail {
+  white-space: pre-wrap;
+}
+
+/* ---- Ô nhập ------------------------------------------------------------ */
+
+.footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1rem calc(0.5rem + env(safe-area-inset-bottom));
+  background: linear-gradient(to bottom, transparent, var(--mantine-color-body) 1.25rem);
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .footer {
+    padding-inline: 1.5rem;
+  }
+}
+
+.scrollDown {
+  position: absolute;
+  top: -2.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: var(--mantine-shadow-sm);
+}
+
+.scrollDown:disabled {
+  display: none;
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.375rem 0.375rem 0.375rem 0.875rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-lg);
+  background: var(--app-surface);
+  transition: border-color 150ms ease;
+}
+
+.composer:focus-within {
+  border-color: var(--mantine-primary-color-filled);
+}
+
+.composerInput {
+  flex: 1;
+  min-height: 40px;
+  max-height: 200px;
+  padding: 0.5rem 0;
+  resize: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font: inherit;
+  /* 16px: nhỏ hơn là iOS tự phóng to trang khi chạm vào ô nhập. */
+  font-size: 16px;
+  line-height: 1.5;
+  color: inherit;
+}
+
+.composerInput::placeholder {
+  color: var(--mantine-color-placeholder);
+}
+
+.disclaimer {
+  text-wrap: balance;
+}
+
+@media (max-width: $mantine-breakpoint-sm) {
+  .disclaimer {
+    display: none;
+  }
+}

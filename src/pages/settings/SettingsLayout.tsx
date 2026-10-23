@@ -1,12 +1,11 @@
-import { useNavigate } from 'react-router-dom'
 import type { ReactNode } from 'react'
-import { IconButton } from '@/components'
+import { useNavigate } from 'react-router-dom'
+import { ActionIcon, Group, Text, Title } from '@mantine/core'
+import { IconArrowLeft } from '@tabler/icons-react'
+import { lastChatPath } from '@/app/lastChat'
+import classes from './Settings.module.css'
 
-/**
- * Khung chung cho các trang cài đặt. Nút quay lại đứng riêng một dòng và được
- * kéo ngược lại bằng margin âm: hộp bấm 56px bọc icon 26px, nên nếu để nguyên
- * thì icon thụt vào 15px so với lề của mọi thứ bên dưới.
- */
+/** Khung chung cho các trang cài đặt; quay lại đúng cuộc trò chuyện đang mở. */
 export function SettingsLayout({
   title,
   description,
@@ -20,28 +19,34 @@ export function SettingsLayout({
 }) {
   const navigate = useNavigate()
   return (
-    <div className="min-h-dvh bg-surface text-on-surface">
-      <div className="md-slide-up mx-auto flex max-w-2xl flex-col gap-6 px-4 py-6 sm:px-8">
+    <div className={classes.scroll}>
+      <div className={classes.page}>
         <header>
-          {/* Hộp bấm 56px bọc icon 26px nên icon thụt vào 15px; kéo lại cho
-              thẳng lề với mọi thứ bên dưới. */}
-          <span className="-ml-[15px] block">
-            <IconButton
-              icon="arrowBack"
-              label="Quay lại"
-              size="md"
-              onClick={() => navigate('/chat')}
-            />
-          </span>
-          <h1 className="mt-1 md-headline-sm text-on-surface">{title}</h1>
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            size={36}
+            ml={-8}
+            aria-label="Quay lại"
+            onClick={() => navigate(lastChatPath())}
+          >
+            <IconArrowLeft size={20} />
+          </ActionIcon>
+          <Title order={1} mt={4}>
+            {title}
+          </Title>
           {description && (
-            <p className="mt-2 md-body-md text-on-surface-variant">{description}</p>
+            <Text c="dimmed" mt={6}>
+              {description}
+            </Text>
           )}
         </header>
-
-        <main className="flex flex-col gap-6">{children}</main>
-
-        {actions && <footer className="flex justify-end gap-2 pb-6">{actions}</footer>}
+        <main className={classes.content}>{children}</main>
+        {actions && (
+          <Group justify="flex-end" gap="xs" className={classes.actions}>
+            {actions}
+          </Group>
+        )}
       </div>
     </div>
   )

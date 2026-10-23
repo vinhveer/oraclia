@@ -1,8 +1,9 @@
 /**
- * Hand-written mirror of `supabase/migrations`. Regenerate with
- * `npx supabase gen types typescript --local > supabase/client/database.types.ts`
- * once the local stack is running.
+ * Kiểu domain cho browser. Lược đồ bảng sinh tự động vào database.generated.ts
+ * (`npm run db:types`); ở đây chỉ thêm phần generator không biết — hình dạng của
+ * các cột jsonb — và đặt tên ngắn cho những hàng hay dùng.
  */
+import type { Database as Generated } from './database.generated'
 
 export type Orientation = 'upright' | 'reversed'
 
@@ -34,16 +35,6 @@ export type Hexagram = {
   advice: string
 }
 
-export type HexagramLineRow = {
-  hexagram_number: number
-  line_number: number
-  source_text: string
-  translation_vi: string | null
-  source_name: string
-  source_url: string
-  review_status: 'source_only' | 'draft' | 'reviewed'
-}
-
 export type Casting = {
   question: string
   tosses: number[]
@@ -52,127 +43,18 @@ export type Casting = {
   movingLines: number[]
 }
 
-export type MemoryRow = {
-  id: string
-  user_id: string
-  conversation_id: string | null
-  content: string
-  created_at: string
-}
+type Tables = Generated['public']['Tables']
+type Row<T extends keyof Tables> = Tables[T]['Row']
 
-export type UserSettingsRow = {
-  user_id: string
-  about_you: string
-  response_style: string
-  updated_at: string
-}
-
-export type ProfileRow = {
-  id: string
-  display_name: string
-  role: 'user' | 'admin'
-  created_at: string
-}
-
-export type CardRow = {
-  id: string
-  name: string
-  name_vi: string
-  arcana: string
-  suit: string
-  image: string
-  keywords: string[]
-  upright: string
-  reversed: string
-  sort_order: number
-}
-
-export type ConversationRow = {
-  id: string
-  user_id: string
-  title: string
-  context_summary: string
-  compacted_until: string | null
-  created_at: string
-  updated_at: string
-}
-
-export type MessageRow = {
-  id: string
-  conversation_id: string
-  user_id: string
+export type ConversationRow = Row<'conversations'>
+export type MessageRow = Omit<Row<'messages'>, 'cards' | 'hexagram' | 'role'> & {
   role: 'user' | 'assistant' | 'system'
-  content: string
   cards: DrawnCard[] | null
   hexagram: Casting | null
-  created_at: string
 }
+export type MemoryKind = 'profile' | 'preference' | 'life_event' | 'ongoing'
+export type MemoryRow = Omit<Row<'memories'>, 'kind'> & { kind: MemoryKind }
+export type UserSettingsRow = Row<'user_settings'>
+export type ProfileRow = Omit<Row<'profiles'>, 'role'> & { role: 'user' | 'admin' }
 
-export type AgentRunRow = {
-  id: string
-  conversation_id: string
-  user_id: string
-  status: 'running' | 'awaiting_input' | 'completed' | 'failed'
-  model: string
-  prompt_version: string
-  question: string
-  step_count: number
-  error: string | null
-  created_at: string
-  updated_at: string
-}
-
-export type ToolCallRow = {
-  id: string
-  run_id: string
-  user_id: string
-  call_id: string
-  name: string
-  arguments: Record<string, unknown>
-  result: Record<string, unknown> | null
-  status: 'running' | 'awaiting_input' | 'completed' | 'failed'
-  duration_ms: number | null
-  created_at: string
-}
-
-export type ReadingRow = {
-  id: string
-  conversation_id: string
-  run_id: string | null
-  user_id: string
-  question: string
-  positions: string[]
-  reason: string
-  revealed: DrawnCard[] | null
-  status: 'pending' | 'revealed' | 'expired'
-  created_at: string
-}
-
-type Table<Row, Insert = Partial<Row>, Update = Partial<Row>> = {
-  Row: Row
-  Insert: Insert
-  Update: Update
-  Relationships: []
-}
-
-export interface Database {
-  public: {
-    Tables: {
-      profiles: Table<ProfileRow>
-      cards: Table<CardRow>
-      conversations: Table<ConversationRow>
-      messages: Table<MessageRow>
-      agent_runs: Table<AgentRunRow>
-      tool_calls: Table<ToolCallRow>
-      readings: Table<ReadingRow>
-      user_settings: Table<UserSettingsRow>
-      memories: Table<MemoryRow>
-      hexagrams: Table<Hexagram>
-      hexagram_lines: Table<HexagramLineRow>
-    }
-    Views: { [_ in never]: never }
-    Functions: { [_ in never]: never }
-    Enums: { [_ in never]: never }
-    CompositeTypes: { [_ in never]: never }
-  }
-}
+export type Database = Generated

@@ -7,8 +7,9 @@ import type { DeckKind } from '@db'
 export interface DeckStyle {
   label: string
   back: string
-  /** Tỉ lệ khung ảnh, khác nhau giữa tarot và bài tây. */
-  aspect: string
+  /** Kích thước gốc của ảnh, để giữ chỗ đúng tỉ lệ trước khi ảnh tải xong. */
+  width: number
+  height: number
   /** Bài tây hoa văn đối xứng nên chiều lá không mang nghĩa. */
   hasOrientation: boolean
 }
@@ -17,15 +18,20 @@ export const DECKS: Record<DeckKind, DeckStyle> = {
   tarot: {
     label: 'tarot',
     back: 'cards/CardBacks.png',
-    aspect: 'aspect-[300/527]',
+    width: 300,
+    height: 527,
     hasOrientation: true,
   },
   playing: {
     label: 'bài tây',
     back: 'baitay/back.png',
-    aspect: 'aspect-[226/314]',
+    width: 226,
+    height: 314,
     hasOrientation: false,
   },
 }
 
 export const deckStyle = (kind: DeckKind = 'tarot'): DeckStyle => DECKS[kind] ?? DECKS.tarot
+
+export const orientationLabel = (orientation: string) =>
+  orientation === 'reversed' ? 'Ngược' : 'Xuôi'

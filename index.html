@@ -3,22 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#6750a4" />
+    <!-- viewport-fit=cover để dùng được safe-area (tai thỏ, thanh home);
+         resizes-content để bàn phím ảo thu nhỏ trang thay vì che ô nhập. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+    <meta name="theme-color" content="#fdfbfe" />
     <meta
       name="description"
-      content="Oraclia — Trợ lý tâm linh của bạn, giúp bạn tìm kiếm câu trả lời từ vũ trụ và khám phá bản thân."
+      content="Oraclia — đọc tarot, bài tây và Kinh Dịch để tự soi chiếu."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&display=swap"
+      rel="stylesheet"
     />
     <title>Oraclia</title>
     <script>
-      // Apply the stored scheme before first paint so there is no light flash.
+      // Đặt chế độ màu trước lần vẽ đầu, để không nháy trắng khi mở ở chế độ tối.
       try {
-        const stored = localStorage.getItem('md3.mode')
-        const dark =
-          stored === 'dark' ||
-          (stored === null && window.matchMedia('(prefers-color-scheme: dark)').matches)
-        if (dark) document.documentElement.classList.add('dark')
-      } catch {}
+        var key = 'oraclia.color-scheme'
+        var stored = localStorage.getItem(key)
+        if (!stored) {
+          // Chuyển lựa chọn từ khoá cũ của bản Material 3.
+          var legacy = localStorage.getItem('md3.mode')
+          if (legacy === 'light' || legacy === 'dark') {
+            stored = legacy
+            localStorage.setItem(key, legacy)
+          }
+        }
+        var scheme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+        document.documentElement.setAttribute('data-mantine-color-scheme', scheme)
+        document.documentElement.style.background = scheme === 'dark' ? '#141218' : '#fdfbfe'
+        document
+          .querySelector('meta[name="theme-color"]')
+          .setAttribute('content', scheme === 'dark' ? '#141218' : '#fdfbfe')
+      } catch (error) {}
     </script>
   </head>
   <body>

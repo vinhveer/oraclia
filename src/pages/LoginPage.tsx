@@ -1,12 +1,23 @@
 import { useState } from 'react'
 import { Navigate } from 'react-router-dom'
-import { Button, Checkbox, CircularProgress, Icon, TextField, useSnackbar } from '@/components'
+import {
+  Anchor,
+  Button,
+  Checkbox,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core'
+import { notifications } from '@mantine/notifications'
+import { IconMail } from '@tabler/icons-react'
 import { useSession } from '@/features/auth/SessionProvider'
 import { isRemembering, setRemember, signIn, signUp } from '@db'
+import classes from './LoginPage.module.css'
 
 export default function LoginPage() {
   const { user, ready } = useSession()
-  const snackbar = useSnackbar()
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -14,7 +25,6 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [sentTo, setSentTo] = useState('')
-  const [visible, setVisible] = useState(false)
   const [remember, setRememberChoice] = useState(isRemembering)
 
   if (ready && user) return <Navigate to="/chat" replace />
@@ -44,7 +54,7 @@ export default function LoginPage() {
           return
         }
         keepBusy = true
-        snackbar({ message: 'Tài khoản đã được tạo. Bạn có thể bắt đầu hỏi.' })
+        notifications.show({ message: 'Tài khoản đã được tạo. Bạn có thể bắt đầu hỏi.' })
       }
     } catch (exception) {
       setError(exception instanceof Error ? exception.message : 'Không thể đăng nhập.')
@@ -55,23 +65,20 @@ export default function LoginPage() {
 
   if (sentTo) {
     return (
-      <div className="grid min-h-dvh place-items-center bg-surface px-4 py-10">
-        <section className="md-enter-scale w-full max-w-sm text-center">
-          <span className="mx-auto mb-5 flex size-14 items-center justify-center bg-primary-container text-on-primary-container">
-            <Icon name="mail" size={28} className="md-spin-in" />
-          </span>
-          <h1 className="md-headline-sm text-on-surface">Xác thực email của bạn</h1>
-          <p className="mt-3 md-body-lg text-on-surface-variant">
-            Oraclia vừa gửi một liên kết xác thực tới <strong>{sentTo}</strong>. Hãy mở thư và bấm
-            vào liên kết đó, rồi quay lại đăng nhập.
-          </p>
-          <p className="mt-3 md-body-md text-on-surface-variant">
-            Không thấy thư? Kiểm tra mục spam hoặc quảng cáo.
-          </p>
+      <main className={classes.page}>
+        <section className={classes.panel}>
+          <IconMail size={28} className={classes.mark} />
+          <Title order={1} mt="md">
+            Xác thực email của bạn
+          </Title>
+          <Text c="dimmed" mt="sm">
+            Oraclia vừa gửi một liên kết xác thực tới <strong>{sentTo}</strong>. Hãy mở thư, bấm vào
+            liên kết đó rồi quay lại đăng nhập. Không thấy thư thì xem mục spam hoặc quảng cáo.
+          </Text>
           <Button
-            variant="tonal"
+            variant="light"
             fullWidth
-            className="mt-6"
+            mt="lg"
             onClick={() => {
               setSentTo('')
               setMode('signin')
@@ -82,94 +89,70 @@ export default function LoginPage() {
             Quay lại đăng nhập
           </Button>
         </section>
-      </div>
+      </main>
     )
   }
 
   return (
-    <div className="grid min-h-dvh place-items-center bg-surface px-4 py-10">
-      <section className="md-slide-up w-full max-w-sm">
-        <div className="mb-6 flex items-center gap-3">
-          <span className="flex size-12 items-center justify-center bg-primary text-on-primary">
-            <Icon
-              name="sparkle"
-              size={26}
-              className={busy ? 'md-bloom' : 'md-spin-in'}
-            />
-          </span>
-          <div>
-            <h1 className="md-headline-sm text-on-surface">Oraclia</h1>
-            <p className="md-body-md text-on-surface-variant">
-              {mode === 'signin' ? 'Đăng nhập để tiếp tục' : 'Tạo tài khoản mới'}
-            </p>
-          </div>
-        </div>
+    <main className={classes.page}>
+      <section className={classes.panel}>
+        <Title order={1}>Oraclia</Title>
+        <Text c="dimmed" mt={4}>
+          {mode === 'signin' ? 'Đăng nhập để tiếp tục.' : 'Tạo tài khoản mới.'}
+        </Text>
 
-        <form onSubmit={submit} className="md-stagger flex flex-col gap-4">
-          {mode === 'signup' && (
-            <TextField
-              label="Tên hiển thị"
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
-              autoComplete="nickname"
-              leadingIcon="person"
-            />
-          )}
-          <TextField
-            label="Email"
-            type="email"
-            required
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            autoComplete="email"
-            leadingIcon="mail"
-          />
-          <TextField
-            label="Mật khẩu"
-            type={visible ? 'text' : 'password'}
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-            leadingIcon="lock"
-            trailingIcon={visible ? 'visibilityOff' : 'visibility'}
-            onTrailingIconClick={() => setVisible((current) => !current)}
-            supportingText={mode === 'signup' ? 'Ít nhất 6 ký tự.' : undefined}
-            errorText={error || undefined}
-          />
-
-          <Checkbox
-            label="Ghi nhớ đăng nhập trên thiết bị này"
-            checked={remember}
-            onChange={(event) => setRememberChoice(event.target.checked)}
-          />
-
-          <Button type="submit" fullWidth disabled={busy || !email || password.length < 6}>
-            {busy ? (
-              <span className="flex items-center gap-2">
-                <CircularProgress size={18} strokeWidth={3} />
-                {mode === 'signin' ? 'Đang mở...' : 'Đang tạo...'}
-              </span>
-            ) : mode === 'signin' ? (
-              'Đăng nhập'
-            ) : (
-              'Tạo tài khoản'
+        <form onSubmit={submit}>
+          <Stack gap="sm" mt="lg">
+            {mode === 'signup' && (
+              <TextInput
+                label="Tên hiển thị"
+                autoComplete="nickname"
+                value={displayName}
+                onChange={(event) => setDisplayName(event.currentTarget.value)}
+              />
             )}
-          </Button>
+            <TextInput
+              label="Email"
+              type="email"
+              required
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+            <PasswordInput
+              label="Mật khẩu"
+              required
+              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
+              description={mode === 'signup' ? 'Ít nhất 6 ký tự.' : undefined}
+              value={password}
+              onChange={(event) => setPassword(event.currentTarget.value)}
+              error={error || undefined}
+            />
+            <Checkbox
+              label="Ghi nhớ đăng nhập trên thiết bị này"
+              checked={remember}
+              onChange={(event) => setRememberChoice(event.currentTarget.checked)}
+            />
+            <Button type="submit" fullWidth loading={busy} disabled={!email || password.length < 6}>
+              {mode === 'signin' ? 'Đăng nhập' : 'Tạo tài khoản'}
+            </Button>
+          </Stack>
         </form>
 
-        <Button
-          variant="text"
-          fullWidth
-          className="mt-3"
-          onClick={() => {
-            setMode(mode === 'signin' ? 'signup' : 'signin')
-            setError('')
-          }}
-        >
-          {mode === 'signin' ? 'Chưa có tài khoản? Đăng ký' : 'Đã có tài khoản? Đăng nhập'}
-        </Button>
+        <Text size="sm" ta="center" mt="lg">
+          {mode === 'signin' ? 'Chưa có tài khoản? ' : 'Đã có tài khoản? '}
+          <Anchor
+            component="button"
+            type="button"
+            onClick={() => {
+              setMode(mode === 'signin' ? 'signup' : 'signin')
+              setError('')
+            }}
+          >
+            {mode === 'signin' ? 'Đăng ký' : 'Đăng nhập'}
+          </Anchor>
+        </Text>
       </section>
-    </div>
+    </main>
   )
 }

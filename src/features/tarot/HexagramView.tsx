@@ -1,43 +1,29 @@
-import { cn } from '@/lib/cn'
+import { Badge, Group, Text } from '@mantine/core'
 import type { Casting, Hexagram } from '@db'
+import classes from './Tarot.module.css'
 
 /**
- * Vẽ quẻ theo lối truyền thống: hào 1 dưới cùng, hào 6 trên cùng — nên mảng
- * `lines` phải được đảo lại khi render.
+ * Vẽ quẻ theo lối truyền thống: hào 1 dưới cùng, hào 6 trên cùng. Hào được vạch
+ * lần lượt từ dưới lên, đúng thứ tự gieo.
  */
-function Lines({
-  lines,
-  moving = [],
-  className,
-}: {
-  lines: string
-  moving?: number[]
-  className?: string
-}) {
-  const rows = lines.split('').map((value, index) => ({ value, position: index + 1 }))
+function Lines({ lines, moving = [] }: { lines: string; moving?: number[] }) {
   return (
-    // flex-col-reverse: phần tử đầu trong DOM là hào 1 nhưng hiển thị dưới cùng,
-    // nên nth-child(1) chính là hào vào trước — đúng thứ tự vạch quẻ từ dưới lên.
-    <div className={cn('md-hexagram flex w-24 flex-col-reverse gap-1.5', className)}>
-      {rows.map(({ value, position }) => {
+    <div className={classes.lines}>
+      {lines.split('').map((value, index) => {
+        const position = index + 1
         const isMoving = moving.includes(position)
         return (
           <div
             key={position}
-            className="flex h-2.5 items-stretch gap-1.5"
+            className={classes.line}
+            data-moving={isMoving || undefined}
+            style={{ animationDelay: `${index * 90}ms` }}
             title={`Hào ${position}${isMoving ? ' (động)' : ''}`}
           >
-            {value === '1' ? (
-              <span
-                className={cn(
-                  'flex-1 rounded-xs',
-                  isMoving ? 'bg-tertiary' : 'bg-on-surface',
-                )}
-              />
-            ) : (
+            {value === '1' ? <span /> : (
               <>
-                <span className={cn('flex-1 rounded-xs', isMoving ? 'bg-tertiary' : 'bg-on-surface')} />
-                <span className={cn('flex-1 rounded-xs', isMoving ? 'bg-tertiary' : 'bg-on-surface')} />
+                <span />
+                <span />
               </>
             )}
           </div>
@@ -49,66 +35,50 @@ function Lines({
 
 function HexagramCard({
   hexagram,
-  lines,
   moving,
   caption,
 }: {
   hexagram: Hexagram
-  lines: string
   moving?: number[]
   caption: string
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-lg border border-outline-variant bg-surface-low p-4">
-      <span className="md-label-sm text-on-surface-variant">{caption}</span>
-      <Lines lines={lines} moving={moving} />
-      <div className="text-center">
-        <p className="md-title-sm text-on-surface">
+    <div className={classes.hexagramCard}>
+      <Text size="xs" c="dimmed">
+        {caption}
+      </Text>
+      <Lines lines={hexagram.lines} moving={moving} />
+      <div>
+        <Text size="sm" fw={600} ta="center">
           {hexagram.number}. {hexagram.name}
-        </p>
-        <p className="md-body-sm text-on-surface-variant">{hexagram.full_name}</p>
+        </Text>
+        <Text size="xs" c="dimmed" ta="center">
+          {hexagram.full_name}
+        </Text>
       </div>
     </div>
   )
 }
 
 export function HexagramView({ casting }: { casting: Casting }) {
-  const changedLines = casting.changed?.lines ?? casting.primary.lines
   return (
-    <section className="md-slide-up mt-4 rounded-xl border border-outline-variant p-4">
-      <div className="flex flex-wrap items-start gap-4">
-        <HexagramCard
-          hexagram={casting.primary}
-          lines={casting.primary.lines}
-          moving={casting.movingLines}
-          caption="Quẻ chính"
-        />
-        {casting.changed && (
-          <HexagramCard
-            hexagram={casting.changed}
-            lines={changedLines}
-            caption="Quẻ biến"
-          />
-        )}
-
-        <div className="min-w-48 flex-1">
-          <div className="flex flex-wrap gap-2">
-            {casting.primary.keywords.map((keyword) => (
-              <span
-                key={keyword}
-                className="rounded-full bg-secondary-container px-3 py-1 md-label-md text-on-secondary-container"
-              >
-                {keyword}
-              </span>
-            ))}
-          </div>
-          <p className="mt-3 md-body-md text-on-surface">{casting.primary.meaning}</p>
-          <p className="mt-2 md-body-sm text-on-surface-variant">
-            {casting.movingLines.length
-              ? `Hào động: ${casting.movingLines.join(', ')} · vạch màu là hào đang biến.`
-              : 'Không có hào động — quẻ tĩnh, không có quẻ biến.'}
-          </p>
-        </div>
+    <section className={classes.hexagram}>
+      <HexagramCard hexagram={casting.primary} moving={casting.movingLines} caption="Quẻ chính" />
+      {casting.changed && <HexagramCard hexagram={casting.changed} caption="Quẻ biến" />}
+      <div className={classes.hexagramText}>
+        <Group gap={6}>
+          {casting.primary.keywords.map((keyword) => (
+            <Badge key={keyword} variant="light" radius="sm" tt="none" fw={500}>
+              {keyword}
+            </Badge>
+          ))}
+        </Group>
+        <Text mt={10}>{casting.primary.meaning}</Text>
+        <Text size="sm" c="dimmed" mt={6}>
+          {casting.movingLines.length
+            ? `Hào động: ${casting.movingLines.join(', ')} · vạch màu là hào đang biến.`
+            : 'Không có hào động: quẻ tĩnh, không có quẻ biến.'}
+        </Text>
       </div>
     </section>
   )

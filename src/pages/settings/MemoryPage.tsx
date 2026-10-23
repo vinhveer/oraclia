@@ -1,182 +1,218 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import {
+  ActionIcon,
+  Badge,
   Button,
-  CircularProgress,
-  IconButton,
-  TextField,
-  useSnackbar,
-} from "@/components";
+  Group,
+  Loader,
+  Skeleton,
+  Stack,
+  Text,
+  Textarea,
+  Title,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
+import { IconPencil, IconTrash } from '@tabler/icons-react'
+import type { Memory, MemoryKind } from '@db'
+import { SettingsLayout } from './SettingsLayout'
 import {
-  deleteMemory,
-  getUserSettings,
-  listMemories,
-  listRememberedSummaries,
-  saveUserSettings,
-  type Memory,
-} from "@db";
-import { SettingsLayout } from "./SettingsLayout";
+  useDeleteMemory,
+  useMemories,
+  useSaveSettings,
+  useSummaries,
+  useUpdateMemory,
+  useUserSettings,
+} from './queries'
+import classes from './Settings.module.css'
+
+const KIND_LABEL: Record<MemoryKind, string> = {
+  profile: 'Về bạn',
+  preference: 'Cách trả lời',
+  life_event: 'Sự kiện',
+  ongoing: 'Đang theo dõi',
+}
 
 /**
- * Hai nguồn trí nhớ nằm cạnh nhau: phần bạn tự khai (sửa được, luôn nạp vào
- * prompt) và phần Oraclia tự cô đọng từ các cuộc trò chuyện (chỉ đọc).
+ * Ba nguồn trí nhớ nằm cạnh nhau: phần bạn tự khai (luôn đi kèm mọi câu hỏi),
+ * phần Oraclia tự ghi nhớ (sửa hay xoá được), và bản cô đọng của từng cuộc.
  */
 export default function MemoryPage() {
-  const snackbar = useSnackbar();
-  const [value, setValue] = useState("");
-  const [summaries, setSummaries] = useState<
-    { title: string; summary: string }[]
-  >([]);
-  const [memories, setMemories] = useState<Memory[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [forgetting, setForgetting] = useState<string | null>(null);
+  const settings = useUserSettings()
+  const save = useSaveSettings()
+  const [about, setAbout] = useState('')
 
   useEffect(() => {
-    Promise.all([
-      getUserSettings()
-        .then((settings) => setValue(settings.about_you))
-        .catch(() => undefined),
-      listRememberedSummaries()
-        .then(setSummaries)
-        .catch(() => setSummaries([])),
-      listMemories()
-        .then(setMemories)
-        .catch(() => setMemories([])),
-    ]).finally(() => setLoading(false));
-  }, []);
-
-  async function forget(id: string) {
-    if (forgetting) return;
-    setForgetting(id);
-    try {
-      await deleteMemory(id);
-      setMemories((current) => current.filter((item) => item.id !== id));
-    } catch (exception) {
-      snackbar({
-        message:
-          exception instanceof Error ? exception.message : "Không xóa được.",
-      });
-    } finally {
-      setForgetting(null);
-    }
-  }
-
-  async function save() {
-    setBusy(true);
-    try {
-      await saveUserSettings({ about_you: value.trim() });
-      snackbar({ message: "Đã lưu." });
-    } catch (exception) {
-      snackbar({
-        message:
-          exception instanceof Error ? exception.message : "Không lưu được.",
-      });
-    } finally {
-      setBusy(false);
-    }
-  }
+    if (settings.data) setAbout(settings.data.about_you)
+  }, [settings.data])
 
   return (
     <SettingsLayout
-      title="Những gì tôi biết được về bạn"
+      title="Những gì Oraclia biết về bạn"
       description="Những điều này đi kèm mọi cuộc trò chuyện, không riêng cuộc nào."
       actions={
-        <Button onClick={save} disabled={busy || loading}>
-          {busy ? (
-            <span className="flex items-center gap-2">
-              <CircularProgress size={18} strokeWidth={3} />
-              Đang lưu...
-            </span>
-          ) : (
-            "Lưu"
-          )}
+        <Button
+          onClick={() => save.mutate({ about_you: about.trim() })}
+          loading={save.isPending}
+          disabled={settings.isPending || about.trim() === (settings.data?.about_you ?? '').trim()}
+        >
+          Lưu
         </Button>
       }
     >
-      {loading && (
-        <div className="grid place-items-center py-10 text-on-surface-variant">
-          <CircularProgress size={28} />
-        </div>
+      {settings.isPending ? (
+        <Skeleton height={150} />
+      ) : (
+        <Textarea
+          label="Về bạn"
+          description="Tuổi, công việc, hoàn cảnh — những gì bạn muốn Oraclia luôn nhớ."
+          autosize
+          minRows={5}
+          value={about}
+          onChange={(event) => setAbout(event.currentTarget.value)}
+          placeholder="Ví dụ: mình 28 tuổi, làm thiết kế, đang cân nhắc chuyển nghề…"
+        />
       )}
-      {!loading && (
-        <>
-          <TextField
-            label="Về bạn"
-            multiline
-            rows={6}
-            value={value}
-            onChange={(event) => setValue(event.target.value)}
-            placeholder="Ví dụ: mình 28 tuổi, làm thiết kế, đang cân nhắc chuyển nghề..."
-          />
-
-          <section>
-            <h2 className="md-title-sm text-on-surface">Tôi đã tự ghi nhớ</h2>
-            <p className="mt-1 md-body-sm text-on-surface-variant">
-              Oraclia tự lưu những điều này khi bạn ngừng gõ một lúc. Xóa cái
-              nào là quên hẳn cái đó.
-            </p>
-            {memories.length ? (
-              <ul className="mt-3 flex flex-col gap-2">
-                {memories.map((item) => (
-                  <li
-                    key={item.id}
-                    className="flex items-start gap-2 rounded-xl border border-outline-variant py-2 pr-2 pl-4"
-                  >
-                    <p className="flex-1 py-1.5 md-body-md text-on-surface">
-                      {item.content}
-                    </p>
-                    {forgetting === item.id ? (
-                      <span className="grid size-10 place-items-center text-on-surface-variant">
-                        <CircularProgress size={18} strokeWidth={2} />
-                      </span>
-                    ) : (
-                      <IconButton
-                        icon="close"
-                        label="Quên điều này"
-                        size="sm"
-                        disabled={forgetting !== null}
-                        onClick={() => forget(item.id)}
-                      />
-                    )}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-2 md-body-md text-on-surface-variant">
-                Chưa có gì. Cứ trò chuyện, Oraclia sẽ tự nhặt ra những điều đáng
-                nhớ.
-              </p>
-            )}
-          </section>
-
-          <section>
-            <h2 className="md-title-sm text-on-surface">
-              Bộ nhớ của từng cuộc trò chuyện
-            </h2>
-            {summaries.length ? (
-              <ul className="mt-3 flex flex-col gap-3">
-                {summaries.map((item) => (
-                  <li
-                    key={item.title + item.summary.slice(0, 24)}
-                    className="rounded-xl border border-outline-variant p-4"
-                  >
-                    <p className="md-label-md text-on-surface">{item.title}</p>
-                    <p className="mt-1 md-body-sm text-on-surface-variant">
-                      {item.summary}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mt-2 md-body-md text-on-surface-variant">
-                Chưa có gì. Phần này chỉ xuất hiện khi một cuộc trò chuyện đủ
-                dài để được cô đọng lại; xóa cuộc trò chuyện là xóa luôn phần
-                nhớ của nó.
-              </p>
-            )}
-          </section>
-        </>
-      )}
+      <Memories />
+      <Summaries />
     </SettingsLayout>
-  );
+  )
+}
+
+function Memories() {
+  const { data = [], isPending } = useMemories()
+  return (
+    <section>
+      <Title order={2}>Oraclia tự ghi nhớ</Title>
+      <Text size="sm" c="dimmed" mt={4}>
+        Oraclia tự lưu những điều này khi bạn ngừng trò chuyện một lúc. Sửa cho đúng, hoặc xoá
+        để quên hẳn.
+      </Text>
+      <Stack gap="xs" mt="md">
+        {isPending && <Skeleton height={56} />}
+        {!isPending && !data.length && (
+          <Text size="sm" c="dimmed">
+            Chưa có gì. Cứ trò chuyện, Oraclia sẽ tự nhặt ra những điều đáng nhớ.
+          </Text>
+        )}
+        {data.map((memory) => (
+          <MemoryItem key={memory.id} memory={memory} />
+        ))}
+      </Stack>
+    </section>
+  )
+}
+
+function MemoryItem({ memory }: { memory: Memory }) {
+  const [editing, setEditing] = useState(false)
+  const [value, setValue] = useState(memory.content)
+  const update = useUpdateMemory()
+  const remove = useDeleteMemory()
+
+  if (editing) {
+    return (
+      <div className={classes.memory}>
+        <div className={classes.memoryBody}>
+          <Textarea
+            autosize
+            minRows={2}
+            value={value}
+            onChange={(event) => setValue(event.currentTarget.value)}
+            aria-label="Sửa điều đã nhớ"
+            autoFocus
+          />
+          <Group justify="flex-end" gap="xs" mt="xs">
+            <Button
+              variant="subtle"
+              size="compact-md"
+              onClick={() => {
+                setValue(memory.content)
+                setEditing(false)
+              }}
+            >
+              Huỷ
+            </Button>
+            <Button
+              size="compact-md"
+              loading={update.isPending}
+              disabled={!value.trim() || value.trim() === memory.content}
+              onClick={() =>
+                update.mutate(
+                  { id: memory.id, content: value.trim() },
+                  { onSuccess: () => setEditing(false) },
+                )
+              }
+            >
+              Lưu
+            </Button>
+          </Group>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className={classes.memory}>
+      <div className={classes.memoryBody}>
+        <Text>{memory.content}</Text>
+        <Group gap={6} mt={6}>
+          <Badge variant="light" color="gray" radius="sm" tt="none" fw={500}>
+            {KIND_LABEL[memory.kind] ?? memory.kind}
+          </Badge>
+          {memory.importance === 3 && (
+            <Badge variant="light" radius="sm" tt="none" fw={500}>
+              Quan trọng
+            </Badge>
+          )}
+        </Group>
+      </div>
+      <ActionIcon variant="subtle" color="gray" aria-label="Sửa" onClick={() => setEditing(true)}>
+        <IconPencil size={16} />
+      </ActionIcon>
+      <ActionIcon
+        variant="subtle"
+        color="gray"
+        aria-label="Quên điều này"
+        loading={remove.isPending}
+        onClick={() =>
+          modals.openConfirmModal({
+            title: 'Quên điều này?',
+            children: <Text size="sm">{memory.content}</Text>,
+            labels: { confirm: 'Quên', cancel: 'Giữ lại' },
+            confirmProps: { color: 'red' },
+            onConfirm: () => remove.mutate(memory.id),
+          })
+        }
+      >
+        <IconTrash size={16} />
+      </ActionIcon>
+    </div>
+  )
+}
+
+function Summaries() {
+  const { data = [], isPending } = useSummaries()
+  return (
+    <section>
+      <Title order={2}>Bộ nhớ của từng cuộc trò chuyện</Title>
+      <Stack gap="xs" mt="md">
+        {isPending && <Loader size="sm" />}
+        {!isPending && !data.length && (
+          <Text size="sm" c="dimmed">
+            Chưa có gì. Phần này xuất hiện khi một cuộc trò chuyện đủ dài để được cô đọng lại; xoá
+            cuộc trò chuyện là xoá luôn phần nhớ của nó.
+          </Text>
+        )}
+        {data.map((item) => (
+          <div key={item.title + item.summary.slice(0, 24)} className={classes.summary}>
+            <Text fw={500} size="sm">
+              {item.title}
+            </Text>
+            <Text size="sm" c="dimmed" mt={4}>
+              {item.summary}
+            </Text>
+          </div>
+        ))}
+      </Stack>
+    </section>
+  )
 }

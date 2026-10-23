@@ -1,101 +1,75 @@
-import { useEffect, useState } from "react";
-import {
-  Button,
-  Chip,
-  CircularProgress,
-  TextField,
-  useSnackbar,
-} from "@/components";
-import { getUserSettings, saveUserSettings } from "@db";
-import { SettingsLayout } from "./SettingsLayout";
+import { useEffect, useState } from 'react'
+import { Button, Group, Skeleton, Textarea } from '@mantine/core'
+import { IconPlus } from '@tabler/icons-react'
+import { SettingsLayout } from './SettingsLayout'
+import { useSaveSettings, useUserSettings } from './queries'
 
 const presets = [
-  "Ngắn gọn, đi thẳng vào ý chính",
-  "Nói chuyện thân mật, xưng hô gần gũi",
-  "Phân tích kỹ, nhiều tầng nghĩa",
-  "Thực tế, ưu tiên hành động cụ thể",
-  "Nhẹ nhàng, tránh nói nặng",
-];
+  'Ngắn gọn, đi thẳng vào ý chính',
+  'Nói chuyện thân mật, xưng hô gần gũi',
+  'Phân tích kỹ, nhiều tầng nghĩa',
+  'Thực tế, ưu tiên hành động cụ thể',
+  'Nhẹ nhàng, tránh nói nặng',
+]
 
 export default function StylePage() {
-  const snackbar = useSnackbar();
-  const [value, setValue] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const settings = useUserSettings()
+  const save = useSaveSettings()
+  const [value, setValue] = useState('')
 
   useEffect(() => {
-    getUserSettings()
-      .then((settings) => setValue(settings.response_style))
-      .catch(() => undefined)
-      .finally(() => setLoading(false));
-  }, []);
+    if (settings.data) setValue(settings.data.response_style)
+  }, [settings.data])
 
   function append(preset: string) {
     setValue((current) => {
-      if (current.includes(preset)) return current;
-      return current.trim() ? `${current.trim()}\n${preset}` : preset;
-    });
-  }
-
-  async function save() {
-    setBusy(true);
-    try {
-      await saveUserSettings({ response_style: value.trim() });
-      snackbar({ message: "Đã lưu." });
-    } catch (exception) {
-      snackbar({
-        message:
-          exception instanceof Error ? exception.message : "Không lưu được.",
-      });
-    } finally {
-      setBusy(false);
-    }
+      if (current.includes(preset)) return current
+      return current.trim() ? `${current.trim()}\n${preset}` : preset
+    })
   }
 
   return (
     <SettingsLayout
-      title="Bạn muốn tôi trả lời như thế nào?"
+      title="Cách trả lời"
       description="Cách viết, độ dài, giọng điệu. Riêng các nguyên tắc an toàn thì Oraclia vẫn giữ."
       actions={
-        <Button onClick={save} disabled={busy || loading}>
-          {busy ? (
-            <span className="flex items-center gap-2">
-              <CircularProgress size={18} strokeWidth={3} />
-              Đang lưu...
-            </span>
-          ) : (
-            "Lưu"
-          )}
+        <Button
+          onClick={() => save.mutate({ response_style: value.trim() })}
+          loading={save.isPending}
+          disabled={settings.isPending || value.trim() === (settings.data?.response_style ?? '').trim()}
+        >
+          Lưu
         </Button>
       }
     >
-      {loading ? (
-        <div className="grid place-items-center py-10 text-on-surface-variant">
-          <CircularProgress size={28} />
-        </div>
+      {settings.isPending ? (
+        <Skeleton height={180} />
       ) : (
         <>
-          <div className="flex flex-wrap gap-2">
+          <Group gap="xs">
             {presets.map((preset) => (
-              <Chip
+              <Button
                 key={preset}
-                label={preset}
-                icon="add"
+                variant="default"
+                size="sm"
+                leftSection={<IconPlus size={14} />}
                 onClick={() => append(preset)}
-              />
+                disabled={value.includes(preset)}
+              >
+                {preset}
+              </Button>
             ))}
-          </div>
-
-          <TextField
+          </Group>
+          <Textarea
             label="Phong cách trả lời"
-            multiline
-            rows={6}
+            autosize
+            minRows={5}
             value={value}
-            onChange={(event) => setValue(event.target.value)}
+            onChange={(event) => setValue(event.currentTarget.value)}
             placeholder="Ví dụ: viết ngắn, không hoa mỹ, kết thúc bằng một việc cụ thể nên làm."
           />
         </>
       )}
     </SettingsLayout>
-  );
+  )
 }
