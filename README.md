@@ -25,6 +25,10 @@ LLM_MODEL_FAST=          # tiêu đề + phản tư; trống = LLM_MODEL
 LLM_TEMPERATURE=         # trống = 0.75, "none" = không gửi
 LLM_MAX_TOKENS=
 LLM_REASONING_EFFORT=    # low | medium | high
+LLM_FALLBACK_API_KEY=    # provider dự phòng khi provider chính hỏng; nên khác router
+LLM_FALLBACK_BASE_URL=
+LLM_FALLBACK_MODEL=
+LLM_FALLBACK_MODEL_FAST=
 AGENT_RUNS_PER_HOUR=60
 ALLOWED_ORIGINS=https://nguyenquangvinh.id.vn,http://localhost:5173
 ```
@@ -52,13 +56,20 @@ npm run test:functions        # deno test: policy, history, prompt builder
 npm run check:readings        # dữ liệu: 384 hào, kho tri thức trỏ đúng lá/quẻ
 npm run eval:retrieval        # top-1/top-3 của tìm kiếm tri thức
 # bài đọc end-to-end; function server chạy với SHUFFLE_SEED để cố định trải bài,
-# READER_PROMPT_VERSION=v19 để thử prompt mới; JUDGE_* bật LLM-judge
+# READER_PROMPT_VERSION=v20 để thử prompt mới; JUDGE_* bật LLM-judge
 npm run eval:readings -- --label v18
-npm run eval:readings -- --label v19 --compare scripts/eval/results/v18-….json
+npm run eval:readings -- --label v20 --compare scripts/eval/results/v18-….json
+# cá nhân hoá: cùng câu hỏi với trí nhớ liên quan / không liên quan / đã cũ / không có
+npm run eval:readings -- --label v20-mem --set memory
+# so cặp, mỗi cặp chấm hai lần đảo thứ tự; judge nên khác họ với model đọc bài
+npm run eval:pairwise -- scripts/eval/results/v18-….json scripts/eval/results/v20-….json
+# câu trả lời bị chê → cases-feedback.json, chạy bằng --set feedback
+npm run eval:feedback
 ```
 
-Số liệu thật: bảng `model_calls` + view `run_usage` (token, TTFT, cắt cụt) và view
-`feedback_by_prompt` (👍/👎 theo phiên bản prompt).
+Số liệu thật: bảng `model_calls` (kèm `fallback_reason` khi model dự phòng phải trả
+lời) + view `run_usage` (token, TTFT, cắt cụt) và view `feedback_by_prompt` (👍/👎
+theo phiên bản prompt).
 
 ---
 

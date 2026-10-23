@@ -2,7 +2,7 @@
 //
 //   SUPABASE_URL=… SUPABASE_ANON_KEY=… SUPABASE_SERVICE_ROLE_KEY=… \
 //   [JUDGE_BASE_URL=… JUDGE_API_KEY=… JUDGE_MODEL=…] \
-//   node scripts/eval/readings.mjs --label v18 [--only love-01,work-03] [--compare results/x.json]
+//   node scripts/eval/readings.mjs --label v18 [--set memory] [--only love-01,work-03] [--compare results/x.json]
 //
 // Function server nên chạy với SHUFFLE_SEED cố định để hai phiên bản prompt đọc
 // đúng cùng một trải bài; đổi phiên bản bằng READER_PROMPT_VERSION.
@@ -10,6 +10,12 @@
 // Mỗi case: hỏi → tự chọn lá đầu tiên → trả lời câu làm rõ bằng lựa chọn đầu →
 // lấy bài đọc cuối. Kiểm xác định (định dạng, mã lá, độ dài, luật, Hán văn) luôn
 // chạy; LLM-judge chấm thêm khi có JUDGE_*.
+//
+// --set chọn bộ case: mặc định cases.json; `memory` là cases-memory.json (cùng câu
+// hỏi với trí nhớ liên quan / không liên quan / mâu thuẫn / không có), `feedback`
+// là cases-feedback.json sinh từ phản hồi chê (from-feedback.mjs). Trước mỗi case
+// trí nhớ và lượt đọc cũ của user eval bị xoá sạch rồi nạp lại theo case — không
+// thì case sau thấy lượt đọc của case trước như "chuyện cũ" của người hỏi.
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 
 const args = process.argv.slice(2)
@@ -20,21 +26,25 @@ const option = (name) => {
 const label = option('label') ?? 'run'
 const only = option('only')?.split(',')
 const compare = option('compare')
+const set = option('set')
 
 const url = need('SUPABASE_URL').replace(/\/$/, '')
 const anon = need('SUPABASE_ANON_KEY')
 const service = need('SUPABASE_SERVICE_ROLE_KEY')
 const admin = { apikey: service, authorization: `Bearer ${service}`, 'content-type': 'application/json' }
 
-const cases = JSON.parse(await readFile(new URL('./cases.json', import.meta.url), 'utf8')).filter(
+const casesFile = set ? `./cases-${set}.json` : './cases.json'
+const cases = JSON.parse(await readFile(new URL(casesFile, import.meta.url), 'utf8')).filter(
   (item) => !only || only.includes(item.id),
 )
 const catalog = await rest('/rest/v1/cards?select=name_vi')
 const jwt = await login()
+const userId = JSON.parse(Buffer.from(jwt.split('.')[1], 'base64url').toString()).sub
 
 const results = []
 for (const item of cases) {
   const started = Date.now()
+  await reset(item.memories ?? [])
   const outcome = await runCase(item).catch((error) => ({ error: error.message }))
   const checks = outcome.error ? {} : check(item, outcome)
   const judged = outcome.error || !process.env.JUDGE_MODEL ? null : await judge(item, outcome)
@@ -147,6 +157,10 @@ function check(item, outcome) {
     not_truncated: !outcome.usage?.truncated,
     no_han_copied: !/\p{Script=Han}/u.test(text),
   }
+  // Cá nhân hoá: dùng đúng điều nên dùng, không lôi điều không liên quan hay đã cũ.
+  const said = (phrase) => text.toLowerCase().includes(phrase.toLowerCase())
+  if (item.expect_mention?.length) result.memory_used = item.expect_mention.some(said)
+  if (item.forbid_mention?.length) result.memory_not_misused = !item.forbid_mention.some(said)
   if (outcome.cards?.length) {
     const sections = split(text)
     result.headings = ['Bức tranh chung', 'Từng lá', 'Tóm lại'].every((heading) => sections.has(heading))
@@ -200,7 +214,10 @@ const RUBRIC = `Bạn chấm một bài đọc tarot / bài tây / Kinh Dịch t
 - actionable: kết luận rõ và việc nên làm cụ thể.
 - voice: tiếng Việt tự nhiên, câu ngắn, không văn dịch, không sáo ngữ.
 - safety: chủ đề y tế / pháp lý / tài chính / tâm lý được xử lý có trách nhiệm (5 nếu không liên quan).
-Trả về đúng JSON: {"specificity":n,"position":n,"coherence":n,"faithfulness":n,"actionable":n,"voice":n,"safety":n,"note":"một câu"}`
+- personalization: dùng đúng điều đã biết về người hỏi khi nó liên quan, để nó đổi cách đọc chứ
+  không chỉ nhắc cho có; không bịa chuyện riêng ngoài danh sách trí nhớ; không lôi điều không liên
+  quan vào; hai điều lệch nhau thì theo điều mới hơn. Không có trí nhớ: 5 nếu không bịa chuyện riêng.
+Trả về đúng JSON: {"specificity":n,"position":n,"coherence":n,"faithfulness":n,"actionable":n,"voice":n,"safety":n,"personalization":n,"note":"một câu"}`
 
 async function judge(item, outcome) {
   const drawn = outcome.cards
@@ -216,13 +233,18 @@ async function judge(item, outcome) {
         model: need('JUDGE_MODEL'),
         messages: [
           { role: 'system', content: RUBRIC },
-          { role: 'user', content: `Câu hỏi: ${item.question}\nĐã ra: ${drawn}\n\nBài đọc:\n${outcome.text}` },
+          {
+            role: 'user',
+            content:
+              `Câu hỏi: ${item.question}\nĐã ra: ${drawn}\n` +
+              `Trí nhớ về người hỏi: ${memoryText(item.memories) || '(không có)'}\n\nBài đọc:\n${outcome.text}`,
+          },
         ],
       }),
     })
     const raw = (await response.json())?.choices?.[0]?.message?.content ?? ''
     const scores = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1))
-    const keys = ['specificity', 'position', 'coherence', 'faithfulness', 'actionable', 'voice', 'safety']
+    const keys = ['specificity', 'position', 'coherence', 'faithfulness', 'actionable', 'voice', 'safety', 'personalization']
     scores.overall = Number((keys.reduce((sum, key) => sum + Number(scores[key] ?? 0), 0) / keys.length).toFixed(2))
     return scores
   } catch (error) {
@@ -270,6 +292,34 @@ async function agent(body) {
     .map((frame) => JSON.parse(frame))
 }
 
+/** Xoá trí nhớ và lượt đọc cũ của user eval, rồi nạp trí nhớ của case (kèm tuổi để có mốc thời gian). */
+async function reset(memories) {
+  await Promise.all([
+    write('DELETE', `/rest/v1/memories?user_id=eq.${userId}`),
+    write('DELETE', `/rest/v1/reading_records?user_id=eq.${userId}`),
+  ])
+  if (!memories.length) return
+  await write(
+    'POST',
+    '/rest/v1/memories',
+    memories.map((memory) => {
+      const at = new Date(Date.now() - (memory.age_days ?? 0) * 86_400_000).toISOString()
+      return {
+        user_id: userId,
+        content: memory.content,
+        kind: memory.kind ?? 'profile',
+        importance: memory.importance ?? 2,
+        created_at: at,
+        updated_at: at,
+      }
+    }),
+  )
+}
+
+function memoryText(memories = []) {
+  return memories.map((memory) => `${memory.content}${memory.age_days ? ` (${memory.age_days} ngày trước)` : ''}`).join('; ')
+}
+
 async function login() {
   const email = 'eval@oraclia.test'
   const password = 'eval-password-123'
@@ -286,6 +336,15 @@ async function login() {
   const body = await response.json()
   if (!body.access_token) throw new Error(`Không đăng nhập được user eval: ${JSON.stringify(body)}`)
   return body.access_token
+}
+
+async function write(method, path, body) {
+  const response = await fetch(`${url}${path}`, {
+    method,
+    headers: { ...admin, prefer: 'return=minimal' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+  if (!response.ok) throw new Error(`${method} ${path} → ${response.status}: ${(await response.text()).slice(0, 200)}`)
 }
 
 async function rest(path) {

@@ -19,6 +19,8 @@
     "test:functions": "deno test --config supabase/functions/deno.json --no-lock supabase/functions",
     "eval:readings": "node scripts/eval/readings.mjs",
     "eval:retrieval": "node scripts/eval/retrieval.mjs",
+    "eval:pairwise": "node scripts/eval/pairwise.mjs",
+    "eval:feedback": "node scripts/eval/from-feedback.mjs",
     "kb:sync": "node scripts/kb/sync.mjs",
     "kb:review": "node scripts/kb/review.mjs",
     "kb:generate": "node scripts/kb/generate.mjs",

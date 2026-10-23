@@ -1,0 +1,71 @@
+[
+  {
+    "id": "mem-ex-none",
+    "category": "cá nhân hoá",
+    "question": "Người yêu cũ nhắn tin lại sau ba tháng chia tay, tôi có nên trả lời không?"
+  },
+  {
+    "id": "mem-ex-relevant",
+    "category": "cá nhân hoá",
+    "question": "Người yêu cũ nhắn tin lại sau ba tháng chia tay, tôi có nên trả lời không?",
+    "memories": [
+      { "content": "Người yêu cũ tên Minh, hay im lặng biến mất mỗi khi hai người cãi nhau", "kind": "profile", "importance": 3, "age_days": 40 },
+      { "content": "Chia tay Minh tháng 7/2026 sau hai năm yêu", "kind": "life_event", "importance": 2, "age_days": 90 }
+    ],
+    "expect_mention": ["Minh", "im lặng", "biến mất"]
+  },
+  {
+    "id": "mem-ex-irrelevant",
+    "category": "cá nhân hoá",
+    "question": "Người yêu cũ nhắn tin lại sau ba tháng chia tay, tôi có nên trả lời không?",
+    "memories": [
+      { "content": "Đang học tiếng Nhật để thi N3 vào tháng 12", "kind": "ongoing", "importance": 2, "age_days": 20 },
+      { "content": "Nuôi một con mèo tên Mướp", "kind": "profile", "importance": 1, "age_days": 60 }
+    ],
+    "forbid_mention": ["tiếng Nhật", "N3", "Mướp"]
+  },
+  {
+    "id": "mem-work-none",
+    "category": "cá nhân hoá",
+    "question": "Dạo này công việc của tôi thế nào, có nên tính chuyện đổi chỗ không?"
+  },
+  {
+    "id": "mem-work-relevant",
+    "category": "cá nhân hoá",
+    "question": "Dạo này công việc của tôi thế nào, có nên tính chuyện đổi chỗ không?",
+    "memories": [
+      { "content": "Làm kế toán ở một công ty logistics được 5 năm", "kind": "profile", "importance": 3, "age_days": 120 },
+      { "content": "Công ty vừa thông báo cắt giảm 20% nhân sự trong quý 4", "kind": "ongoing", "importance": 2, "age_days": 10 }
+    ],
+    "expect_mention": ["cắt giảm", "kế toán", "logistics"]
+  },
+  {
+    "id": "mem-work-irrelevant",
+    "category": "cá nhân hoá",
+    "question": "Dạo này công việc của tôi thế nào, có nên tính chuyện đổi chỗ không?",
+    "memories": [
+      { "content": "Thích leo núi vào cuối tuần", "kind": "profile", "importance": 1, "age_days": 30 },
+      { "content": "Bị dị ứng hải sản", "kind": "profile", "importance": 2, "age_days": 200 }
+    ],
+    "forbid_mention": ["leo núi", "hải sản", "dị ứng"]
+  },
+  {
+    "id": "mem-work-updated",
+    "category": "cá nhân hoá",
+    "question": "Dạo này công việc của tôi thế nào, có nên tính chuyện đổi chỗ không?",
+    "memories": [
+      { "content": "Đang thất nghiệp, đi phỏng vấn các vị trí kế toán", "kind": "ongoing", "importance": 2, "age_days": 75 },
+      { "content": "Đã nhận việc kế toán ở một công ty logistics từ đầu tháng 10/2026", "kind": "life_event", "importance": 3, "age_days": 20 }
+    ],
+    "expect_mention": ["việc mới", "mới nhận", "vừa nhận", "logistics"],
+    "forbid_mention": ["thất nghiệp", "đang tìm việc", "phỏng vấn"]
+  },
+  {
+    "id": "mem-style-short",
+    "category": "cá nhân hoá",
+    "question": "Tuần tới tôi có nên nhận thêm một dự án freelance không?",
+    "memories": [
+      { "content": "Muốn câu trả lời ngắn gọn, đi thẳng vào việc nên làm, không cần giảng giải dài", "kind": "preference", "importance": 3, "age_days": 50 }
+    ]
+  }
+]
