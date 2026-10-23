@@ -45,6 +45,13 @@ jobs:
           version: latest
       - run: npm ci
       - run: supabase start
+      # Serve lại functions với env E2E (demo adapter, seed xáo bài cố định).
+      - name: Serve edge functions for E2E
+        run: |
+          supabase functions serve --env-file e2e/functions.env > functions.log 2>&1 &
+          for i in $(seq 1 60); do grep -q "Serving functions" functions.log && exit 0; sleep 2; done
+          cat functions.log
+          exit 1
       - run: npx playwright install --with-deps chromium webkit
       # Bộ đầy đủ chạy 5 thiết bị; trên CI giữ desktop (Chromium) và iPhone
       # (WebKit) — hai engine, hai cỡ màn hình — cho vừa thời gian.
@@ -58,4 +65,5 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            functions.log
           retention-days: 7

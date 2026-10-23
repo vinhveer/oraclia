@@ -54,7 +54,9 @@ export default defineConfig({
       // kb-embed trả 403 cho người lạ: đủ để biết function server đã lên.
       // Cổng riêng (5188) để không bám nhầm dev server của dự án khác.
       url: `${supabase.url}/functions/v1/kb-embed`,
-      reuseExistingServer: !process.env.CI,
+      // `supabase start` đã chạy sẵn edge runtime; CI tự serve lại với env E2E
+      // trước khi chạy test, nên luôn dùng lại thay vì báo cổng bận.
+      reuseExistingServer: true,
       timeout: 120_000,
     },
     {
