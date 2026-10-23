@@ -38,7 +38,9 @@ Kinh Dịch bằng tiếng Việt. Mục này được đưa cho một model kh�
 nên phải cụ thể, đời thường, có chiều sâu thật — không sáo rỗng, không văn dịch,
 không hù dọa, không tiên tri chắc chắn. Viết như người đọc bài lâu năm giải thích
 cho đồng nghiệp. Bám truyền thống Rider-Waite-Smith với tarot, Chu Dịch với quẻ.
-Không bịa trích dẫn; với Hán văn chỉ dịch nghĩa và ghi rõ là bản dịch nháp.
+Không bịa trích dẫn; với Hán văn chỉ dịch nghĩa và ghi rõ là bản dịch nháp. Không
+chép hay phỏng sát bản dịch còn bản quyền (Wilhelm/Baynes, các bản Chu Dịch tiếng
+Việt hiện đại) — kể cả trong gist_en.
 
 Trả về đúng một object JSON, không kèm chữ nào khác:
 {"title": "...", "keywords": ["..."], "body_vi": "...", "gist_en": "..."}

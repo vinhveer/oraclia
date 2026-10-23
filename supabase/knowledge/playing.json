@@ -1,0 +1,1250 @@
+[
+  {
+    "id": "playing:0C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "0C"
+    },
+    "title": "Mười Nhép",
+    "keywords": [
+      "quá tải",
+      "ôm đồm",
+      "gánh nặng",
+      "không dám từ chối",
+      "chia việc"
+    ],
+    "body_vi": "**Cốt lõi.** Vác nhiều hơn sức, và phần lớn là tự nhận: vì giỏi, vì ngại từ chối, vì nghĩ người khác làm không bằng. Mười Nhép không phải thất bại; nó là thành công đã nặng tới mức che mắt mình. Bớt một việc là cứu cả phần còn lại.\n\n**Tình cảm.** Một người gánh cả việc nhà, chuyện tiền, chuyện cảm xúc của hai người. Mối quan hệ mệt không vì hết thương mà vì chia việc lệch.\n**Công việc – tiền bạc.** Ôm nhiều vai, làm thay người khác, nhận thêm việc để có thêm tiền rồi kiệt. Trách nhiệm tài chính dồn lên một người.\n**Bản thân.** Thấy không ai đỡ được mình; cáu bẳn, quên mất mình muốn gì.\n\n**Theo vị trí.** Ở trở ngại: chính sự ôm đồm. Ở lời khuyên: trả lại việc không phải của mình. Ở kết quả: nếu không bớt, việc nào cũng làm dở.\n\n**Hay đi cùng.** Cạnh Bốn Bích: cơ thể đòi nghỉ. Cạnh Ba Nhép: lời giải là chia việc, tìm người cùng làm.\n\n**Lời khuyên.** Viết hết các việc đang gánh; gạch một việc bỏ hẳn và giao một việc đi ngay trong tuần.",
+    "gist_en": "Ten of Clubs playing card: overload and over-responsibility, much of it self-imposed out of competence, guilt or reluctance to say no. Success that has become a burden; one partner carrying the household or finances. Advice: list every load, drop one task and delegate another this week.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:0D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "0D"
+    },
+    "title": "Mười Rô",
+    "keywords": [
+      "bền vững",
+      "của cải",
+      "dài hạn",
+      "tài sản chung",
+      "nền tảng"
+    ],
+    "body_vi": "**Cốt lõi.** Nền tảng vật chất đủ vững để tính chuyện dài hơi: nhà cửa, tài sản, một sự nghiệp đã gây dựng. Khác Chín Rô (tự lo cho mình), Mười Rô là của cải chung, để lại, gắn với gia đình hoặc tổ chức. Đây là lá tiền bạc mạnh nhất của chất Rô.\n\n**Tình cảm.** Tính chuyện về chung, mua nhà, gộp tài chính. Cần thỏa thuận rõ để tình không bị tiền chi phối.\n**Công việc – tiền bạc.** Công ty ổn định, hợp đồng dài hạn, khoản đầu tư lâu năm; một bước tiến rõ về thu nhập.\n**Bản thân.** Nghĩ xa hơn bản thân: mình để lại gì cho người sau.\n\n**Theo vị trí.** Ở hiện tại: tình hình vật chất vững. Ở trở ngại: của chung trong nhà gây căng thẳng. Ở kết quả: thành quả lâu dài.\n\n**Hay đi cùng.** Cạnh Mười Cơ: gia đình vừa ấm vừa đủ. Cạnh Năm Bích: tranh chấp quanh tài sản chung.\n\n**Lời khuyên.** Tính dài hạn: giấy tờ rõ ràng, kế hoạch nhiều năm; khoản lớn thì hỏi người có chuyên môn.",
+    "gist_en": "Ten of Diamonds playing card: a solid material foundation for the long term; property, assets, an established career, shared or family wealth, long-term contracts. The strongest money card of the suit. In love, buying a home or merging finances. Shadow: family money tensions. Advice: plan long term, keep paperwork clear.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:0H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "0H"
+    },
+    "title": "Mười Cơ",
+    "keywords": [
+      "viên mãn",
+      "gia đình",
+      "trọn vẹn",
+      "về chung nhà",
+      "thuộc về"
+    ],
+    "body_vi": "**Cốt lõi.** Tình cảm đi trọn một vòng và dừng ở chỗ đẹp: gia đình hòa thuận, quan hệ đã qua sóng gió và đứng vững. Khác Chín Cơ (thỏa nguyện riêng), Mười Cơ là niềm vui chung, nhiều người cùng hưởng.\n\n**Tình cảm.** Cưới hỏi, về chung nhà, ra mắt gia đình hai bên, một mối quan hệ được cả nhà chấp nhận.\n**Công việc – tiền bạc.** Làm ăn trong gia đình thuận, chỗ làm có không khí như nhà; tiền dùng cho tổ ấm. Không phải lá của tham vọng.\n**Bản thân.** Cảm giác thuộc về: có nơi để về, có người chờ cơm.\n\n**Theo vị trí.** Ở hiện tại: một giai đoạn yên ấm. Ở trở ngại: giữ hình ảnh gia đình êm đẹp mà nén cảm xúc thật. Ở kết quả: một chu kỳ khép lại trọn vẹn.\n\n**Hay đi cùng.** Cạnh Ba Cơ: tiệc tùng, sum họp đông đủ. Cạnh Tám Cơ: một chương đẹp khép lại để mở chương khác, như con cái ra ở riêng.\n\n**Lời khuyên.** Trân trọng điều đã có và nói ra điều đó với người trong nhà; sự trọn vẹn cần được gọi tên mới thấy rõ.",
+    "gist_en": "Ten of Hearts playing card: emotional fulfillment shared with others; harmonious family, a relationship that has weathered storms, marriage, moving in together, acceptance by both families. A completed cycle in peace; belonging. Shadow: keeping up a happy image while suppressing feelings. Advice: appreciate and voice what you have.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:0S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "0S"
+    },
+    "title": "Mười Bích",
+    "keywords": [
+      "kết thúc",
+      "chạm đáy",
+      "làm lại",
+      "khép chương",
+      "buông cái đã hỏng"
+    ],
+    "body_vi": "**Cốt lõi.** Một chương khép lại hẳn. Mười Bích là điểm thấp nhất của một chuỗi khó: mất việc, chia tay dứt khoát, dự án đổ, hoặc nhận ra một con đường đã hết. Nặng, nhưng có một điều nhẹ: không còn phải gồng giữ cái đã hỏng. Sau đáy là đường lên.\n\n**Tình cảm.** Chấm dứt hẳn một mối quan hệ, không còn cửa quay lại; hoặc chạm đáy của một kiểu yêu cũ để đổi cách yêu.\n**Công việc – tiền bạc.** Đóng một việc làm ăn, nghỉ việc, chịu lỗ để cắt. Lúc này giữ phần nền: chỗ ở, chi tiêu cơ bản, sức khỏe.\n**Bản thân.** Kiệt, thấy mình thua; cần người ở bên hơn là cần lời khuyên.\n\n**Theo vị trí.** Ở quá khứ: cú ngã đã qua, nay đang dựng lại. Ở hiện tại: đang ở đáy, chưa nên quyết chuyện lớn khi còn choáng. Ở kết quả: cái cũ khép lại; cái mới do người hỏi chọn.\n\n**Hay đi cùng.** Cạnh Át Bích: cắt dứt khoát, đừng níu. Cạnh Át Nhép: sự kết thúc dọn chỗ cho một khởi đầu.\n\n**Lời khuyên.** Đừng cố cứu cái đã xong; ghi lại bài học, nghỉ cho đủ, rồi chọn một việc nhỏ để bắt đầu lại.",
+    "gist_en": "Ten of Spades playing card: a definite ending and rock bottom; job loss, final breakup, a collapsed project or a road that has run out. Heavy yet relieving: no more propping up what is broken. Protect basics, seek support. Advice: stop rescuing the finished, rest, then restart small.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:2C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "2C"
+    },
+    "title": "Hai Nhép",
+    "keywords": [
+      "kế hoạch",
+      "chọn hướng",
+      "chờ tín hiệu",
+      "ngã rẽ",
+      "tầm nhìn"
+    ],
+    "body_vi": "**Cốt lõi.** Người hỏi đứng ở chỗ nhìn được xa: biết mình muốn gì, đã có hai ba phương án, nhưng chân vẫn ở chỗ cũ. Hai Nhép là khoảng giữa lên kế hoạch và hành động; cái cần lúc này là chọn, không phải thêm thông tin. Chờ tín hiệu chỉ có ích khi biết rõ mình đang chờ tín hiệu gì.\n\n**Tình cảm.** Cân giữa giữ mối hiện tại và một hướng khác, hoặc giữa ở lại và đi theo người kia. Cũng có thể hai người bàn kế hoạch chung (về chung, chuyển nhà) mà chưa ai chốt.\n**Công việc – tiền bạc.** Hai lời mời, hai hướng đầu tư, ở lại công ty hay ra làm riêng. Lập bảng so sánh thì hợp; để bảng ấy nằm yên hàng tháng thì không.\n**Bản thân.** Nghĩ xa, chuẩn bị kỹ, nhưng sợ chọn sai nên trì hoãn.\n\n**Theo vị trí.** Ở hiện tại: đang ở ngã rẽ. Ở trở ngại: lấy việc chuẩn bị làm cớ để chưa đi. Ở lời khuyên: đặt hạn chót cho quyết định.\n\n**Hay đi cùng.** Cạnh Hai Bích: lưỡng lự đã thành né tránh. Cạnh Tám Nhép: tín hiệu đến nhanh hơn mình nghĩ.\n\n**Lời khuyên.** Viết ra điều kiện nào thì chọn hướng A, điều kiện nào chọn B, rồi khoanh một ngày để quyết.",
+    "gist_en": "Two of Clubs playing card: vision and planning without the first step yet; standing at a fork with two or three options. Choosing matters more than gathering more information. Job offers, going solo, shared plans not yet settled. Risk: using preparation as an excuse to delay. Advice: set criteria and a deadline.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:2D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "2D"
+    },
+    "title": "Hai Rô",
+    "keywords": [
+      "cân đối",
+      "xoay xở",
+      "hai việc",
+      "thương lượng",
+      "ưu tiên"
+    ],
+    "body_vi": "**Cốt lõi.** Hai đầu việc, hai khoản phải lo, hai nguồn thu, và mình đứng giữa giữ cho cả hai cùng chạy. Không phải khủng hoảng, mà là trạng thái xoay xở: giữ được nhịp thì qua, lơ một bên thì lệch.\n\n**Tình cảm.** Cân giữa người yêu và công việc; hai người bàn chuyện tiền chung, chia việc nhà. Cũng có thể là trao đổi qua lại đều đặn.\n**Công việc – tiền bạc.** Làm hai việc một lúc, việc chính và việc tay trái; lấy chỗ này đắp chỗ kia; một cuộc thương lượng hai bên.\n**Bản thân.** Mệt vì phải linh hoạt liên tục, nhưng đang học cách sắp thứ tự.\n\n**Theo vị trí.** Ở hiện tại: đang cân. Ở trở ngại: ôm quá nhiều, không chịu bỏ bớt. Ở lời khuyên: lập bảng thu chi, chọn ưu tiên.\n\n**Hay đi cùng.** Cạnh Tám Rô: làm nhiều giờ, cần chừa thời gian nghỉ. Cạnh Năm Rô: xoay xở vì đang thiếu, không phải vì có nhiều cơ hội.\n\n**Lời khuyên.** Viết ra cả hai việc kèm hạn chót; cái gì hoãn được thì hoãn, cái gì giao được thì giao.",
+    "gist_en": "Two of Diamonds playing card: juggling two tasks, two expenses or two income sources; balancing rather than crisis. A main job and a side job, shifting money between needs, negotiating, sharing household finances. Risk: taking on too much. Advice: list both with deadlines, postpone or delegate what you can.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:2H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "2H"
+    },
+    "title": "Hai Cơ",
+    "keywords": [
+      "gắn kết",
+      "hòa hợp",
+      "qua lại hai chiều",
+      "hai người",
+      "cộng sự hợp ý"
+    ],
+    "body_vi": "**Cốt lõi.** Hai người tìm được nhịp chung: hiểu ý nhau không cần nói nhiều, cùng muốn một điều. Khác Át Cơ ở chỗ tình cảm đã có đối tượng rõ. Mấu chốt là sự qua lại — một bên cho mãi thì lá này không còn đúng nghĩa.\n\n**Tình cảm.** Hẹn hò đều đặn, lời tỏ tình được đáp lại, hai người sau giận dỗi tìm lại cách nói chuyện. Với người đang một mình: một người hợp tính có thể đã ở gần, chỉ chưa để ý.\n**Công việc – tiền bạc.** Một cộng sự hợp ý, một thỏa thuận hai bên cùng lợi. Lúc này làm chung hợp hơn làm riêng.\n**Bản thân.** Học cách vừa giữ mình vừa nhường người kia mà không thấy mất mình.\n\n**Theo vị trí.** Ở hiện tại: quan hệ đang đẹp. Ở trở ngại: một bên đang gánh nhiều hơn. Ở kết quả: hai phía gặp nhau ở giữa.\n\n**Hay đi cùng.** Cạnh Bảy Cơ: coi chừng mình đang tô vẽ người kia hợp hơn thực tế. Cạnh Hai Rô: tình cảm bắt đầu phải tính chuyện tiền chung.\n\n**Lời khuyên.** Hỏi người kia muốn gì, đừng đoán; sự gắn kết bền là thứ hai người cùng giữ.",
+    "gist_en": "Two of Hearts playing card: two people finding a shared rhythm; mutual attraction, a confession returned, reconciliation after a quarrel, a well-matched partner at work. The key is reciprocity; if one side always gives, the meaning weakens. Advice: ask instead of guessing, a bond lasts when both hold it.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:2S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "2S"
+    },
+    "title": "Hai Bích",
+    "keywords": [
+      "bế tắc",
+      "né tránh",
+      "không quyết",
+      "giằng co",
+      "im lặng"
+    ],
+    "body_vi": "**Cốt lõi.** Hai lựa chọn đều khó, và người hỏi chọn cách không nhìn. Hai Bích là đứng im vì sợ cái giá của cả hai đường. Thế cân bằng lúc này là giả: sự việc vẫn trôi, và không chọn thì hoàn cảnh sẽ chọn thay.\n\n**Tình cảm.** Lửng lơ giữa hai người, hoặc không dám nói chia tay mà cũng không dám cam kết. Có thể là một khoảng im lặng kéo dài sau va chạm, chẳng ai mở lời.\n**Công việc – tiền bạc.** Chần chừ một quyết định nhân sự, một khoản chi, một lời từ chối. Hai bên giằng co, không ai nhượng.\n**Bản thân.** Mệt vì nghĩ mãi một chuyện; nói \"để xem\" quá nhiều lần.\n\n**Theo vị trí.** Ở hiện tại: đang treo một quyết định. Ở trở ngại: sự trì hoãn. Ở lời khuyên: mở mắt nhìn cả hai đường, chấp nhận mất một bên.\n\n**Hay đi cùng.** Cạnh Át Bích: một sự thật đến buộc phải quyết. Cạnh Bảy Bích: có thông tin bị giấu nên mình không quyết nổi.\n\n**Lời khuyên.** Viết ra cái giá của mỗi lựa chọn, chọn cái giá mình chịu được, và nói quyết định ấy với ít nhất một người.",
+    "gist_en": "Two of Spades playing card: stalemate and avoidance; refusing to look at a hard choice because both paths cost something. False balance while circumstances decide instead. Love: limbo, neither leaving nor committing, long silences. Work: stalled decisions, standoffs. Advice: weigh each cost, choose, say it aloud.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:3C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "3C"
+    },
+    "title": "Ba Nhép",
+    "keywords": [
+      "mở rộng",
+      "hợp tác",
+      "đường xa",
+      "tìm đối tác",
+      "vươn ra ngoài"
+    ],
+    "body_vi": "**Cốt lõi.** Việc đã chạy được ở quy mô nhỏ và bắt đầu cần vươn ra: thêm người, thêm khách, thêm vùng. Ba Nhép là lúc sức một người không còn đủ; muốn đi tiếp phải biết mời người cùng làm và chịu chia bớt quyền quyết.\n\n**Tình cảm.** Mối quan hệ được mở ra với bạn bè, gia đình hai bên; hoặc yêu xa, quen nhau qua công việc hay một chuyến đi. Có khi là hai người cùng góp sức làm chung một việc.\n**Công việc – tiền bạc.** Tìm đối tác, mở thêm điểm bán, làm với khách ở tỉnh khác hay nước ngoài, gửi hồ sơ đi xa. Tiền về chậm vì đường dài, nhưng nguồn rộng hơn.\n**Bản thân.** Muốn ra khỏi vùng quen: học ngoại ngữ, đi học xa, đổi môi trường.\n\n**Theo vị trí.** Ở hiện tại: việc đã đủ lớn để cần thêm người. Ở trở ngại: ôm hết mọi việc, không chịu giao. Ở kết quả: một mối hợp tác mở được cửa mới.\n\n**Hay đi cùng.** Cạnh Sáu Bích: chuyển chỗ để làm ăn. Cạnh Đầm Nhép: có người nữ năng nổ sẵn lòng góp sức.\n\n**Lời khuyên.** Liệt kê việc chỉ mình làm được và việc người khác làm tốt hơn; giao nhóm thứ hai đi.",
+    "gist_en": "Three of Clubs playing card: expansion beyond the first small success; partnerships, collaboration, distant clients, travel or study abroad, long-distance ties. One person is no longer enough, so share control. Risk: refusing to delegate. Advice: hand off what others do better and look further afield.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:3D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "3D"
+    },
+    "title": "Ba Rô",
+    "keywords": [
+      "tay nghề",
+      "tiến bộ",
+      "được ghi nhận",
+      "làm nhóm",
+      "kết quả đầu tiên"
+    ],
+    "body_vi": "**Cốt lõi.** Công sức bắt đầu ra hình: sản phẩm đầu tiên xong, kỹ năng được người khác công nhận. Ba là con số của sự hình thành; ở chất Rô, đó là lúc việc làm có kết quả nhìn thấy được và có người nhận ra.\n\n**Tình cảm.** Cùng xây một thứ cụ thể: sửa nhà, kế hoạch tiết kiệm, một dự án chung. Mối quan hệ lớn lên qua việc làm hơn qua lời nói.\n**Công việc – tiền bạc.** Được khen trước nhóm, được giao việc lớn hơn, khách quay lại. Làm nhóm hiệu quả, mỗi người một tay nghề.\n**Bản thân.** Tự tin hơn vì thấy mình làm được thật, chứ không chỉ nghĩ là được.\n\n**Theo vị trí.** Ở hiện tại: đang tiến bộ. Ở trở ngại: làm tốt mà không ai biết vì mình không cho ai thấy. Ở kết quả: được ghi nhận.\n\n**Hay đi cùng.** Cạnh Tám Rô: tay nghề đến từ luyện tập lâu dài. Cạnh Già Rô: một người có quyền đã thấy năng lực của mình.\n\n**Lời khuyên.** Cho người khác thấy việc mình làm; khiêm tốn không có nghĩa là giấu.",
+    "gist_en": "Three of Diamonds playing card: effort begins to show results and is noticed; skill recognized, first finished product, larger assignments, returning clients, effective teamwork. In love, building something concrete together. Risk: doing good work no one sees. Advice: show your work, modesty is not hiding.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:3H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "3H"
+    },
+    "title": "Ba Cơ",
+    "keywords": [
+      "vui vầy",
+      "sum họp",
+      "bạn bè",
+      "san sẻ",
+      "vòng bạn bè"
+    ],
+    "body_vi": "**Cốt lõi.** Niềm vui có người chứng kiến: bữa cơm đông người, buổi họp lớp, tin vui được chia cho bạn bè. Lá nhấn vào vòng người thân quen quanh mình — bạn bè, anh chị em — hơn là chuyện đôi lứa.\n\n**Tình cảm.** Mối quan hệ được ra mắt, được bạn bè hai bên đón nhận. Mặt trái: bạn bè, người nhà xen vào quá sâu, hoặc để người ngoài quyết thay chuyện riêng.\n**Công việc – tiền bạc.** Một nhóm làm việc vui vẻ, một buổi ăn mừng; thành công nhỏ được chia đều cho mọi người.\n**Bản thân.** Đang thu mình thì lá này nhắc gọi lại cho ai đó. Niềm vui giữ một mình dễ nguội.\n\n**Theo vị trí.** Ở hiện tại: có dịp vui, có người bên cạnh. Ở trở ngại: chuyện riêng bị quá nhiều người bàn. Ở lời khuyên: chủ động kết nối.\n\n**Hay đi cùng.** Cạnh Mười Cơ: đám cưới, họp mặt gia đình, ngày lễ đông đủ. Cạnh Bồi Bích: lời ra tiếng vào trong nhóm bạn.\n\n**Lời khuyên.** Chia niềm vui ra, và cũng cho người khác cơ hội chia với mình; nhưng giữ chuyện đôi lứa ở mức hai người tự quyết.",
+    "gist_en": "Three of Hearts playing card: shared joy and gatherings; meals with friends, reunions, good news spread among siblings and friends. In love, a relationship welcomed by friends, or friends and relatives meddling too much. At work, a cheerful team and small celebrations. Advice: share the joy, reconnect, keep couple matters private.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:3S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "3S"
+    },
+    "title": "Ba Bích",
+    "keywords": [
+      "tổn thương",
+      "chia lìa",
+      "đau lòng",
+      "người thứ ba",
+      "rạn nứt"
+    ],
+    "body_vi": "**Cốt lõi.** Một nỗi đau thật, có nguyên nhân: một lời nói, một lần bị bỏ lại, một cuộc chia tay hay một người rời nhóm. Ba Bích không nói mọi thứ đã hết; nó nói chỗ này đang đau và cần được chăm, đừng vội kết luận khi còn đang rát. Bói dân gian còn hay đọc lá này là chuyện ba người: có người thứ ba làm rạn hai người.\n\n**Tình cảm.** Cãi vã để lại vết, xa cách, phát hiện điều người kia giấu. Có khi chỉ là tạm xa, chưa phải chia tay.\n**Công việc – tiền bạc.** Đồng đội rời đi, bị gạt khỏi dự án, mất một mối làm ăn quen. Đừng ra quyết định tiền bạc lớn khi đang buồn.\n**Bản thân.** Thấy hụt hẫng, dễ khóc, kể đi kể lại chuyện vừa xảy ra.\n\n**Theo vị trí.** Ở nguồn cơn: một vết thương cũ chưa nói ra. Ở hiện tại: còn rát, chưa phải lúc phân xử đúng sai. Ở kết quả: đau, nhưng chưa phải chương cuối.\n\n**Hay đi cùng.** Cạnh Sáu Bích: đau rồi rời đi, nhẹ dần. Cạnh Hai Cơ: rạn nhưng còn hàn được nếu cả hai muốn.\n\n**Lời khuyên.** Cho mình buồn trong một thời gian có hạn, rồi tách sự việc ra khỏi câu chuyện mình đang tự kể thêm về nó.",
+    "gist_en": "Three of Spades playing card: real, specific heartache; hurtful words, being left, separation, a teammate leaving, often a third person straining a couple. Painful but not necessarily final; may be a temporary distance. Avoid big money decisions while grieving. Advice: allow sadness for a set time.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:4C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "4C"
+    },
+    "title": "Bốn Nhép",
+    "keywords": [
+      "thành quả",
+      "nghỉ ngơi",
+      "ăn mừng",
+      "cột mốc",
+      "nền vững"
+    ],
+    "body_vi": "**Cốt lõi.** Một chặng đã xong, đủ chắc để dừng lại một nhịp. Bốn Nhép là lá của cột mốc: buổi liên hoan cuối dự án, dọn vào nhà mới, bữa cơm sau kỳ thi. Nó nhắc rằng ăn mừng không phải xa xỉ; nghỉ đúng lúc là một phần của công việc.\n\n**Tình cảm.** Một giai đoạn yên và vui: kỷ niệm một năm, một chuyến đi chơi sau quãng bận, một bữa tối chỉ để mừng. Hợp với những dịp hai người cùng nhìn lại đoạn đường đã đi.\n**Công việc – tiền bạc.** Xong giai đoạn, được thưởng, chốt hợp đồng, nền móng đã vững. Có thể tạm chưa nhận thêm việc mới.\n**Bản thân.** Cho phép mình nghỉ mà không thấy tội lỗi; ghi nhận những gì đã làm được.\n\n**Theo vị trí.** Ở hiện tại: nên dừng lại tổng kết. Ở trở ngại: nghỉ lâu thành chây lười, hoặc ngược lại không chịu dừng. Ở kết quả: một cột mốc đáng ăn mừng.\n\n**Hay đi cùng.** Cạnh Mười Cơ: niềm vui nhà cửa, gia đình. Cạnh Chín Bích: việc đã xong mà đầu vẫn chưa chịu nghỉ.\n\n**Lời khuyên.** Đánh dấu cột mốc cho rõ, cùng những người đã góp sức, rồi hãy nghĩ tới chặng sau.",
+    "gist_en": "Four of Clubs playing card: a stage completed and a solid foundation; celebration, reward, housewarming, milestones, a well-earned pause. Love: anniversaries, a trip together after a busy stretch. Risk: resting too long or never stopping. Advice: mark the milestone with the people who helped before planning the next phase.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:4D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "4D"
+    },
+    "title": "Bốn Rô",
+    "keywords": [
+      "giữ chặt",
+      "tiết kiệm",
+      "phòng thân",
+      "sợ mất",
+      "kiểm soát"
+    ],
+    "body_vi": "**Cốt lõi.** Giữ cái đã có: để dành, phòng thân, đóng cửa với rủi ro. Sự an toàn ở đây là có thật: có quỹ, có chỗ lùi. Vấn đề chỉ đến khi giữ thành ôm — sợ mất nhiều hơn muốn có, và không còn tay để nắm cái mới.\n\n**Tình cảm.** Giữ người kia quá chặt, hay ghen; tính toán từng khoản khi yêu; hoặc khóa kín lòng mình vì sợ tổn thương.\n**Công việc – tiền bạc.** Tiết kiệm có kế hoạch, có quỹ dự phòng. Mặt trái: không dám bỏ tiền cho việc học, bám một vị trí vì sợ đổi.\n**Bản thân.** Kiểm soát nhiều thứ để thấy yên tâm.\n\n**Theo vị trí.** Ở hiện tại: đang ổn nhờ biết giữ. Ở trở ngại: keo kiệt, cứng nhắc. Ở lời khuyên: giữ phần cốt lõi, mở phần còn lại.\n\n**Hay đi cùng.** Cạnh Sáu Rô: học cách cho đi một phần. Cạnh Năm Rô: giữ chặt vì từng thiếu, nỗi sợ cũ còn đó.\n\n**Lời khuyên.** Xác định bao nhiêu là đủ an toàn; phần vượt ngưỡng ấy nên được dùng, không chỉ được cất.",
+    "gist_en": "Four of Diamonds playing card: holding on to what you have; saving, a safety net, avoiding risk. Real security, but excessive holding becomes fear of loss, stinginess, possessiveness or closing the heart. Not investing in growth, clinging to a job. Advice: define what is enough, use the rest instead of hoarding.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:4H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "4H"
+    },
+    "title": "Bốn Cơ",
+    "keywords": [
+      "ổn định",
+      "nếp nhà",
+      "tạm đủ",
+      "nhàm chán",
+      "cần làm mới"
+    ],
+    "body_vi": "**Cốt lõi.** Tình cảm đã có chỗ đứng: không còn hồi hộp, cũng chẳng lo mất. Bốn là con số của nền móng, nên đây là sự ổn định thật. Nhưng ổn định lâu dễ thành nếp quen, rồi thành nhàm — ở cạnh nhau mà ít khi thật sự nhìn nhau.\n\n**Tình cảm.** Quan hệ lâu năm, ngày nào cũng như ngày nào, cuối tuần chỉ còn lịch đi chợ. Người độc thân: thấy thoải mái một mình, ít muốn đổi.\n**Công việc – tiền bạc.** Lương đều, việc quen tay; không có gì phải lo nhưng cũng chẳng có gì để mong.\n**Bản thân.** Bằng lòng với \"tạm đủ\" — có khi là khôn ngoan, có khi là ngại thay đổi. Cần phân biệt hai thứ ấy.\n\n**Theo vị trí.** Ở hiện tại: đang yên. Ở trở ngại: sự an toàn làm mình lười vun đắp. Ở kết quả: giữ được, nếu chịu làm mới.\n\n**Hay đi cùng.** Cạnh Tám Cơ: sự nhàm đã đủ để một người nghĩ tới chuyện đi. Cạnh Ba Cơ: làm mới bằng những dịp vui nhỏ, rủ thêm bạn bè.\n\n**Lời khuyên.** Thêm một điều mới vào nếp cũ — một chuyến đi, một cuộc nói chuyện thật lòng — trước khi sự yên lặng thành khoảng cách.",
+    "gist_en": "Four of Hearts playing card: settled, stable affection and household routine; safe but at risk of becoming stale and taken for granted. Long-term couples on autopilot, comfortable singlehood, a steady but uninspiring job. Advice: bring something new into the routine before quiet turns into distance.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:4S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "4S"
+    },
+    "title": "Bốn Bích",
+    "keywords": [
+      "nghỉ",
+      "rút lui",
+      "hồi phục",
+      "khoảng lặng",
+      "tạm dừng"
+    ],
+    "body_vi": "**Cốt lõi.** Sau một chặng căng, cơ thể và đầu óc đòi nghỉ. Bốn Bích là khoảng lặng có chủ đích: tạm lui khỏi cuộc tranh, ngủ, ở một mình, chưa quyết gì. Ranh giới cần giữ: nghỉ để lấy lại sức thì lành; nghỉ để khỏi phải đối mặt thì chuyện vẫn nằm đó chờ.\n\n**Tình cảm.** Cần khoảng riêng sau một trận cãi, hoặc tạm dừng hẹn hò để hiểu lại mình. Không phải dấu hiệu hết thương.\n**Công việc – tiền bạc.** Xin nghỉ phép, tạm gác dự án, chậm lại để khỏi cháy sức. Tiền bạc nên giữ nguyên, chưa xuống tiền thêm.\n**Bản thân.** Kiệt sức, cần ngủ đủ, cần yên tĩnh; mệt kéo dài thì nên đi khám.\n\n**Theo vị trí.** Ở hiện tại: đang cạn sức. Ở lời khuyên: dừng hẳn một thời gian ngắn. Ở trở ngại: nghỉ mãi thành trốn.\n\n**Hay đi cùng.** Cạnh Mười Nhép: quá tải dẫn tới phải nghỉ. Cạnh Chín Bích: nằm nghỉ mà đầu vẫn chạy.\n\n**Lời khuyên.** Đặt một khoảng nghỉ có ngày bắt đầu và ngày kết thúc, và báo cho người liên quan biết mình đang nghỉ.",
+    "gist_en": "Four of Spades playing card: rest, retreat and recovery after strain; a deliberate pause from conflict, sleep, solitude, no decisions yet. Love: needing space after a fight, not the end. Work: leave, shelving a project, holding money steady. Risk: rest turning into avoidance. Advice: schedule a bounded break.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:5C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "5C"
+    },
+    "title": "Năm Nhép",
+    "keywords": [
+      "va chạm",
+      "cạnh tranh",
+      "ồn ào",
+      "nhiều ý kiến",
+      "tranh luận"
+    ],
+    "body_vi": "**Cốt lõi.** Nhiều người, nhiều ý, ai cũng muốn được nghe. Năm Nhép là va chạm mở: họp nóng, giành phần, đua nhau thể hiện. Nó ồn nhưng chưa phải thù; phần lớn là tranh chỗ đứng hơn là muốn hại nhau. Cái nguy là để va chạm chìm xuống thành ngấm ngầm.\n\n**Tình cảm.** Cãi nhau vặt vì khác ý, ai cũng muốn đúng; hoặc có người khác chen vào giành sự chú ý. Cãi ra nhẽ còn hơn im lặng giận.\n**Công việc – tiền bạc.** Cạnh tranh nội bộ, nhóm nhiều ý tưởng mà không ai chốt, đối thủ dồn tới. Chi phí dễ đội vì mỗi người kéo một kiểu.\n**Bản thân.** Bực bội, thấy phải gồng lên mới được để ý.\n\n**Theo vị trí.** Ở trở ngại: quá nhiều tiếng nói, thiếu người quyết. Ở lời khuyên: nói thẳng, đặt luật chơi rõ. Ở kết quả: ồn một thời gian rồi ngã ngũ.\n\n**Hay đi cùng.** Cạnh Năm Bích: tranh luận có nguy cơ thành ăn thua thật. Cạnh Sáu Nhép: qua được vòng cạnh tranh thì được công nhận.\n\n**Lời khuyên.** Đưa mâu thuẫn lên bàn, tách ý kiến khỏi con người, và thống nhất ai là người chốt cuối.",
+    "gist_en": "Five of Clubs playing card: open conflict and noisy competition; heated meetings, many opinions, rivalry for position rather than real hostility. Better to argue openly than let tension go underground. Love: petty quarrels, competing for attention. Advice: put disagreements on the table and agree who decides.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:5D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "5D"
+    },
+    "title": "Năm Rô",
+    "keywords": [
+      "thiếu hụt",
+      "lo tiền",
+      "chật vật",
+      "ngại nhờ",
+      "tính lại chi tiêu"
+    ],
+    "body_vi": "**Cốt lõi.** Một giai đoạn eo hẹp: tiền về chậm, chi phí bất ngờ, việc không đều. Năm là điểm gãy giữa chất; ở Rô, chỗ gãy nằm ở vật chất. Đi kèm thường là cảm giác bị bỏ ra ngoài, ngại nói với ai — chính sự im lặng ấy làm khó khăn kéo dài.\n\n**Tình cảm.** Chuyện tiền làm hai người căng; hoặc một người thấy mình không đủ, không xứng. Cũng có thể là hai người cùng nhau vượt khó.\n**Công việc – tiền bạc.** Mất một nguồn thu, khoản nợ tới hạn, việc bấp bênh. Lá không nói trắng tay; nó nói cần tính lại ngay.\n**Bản thân.** Tự trách, so mình với người khác, ngại mở lời.\n\n**Theo vị trí.** Ở nguồn cơn: một cú hụt tài chính. Ở trở ngại: không chịu nhờ ai. Ở kết quả: chật vật một thời gian, có người đưa tay nếu mình lên tiếng.\n\n**Hay đi cùng.** Cạnh Sáu Rô: sự giúp đỡ đang tới. Cạnh Chín Bích: lo tiền tới mất ngủ, nỗi lo lớn hơn con số thật.\n\n**Lời khuyên.** Viết ra con số thật, cắt khoản không cần, nói với một người đáng tin; khoản nợ lớn thì hỏi người có chuyên môn.",
+    "gist_en": "Five of Diamonds playing card: a period of financial hardship; late income, unexpected costs, unstable work, debts due. Often comes with shame and reluctance to ask for help, which prolongs the struggle. Money strain in relationships. Advice: face the real numbers, cut costs, tell someone you trust, seek professional advice for big debts.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:5H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "5H"
+    },
+    "title": "Năm Cơ",
+    "keywords": [
+      "tiếc nuối",
+      "hụt hẫng",
+      "thất vọng",
+      "đổi thay",
+      "nhìn phần còn lại"
+    ],
+    "body_vi": "**Cốt lõi.** Một mất mát trong lòng: kỳ vọng không thành, một người rời đi, một tình bạn nhạt dần. Sau sự yên của Bốn, có gì đó thay đổi mà mình không chọn. Lá không nói mất hết; nó nói mình đang chỉ nhìn vào phần đã mất.\n\n**Tình cảm.** Hụt hẫng vì người kia không như mình nghĩ, chia tay hoặc xa cách một thời gian, so mình với người cũ của họ.\n**Công việc – tiền bạc.** Không được chọn, một kế hoạch phải đổi hướng. Thiệt hại thường ở tinh thần nhiều hơn ở tiền.\n**Bản thân.** Cứ ôn lại \"giá mà…\". Cảm giác hẫng chân, chưa biết đặt lòng vào đâu.\n\n**Theo vị trí.** Ở nguồn cơn: một nỗi thất vọng cũ. Ở hiện tại: đang buồn, cần thời gian. Ở lời khuyên: đếm lại những gì vẫn còn.\n\n**Hay đi cùng.** Cạnh Sáu Cơ: tiếc người cũ, muốn quay lại. Cạnh Chín Cơ: nỗi buồn qua nhanh, điều mong vẫn tới theo một đường khác.\n\n**Lời khuyên.** Cho mình buồn trong một khoảng có hạn, rồi quay sang những người và những điều vẫn còn ở cạnh mình.",
+    "gist_en": "Five of Hearts playing card: emotional loss and disappointment; an expectation that failed, someone leaving, a friendship fading, an unchosen change. The pain is real but focus is stuck on what is gone. In work, being passed over. Advice: grieve for a limited time, then turn to what remains.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:5S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "5S"
+    },
+    "title": "Năm Bích",
+    "keywords": [
+      "thắng mà mất",
+      "xung đột",
+      "ăn thua",
+      "cái tôi",
+      "có đáng không"
+    ],
+    "body_vi": "**Cốt lõi.** Một cuộc tranh mà dù thắng cũng mất: mất bạn, mất lòng, mất sức hoặc mất tiền nhiều hơn phần giành được. Năm Bích có mùi ăn thua thật, sẽ có người ra về với cảm giác bị hạ. Câu hỏi của lá này rất đơn giản: có đáng không?\n\n**Tình cảm.** Cãi để thắng chứ không để hiểu; nói lời làm đau rồi thấy mình \"đúng\". Hoặc một cuộc chia tay mà ai cũng thấy mình bị thiệt.\n**Công việc – tiền bạc.** Giành khách, giành công, tranh chấp quyền lợi; thắng hợp đồng nhưng mất quan hệ. Đòi một khoản có khi tốn hơn chính khoản ấy.\n**Bản thân.** Tự ái, khó buông khi bị xúc phạm.\n\n**Theo vị trí.** Ở trở ngại: cái tôi. Ở lời khuyên: lùi một bước, giữ quan hệ. Ở kết quả: thắng ván này, mất ván sau.\n\n**Hay đi cùng.** Cạnh Bảy Bích: có người chơi không sòng phẳng. Cạnh Sáu Bích: rút khỏi cuộc tranh là lối ra.\n\n**Lời khuyên.** Viết ra mình được gì nếu thắng và mất gì để thắng; nếu phần mất lớn hơn, rút.",
+    "gist_en": "Five of Spades playing card: a hollow victory; conflict where winning costs friendships, goodwill, energy or more money than gained. Win-lose fights, wounded pride, arguing to win not to understand, disputes over credit or claims. Advice: tally gains against losses and walk away if the cost is higher.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:6C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "6C"
+    },
+    "title": "Sáu Nhép",
+    "keywords": [
+      "thắng lợi",
+      "được công nhận",
+      "đà tốt",
+      "uy tín",
+      "khiêm tốn"
+    ],
+    "body_vi": "**Cốt lõi.** Nỗ lực được nhìn thấy: được khen trước tập thể, qua một vòng tuyển, kết quả công bố có tên mình. Sáu Nhép là chiến thắng có người chứng kiến. Mặt trái của nó là dễ say: tưởng đà này tự giữ được, hoặc làm người cạnh mình thấy bị lấn.\n\n**Tình cảm.** Được người kia tự hào, công khai mối quan hệ trước bạn bè, đồng nghiệp. Nếu vừa \"thắng\" trong một cuộc giành người, cẩn thận với cảm giác hơn thua.\n**Công việc – tiền bạc.** Thăng chức, trúng thầu, được bầu, sản phẩm được đón nhận. Thu nhập đi lên nhờ uy tín.\n**Bản thân.** Tự tin trở lại sau một thời gian bị nghi ngờ.\n\n**Theo vị trí.** Ở hiện tại: đang có đà, người khác bắt đầu để ý. Ở kết quả: thành công có người công nhận. Ở trở ngại: tự mãn, hoặc quá cần lời khen.\n\n**Hay đi cùng.** Cạnh Bảy Nhép: vừa lên thì có người muốn giành lại vị trí. Cạnh Già Nhép: người có tiếng nói đứng về phía mình.\n\n**Lời khuyên.** Cảm ơn đúng người, chia công cho những ai góp sức, và tận dụng đà này để làm ngay bước tiếp theo.",
+    "gist_en": "Six of Clubs playing card: public victory and recognition; promotion, winning a bid, being praised, a product well received, income rising through reputation. Love: being proudly shown to friends and colleagues. Risk: complacency, needing applause, others feeling overshadowed. Advice: stay humble, share credit, use the momentum.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:6D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "6D"
+    },
+    "title": "Sáu Rô",
+    "keywords": [
+      "cho và nhận",
+      "trợ giúp",
+      "cân bằng lại",
+      "nợ nần sòng phẳng",
+      "quà có điều kiện"
+    ],
+    "body_vi": "**Cốt lõi.** Tiền và sự giúp đỡ chảy theo cả hai chiều: nhận khi cần, cho khi đủ. Sau cái thiếu của Năm Rô, đây là lúc cân lại. Lá cũng hỏi khéo: trong quan hệ này ai đang cho, ai đang nhận, và có công bằng không?\n\n**Tình cảm.** Một người lo vật chất cho người kia, hoặc tình cảm bị đo bằng quà cáp. Cân thì ấm, lệch thì thành mắc nợ.\n**Công việc – tiền bạc.** Được hỗ trợ, nhận học bổng, được trả lại khoản cho mượn; hoặc mình cho vay, làm từ thiện, kèm người mới vào nghề.\n**Bản thân.** Học cách nhận mà không thấy mình nhỏ đi, cho mà không thấy mình hơn người.\n\n**Theo vị trí.** Ở hiện tại: có người giúp hoặc có dịp giúp người. Ở trở ngại: món quà kèm điều kiện. Ở kết quả: cân đối lại được.\n\n**Hay đi cùng.** Cạnh Năm Rô: sự giúp đỡ tới đúng lúc khó. Cạnh Già Rô: người có điều kiện đứng ra hỗ trợ.\n\n**Lời khuyên.** Cho vừa sức, nhận rõ ràng; khoản vay mượn thì ghi lại cho đôi bên yên tâm.",
+    "gist_en": "Six of Diamonds playing card: money and help flowing both ways; receiving support, scholarships, repaid loans, or lending, donating, mentoring. Rebalancing after hardship. Asks who gives and who receives, and whether it is fair; gifts with strings attached. Advice: give within means, receive openly, document loans.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:6H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "6H"
+    },
+    "title": "Sáu Cơ",
+    "keywords": [
+      "chuyện cũ",
+      "người cũ",
+      "hoài niệm",
+      "biết ơn",
+      "ơn nghĩa"
+    ],
+    "body_vi": "**Cốt lõi.** Quá khứ gõ cửa: người cũ nhắn tin, một kỷ niệm sống dậy, một ơn nghĩa từ lâu cần đáp lại. Khác Năm Cơ ở chỗ đây không hẳn là tiếc; quá khứ trở lại để mình xử lý nốt hoặc trân trọng nó.\n\n**Tình cảm.** Người yêu cũ quay lại, bạn cũ gặp lại, hai người nhắc chuyện ngày đầu. Câu cần hỏi: muốn quay về với người ấy, hay chỉ nhớ cảm giác ngày xưa?\n**Công việc – tiền bạc.** Sếp cũ giới thiệu việc, quen biết cũ mở đường; hoặc một món nợ ân tình nên trả.\n**Bản thân.** Nhớ tuổi thơ, quê nhà, những người từng giúp mình. Lòng biết ơn làm mình mềm lại.\n\n**Theo vị trí.** Ở hiện tại: chuyện cũ đang chiếm tâm trí. Ở trở ngại: sống trong ký ức, so người mới với người xưa. Ở kết quả: gặp lại, hàn gắn hoặc khép lại cho đẹp.\n\n**Hay đi cùng.** Cạnh Tám Cơ: gặp lại để chào nhau lần cuối. Cạnh Già Cơ: một người lớn tuổi từng giúp mình xuất hiện lại.\n\n**Lời khuyên.** Nói lời cảm ơn còn nợ, trả cái ơn nên trả, nhưng đừng để quá khứ quyết thay cho hiện tại.",
+    "gist_en": "Six of Hearts playing card: the past returns; an ex reaching out, an old friend, nostalgia, a debt of gratitude to repay. Not regret but unfinished or cherished history. Old contacts open doors at work. Question whether you miss the person or the old feeling. Advice: give thanks, repay kindness, do not let the past decide.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:6S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "6S"
+    },
+    "title": "Sáu Bích",
+    "keywords": [
+      "rời đi",
+      "chuyển tiếp",
+      "nhẹ dần",
+      "đổi chỗ",
+      "qua giai đoạn khó"
+    ],
+    "body_vi": "**Cốt lõi.** Đang rời khỏi vùng khó sang chỗ yên hơn. Không phải chiến thắng, cũng chưa bình yên hẳn: vẫn mang theo vài thứ nặng, nhưng hướng đi đúng. Sáu Bích hay chỉ một dịch chuyển thật: đổi chỗ ở, đổi việc, đi xa một thời gian. Khác Tám Cơ (tự quay lưng với thứ từng quý), Sáu Bích là thoát khỏi chỗ đang làm mình khổ.\n\n**Tình cảm.** Rời khỏi một mối quan hệ làm mình kiệt, hoặc hai người cùng qua giai đoạn khó và đang dịu lại. Cũng có thể là yêu xa, gặp lại sau chuyến đi.\n**Công việc – tiền bạc.** Chuyển phòng ban, sang chỗ làm ổn hơn, đi công tác dài. Tiền đủ dùng; khó khăn đã qua đỉnh.\n**Bản thân.** Nhẹ đi từng chút, ngủ được hơn.\n\n**Theo vị trí.** Ở hiện tại: đang trên đường ra. Ở lời khuyên: đi tiếp, đừng ngoái lại mãi. Ở kết quả: tình hình êm dần.\n\n**Hay đi cùng.** Cạnh Ba Nhép: chuyến đi xa mở ra việc mới. Cạnh Ba Bích: rời đi sau tổn thương, cần thời gian.\n\n**Lời khuyên.** Chọn mang theo điều gì và để lại điều gì; đừng đánh giá chỗ mới khi chưa ở đủ lâu.",
+    "gist_en": "Six of Spades playing card: transition away from difficulty toward calmer ground; moving house, changing jobs, travel, gradual relief while still carrying some weight. Love: leaving a draining tie or a couple easing after hardship. Advice: decide what to take and what to leave, give the new place time.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:7C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "7C"
+    },
+    "title": "Bảy Nhép",
+    "keywords": [
+      "giữ vững",
+      "bị thử",
+      "đơn độc",
+      "bảo vệ lập trường",
+      "phòng thủ"
+    ],
+    "body_vi": "**Cốt lõi.** Người hỏi đang ở chỗ cao hơn người khác một chút và vì thế bị thử: bị chất vấn, bị so, bị kéo xuống. Bảy Nhép là giữ vị trí khi ít người đứng cùng. Lợi thế là mình đang ở thế trên; cái mệt là phải đỡ từ nhiều phía một lúc.\n\n**Tình cảm.** Phải bảo vệ mối quan hệ trước lời ra tiếng vào, trước gia đình phản đối hay người ngoài chen vào. Hoặc phải giữ ranh giới của mình với chính người kia.\n**Công việc – tiền bạc.** Bảo vệ ý kiến trong cuộc họp, giữ giá khi khách ép, giữ chỗ trước người mới. Đừng nhượng chỉ vì mệt.\n**Bản thân.** Cảm giác một mình chống cả nhóm; dễ phòng thủ cả khi không ai tấn công.\n\n**Theo vị trí.** Ở lời khuyên: đứng vững, đừng lùi. Ở trở ngại: coi mọi góp ý là công kích. Ở kết quả: giữ được chỗ, nếu không đuối sức trước.\n\n**Hay đi cùng.** Cạnh Năm Nhép: va chạm nhiều phía, cần chọn trận. Cạnh Già Bích: người có quyền đang kiểm tra lập trường của mình.\n\n**Lời khuyên.** Chọn hai ba điểm thật sự không nhượng, nói rõ lý do, còn lại thì buông cho nhẹ.",
+    "gist_en": "Seven of Clubs playing card: holding one's ground under pressure, being tested and challenged from several sides, often alone. Defending a position, prices, a relationship against outside opposition. Risk: becoming defensive and treating all feedback as attack. Advice: choose the few points worth defending and explain them clearly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:7D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "7D"
+    },
+    "title": "Bảy Rô",
+    "keywords": [
+      "chờ kết quả",
+      "kiên nhẫn",
+      "đánh giá lại",
+      "đầu tư dài",
+      "tiếc công"
+    ],
+    "body_vi": "**Cốt lõi.** Đã gieo rồi, chưa tới mùa gặt. Đây là khoảng giữa: dừng lại xem công sức bỏ ra đã thành gì, có đáng tiếp tục không. Lá không nói thất bại, cũng không hứa thành công; nó đòi một cuộc đánh giá thật thà.\n\n**Tình cảm.** Đã dồn nhiều cho một người và đang tự hỏi có đáng không; chờ người kia đáp lại.\n**Công việc – tiền bạc.** Chờ kết quả phỏng vấn, chờ khoản đầu tư sinh lời, xem lại một dự án dài hơi. Sốt ruột dễ khiến mình rút quá sớm.\n**Bản thân.** Kiên nhẫn với tốc độ của mình; chậm vẫn là đang đi.\n\n**Theo vị trí.** Ở hiện tại: đang chờ. Ở trở ngại: nóng vội, hoặc ngược lại cố bám thứ không hiệu quả vì tiếc công. Ở lời khuyên: đo bằng số liệu, không bằng cảm giác.\n\n**Hay đi cùng.** Cạnh Tám Rô: cứ làm tiếp, kết quả đến từ sự đều đặn. Cạnh Tám Cơ: đánh giá xong và quyết định thôi.\n\n**Lời khuyên.** Đặt một mốc thời gian và một tiêu chí rõ; tới mốc thì quyết, đừng chờ vô hạn.",
+    "gist_en": "Seven of Diamonds playing card: seeds planted, harvest not yet; waiting for results and honestly evaluating whether to continue. Awaiting interview outcomes or investment returns, questioning a relationship you invested in. Risks: impatience or clinging from sunk cost. Advice: set a deadline and clear criteria, then decide.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:7H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "7H"
+    },
+    "title": "Bảy Cơ",
+    "keywords": [
+      "mơ mộng",
+      "ảo tưởng",
+      "nhiều lựa chọn",
+      "lời hứa suông",
+      "cần kiểm chứng"
+    ],
+    "body_vi": "**Cốt lõi.** Nhiều khả năng trong đầu, ít khả năng trong thực tế. Mình đang yêu một hình dung — về người kia, về một tương lai — nhiều hơn yêu điều đang có. Bảy Cơ không phải lá xấu, nhưng là lá cần kiểm chứng.\n\n**Tình cảm.** Thích một người quen qua mạng chưa gặp, lấp lửng với vài người mà không thật lòng với ai, chờ người kia đổi khác như mình tưởng. Hứa nhiều, làm ít.\n**Công việc – tiền bạc.** Kế hoạch đẹp trên giấy, ý tưởng kinh doanh chưa tính chi phí; nhẩm trước khoản thu khi chưa có khách thật.\n**Bản thân.** Mơ mộng giúp mình chịu được hiện tại, nhưng cũng khiến mình hoãn mãi một quyết định.\n\n**Theo vị trí.** Ở hiện tại: bối rối giữa nhiều lựa chọn. Ở trở ngại: ảo tưởng, tự kể chuyện cho mình nghe. Ở lời khuyên: chọn một, thử thật.\n\n**Hay đi cùng.** Cạnh Hai Cơ: mối quan hệ có thật nhưng đang được tô vẽ. Cạnh Bảy Bích: phần mơ hồ không chỉ do mình tô vẽ; có điều người kia chưa nói thật, nên kiểm chứng trước khi tin.\n\n**Lời khuyên.** Viết ra điều gì đã thật sự xảy ra, tách nó khỏi điều mình mong; rồi chọn dựa trên phần thật.",
+    "gist_en": "Seven of Hearts playing card: daydreams, illusions and too many imagined options; loving an image rather than the reality. Online crushes, keeping several people on hold, waiting for someone to change, promises without action, schemes that look good on paper. Advice: separate facts from wishes, choose one path and test it.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:7S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "7S"
+    },
+    "title": "Bảy Bích",
+    "keywords": [
+      "giấu giếm",
+      "mưu tính",
+      "một mình",
+      "đi tắt",
+      "thiếu thông tin"
+    ],
+    "body_vi": "**Cốt lõi.** Có điều không được nói thẳng: một người giữ lại thông tin, một kế hoạch làm sau lưng, hoặc chính người hỏi đang tính đi đường tắt. Bảy Bích không mặc định có kẻ xấu; nó báo rằng bức tranh đang thiếu mảnh, và có ai đó đang hành động một mình.\n\n**Tình cảm.** Giấu nhau chuyện tiền, chuyện người cũ, tin nhắn bị xóa. Hoặc mình đang giấu cảm xúc thật để giữ hòa khí.\n**Công việc – tiền bạc.** Đồng nghiệp nhận vơ ý tưởng, thông tin nội bộ rò rỉ, hợp đồng có điều khoản lắt léo. Lời mời kiếm tiền nhanh thì đọc kỹ.\n**Bản thân.** Nghi ngờ người khác, hoặc tự biện minh cho một việc mình biết là không ổn.\n\n**Theo vị trí.** Ở nguồn cơn: điều chưa nói. Ở lời khuyên: rà lại giấy tờ, hỏi thẳng. Ở kết quả: việc làm lén thường khó giữ kín lâu.\n\n**Hay đi cùng.** Cạnh Bồi Bích: tin về điều bị giấu sắp tới. Cạnh Hai Bích: biết có gì sai mà không muốn nhìn.\n\n**Lời khuyên.** Hỏi trực tiếp thay vì đoán; với chính mình, chọn cách làm mà mình vẫn thấy ổn nếu bị người khác nhìn thấy.",
+    "gist_en": "Seven of Spades playing card: something unsaid; concealment, scheming, withheld information or a tempting shortcut, someone acting alone. Not necessarily a villain, but the picture is incomplete. Love: hidden texts, money or exes. Work: stolen ideas, tricky clauses, get-rich offers. Advice: ask directly, act transparently.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:8C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "8C"
+    },
+    "title": "Tám Nhép",
+    "keywords": [
+      "nhanh",
+      "dồn dập",
+      "tin gấp",
+      "đi lại",
+      "quyết nhanh"
+    ],
+    "body_vi": "**Cốt lõi.** Mọi thứ đột nhiên chạy: tin đến liên tục, việc dồn về, chuyện đứng yên mấy tuần bỗng ngã ngũ trong vài ngày. Tám Nhép thuận nếu đã chuẩn bị, rối nếu chưa. Đây cũng là lá của đi lại, liên lạc, giấy tờ đến tay.\n\n**Tình cảm.** Nhắn tin dồn dập, gặp lại sau thời gian im, mọi thứ tiến nhanh hơn dự định. Nhanh thì vui, nhưng nên chậm một nhịp để kịp hiểu nhau.\n**Công việc – tiền bạc.** Hồ sơ có phản hồi, hợp đồng được duyệt, khách gọi lại, hạn chót sát. Quyết nhanh có lợi; để lâu thì cơ hội trôi.\n**Bản thân.** Bận, hào hứng, dễ quên ăn quên ngủ.\n\n**Theo vị trí.** Ở hiện tại: chuẩn bị nhận tin. Ở trở ngại: vội quá, bỏ sót chi tiết. Ở kết quả: việc ngã ngũ sớm.\n\n**Hay đi cùng.** Cạnh Át Rô: tin tức kéo theo tiền. Cạnh Mười Nhép: nhanh quá thành quá tải.\n\n**Lời khuyên.** Dọn sẵn việc nhỏ để khi tin đến có sức phản hồi ngay; trả lời nhanh nhưng đọc kỹ.",
+    "gist_en": "Eight of Clubs playing card: sudden speed and momentum; messages arriving, stalled matters resolving within days, travel, paperwork, approvals, tight deadlines. Love moves faster than planned. Good if prepared, chaotic if not. Risk: haste and missed details. Advice: clear small tasks, respond quickly but read carefully.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:8D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "8D"
+    },
+    "title": "Tám Rô",
+    "keywords": [
+      "chuyên tâm",
+      "làm đều",
+      "học nghề",
+      "tỉ mỉ",
+      "mải việc"
+    ],
+    "body_vi": "**Cốt lõi.** Kết quả đến từ lặp lại đều đặn: làm từng việc nhỏ cho kỹ, ngày này qua ngày khác. Lá của người học nghề và người thợ — không có cú nhảy vọt, chỉ có tay nghề tăng dần.\n\n**Tình cảm.** Thương bằng việc làm nhỏ mà bền. Mặt trái: mải việc tới mức người kia thấy bị bỏ quên.\n**Công việc – tiền bạc.** Đi học thêm, khóa đào tạo, việc tỉ mỉ cần kiên trì; tiền về đều, nhỏ mà chắc.\n**Bản thân.** Rèn một thói quen tốt; thấy vui trong sự tập trung.\n\n**Theo vị trí.** Ở hiện tại: đang chăm chỉ. Ở trở ngại: cầu toàn, chi li quá mức. Ở lời khuyên: chọn một kỹ năng và luyện nó.\n\n**Hay đi cùng.** Cạnh Ba Rô: luyện tập bắt đầu được ghi nhận. Cạnh Bốn Cơ: tình cảm yên tới mức nhạt vì mình dồn hết sức cho việc; cần cân lại.\n\n**Lời khuyên.** Chia mục tiêu thành việc làm được mỗi ngày, và đo tiến bộ theo tháng thay vì theo ngày.",
+    "gist_en": "Eight of Diamonds playing card: diligence and steady repetition; apprenticeship, training, meticulous work, regular modest income. Mastery grows gradually, no leaps. In love, showing care through small consistent acts, but risk of workaholism. Shadow: perfectionism. Advice: break goals into daily tasks and measure progress monthly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:8H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "8H"
+    },
+    "title": "Tám Cơ",
+    "keywords": [
+      "rời đi",
+      "chủ động buông",
+      "chuyển hướng",
+      "tìm thứ thật hơn",
+      "nhẹ lòng"
+    ],
+    "body_vi": "**Cốt lõi.** Bỏ lại một thứ từng quan trọng, không phải vì nó tệ hẳn mà vì nó không còn nuôi mình. Khác Năm Cơ (mất mát tự xảy đến), ở đây chính mình chọn quay lưng. Thường có chút buồn, nhưng là nỗi buồn nhẹ người.\n\n**Tình cảm.** Thôi chờ một người, rút khỏi mối quan hệ chỉ còn thói quen, hoặc chuyển sự quan tâm sang nơi thật lòng hơn.\n**Công việc – tiền bạc.** Nghỉ chỗ làm ổn định để tìm việc đúng ý, đổi ngành, dừng một dự án đã kéo quá dài.\n**Bản thân.** Nhận ra mình đã lớn khỏi một vai, một nhóm bạn, một cách sống cũ.\n\n**Theo vị trí.** Ở hiện tại: đang chuẩn bị đi. Ở trở ngại: chưa dám bước vì tiếc công sức đã bỏ. Ở kết quả: rời đi và nhẹ lòng.\n\n**Hay đi cùng.** Cạnh Bốn Cơ: rời khỏi một sự an toàn đã nhàm. Cạnh Át Cơ: buông cái cũ để đón một khởi đầu mới.\n\n**Lời khuyên.** Đi khi đã hiểu vì sao mình đi; nói rõ với người ở lại, đừng lặng lẽ biến mất.",
+    "gist_en": "Eight of Hearts playing card: choosing to walk away from something that once mattered but no longer nourishes you; leaving a habitual relationship, quitting a safe job, outgrowing a role or circle. Unlike the Five, the departure is chosen; sad but relieving. Advice: know why you leave and say it clearly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:8S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "8S"
+    },
+    "title": "Tám Bích",
+    "keywords": [
+      "tự trói",
+      "bí bách",
+      "tưởng kẹt",
+      "nỗi sợ",
+      "lối ra gần"
+    ],
+    "body_vi": "**Cốt lõi.** Cảm giác bị kẹt, không có lối ra, và phần lớn sợi dây do chính mình buộc: nỗi sợ, lời hứa cũ, chuẩn mực tự đặt, ý nghĩ \"mình không thể\". Gánh ở đây không nặng; chỉ là mình chưa dám bước. Cửa thật ra hé mở hơn mình tưởng.\n\n**Tình cảm.** Ở lại một mối quan hệ vì sợ một mình, vì sợ người ngoài nói ra nói vào; hoặc tự cấm mình mở lòng.\n**Công việc – tiền bạc.** Thấy công việc như cái lồng nhưng chưa từng thử hỏi chỗ khác; nghĩ khoản nợ không gỡ nổi mà chưa từng ngồi lập bảng. Lối ra thường bắt đầu bằng một câu hỏi.\n**Bản thân.** Nghĩ nhiều, tự hạ mình, xin phép cả những việc không cần xin phép.\n\n**Theo vị trí.** Ở trở ngại: niềm tin rằng \"không còn cách\". Ở lời khuyên: thử một bước nhỏ để xem dây có thật không. Ở kết quả: thoát ra, khi chịu thử.\n\n**Hay đi cùng.** Cạnh Sáu Bích: đường ra đã có, chỉ cần bước. Cạnh Đầm Bích: cần một người nói thẳng để mình tỉnh ra.\n\n**Lời khuyên.** Viết ra ba điều \"mình không thể\", rồi xét từng điều: là sự thật, hay là nỗi sợ?",
+    "gist_en": "Eight of Spades playing card: feeling trapped, mostly by self-made bonds such as fear, old promises, self-imposed rules and the belief that nothing can change. Staying in a relationship or job out of fear; debts never actually tallied. Advice: test one small step and question each \"I can't\".",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:9C",
+    "kind": "playing",
+    "ref": {
+      "card_id": "9C"
+    },
+    "title": "Chín Nhép",
+    "keywords": [
+      "bền bỉ",
+      "gần đích",
+      "cảnh giác",
+      "chặng cuối",
+      "mệt mà chưa buông"
+    ],
+    "body_vi": "**Cốt lõi.** Đã đi gần hết đường, người mỏi và có vài vết xước, nên nhìn đâu cũng thấy rủi ro. Chín Nhép là sức bền ở chặng cuối: phần khó nhất đã qua mà mình chưa nhận ra. Cảnh giác là đúng, nhưng cảnh giác quá thì chặng còn lại trông dài hơn thật.\n\n**Tình cảm.** Đã qua nhiều lần thử, nay khó tin trọn vẹn, giữ khoảng cách vì từng bị tổn thương. Mối quan hệ vẫn đứng được, chỉ cần tin lại một chút.\n**Công việc – tiền bạc.** Dự án ở giai đoạn cuối với trục trặc lặt vặt, ôn thi chặng chót, khoản nợ sắp trả xong. Đừng bỏ ngang vì mệt.\n**Bản thân.** Mệt mà không chịu nghỉ; luôn trong thế phòng bị.\n\n**Theo vị trí.** Ở trở ngại: nghi ngại làm chậm bước cuối. Ở lời khuyên: đi thêm chút nữa. Ở kết quả: về đích, dù chậm hơn kế hoạch.\n\n**Hay đi cùng.** Cạnh Bốn Nhép: sắp tới lúc được nghỉ. Cạnh Chín Bích: nỗi lo trong đầu lớn hơn phần đường còn lại.\n\n**Lời khuyên.** Đếm xem còn bao nhiêu bước thật và viết ra; chia nhỏ chặng cuối, giữ lại một chút sức dự phòng.",
+    "gist_en": "Nine of Clubs playing card: endurance near the finish line; weary, a little bruised and on guard, yet the hardest part is already behind. Final project stage, last exam stretch, debt almost repaid. Love: guarded after past hurt. Advice: count the real remaining steps, keep going, hold some reserve.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:9D",
+    "kind": "playing",
+    "ref": {
+      "card_id": "9D"
+    },
+    "title": "Chín Rô",
+    "keywords": [
+      "tự chủ",
+      "dư dả",
+      "tự lo được",
+      "độc lập",
+      "thành quả riêng"
+    ],
+    "body_vi": "**Cốt lõi.** Đứng được bằng chân mình: có tiền tự lo, có nghề tự nuôi, không phải xin ai. Khác Mười Rô (của cải chung, dài hạn), Chín Rô là thành quả cá nhân và cảm giác độc lập đi kèm.\n\n**Tình cảm.** Ở bên ai đó vì muốn, không vì cần. Mặt trái: quen tự lo đến mức khó để người khác bước vào đời mình.\n**Công việc – tiền bạc.** Làm chủ, làm tự do, có khoản tích lũy, được tự quyết trong việc. Có thể thưởng cho mình một thứ tốt.\n**Bản thân.** Tự tin, tự trọng; nhưng coi chừng đánh đồng giá trị của mình với số dư tài khoản.\n\n**Theo vị trí.** Ở hiện tại: đang dư dả. Ở trở ngại: không chịu nhờ ai, cô độc trong sự tự đủ. Ở kết quả: tự chủ được.\n\n**Hay đi cùng.** Cạnh Chín Cơ: cả lòng lẫn túi đều thỏa. Cạnh Hai Cơ: độc lập mà vẫn mở lòng với một người.\n\n**Lời khuyên.** Tận hưởng thành quả, và chừa một chỗ cho người khác cùng góp phần.",
+    "gist_en": "Nine of Diamonds playing card: self-reliance and personal prosperity; standing on your own feet, savings, freelance or own business, freedom to decide. Individual achievement rather than shared wealth. In love, being together by choice not need. Shadow: isolation, equating self-worth with money. Advice: enjoy it and leave room for others.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:9H",
+    "kind": "playing",
+    "ref": {
+      "card_id": "9H"
+    },
+    "title": "Chín Cơ",
+    "keywords": [
+      "lá điều ước",
+      "toại nguyện",
+      "mong ước thành",
+      "đủ đầy",
+      "tự mãn"
+    ],
+    "body_vi": "**Cốt lõi.** Theo truyền thống bói bài tây, đây là \"lá điều ước\", lá sáng nhất về sự toại nguyện riêng. Điều mình mong trong lòng có cơ hội thành. Vì lá nói về mong muốn của chính người hỏi, cần hỏi lại: mình thật sự mong gì?\n\n**Tình cảm.** Người mình thích đáp lại, mối quan hệ đi đúng hướng mình muốn, một lời hứa được giữ.\n**Công việc – tiền bạc.** Được điều mình xin: tăng lương, một vị trí, một kết quả đã chờ lâu. Thoải mái về vật chất.\n**Bản thân.** Hài lòng với mình. Mặt trái là tự mãn, nghĩ mọi chuyện phải luôn thuận theo ý mình.\n\n**Theo vị trí.** Ở hiện tại: đang đủ đầy. Ở trở ngại: được rồi mà vẫn thấy chưa đủ. Ở kết quả: một trong những lá kết quả sáng nhất của bộ bài.\n\n**Hay đi cùng.** Cạnh Chín Bích: điều mong đang tới gần mà mình lo tới mất ngủ, sợ nó vuột; nỗi lo lớn hơn thực tế. Cạnh Mười Cơ: niềm vui riêng lan sang cả nhà.\n\n**Lời khuyên.** Gọi rõ điều mình mong, với mình và với người liên quan; một điều ước mơ hồ thì khó nhận ra khi nó tới.",
+    "gist_en": "Nine of Hearts playing card: the wish card, the brightest card of personal fulfillment; what you hope for in your heart has a real chance. Love returned, a raise or awaited result. Shadow side is complacency or never feeling enough. Advice: name clearly what you wish for so you recognize it when it arrives.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:9S",
+    "kind": "playing",
+    "ref": {
+      "card_id": "9S"
+    },
+    "title": "Chín Bích",
+    "keywords": [
+      "lo âu",
+      "mất ngủ",
+      "nghĩ quá",
+      "kịch bản xấu",
+      "nói ra"
+    ],
+    "body_vi": "**Cốt lõi.** Nỗi lo trong đầu lớn hơn chuyện thật ngoài đời. Chín Bích là lá của ban đêm: nằm nghĩ lại một câu nói, dựng kịch bản xấu nhất, tỉnh dậy lúc ba giờ sáng. Chuyện gây lo có thể có thật, nhưng kích cỡ của nó đang bị phóng đại.\n\n**Tình cảm.** Ghen, nghi, đọc đi đọc lại tin nhắn, sợ bị bỏ. Người kia có khi chẳng nghĩ gì như mình đang nghĩ.\n**Công việc – tiền bạc.** Lo mất việc, lo khoản nợ, lo bị đánh giá; làm kém đi vì thiếu ngủ. Mở con số thật ra xem thường nhẹ hơn tưởng.\n**Bản thân.** Kiệt vì lo; nếu mất ngủ kéo dài, nên tìm người có chuyên môn để trò chuyện.\n\n**Theo vị trí.** Ở trở ngại: chính sự lo âu. Ở lời khuyên: nói nỗi lo với một người tin được. Ở kết quả: điều mình sợ ít khả năng xảy ra đúng như hình dung.\n\n**Hay đi cùng.** Cạnh Bốn Bích: cần nghỉ thật, không chỉ nằm. Cạnh Mười Cơ: lo cho người nhà quá mức cần.\n\n**Lời khuyên.** Trước khi ngủ, viết nỗi lo ra giấy kèm một việc làm được vào ngày mai; phần còn lại để sáng hãy tính.",
+    "gist_en": "Nine of Spades playing card: anxiety larger than reality; sleepless nights, rumination, worst-case scenarios. Love: jealousy, rereading messages, fear of abandonment. Work: fear of job loss, debt, judgment, worse performance from poor sleep. Advice: write worries down, name one action, talk to someone trusted or a professional.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:AC",
+    "kind": "playing",
+    "ref": {
+      "card_id": "AC"
+    },
+    "title": "Át Nhép",
+    "keywords": [
+      "bắt đầu làm",
+      "ý tưởng",
+      "động lực",
+      "bước đầu tiên",
+      "khởi sự"
+    ],
+    "body_vi": "**Cốt lõi.** Một ý tưởng vừa có lửa và đủ sức để bắt tay vào. Át Nhép không hứa thành công; nó báo rằng lúc này có động lực thật, và động lực ấy nguội nhanh nếu chỉ để bàn. Dấu hiệu nhận ra: người hỏi đã nghĩ về việc này đủ lâu, chỉ còn thiếu bước đầu tiên.\n\n**Tình cảm.** Một bên muốn chủ động: rủ đi chơi, nói điều đã định nói từ lâu. Mối quan hệ có thêm sinh khí khi hai người cùng bắt tay vào một việc chung thay vì chỉ ngồi bàn tương lai.\n**Công việc – tiền bạc.** Mở dự án, nhận việc mới, thử một nghề tay trái. Tiền chưa về ngay; cái có trước là đà.\n**Bản thân.** Háo hức, nhiều ý; dễ ôm vài khởi đầu cùng lúc rồi bỏ dở.\n\n**Theo vị trí.** Ở hiện tại: đúng lúc để bắt đầu. Ở trở ngại: hăng quá, chưa tính đường dài. Ở kết quả: việc mới thành hình nếu có bước đầu sớm.\n\n**Hay đi cùng.** Cạnh Mười Nhép: định khởi sự thêm khi tay đã đầy, phải bỏ bớt trước. Cạnh Át Rô: ý tưởng có cửa ra tiền.\n\n**Lời khuyên.** Chọn một việc, làm một bước nhỏ cụ thể trong hai ngày tới, rồi hãy bàn tiếp.",
+    "gist_en": "Ace of Clubs playing card: a spark of drive and a fresh idea ready to be acted on; momentum that cools if only talked about. New project, side job, taking the initiative in love. Risk: starting many things and finishing none. Advice: pick one, take a concrete first step within days.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:AD",
+    "kind": "playing",
+    "ref": {
+      "card_id": "AD"
+    },
+    "title": "Át Rô",
+    "keywords": [
+      "tin mới",
+      "cơ hội",
+      "khoản thu",
+      "lời đề nghị",
+      "giấy tờ"
+    ],
+    "body_vi": "**Cốt lõi.** Hạt giống của chất Rô: một tin tức, lời đề nghị hay khoản tiền vừa xuất hiện. Truyền thống bói bài tây hay gắn Át Rô với thư từ, giấy tờ, một món quà có giá trị. Đây là điểm bắt đầu, chưa phải kết quả.\n\n**Tình cảm.** Một lời đề nghị rõ ràng, có tính cam kết, một món quà, một kế hoạch chung. Tình cảm bắt đầu tính tới chuyện thực tế.\n**Công việc – tiền bạc.** Email mời phỏng vấn, hợp đồng mới, khoản thưởng, khách hàng đầu tiên; một ý tưởng có thể ra tiền.\n**Bản thân.** Muốn tự chủ, muốn dựng một thứ của riêng mình.\n\n**Theo vị trí.** Ở hiện tại: cơ hội đang mở. Ở trở ngại: chạy theo cái lợi trước mắt. Ở kết quả: có khoản thu, có tin tốt.\n\n**Hay đi cùng.** Cạnh Bồi Rô: tin về tiền hoặc giấy tờ đang trên đường tới. Cạnh Mười Rô: khởi đầu nhỏ có thể thành nguồn thu lâu dài.\n\n**Lời khuyên.** Đọc kỹ giấy tờ và trả lời sớm; cơ hội về tiền thường có hạn.",
+    "gist_en": "Ace of Diamonds playing card: the seed of the diamonds suit; news, an offer, a document or a sum of money just appearing. Traditionally letters, paperwork, a valuable gift. Job interview invitation, new contract, bonus, first client; in love, a concrete commitment. Advice: read the papers carefully and respond promptly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:AH",
+    "kind": "playing",
+    "ref": {
+      "card_id": "AH"
+    },
+    "title": "Át Cơ",
+    "keywords": [
+      "khởi đầu tình cảm",
+      "mở lòng",
+      "làm hòa",
+      "mái ấm",
+      "chỗ ở mới"
+    ],
+    "body_vi": "**Cốt lõi.** Hạt giống của chất Cơ: một tình cảm vừa nhen, hoặc căn nhà bỗng có hơi ấm trở lại. Lá nói về sự mở lòng hơn là kết quả — cửa vừa hé, chưa biết ai bước vào và ở lại bao lâu.\n\n**Tình cảm.** Một người mới khiến mình muốn nhắn tin trước; hoặc hai người cũ làm hòa, bắt đầu lại từ chỗ thật lòng hơn.\n**Công việc – tiền bạc.** Ít bàn chuyện tiền; nếu có thì là một việc mình làm vì thích, hoặc một chỗ làm có không khí như nhà.\n**Bản thân.** Sau một thời gian khép lại, mình muốn thương và được thương trở lại. Cũng có thể là dọn về chỗ ở mới, tự dựng một góc của riêng mình.\n\n**Theo vị trí.** Ở hiện tại: cánh cửa đang mở. Ở trở ngại: mở lòng quá nhanh với người chưa hiểu rõ. Ở kết quả: một khởi đầu ấm, cần vun tiếp.\n\n**Hay đi cùng.** Cạnh Mười Cơ: chuyện nhà, chuyện về chung được nhắc tới. Cạnh Át Bích: muốn mở lòng lại thì phải dứt khoát với chuyện cũ trước; một sự thật được nói ra dọn chỗ cho tình mới.\n\n**Lời khuyên.** Đón nhận, nhưng để mọi thứ lớn theo nhịp của nó; đừng vội đặt tên cho một mối quan hệ mới nhen.",
+    "gist_en": "Ace of Hearts playing card: the seed of the hearts suit; a new feeling, reconciliation, or warmth returning to the home. About opening the heart rather than outcome. New romance, making up, moving into a new place, wanting to love again. Advice: welcome it but let it grow at its own pace.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:AS",
+    "kind": "playing",
+    "ref": {
+      "card_id": "AS"
+    },
+    "title": "Át Bích",
+    "keywords": [
+      "bước ngoặt",
+      "sự thật",
+      "cắt bỏ",
+      "dứt khoát",
+      "gỡ nút thắt"
+    ],
+    "body_vi": "**Cốt lõi.** Một sự thật lộ ra hoặc một quyết định dứt khoát, sắc như dao. Bói dân gian hay sợ lá này, nhưng nặng ở đây là cắt chứ không phải hủy: cái cần cắt bị cắt, và nút thắt lâu nay được gỡ. Đau lúc nghe, nhẹ về sau.\n\n**Tình cảm.** Một cuộc nói chuyện thẳng, một lời thú nhận, hoặc quyết định dừng hẳn một mối dây dưa. Rõ ràng còn hơn mập mờ.\n**Công việc – tiền bạc.** Cắt dự án lỗ, nghỉ việc, chấm dứt hợp đồng; hoặc nhìn con số thật sau thời gian né. Đổi hướng có đau nhưng dọn đường.\n**Bản thân.** Nhận ra điều mình đã biết từ lâu mà không chịu nhìn.\n\n**Theo vị trí.** Ở nguồn cơn: một sự thật bị che. Ở lời khuyên: dứt khoát. Ở kết quả: bước ngoặt, khép một cửa để mở cửa khác.\n\n**Hay đi cùng.** Cạnh Mười Bích: chuyện đã hết, nên để nó hết. Cạnh Át Nhép: cắt cái cũ để có chỗ bắt đầu.\n\n**Lời khuyên.** Hỏi mình đang tránh nhìn điều gì; rồi nói ra hoặc cắt đi cho gọn, đừng kéo dài.",
+    "gist_en": "Ace of Spades playing card: a sharp truth or decisive cut; turning point, revelation, ending something to untie a long knot. Feared in folk reading, but it cuts rather than destroys. Love: frank talk, confession, ending a drawn-out tie. Work: quitting, cutting losses. Advice: face it and cut cleanly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:JC",
+    "kind": "playing",
+    "ref": {
+      "card_id": "JC"
+    },
+    "title": "Bồi Nhép",
+    "keywords": [
+      "người nhiệt tình",
+      "tin về việc",
+      "hăng hái",
+      "lời mời",
+      "xung phong"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: trẻ hoặc mới vào, nhiều năng lượng, nhiều ý, hay xung phong, đôi khi nói trước làm sau. Là một tin: lời mời, cuộc gọi, email thúc người hỏi bắt tay vào việc. Là chính người hỏi: phần háo hức muốn thử, chưa ngại sai.\n\n**Tình cảm.** Một người theo đuổi nhiệt tình, nói chuyện vui, rủ đi đây đó; thú vị nhưng cần xem có bền không. Hoặc một lời rủ hẹn bất ngờ.\n**Công việc – tiền bạc.** Đồng nghiệp mới hay xung phong, mang không khí mới; tin về một cơ hội việc làm, một dự án cần người nhảy vào. Tiền nhỏ nhưng mở ra việc.\n**Bản thân.** Muốn thử ngay, chưa ngại sai; dễ cả thèm chóng chán.\n\n**Theo vị trí.** Ở hiện tại: có lời mời hoặc một người mới đang khuấy động mọi thứ. Ở lời khuyên: chủ động hỏi, xin làm thử. Ở trở ngại: hứa nhiều hơn làm.\n\n**Hay đi cùng.** Cạnh Át Nhép: tin đến đúng lúc để khởi sự. Cạnh Bồi Bích: tin vui lẫn tin cần kiểm tra lại.\n\n**Lời khuyên.** Nhận lời thử, nhưng chốt rõ làm gì và đến khi nào; giữ nhiệt tình bằng một lịch làm cụ thể.",
+    "gist_en": "Jack of Clubs playing card: an eager, energetic newcomer full of ideas, sometimes promising more than delivered; or news and invitations that push one to act, such as a job lead or a project needing hands. As the querent: willingness to try. Advice: accept, but fix scope and deadline.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:JD",
+    "kind": "playing",
+    "ref": {
+      "card_id": "JD"
+    },
+    "title": "Bồi Rô",
+    "keywords": [
+      "tin tức",
+      "người đưa tin",
+      "học việc",
+      "người trẻ thực tế",
+      "giấy báo"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người trẻ chăm, ham học, thực tế — người học việc, sinh viên, người mang tin tới. Là sự việc: một tin về tiền, giấy tờ, công việc đang đến; cuộc gọi, thông báo. Là cách hành xử của người hỏi: thái độ học trò, bắt đầu từ bước nhỏ.\n\n**Tình cảm.** Một người tỏ tình bằng việc làm hơn lời nói; hoặc nghe tin về người kia qua người khác.\n**Công việc – tiền bạc.** Kết quả hồ sơ, thư mời, thông báo lương thưởng. Thời điểm tốt để học một kỹ năng ra tiền.\n**Bản thân.** Tò mò về chuyện tiền, muốn học cách quản chi tiêu.\n\n**Theo vị trí.** Ở hiện tại: có tin. Ở trở ngại: thiếu kinh nghiệm, hoặc tin chưa đủ. Ở lời khuyên: học trước, làm sau.\n\n**Hay đi cùng.** Cạnh Át Rô: tin tốt về một khoản thu. Cạnh Bồi Bích: tin không vui, hoặc lời đồn cần kiểm chứng.\n\n**Lời khuyên.** Kiểm tra nguồn tin trước khi hành động; nếu đang học việc, kiên nhẫn với giai đoạn tập sự.",
+    "gist_en": "Jack of Diamonds playing card: a diligent, practical young person, apprentice, student or messenger; or news about money, documents or work arriving, such as application results or offers. Also the querent adopting a learner's attitude. Weakness: inexperience, incomplete information. Advice: verify news before acting, be patient while learning.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:JH",
+    "kind": "playing",
+    "ref": {
+      "card_id": "JH"
+    },
+    "title": "Bồi Cơ",
+    "keywords": [
+      "người trẻ",
+      "tin vui",
+      "chân thành",
+      "lời tỏ ý",
+      "bồng bột"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: ai đó trẻ hoặc trẻ tính, giàu tình cảm, thật thà, có thể đang thầm mến người hỏi. Là sự việc: một tin nhắn, lời mời, lời tỏ ý từ người quan tâm mình. Là cách hành xử của người hỏi: nói thật cảm xúc, không tính toán.\n\n**Tình cảm.** Một lời tỏ tình vụng mà thật, tin nhắn bất ngờ từ người mình đang chờ. Mặt yếu: tình cảm nồng nhưng non, dễ đổi.\n**Công việc – tiền bạc.** Một đồng nghiệp trẻ nhiệt tình, một lời mời đầy thiện chí. Lá ít nói về tiền.\n**Bản thân.** Trái tim còn mềm, dễ cảm động; đôi khi là nhạy cảm quá mức với một câu nói.\n\n**Theo vị trí.** Ở hiện tại: có tin đang tới. Ở trở ngại: tình cảm bồng bột. Ở lời khuyên: chủ động gửi đi điều mình muốn nói.\n\n**Hay đi cùng.** Cạnh Đầm Cơ hoặc Già Cơ: con cái, em út trong nhà. Cạnh Bảy Cơ: lời ngọt nhưng còn mơ hồ.\n\n**Lời khuyên.** Nhận lời tốt bằng lòng tốt, nhưng chờ thêm hành động trước khi tin trọn.",
+    "gist_en": "Jack of Hearts playing card: a young or young-at-heart, sincere and affectionate person, possibly a secret admirer; or a sweet message, invitation or confession from someone who cares. Also the querent acting openly from the heart. Weakness: immature, changeable feelings. Advice: welcome kindness but wait for actions before trusting fully.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:JS",
+    "kind": "playing",
+    "ref": {
+      "card_id": "JS"
+    },
+    "title": "Bồi Bích",
+    "keywords": [
+      "tin không vui",
+      "người dò xét",
+      "cảnh báo",
+      "tin đồn",
+      "quan sát"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: trẻ hoặc mới đến, quan sát nhiều, nói ít, hay hỏi han; có thể đang dò xét hoặc mang chuyện đi nơi khác. Là một tin: lời cảnh báo, kết quả không như mong, tin đến trễ. Là chính người hỏi: lúc nên quan sát kỹ trước khi lên tiếng.\n\n**Tình cảm.** Có người tò mò quá mức về chuyện hai người; hoặc một tin nhắn làm mình chột dạ. Nghe cho hết rồi hãy phản ứng.\n**Công việc – tiền bạc.** Bị kiểm tra, có người báo cáo lên trên; phản hồi tiêu cực, chậm thanh toán. Cẩn thận với điều mình nói trong nhóm chat.\n**Bản thân.** Đề phòng, cảnh giác; dễ đọc vội rồi kết luận.\n\n**Theo vị trí.** Ở hiện tại: có tin chưa vui, hoặc có người đang để ý. Ở lời khuyên: giữ kín kế hoạch thêm một thời gian. Ở trở ngại: tin đồn, lời truyền miệng.\n\n**Hay đi cùng.** Cạnh Bảy Bích: tin làm lộ một điều bị giấu. Cạnh Tám Nhép: tin xấu đến nhanh, xử lý nhanh thì gọn.\n\n**Lời khuyên.** Kiểm tra nguồn trước khi tin; nói ít, ghi chép nhiều.",
+    "gist_en": "Jack of Spades playing card: unwelcome news, a warning or delay; or a watchful young or new person who observes, probes and may spread gossip. As the querent: a time to watch before speaking. Work: scrutiny, negative feedback, late payment. Advice: verify sources, say little, keep notes.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:KC",
+    "kind": "playing",
+    "ref": {
+      "card_id": "KC"
+    },
+    "title": "Già Nhép",
+    "keywords": [
+      "người nam dẫn dắt",
+      "tầm nhìn",
+      "chủ động",
+      "người cố vấn",
+      "cầm lái"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người đàn ông có kinh nghiệm, biết dẫn việc, nói ít mà chốt được; thường là sếp, người cố vấn, đối tác lớn, và có thể là người cần tìm gặp. Là chính người hỏi: lúc phải cầm lái, nhìn bức tranh lớn và nhận trách nhiệm quyết.\n\n**Tình cảm.** Người đáng tin, rõ ràng, có kế hoạch cho hai người; đôi khi mải việc và hơi áp đặt. Hoặc mối quan hệ đang cần một bên đứng ra định hướng.\n**Công việc – tiền bạc.** Được người có tầm nâng đỡ, giới thiệu; lời khuyên của người đi trước đáng giá. Hợp lập chiến lược, gọi vốn, làm ăn có bài bản.\n**Bản thân.** Có tầm nhìn nhưng dễ thiếu kiên nhẫn với người chậm hơn.\n\n**Theo vị trí.** Ở lời khuyên: tìm người có kinh nghiệm, hoặc chính mình đứng ra dẫn. Ở trở ngại: một người có quyền nhưng cứng. Ở kết quả: có người dẫn đường, hoặc chính mình thành người dẫn.\n\n**Hay đi cùng.** Cạnh Ba Nhép: người này mở đường làm ăn rộng hơn. Cạnh Già Bích: một người dẫn việc, một người phán xét; phải thuyết phục cả hai.\n\n**Lời khuyên.** Hỏi một người đã làm được điều mình định làm, rồi tự vạch đường đi ba bước rõ ràng.",
+    "gist_en": "King of Clubs playing card: an experienced man who leads, decides and opens doors; a boss, mentor or major partner worth meeting. As the querent: taking the wheel and owning decisions. Love: reliable, planful, sometimes busy or bossy. Advice: seek a mentor, then set a clear three-step plan.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:KD",
+    "kind": "playing",
+    "ref": {
+      "card_id": "KD"
+    },
+    "title": "Già Rô",
+    "keywords": [
+      "người nam làm ăn",
+      "quyết đoán",
+      "nguồn lực",
+      "người cầm ngân sách",
+      "cứng nhắc"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người đàn ông có tiền hoặc có quyền quyết trong chuyện làm ăn — sếp, chủ doanh nghiệp, nhà đầu tư, người cha nắm kinh tế nhà. Quyết nhanh, nói ít, nhìn kết quả. Là cách hành xử của người hỏi: cầm lấy quyền quyết và chịu trách nhiệm về tiền của mình.\n\n**Tình cảm.** Người yêu vững về vật chất, quan tâm bằng cách lo liệu. Mặt yếu: cứng, coi tiền là cách giải quyết mọi chuyện.\n**Công việc – tiền bạc.** Ký kết, đàm phán, gặp người cầm ngân sách; một quyết định đầu tư lớn. Có nguồn lực nếu biết trình bày rõ.\n**Bản thân.** Chín chắn trong chuyện tiền, không để cảm xúc quyết thay.\n\n**Theo vị trí.** Ở hiện tại: người có quyền đang để ý tới mình. Ở trở ngại: một người cứng nhắc, chỉ nói chuyện lợi ích. Ở lời khuyên: hành xử như người làm chủ.\n\n**Hay đi cùng.** Cạnh Ba Rô: cấp trên nhìn thấy năng lực của mình. Cạnh Già Bích: tiền đi kèm luật; hợp đồng, thuế, giấy tờ phải chặt trước khi ký.\n\n**Lời khuyên.** Đến với người nắm nguồn lực bằng con số và đề xuất cụ thể; chính mình cũng nên quyết rõ ràng.",
+    "gist_en": "King of Diamonds playing card: a man with money or decision-making power in business, such as a boss, owner, investor or father managing family finances; decisive and results-focused. Or the querent taking charge of money matters. Weakness: rigid, treating money as the answer to everything. Advice: approach with numbers and concrete proposals.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:KH",
+    "kind": "playing",
+    "ref": {
+      "card_id": "KH"
+    },
+    "title": "Già Cơ",
+    "keywords": [
+      "người nam điềm đạm",
+      "bao dung",
+      "chỗ dựa",
+      "đáng tin",
+      "né xung đột"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người đàn ông chín chắn, hiền, sống tình nghĩa, giận chậm và hay giúp — người cha, chú bác, người thầy, người yêu lớn tuổi. Là cách hành xử của người hỏi: giữ được bình tĩnh và tử tế khi cảm xúc lên cao. Tình cảm ở đây đã chín, không còn bồng bột như Bồi Cơ.\n\n**Tình cảm.** Một người yêu đáng tin, sẵn lòng cam kết; hoặc lời khuyên của một người đàn ông từng trải. Mặt yếu: hiền tới mức né xung đột, để chuyện treo lơ lửng.\n**Công việc – tiền bạc.** Một cấp trên biết nghĩ cho người dưới, bênh mình khi mình lỡ sai nhỏ; hợp tác dựa trên tin cậy hơn là giấy tờ.\n**Bản thân.** Học cách làm chỗ dựa mà không phải gánh tất cả một mình.\n\n**Theo vị trí.** Ở hiện tại: có người để dựa. Ở trở ngại: nhân nhượng quá mức. Ở kết quả: được nâng đỡ, hoặc tự mình thành người vững.\n\n**Hay đi cùng.** Cạnh Đầm Cơ: hôn nhân bền, gia đình có nền nếp. Cạnh Già Rô: một người vừa có tình vừa có nguồn lực để giúp.\n\n**Lời khuyên.** Nói điều cần nói bằng sự tử tế; bao dung không có nghĩa là im lặng mãi.",
+    "gist_en": "King of Hearts playing card: a mature, kind, generous man such as a father, mentor or committed partner who can be relied upon; or the querent staying calm and kind under emotion. Weakness: avoiding conflict, being too lenient. A boss who looks out for his people. Advice: say what must be said, kindly; tolerance is not endless silence.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:KS",
+    "kind": "playing",
+    "ref": {
+      "card_id": "KS"
+    },
+    "title": "Già Bích",
+    "keywords": [
+      "người nam nghiêm khắc",
+      "lý trí",
+      "quyền lực",
+      "người phán xét",
+      "nguyên tắc"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người đàn ông có quyền phán xét trong chuyện này: cấp trên, người duyệt, người đứng đầu, người lớn trong nhà; lý trí, coi trọng luật lệ, ít để tình cảm xen vào. Là chính người hỏi: lúc phải ra một quyết định cứng, dựa vào lý lẽ và nguyên tắc.\n\n**Tình cảm.** Người kia nghiêm, ít lời ngọt, thể hiện bằng trách nhiệm; hoặc có khoảng cách vì một bên quá lạnh. Cũng có thể là người lớn trong nhà can thiệp.\n**Công việc – tiền bạc.** Phỏng vấn, thanh tra, xét duyệt; cần giấy tờ đủ, số liệu rõ. Việc dính tới pháp lý, thuế thì hỏi người có chuyên môn.\n**Bản thân.** Sắc, công bằng, nhưng dễ cứng nhắc và khó bỏ qua lỗi.\n\n**Theo vị trí.** Ở trở ngại: người có quyền chưa ủng hộ. Ở lời khuyên: chuẩn bị lập luận và bằng chứng. Ở kết quả: được xét công bằng nếu hồ sơ đủ.\n\n**Hay đi cùng.** Cạnh Bảy Nhép: phải giữ lập trường trước người này. Cạnh Sáu Nhép: thuyết phục được ông ấy thì thắng lớn.\n\n**Lời khuyên.** Đến gặp với số liệu, đừng với cảm xúc; hỏi rõ mình đang bị đánh giá theo tiêu chí nào.",
+    "gist_en": "King of Spades playing card: a stern, rational man with authority to judge here; boss, examiner, official or family elder who values rules over feelings. As the querent: making a hard, principled call. Work: interviews, audits, approvals. Risk: rigidity, coldness. Advice: bring facts and ask for the criteria.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:QC",
+    "kind": "playing",
+    "ref": {
+      "card_id": "QC"
+    },
+    "title": "Đầm Nhép",
+    "keywords": [
+      "người nữ quyết đoán",
+      "tự tin",
+      "ấm áp",
+      "dẫn dắt",
+      "nói rõ"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người phụ nữ thẳng thắn, có sức hút, vừa làm được việc vừa kéo được người khác theo; có mặt là không khí đổi. Là chính người hỏi, bất kể giới: lúc cần tự tin đứng ra, nói điều mình muốn mà vẫn giữ sự ấm. Đầm Nhép gộp hai thứ hiếm đi cùng nhau: quyết đoán và tử tế.\n\n**Tình cảm.** Một người chủ động, biết mình muốn gì; mối quan hệ cần nói rõ chứ không cần đoán ý. Có thể là người bạn nữ đứng ra kết nối, mai mối.\n**Công việc – tiền bạc.** Một quản lý, khách hàng hay đồng nghiệp nữ có tiếng nói, giúp mình được nhìn thấy. Hợp tự kinh doanh dựa trên uy tín cá nhân.\n**Bản thân.** Tin vào cái mình làm tốt, dám đứng ra trước đám đông; coi chừng cần được chú ý tới mức lấn lời người khác.\n\n**Theo vị trí.** Ở hiện tại: có người đủ sức kéo mọi việc đi. Ở lời khuyên: nói rõ, làm nhanh, giữ ấm áp. Ở trở ngại: quá nóng hoặc muốn kiểm soát.\n\n**Hay đi cùng.** Cạnh Sáu Nhép: được ghi nhận nhờ người này. Cạnh Đầm Bích: hai kiểu thẳng thắn, một ấm một lạnh, nên nghe cả hai.\n\n**Lời khuyên.** Nhận phần dẫn dắt, nhưng hỏi ý người khác trước khi chốt.",
+    "gist_en": "Queen of Clubs playing card: a confident, warm, straightforward woman with presence who gets things done and carries others along; a manager, client or matchmaking friend. As the querent: stepping up with both decisiveness and kindness. Risk: overcontrol, needing the spotlight. Advice: lead, but consult first.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:QD",
+    "kind": "playing",
+    "ref": {
+      "card_id": "QD"
+    },
+    "title": "Đầm Rô",
+    "keywords": [
+      "người nữ thực tế",
+      "khéo lo",
+      "quản lý",
+      "thu vén",
+      "tính toán"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người phụ nữ giỏi thu vén, nắm sổ sách, biết giá trị từng thứ — người mẹ giữ tiền nhà, chị kế toán, bà chủ quán. Là cách hành xử của người hỏi: lời nhắc thực tế hơn, nhìn vào con số. Đầm Cơ chăm bằng tình cảm; Đầm Rô chăm bằng sắp xếp và tính toán.\n\n**Tình cảm.** Người yêu chu đáo kiểu lo cơm áo; quan hệ cần tính tới chuyện thực tế. Mặt yếu: tính toán quá, thiếu lãng mạn.\n**Công việc – tiền bạc.** Quản lý giỏi, đàm phán khéo; một người phụ nữ có tiếng nói quyết định với khoản tiền của mình.\n**Bản thân.** Dọn lại chi tiêu, định giá đúng cho công sức của mình.\n\n**Theo vị trí.** Ở hiện tại: có người lo liệu giỏi bên cạnh. Ở trở ngại: chi li, hay so đo. Ở lời khuyên: thực tế, có kế hoạch.\n\n**Hay đi cùng.** Cạnh Già Rô: cặp làm ăn hoặc vợ chồng cùng lo kinh tế. Cạnh Bảy Cơ: kéo mơ mộng xuống mặt đất.\n\n**Lời khuyên.** Làm bảng ngân sách, nói chuyện tiền thẳng thắn; lo liệu thực tế cũng là một cách thương.",
+    "gist_en": "Queen of Diamonds playing card: a practical, resourceful woman who manages money and households well, such as a mother keeping the budget, an accountant or shop owner; or a reminder for the querent to be practical. Caring through organization rather than emotion. Weakness: calculating, petty. Advice: budget and talk about money openly.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:QH",
+    "kind": "playing",
+    "ref": {
+      "card_id": "QH"
+    },
+    "title": "Đầm Cơ",
+    "keywords": [
+      "người nữ ân cần",
+      "thấu cảm",
+      "nâng đỡ",
+      "chăm sóc",
+      "quên mình"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người phụ nữ ấm áp, biết lắng nghe, ai cũng muốn ghé nhà — mẹ, chị, bạn thân, người yêu. Là cách hành xử của người hỏi: phần dịu dàng, biết chăm sóc trong chính mình, bất kể giới. Sức mạnh của lá là cảm thông; điểm yếu là lo cho người khác mà quên mình.\n\n**Tình cảm.** Người yêu chu đáo, hoặc một người phụ nữ có ảnh hưởng lớn tới chuyện tình, như mẹ của người kia. Với người hỏi: đang yêu bằng sự chăm sóc.\n**Công việc – tiền bạc.** Nghề chăm sóc, nhân sự, giáo dục; một đồng nghiệp nữ hay giúp đỡ. Tiền chi cho người thân nhiều hơn cho mình.\n**Bản thân.** Lo cho người khác tới mức không còn biết mình cần gì; thử hỏi ai đang chăm lại mình.\n\n**Theo vị trí.** Ở hiện tại: có người nâng đỡ. Ở trở ngại: thương thành bao bọc, dễ mủi lòng. Ở lời khuyên: dùng thấu cảm thay cho lý lẽ.\n\n**Hay đi cùng.** Cạnh Già Cơ: một cặp đôi hoặc cha mẹ hòa thuận. Cạnh Đầm Bích: một bên vỗ về, một bên nói thẳng; lời dễ nghe chưa chắc là lời cần nghe.\n\n**Lời khuyên.** Chăm người khác bằng phần mình dư, đừng bằng phần mình còn thiếu.",
+    "gist_en": "Queen of Hearts playing card: a warm, empathetic, nurturing woman such as a mother, sister or caring partner; or the querent's own gentle, caring side regardless of gender. Strength is compassion; weakness is self-neglect and overprotection. Care work, supportive colleague. Advice: care from abundance, not from depletion.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "playing:QS",
+    "kind": "playing",
+    "ref": {
+      "card_id": "QS"
+    },
+    "title": "Đầm Bích",
+    "keywords": [
+      "người nữ sắc sảo",
+      "thẳng thắn",
+      "từng trải",
+      "ranh giới",
+      "tỉnh táo"
+    ],
+    "body_vi": "**Cốt lõi.** Là một người: người phụ nữ nói thật, có lúc hơi lạnh nhưng đúng; đã đi qua mất mát nên không để cảm xúc dắt. Là chính người hỏi: lúc cần đặt ranh giới, nhìn chuyện tỉnh, nói không mà không cần xin lỗi. Đầm Bích không cần được lòng; chị ấy cần sự thật.\n\n**Tình cảm.** Một người độc lập, khó gần lúc đầu nhưng thật lòng. Hoặc giai đoạn sống một mình sau đổ vỡ, tỉnh táo và tự chủ.\n**Công việc – tiền bạc.** Người duyệt hồ sơ khó tính, chuyên gia góp ý gắt; nghe được thì tiến nhanh. Hợp đàm phán, rà soát hợp đồng.\n**Bản thân.** Lý trí mạnh, ít thỏa hiệp; dễ khép lòng để khỏi đau thêm lần nữa.\n\n**Theo vị trí.** Ở lời khuyên: nói thẳng, ngắn, rõ. Ở trở ngại: một lời chê lạnh, hoặc chính mình đang quá khắt khe. Ở kết quả: chuyện được nói rõ, có đau nhưng sạch.\n\n**Hay đi cùng.** Cạnh Ba Bích: người này từng đau nên hiểu nỗi đau của mình. Cạnh Già Bích: hai người cầm cân, cần lập luận thật chặt.\n\n**Lời khuyên.** Tìm một người dám nói thật với mình; còn khi mình nói thật với người khác, hãy chọn lời.",
+    "gist_en": "Queen of Spades playing card: a sharp, candid, experienced woman who tells the truth, sometimes coolly; a demanding reviewer or expert critic. As the querent: setting boundaries, clear-eyed independence, perhaps after a loss. Risk: closing the heart, harshness. Advice: seek honest counsel and speak truth with care.",
+    "source_refs": [
+      {
+        "source": "Nghĩa sẵn có của app + truyền thống bói bài tây phổ biến"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nghĩa của app + truyền thống bói bài tây phổ biến; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  }
+]

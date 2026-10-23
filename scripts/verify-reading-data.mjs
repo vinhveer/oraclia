@@ -48,7 +48,11 @@ for (const entry of [...files.values()].flat()) {
   if (kind === 'line') {
     const source = lines.find((row) => row.hexagram === Number(a) && row.line === Number(b))
     assert(source, `${entry.id}: không có hào này`)
-    if (source) assert(entry.body_vi.includes(source.text), `${entry.id}: thiếu đúng nguyên văn hào từ`)
+    // Bỏ khoảng trắng khi so: vài hào trong seed có dấu cách lạc giữa chữ Hán.
+    const compact = (text) => text.replace(/\s+/g, '')
+    if (source) {
+      assert(compact(entry.body_vi).includes(compact(source.text)), `${entry.id}: thiếu đúng nguyên văn hào từ`)
+    }
   }
 }
 

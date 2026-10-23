@@ -1,13 +1,105 @@
 [
   {
+    "id": "suit:cups",
+    "kind": "suit",
+    "ref": {
+      "suit": "cups"
+    },
+    "title": "Chất Cốc",
+    "keywords": [
+      "cảm xúc",
+      "tình cảm",
+      "quan hệ",
+      "trực giác",
+      "mơ mộng",
+      "nguyên tố Nước"
+    ],
+    "body_vi": "**Nguyên tố Nước — cảm xúc và quan hệ.** Cốc nói về tình yêu, tình bạn, sự gắn bó, trực giác và trí tưởng tượng. Waite viết rằng biểu tượng chiếc cốc tự nhiên gắn với nước, và gọi Át Cốc là ngôi nhà của trái tim thật: niềm vui, sự nuôi dưỡng, đủ đầy.\n\n**Khi trải bài nhiều Cốc.** Vấn đề nằm ở cảm xúc và người thân hơn là ở tiền hay lý lẽ. Người hỏi có thể đang yêu, đang buồn, đang hoài niệm, hoặc mơ mộng hơn mức nên có.\n\n**Thang số.** Át: một cảm xúc mới, mở lòng. 2-4: gắn kết, vui cùng bạn bè, rồi chán. 5-7: mất mát, kỷ niệm ấm của ngày cũ, nhiều lựa chọn ảo. 8-10: rời đi tìm ý nghĩa, mãn nguyện, hạnh phúc gia đình.\n\n**Lá hoàng gia.** Người tình cảm, tinh tế, giàu tưởng tượng: từ Tiểu Đồng còn non, Hiệp Sĩ lãng mạn, đến Nữ Hoàng thấu cảm và Vua giữ được bình tĩnh giữa sóng cảm xúc. Cũng có thể là chính người hỏi lúc đang để trái tim dẫn đường.\n\n**Lời khuyên chung.** Cảm xúc là thông tin, không phải mệnh lệnh; gọi tên nó trước khi làm theo nó.",
+    "gist_en": "Suit of Cups (Water): emotions, love, friendship, relationships, intuition and imagination. Many Cups in a spread means the issue is emotional or relational rather than financial: love, grief, nostalgia, daydreaming. Numbers move from opening the heart through loss and illusion to fulfilment.",
+    "source_refs": [
+      {
+        "source": "Waite (1911) + quy ước nguyên tố RWS",
+        "quote": "the Sign of the Cup naturally refers to water"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám Waite (1911); duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "suit:pentacles",
+    "kind": "suit",
+    "ref": {
+      "suit": "pentacles"
+    },
+    "title": "Chất Tiền",
+    "keywords": [
+      "tiền bạc",
+      "công việc",
+      "cơ thể",
+      "thực tế",
+      "bền bỉ",
+      "nguyên tố Đất"
+    ],
+    "body_vi": "**Nguyên tố Đất — vật chất và công sức.** Tiền nói về tiền bạc, việc làm, cơ thể, nhà cửa, tay nghề: những gì sờ được và cần thời gian để lớn. Waite ghi rằng trong bộ bài cổ chất này là tiền, và ngôi sao năm cánh khắc trên mỗi đồng tượng trưng cho bốn nguyên tố trong con người cùng cái giữ chúng trong khuôn.\n\n**Khi trải bài nhiều Tiền.** Câu hỏi thật là chuyện thực tế: thu nhập, công việc, sức khỏe, chỗ ở. Mọi thứ đi chậm, cần kiên nhẫn và kế hoạch; kết quả đến từ làm đều tay, không từ may rủi.\n\n**Thang số.** Át: một cơ hội vật chất cụ thể. 2-4: xoay xở, hợp tác, giữ chặt. 5-7: thiếu hụt, cho và nhận, dừng lại đánh giá giữa mùa. 8-10: rèn nghề, tự chủ, của cải bền qua nhiều thế hệ.\n\n**Lá hoàng gia.** Người thực tế, đáng tin, chăm chỉ; có khi bảo thủ hoặc quá dè dặt với tiền. Cũng có thể là chính người hỏi khi đang tính chuyện bằng con số và việc cụ thể.\n\n**Lời khuyên chung.** Đo bằng việc đã làm được, không bằng lời hứa; chăm cơ thể và tài chính như chăm một khu vườn.",
+    "gist_en": "Suit of Pentacles (Earth): money, work, body, home, skills and material security. Many Pentacles in a spread means practical concerns: income, career, health, housing. Progress is slow and earned. Numbers move from a concrete opportunity through scarcity and patience to mastery and lasting wealth.",
+    "source_refs": [
+      {
+        "source": "Waite (1911) + quy ước nguyên tố RWS",
+        "quote": "In old Tarot packs this suit represented money."
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám Waite (1911); duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
     "id": "suit:swords",
     "kind": "suit",
-    "ref": { "suit": "swords" },
+    "ref": {
+      "suit": "swords"
+    },
     "title": "Chất Kiếm",
-    "keywords": ["lý trí", "lời nói", "xung đột", "sự thật", "lo âu", "nguyên tố Khí"],
-    "body_vi": "**Nguyên tố Khí — đầu óc và lời nói.** Kiếm nói về suy nghĩ, quyết định, giao tiếp, và những va chạm sinh ra từ đó. Lưỡi kiếm hai mặt: cắt được sự rối rắm, cũng cắt được người.\n\n**Khi trải bài nhiều Kiếm.** Vấn đề đang nằm trong đầu nhiều hơn ngoài đời: lo nghĩ, tranh cãi, căng thẳng, quyết định khó. Người hỏi có thể đang nghĩ quá nhiều, hoặc đang ở giữa một cuộc đấu khẩu.\n\n**Thang số.** Át: một ý tưởng hay sự thật sắc bén. 2-4: phân vân, đau, cần nghỉ. 5-7: xung đột, rút lui, mưu mẹo. 8-10: tự giam mình trong suy nghĩ, lo âu, chạm đáy.\n\n**Lá hoàng gia.** Người lý trí, nói thẳng, có khi lạnh; giỏi phân tích, khó gần.\n\n**Lời khuyên chung.** Tách sự kiện khỏi câu chuyện mình tự kể; nói rõ ràng nhưng chọn lời.",
+    "keywords": [
+      "lý trí",
+      "lời nói",
+      "xung đột",
+      "sự thật",
+      "lo âu",
+      "nguyên tố Khí"
+    ],
+    "body_vi": "**Nguyên tố Khí — đầu óc và lời nói.** Kiếm nói về suy nghĩ, quyết định, giao tiếp, và những va chạm sinh ra từ đó. Lưỡi kiếm hai mặt: cắt được sự rối rắm, cũng cắt được người.\n\n**Khi trải bài nhiều Kiếm.** Vấn đề đang nằm trong đầu nhiều hơn ngoài đời: lo nghĩ, tranh cãi, căng thẳng, quyết định khó. Người hỏi có thể đang nghĩ quá nhiều, hoặc đang ở giữa một cuộc đấu khẩu.\n\n**Thang số.** Át: một ý tưởng hay sự thật sắc bén. 2-4: phân vân, đau, cần nghỉ. 5-7: xung đột, rời đi, mưu mẹo. 8-10: tự giam mình trong suy nghĩ, lo âu, chạm đáy.\n\n**Lá hoàng gia.** Là một người: lý trí, nói thẳng, có khi lạnh; giỏi phân tích, khó gần. Là cách hành xử của người hỏi: Tiểu Đồng Kiếm dò hỏi, để ý từng lời; Hiệp Sĩ Kiếm lao vào tranh luận trước khi nghĩ hết; Nữ Hoàng Kiếm nói thẳng từ trải nghiệm đã qua đau; Vua Kiếm quyết theo nguyên tắc, ít để cảm xúc chen vào.\n\n**Lời khuyên chung.** Tách sự kiện khỏi câu chuyện mình tự kể; nói rõ ràng nhưng chọn lời.",
     "gist_en": "Suit of Swords (Air): thoughts, decisions, words, communication, conflict and truth. Many Swords in a spread means the issue lives in the mind: overthinking, anxiety, arguments, hard choices. Numbers move from clarity through conflict to mental entrapment.",
-    "source": "Nháp Claude Opus 5.5 — cần duyệt",
-    "review_status": "draft"
+    "source": "Claude Opus 5.5 viết, bám Waite (1911); duyệt chéo bởi agent độc lập",
+    "review_status": "approved",
+    "source_refs": [
+      {
+        "source": "Waite (1911) + quy ước nguyên tố RWS"
+      }
+    ]
+  },
+  {
+    "id": "suit:wands",
+    "kind": "suit",
+    "ref": {
+      "suit": "wands"
+    },
+    "title": "Chất Gậy",
+    "keywords": [
+      "ý chí",
+      "hành động",
+      "nhiệt huyết",
+      "sự nghiệp",
+      "sáng tạo",
+      "nguyên tố Lửa"
+    ],
+    "body_vi": "**Nguyên tố Lửa — ý chí và hành động.** Gậy nói về nhiệt huyết, khởi xướng, tham vọng, sáng tạo, và cả sự nóng nảy. Waite ghi rằng gậy trong cả chất này luôn đâm lá, vì đây là chất của sự sống và sinh động: thứ đang lớn, đang muốn đi tới.\n\n**Khi trải bài nhiều Gậy.** Chuyện đang chuyển động nhanh: dự án mới, cạnh tranh, nhiều việc cùng lúc. Người hỏi có năng lượng nhưng dễ cháy hết; câu hỏi thật thường là về hướng đi, sự nghiệp, động lực.\n\n**Thang số.** Át: tia lửa khởi đầu, một ý định. 2-4: lên kế hoạch, ra khơi mở rộng, ăn mừng cột mốc. 5-7: cọ xát cạnh tranh, được ghi nhận, giữ lập trường. 8-10: tăng tốc, bền bỉ canh giữ, gánh quá sức.\n\n**Lá hoàng gia.** Người nhiệt tình, nói nhanh làm nhanh, truyền được cảm hứng; có khi bốc đồng, thiếu kiên nhẫn. Cũng có thể là chính người hỏi lúc đang hăng hái.\n\n**Lời khuyên chung.** Giữ lửa bằng nhịp đều, đừng đốt hết một lần; chọn ít mục tiêu hơn và theo tới cùng.",
+    "gist_en": "Suit of Wands (Fire): will, action, passion, ambition, creativity, career and drive. Many Wands in a spread means fast movement, new ventures, competition, high energy with risk of burnout. Numbers move from spark and planning through competition to acceleration and overload.",
+    "source_refs": [
+      {
+        "source": "Waite (1911) + quy ước nguyên tố RWS",
+        "quote": "The Wands throughout this suit are always in leaf, as it is a suit of life and animation."
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám Waite (1911); duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
   }
 ]

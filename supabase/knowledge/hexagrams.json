@@ -1,5 +1,395 @@
 [
   {
+    "id": "hexagram:1",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 1
+    },
+    "title": "Quẻ 1 — Thuần Càn",
+    "keywords": [
+      "khởi xướng",
+      "tự cường",
+      "dẫn đầu",
+      "cương mà không gãy",
+      "mạnh không tranh"
+    ],
+    "body_vi": "**Thoán từ.** 乾：元亨。利貞。— *Càn: đầu mối lớn, hanh thông, lợi ở chỗ giữ cho chính.* Ý là: sức khởi xướng đang ở độ mạnh nhất, việc mở ra được, nhưng chỉ bền nếu đi đúng đường.\n\n**Tượng.** Trên Càn dưới Càn, sáu hào đều dương: trời chồng lên trời. Đại Tượng nói 天行健，君子以自強不息 — trời vận hành không nghỉ, người quân tử theo đó tự làm mình mạnh lên không ngừng. Sức ở đây là sức tự thân, không chờ ai đẩy.\n\n**Thế quẻ.** Thời của người đi đầu: có ý, có lực, có quyền quyết. Sáu hào kể chuyện con rồng từ lúc còn ẩn dưới nước đến lúc bay quá cao mà hối, nên câu hỏi luôn là mình đang ở chặng nào. Lời Dụng Cửu khép quẻ: 見羣龍无首，吉 — thấy bầy rồng không con nào đòi đứng đầu thì tốt. Mạnh mà không tranh ngôi mới là cái mạnh trọn.\n\n**Trong đời thường.** Công việc: hợp để khởi động, nhận vai dẫn dắt, ra quyết định lớn; dễ quá tải vì ôm hết vào mình. Tình cảm: người hỏi đang chủ động, nhưng dễ áp nhịp của mình lên người kia. Tiền bạc: hợp chi cho việc nâng năng lực hơn là đánh nhanh thắng nhanh.\n\n**Lời khuyên.** Cứ đi trước, nhưng chừa chỗ cho người khác cùng mạnh; cương quá thì gãy.",
+    "gist_en": "I Ching hexagram 1 Qian (pure initiative), heaven above heaven, all six lines yang: drive is at its peak, a time to start things, take the lead and make big calls. Like the sky that never stops turning, keep building your own strength. The danger is overreach and hogging control; real strength leaves room for others to lead too.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/乾",
+        "quote": "乾：元亨。利貞。 天行健，君子以自強不息 見羣龍无首，吉"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:2",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 2
+    },
+    "title": "Quẻ 2 — Thuần Khôn",
+    "keywords": [
+      "tiếp nhận",
+      "nâng đỡ",
+      "bền bỉ",
+      "làm nền",
+      "đức dày chở vật"
+    ],
+    "body_vi": "**Thoán từ.** 坤：元亨。利牝馬之貞。— *Khôn: lớn, hanh thông, lợi ở sự bền chính của con ngựa cái.* Ngựa cái đi xa, chịu khó, theo đàn mà không lạc: sức của quẻ là sức bền và sức thuận, không phải sức xông lên.\n\n**Tượng.** Trên Khôn dưới Khôn, sáu hào đều âm: đất nối đất. Đại Tượng: 地勢坤，君子以厚德載物 — thế đất là thuận, người quân tử lấy đức dày mà chở muôn vật. Đất không chọn thứ gì được đặt lên nó; nó đỡ hết và cho mọc lên.\n\n**Thế quẻ.** Thời của người đỡ, người làm nền. Việc thành nhờ có người tiếp nhận ý, biến nó thành thật, kiên nhẫn qua những phần không ai thấy. Đi đầu lúc này dễ lạc; theo một hướng đúng rồi làm cho đến nơi thì được. Lời Dụng Lục khép quẻ: 利永貞 — lợi ở chỗ giữ chính lâu dài. Cái bẫy là thuận đến mức mất mình: nâng đỡ người khác mà quên giữ ranh giới. Ngược lại, mềm mà vượt vai, quay sang tranh quyền với cái cứng, thì như hào cuối nói, hai bên cùng bị thương.\n\n**Trong đời thường.** Công việc: vai hỗ trợ, vận hành, chăm khách hàng, hoàn thiện cái người khác khởi xướng; giá trị lộ ra chậm nhưng chắc. Tình cảm: lắng nghe, chăm sóc, cho mối quan hệ thời gian lớn lên; nhưng đừng gánh một mình. Tiền bạc: tích lũy đều, giữ của hơn là mạo hiểm.\n\n**Lời khuyên.** Nuôi trước, đòi kết quả sau; mềm mà vẫn có chỗ đứng của mình.",
+    "gist_en": "I Ching hexagram 2 Kun (yielding support), earth above earth, all six lines yin: the strength of endurance rather than charge, like a mare that travels far with the herd. Be the ground that carries others, follow a sound direction and finish the work. Watch for losing yourself in giving, or overstepping into a power struggle. Nurture first, results later.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/坤",
+        "quote": "坤：元亨。利牝馬之貞。 地勢坤，君子以厚德載物 利永貞"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:3",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 3
+    },
+    "title": "Quẻ 3 — Thủy Lôi Truân",
+    "keywords": [
+      "khởi đầu khó",
+      "ngổn ngang",
+      "dựng nền",
+      "tìm người cùng gánh",
+      "gỡ từng mối"
+    ],
+    "body_vi": "**Thoán từ.** 屯：元亨，利貞。勿用有攸往，利建侯。— *Truân: lớn, hanh thông, lợi giữ chính. Chớ vội đi đâu; lợi ở việc dựng người đứng đầu.* Ý là: việc mới có sức sống thật, nhưng đang rối, nên lo dựng nền và tìm người gánh cùng trước khi tiến.\n\n**Tượng.** Sấm (Chấn) ở dưới, nước mây (Khảm) ở trên: mây dày sấm động mà mưa chưa xuống. Đại Tượng: 雲雷，屯；君子以經綸 — mây với sấm là Truân; người quân tử nhân đó mà gỡ chỉ, dựng khung, sắp việc cho có mối. Chữ Truân vẽ mầm cây đội đất nhú lên, cong queo vì đất còn cứng.\n\n**Thế quẻ.** Khởi đầu khó: mọi thứ cùng đến một lúc, thiếu người, thiếu quy trình, chưa rõ hướng. Thoán Truyện nói cứng mềm mới giao nhau thì khó sinh ra, động giữa chỗ hiểm. Đó không phải dấu hiệu đi sai, mà là tình trạng bình thường của cái mới. Sai là ở chỗ cố chạy khi chưa có mối, hoặc gánh một mình.\n\n**Trong đời thường.** Công việc: dự án, công ty, vị trí mới đang ngổn ngang; ưu tiên dựng cấu trúc, chọn cộng sự, chia việc. Tình cảm: quan hệ mới chớm, còn vụng và nhiều hiểu lầm nhỏ; cho nó thời gian định hình. Tiền bạc: chi cho nền móng, chưa phải lúc mở rộng.\n\n**Lời khuyên.** Gỡ từng mối một, tìm người cùng gánh; khó lúc đầu không có nghĩa là việc hỏng.",
+    "gist_en": "I Ching hexagram 3 Zhun (sprouting through hard ground), water over thunder: a new venture full of life but tangled, short on people, process and direction. Do not rush ahead; lay foundations, sort the threads one by one and find partners to share the load. A messy start is normal for anything new, not a sign of failure.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/屯",
+        "quote": "屯：元亨，利貞。勿用有攸往，利建侯。 雲雷，屯；君子以經綸"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:4",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 4
+    },
+    "title": "Quẻ 4 — Sơn Thủy Mông",
+    "keywords": [
+      "chưa tỏ",
+      "chịu học",
+      "hỏi đúng người",
+      "đừng hỏi lặp",
+      "nguồn mới ra"
+    ],
+    "body_vi": "**Thoán từ.** 蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三瀆，瀆則不告。利貞。— *Mông: hanh thông. Không phải ta đi tìm đứa trẻ còn mờ tối, mà đứa trẻ tìm đến ta. Bói lần đầu thì đáp; hỏi lại hai ba lần là nhờn, nhờn thì không đáp. Lợi giữ chính.* Ý là: chỗ chưa biết sẽ được mở, nếu người hỏi thật lòng muốn học.\n\n**Tượng.** Núi (Cấn) ở trên, nước (Khảm) ở dưới: chân núi có hiểm, gặp hiểm thì dừng vì chưa biết đường. Đại Tượng: 山下出泉，蒙；君子以果行育德 — dưới núi có suối chảy ra là Mông; người quân tử nhân đó quả quyết trong việc làm, nuôi dưỡng đức. Suối mới ra còn nhỏ, chưa biết chảy về đâu, nhưng đã có nguồn.\n\n**Thế quẻ.** Có chỗ còn mù mờ: thiếu thông tin, thiếu kinh nghiệm, hoặc biết mà chưa hiểu. Quẻ nói thẳng về cách hỏi: hỏi đi hỏi lại một câu để mong nghe đáp án khác là dấu hiệu chưa muốn học. Với người đọc bài, đây cũng là lời nhắc khi người hỏi gieo lại nhiều lần cho cùng một việc.\n\n**Trong đời thường.** Công việc: vị trí mới, kỹ năng mới; tìm người hướng dẫn, chịu làm người mới. Tình cảm: còn đoán ý nhau; hỏi thẳng thay vì suy diễn. Tiền bạc: đừng xuống tiền vào thứ mình chưa hiểu.\n\n**Lời khuyên.** Hỏi đúng người, nghe trọn câu trả lời đầu, rồi làm thật; đừng giả vờ đã hiểu.",
+    "gist_en": "I Ching hexagram 4 Meng (not yet knowing), mountain over water: a spring just emerging at the foot of a hill, unsure where to flow. Inexperience or missing information; the learner must seek out the teacher. Asking the same question repeatedly, hoping for a different answer, shows unwillingness to learn. Find the right mentor, accept the first answer, then act.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/蒙",
+        "quote": "蒙：亨。匪我求童蒙，童蒙求我。初筮告，再三瀆，瀆則不告。利貞。 山下出泉，蒙；君子以果行育德"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:5",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 5
+    },
+    "title": "Quẻ 5 — Thủy Thiên Nhu",
+    "keywords": [
+      "chờ đúng cách",
+      "giữ sức",
+      "chuẩn bị",
+      "tin vào điều đang đến",
+      "đừng liều"
+    ],
+    "body_vi": "**Thoán từ.** 需：有孚，光亨。貞吉，利涉大川。— *Nhu: có lòng tin, sáng sủa hanh thông. Giữ chính thì tốt, lợi qua sông lớn.* Ý là: chờ đúng cách thì chính sự chờ ấy dẫn tới chỗ vượt được việc lớn.\n\n**Tượng.** Trời (Càn) ở dưới, nước (Khảm) ở trên: sức mạnh đứng trước hiểm mà chưa lao vào. Đại Tượng: 雲上於天，需；君子以飲食宴樂 — mây đã lên trời mà mưa chưa xuống; người quân tử nhân đó ăn uống, yến vui. Không phải ăn chơi bỏ việc, mà là giữ thân tâm khỏe và bình thản trong lúc chưa đến thời.\n\n**Thế quẻ.** Thoán Truyện giải Nhu là chờ, vì hiểm ở phía trước; người cứng mạnh mà không sa vào thì không cùng quẫn. Quẻ phân rõ chờ chủ động với chờ bỏ mặc: chờ chủ động là biết mình chờ cái gì, chuẩn bị gì trong lúc đó, và giữ lòng tin. Cái bẫy là sốt ruột rồi liều vượt, hoặc lo đến hao sức trước khi thời tới.\n\n**Trong đời thường.** Công việc: kết quả, phản hồi, quyết định của người khác chưa về; dùng thời gian để chuẩn bị, đừng thúc ép. Tình cảm: một bên chưa sẵn sàng; giữ ấm mà không đòi câu trả lời ngay. Tiền bạc: chưa phải lúc xuống tiền lớn; giữ dự phòng.\n\n**Lời khuyên.** Ăn ngủ cho đều, chuẩn bị cho kỹ, giữ lòng tin vào điều mình đang chờ; liều lúc này là tự sa vào chỗ hiểm.",
+    "gist_en": "I Ching hexagram 5 Xu (patient waiting), water over heaven: clouds have risen but rain has not fallen, strength facing danger without plunging in. Wait actively: know what you are waiting for, prepare, eat and rest well, keep faith. Impatient leaps or anxious worry waste energy. Steadiness while waiting is what later carries you through a major undertaking.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/需",
+        "quote": "需：有孚，光亨。貞吉，利涉大川。 雲上於天，需；君子以飲食宴樂"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:6",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 6
+    },
+    "title": "Quẻ 6 — Thiên Thủy Tụng",
+    "keywords": [
+      "tranh chấp",
+      "biết dừng",
+      "người phân xử",
+      "tính từ đầu",
+      "đừng thắng bằng mọi giá"
+    ],
+    "body_vi": "**Thoán từ.** 訟：有孚，窒，惕，中吉，終凶。利見大人，不利涉大川。— *Tụng: có điều thật mà bị nghẽn, nên phải dè chừng; dừng giữa chừng thì tốt, theo đến cùng thì xấu. Lợi gặp người lớn phân xử, không lợi qua sông lớn.* Ý là: mình có lý, nhưng đẩy tranh chấp tới tận cùng thì thiệt cho cả hai.\n\n**Tượng.** Trời (Càn) ở trên đi lên, nước (Khảm) ở dưới chảy xuống: hai hướng ngược nhau. Đại Tượng: 天與水違行，訟；君子以作事謀始 — trời với nước đi trái chiều là Tụng; người quân tử khi làm việc thì tính kỹ từ đầu. Phần lớn tranh chấp đã gieo mầm từ lúc thỏa thuận còn mơ hồ.\n\n**Thế quẻ.** Trên cứng, dưới hiểm: một bên mạnh, một bên thấy mình bị dồn. Có bất đồng thật về quyền lợi hoặc lẽ phải. Quẻ không bảo đừng lên tiếng, mà bảo biết dừng: tìm người đứng giữa công tâm, chốt điều cần chốt, rồi thôi. Thắng bằng mọi giá thường mất nhiều hơn được.\n\n**Trong đời thường.** Công việc: va chạm với đồng nghiệp, đối tác, hợp đồng; ghi rõ bằng văn bản, nhờ người trung gian, đừng mở thêm mặt trận. Tình cảm: cãi nhau xem ai đúng; tự hỏi mình muốn thắng hay muốn còn nhau. Tiền bạc: tránh việc mới khi tranh chấp cũ chưa xong.\n\n**Lời khuyên.** Nói rõ điều mình cần, chấp nhận dừng ở giữa; lần sau, thống nhất từ đầu.",
+    "gist_en": "I Ching hexagram 6 Song (dispute), heaven over water, two forces moving in opposite directions: a real disagreement where you may be right, but pushing it to the bitter end harms both sides. Seek a fair mediator, settle what must be settled, then stop. Avoid new ventures meanwhile. Most quarrels start from vague agreements, so clarify terms at the outset.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/訟",
+        "quote": "訟：有孚，窒，惕，中吉，終凶。利見大人，不利涉大川。 天與水違行，訟；君子以作事謀始"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:7",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 7
+    },
+    "title": "Quẻ 7 — Địa Thủy Sư",
+    "keywords": [
+      "tổ chức",
+      "kỷ luật",
+      "người cầm trịch",
+      "sức tập thể",
+      "luật trước khi làm"
+    ],
+    "body_vi": "**Thoán từ.** 師：貞丈人吉，无咎。— *Sư: giữ chính, có người lão luyện cầm đầu thì tốt, không lỗi.* Ý là: việc lớn nhiều người chỉ thành khi có người đứng đầu đủ uy tín và mục tiêu chính đáng.\n\n**Tượng.** Nước (Khảm) nằm trong đất (Khôn): nước ngầm, nhiều mà không thấy. Đại Tượng: 地中有水，師；君子以容民畜衆 — trong đất có nước là Sư; người quân tử nhân đó bao dung người, nuôi giữ đám đông. Sức mạnh của tập thể nằm sẵn trong lòng người thường, chờ được tổ chức.\n\n**Thế quẻ.** Chữ Sư là quân, là đám đông có kỷ luật. Quẻ có một hào dương duy nhất ở giữa quẻ dưới, năm hào âm theo: một người cầm trịch, nhiều người cùng làm. Việc đòi hỏi tổ chức, phân vai, luật chơi rõ, và một lý do chính đáng để người khác đi theo. Hiểm ở bên trong, thuận ở bên ngoài: đi qua chỗ khó mà vẫn giữ được lòng người.\n\n**Trong đời thường.** Công việc: dẫn một nhóm, một chiến dịch; đặt quy tắc, giao vai trước khi bắt tay. Tình cảm: hai người như một đội, cần thống nhất ai lo việc gì; tránh biến quan hệ thành chỉ huy và phục tùng. Tiền bạc: cần kỷ luật chi tiêu, kế hoạch rõ ràng.\n\n**Lời khuyên.** Chọn đúng người cầm trịch (có khi là chính mình), đặt luật trước khi ra quân.",
+    "gist_en": "I Ching hexagram 7 Shi (organised troops), earth over water, like groundwater hidden in the land: one yang line leads five yin lines. Collective effort succeeds with an experienced, trusted leader and a legitimate aim. Set rules, assign roles and keep people's goodwill before moving. Applies to leading teams and campaigns, couples acting as a unit, disciplined spending.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/師",
+        "quote": "師：貞丈人吉，无咎。 地中有水，師；君子以容民畜衆"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:8",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 8
+    },
+    "title": "Quẻ 8 — Thủy Địa Tỷ",
+    "keywords": [
+      "xích lại gần",
+      "chọn chỗ dựa",
+      "liên minh",
+      "đừng đến muộn",
+      "thành thật"
+    ],
+    "body_vi": "**Thoán từ.** 比：吉。原筮元永貞，无咎。不寧方來，後夫凶。— *Tỷ: tốt. Xét lại lần nữa xem có lớn, lâu bền, chính đáng không, thì không lỗi. Những người chưa yên đang kéo tới; ai đến sau cùng thì xấu.* Ý là: lúc này nên xích lại gần, nhưng xét kỹ mình gắn với ai và vì sao.\n\n**Tượng.** Nước (Khảm) ở trên đất (Khôn): nước thấm vào đất, không còn khe hở. Đại Tượng: 地上有水，比；先王以建萬國，親諸侯 — trên đất có nước là Tỷ; các vua xưa nhân đó dựng các nước, thân với chư hầu. Gắn kết ở đây là gắn kết có một trung tâm.\n\n**Thế quẻ.** Một hào dương ở ngôi thứ năm, năm hào âm hướng về: một điểm tựa, nhiều người tìm đến. Quẻ đặt hai câu hỏi: mình có phải là chỗ dựa đáng tin không, và mình đang chọn nương vào ai. Chần chừ quá lâu thì đến lúc muốn vào, vòng tròn đã khép.\n\n**Trong đời thường.** Công việc: lập liên minh, chọn nhóm, chọn người dẫn, chọn đối tác; vào sớm và chân thành. Tình cảm: thời để thân hơn, cam kết hơn; đừng đứng ngoài quan sát mãi. Tiền bạc: hợp tác với người tin được; xét động cơ trước khi góp chung.\n\n**Lời khuyên.** Xét lòng mình một lần cho kỹ, rồi gắn bó thật; đến muộn thì khó có chỗ.",
+    "gist_en": "I Ching hexagram 8 Bi (drawing close), water over earth, water soaking into soil with no gap: one central yang line draws five others toward it. A time to join, commit and form alliances, after checking honestly whom you bind yourself to and why. Hesitate too long and the circle closes; latecomers find no place. Choose trustworthy partners.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/比",
+        "quote": "比：吉。原筮元永貞，无咎。不寧方來，後夫凶。 地上有水，比；先王以建萬國，親諸侯"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:9",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 9
+    },
+    "title": "Quẻ 9 — Phong Thiên Tiểu Súc",
+    "keywords": [
+      "tích nhỏ",
+      "mây chưa mưa",
+      "trở ngại nhỏ mà dai",
+      "trau chuốt chi tiết",
+      "đừng ép"
+    ],
+    "body_vi": "**Thoán từ.** 小畜：亨。密雲不雨，自我西郊。— *Tiểu Súc: hanh thông. Mây dày mà không mưa, kéo tới từ cánh đồng phía tây của ta.* Ý là: mọi thứ đã tụ, đã sắp, nhưng chưa đủ để vỡ ra thành kết quả.\n\n**Tượng.** Gió (Tốn) ở trên trời (Càn): gió thổi trên trời, gom được mây nhưng chưa đủ sức làm mưa. Đại Tượng: 風行天上，小畜，君子以懿文德 — người quân tử nhân đó trau dồi cái đẹp của văn và đức. Khi chưa làm được việc lớn, hãy làm thật tốt những việc nhỏ.\n\n**Thế quẻ.** Một hào âm giữ chân năm hào dương: cái mềm níu cái cứng. Có một trở ngại nhỏ nhưng dai: thiếu một chữ ký, một khoản tiền, một cái gật đầu. Không đủ để chặn hẳn, nhưng đủ để làm chậm. Ép mạnh lúc này dễ phản tác dụng; mềm mỏng và kiên trì thì lực tích dần.\n\n**Trong đời thường.** Công việc: tiến độ nhích từng chút; hoàn thiện chi tiết, giữ quan hệ, chờ đủ điều kiện. Tình cảm: có hơi ấm nhưng chưa tới bước tiếp; đừng đòi một lời hứa lớn lúc này. Tiền bạc: tích nhỏ, tiết kiệm đều; tránh khoản chi lớn.\n\n**Lời khuyên.** Giữ nhịp nhỏ mà đều; mây dày dần rồi sẽ có lúc thành mưa.",
+    "gist_en": "I Ching hexagram 9 Xiao Chu (small restraint), wind over heaven: thick clouds gather from the west but no rain yet. A small but stubborn obstacle, one missing signature or approval, slows progress without stopping it. Forcing backfires; gentle persistence lets strength build. Polish details, save steadily, avoid big spending, and do small things well until conditions ripen.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/小畜",
+        "quote": "小畜：亨。密雲不雨，自我西郊。 風行天上，小畜，君子以懿文德"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:10",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 10
+    },
+    "title": "Quẻ 10 — Thiên Trạch Lý",
+    "keywords": [
+      "giẫm đuôi hổ",
+      "giữ lễ",
+      "biết vị trí",
+      "bước cẩn trọng",
+      "đối diện người mạnh"
+    ],
+    "body_vi": "**Thoán từ.** 履虎尾，不咥人，亨。— *Giẫm lên đuôi hổ mà hổ không cắn người, hanh thông.* Ý là: đang ở gần một thế lực lớn hơn mình, một tình huống dễ cháy, nhưng cách cư xử đúng mực giữ cho mình an toàn.\n\n**Tượng.** Trời (Càn) ở trên, đầm (Đoài) ở dưới: trên dưới rõ ràng. Đại Tượng: 上天下澤，履；君子以辨上下，定民志 — người quân tử nhân đó phân định trên dưới, làm cho lòng người yên. Chữ Lý là giày, là bước đi, cũng là lễ: biết mình đứng ở đâu.\n\n**Thế quẻ.** Quẻ dưới là Đoài, vui hòa, đi theo Càn cứng mạnh: Thoán Truyện gọi là cái mềm giẫm lên cái cứng. Qua được không nhờ sức mà nhờ thái độ: nhã nhặn, rõ ràng, không khiêu khích, cũng không khúm núm. Cái bẫy là chủ quan vì hổ chưa cắn, rồi bước bừa.\n\n**Trong đời thường.** Công việc: làm việc với cấp trên khó tính, khách lớn, đối tác mạnh; chuẩn bị kỹ, giữ đúng phép, nói vừa đủ. Tình cảm: đang chạm vào một chủ đề nhạy cảm; chọn lời và thời điểm. Tiền bạc: bước vào việc có rủi ro; biết trước điểm dừng của mình.\n\n**Lời khuyên.** Biết vị trí, giữ lễ, bước chậm mà chắc; lễ độ là cái đỡ chân.",
+    "gist_en": "I Ching hexagram 10 Lü (careful stepping), heaven over lake: stepping on a tiger's tail without being bitten. You stand near someone more powerful or in a volatile situation, and right conduct keeps you safe. Know your place, be courteous and clear, neither provoking nor grovelling. Do not grow careless because nothing has bitten yet.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/履",
+        "quote": "履虎尾，不咥人，亨。 上天下澤，履；君子以辨上下，定民志"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:11",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 11
+    },
+    "title": "Quẻ 11 — Địa Thiên Thái",
+    "keywords": [
+      "hanh thông",
+      "trên dưới giao hòa",
+      "thời thịnh",
+      "xây dài hạn",
+      "đừng phung phí"
+    ],
+    "body_vi": "**Thoán từ.** 泰：小往大來，吉亨。— *Thái: cái nhỏ đi, cái lớn đến, tốt và hanh thông.* Ý là: bỏ ra ít mà nhận về nhiều, vì mọi đường đang thông.\n\n**Tượng.** Trời (Càn) ở dưới, đất (Khôn) ở trên: khí trời bốc lên, khí đất lắng xuống, hai bên gặp nhau. Đại Tượng mở đầu bằng 天地交，泰 — trời đất giao nhau là Thái; người cầm quyền nhân đó điều chỉnh, phụ giúp cho hợp lẽ trời đất mà nâng đỡ dân. Thuận lợi không tự giữ được; phải có người vun.\n\n**Thế quẻ.** Thoán Truyện: trên dưới giao nhau thì chí hướng giống nhau. Người dẫn hiểu người làm, nhà hiểu nhau, ý và việc khớp. Bên trong cứng mạnh, bên ngoài mềm thuận. Đây là thời thịnh, nhưng hào cuối đã nói tới tường thành đổ xuống hào: thịnh rồi sẽ đến lúc chuyển, và quẻ kế tiếp là Bĩ.\n\n**Trong đời thường.** Công việc: hợp tác trôi chảy, đúng lúc để mở rộng, đề xuất, xây nền dài hạn. Tình cảm: hai bên cởi mở, dễ nói chuyện; thuận cho những bước quan trọng. Tiền bạc: dư dả, dùng phần dư để củng cố chứ đừng phung phí.\n\n**Lời khuyên.** Dùng lúc thuận để làm việc dài hạn; đừng tưởng thời thịnh kéo mãi.",
+    "gist_en": "I Ching hexagram 11 Tai (open flow), earth over heaven: heaven's energy rises and earth's settles, so the two meet. Give little and receive much; those above and below share the same aims and cooperation runs smoothly. Good timing for expansion, proposals and important steps in relationships. Use surplus to build long-term foundations, remembering that prosperity turns and blockage follows.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/泰",
+        "quote": "泰：小往大來，吉亨。 天地交，泰"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:12",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 12
+    },
+    "title": "Quẻ 12 — Thiên Địa Bĩ",
+    "keywords": [
+      "bế tắc",
+      "không thông",
+      "thu mình",
+      "giữ chính trực",
+      "chờ thời mở"
+    ],
+    "body_vi": "**Thoán từ.** 否之匪人，不利君子貞，大往小來。— *Bĩ lấp, chẳng phải đạo người; không lợi cho người quân tử giữ chính; cái lớn đi, cái nhỏ đến.* Ý là: trời đất không giao thì người với người cũng không thông, nên giữ chính mà vẫn chưa được lợi; bỏ ra nhiều thu về ít vì đường đã đóng, không phải vì mình kém.\n\n**Tượng.** Trời (Càn) ở trên, đất (Khôn) ở dưới: đúng chỗ mà không gặp nhau, trời cứ lên, đất cứ xuống, ngày càng xa. Đại Tượng: 天地不交，否；君子以儉德辟難，不可榮以祿 — trời đất không giao là Bĩ; người quân tử nhân đó thu đức lại để tránh nạn, không thể lấy bổng lộc làm vẻ vang.\n\n**Thế quẻ.** Ngược hẳn quẻ Thái: trên dưới không giao, trong mềm ngoài cứng, kẻ nhỏ lên, người ngay lùi. Lời nói không tới tai, cố gắng không được thấy. Thời này không do mình tạo ra, và ở nửa đầu quẻ thì không thể cố mà phá. Sang các hào trên, thế bắt đầu xoay: ai có chính danh và đúng lúc thì góp tay mở lại được. Cái nên giữ là sự trong sạch và sức của mình; cái nên tránh là chạy theo danh lợi trong một hệ thống đang đóng.\n\n**Trong đời thường.** Công việc: môi trường ách tắc, ý kiến không ai nghe, dự án treo; làm chắc phần mình, không phô trương, tìm đường khác. Tình cảm: hai người nói không còn tới nhau; bớt ép, tìm lại cách nói chuyện thật. Tiền bạc: thu mình, giảm chi, tránh mở rộng.\n\n**Lời khuyên.** Rút về giữ mình, đừng đổi chính trực lấy chút lợi; thời đóng rồi cũng đến lúc mở.",
+    "gist_en": "I Ching hexagram 12 Pi (blockage), heaven over earth, each in place yet drifting apart: no exchange between top and bottom, words go unheard, effort unseen, petty people rise. This is not your doing and cannot be forced open early. Withdraw, keep your integrity, cut spending, do not chase status in a closed system. Later the tide turns.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/否",
+        "quote": "否之匪人，不利君子貞，大往小來。 天地不交，否；君子以儉德辟難，不可榮以祿"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:13",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 13
+    },
+    "title": "Quẻ 13 — Thiên Hỏa Đồng Nhân",
+    "keywords": [
+      "đồng lòng",
+      "hợp tác công khai",
+      "lẽ chung",
+      "không bè phái",
+      "phân biệt rõ"
+    ],
+    "body_vi": "**Thoán từ.** 同人于野，亨。 利涉大川，利君子貞。— *Cùng người ngoài đồng rộng thì hanh thông. Lợi qua sông lớn, lợi cho người quân tử giữ chính.* Ý là: hợp sức với người khác ở chỗ công khai, rộng mở, thì vượt được việc lớn.\n\n**Tượng.** Lửa (Ly) ở dưới trời (Càn): lửa bốc lên, cùng hướng với trời. Đại Tượng: 天與火，同人；君子以類族辨物 — trời với lửa là Đồng Nhân; người quân tử nhân đó phân loại họ tộc, phân biệt sự vật. Hợp nhau không có nghĩa là xóa khác biệt: biết rõ ai là ai, việc gì là việc gì, rồi mới đứng chung.\n\n**Thế quẻ.** Hào âm ở giữa quẻ dưới ứng với hào dương ở giữa quẻ trên: hai trung tâm hướng về nhau. “Ngoài đồng” là chỗ không có tường, không có phe. Thoán Truyện nói chỉ người quân tử mới thông được chí của thiên hạ. Quẻ khen sự đồng lòng vì lẽ chung, và cảnh báo thứ đồng lòng hẹp: chỉ hợp với người cùng phe, cùng họ, cùng nhóm nhỏ.\n\n**Trong đời thường.** Công việc: hợp tác, lập nhóm, dự án cộng đồng; làm minh bạch, mục tiêu chung rõ. Tình cảm: tình bạn làm nền cho tình yêu; quan hệ được bạn bè, gia đình hai bên biết tới. Tiền bạc: góp chung vì việc chung, có thỏa thuận rõ ràng.\n\n**Lời khuyên.** Kết hợp trên lẽ chung, ở chỗ sáng; đừng lập phe nhỏ.",
+    "gist_en": "I Ching hexagram 13 Tong Ren (people in common), heaven over fire, flames rising toward the sky: joining others openly, in a wide field with no walls or factions, makes big undertakings possible. Unity means knowing clearly who is who, not erasing differences. Warns against narrow cliques. Collaboration, transparent shared goals, friendship beneath love, clear agreements on pooled money.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/同人",
+        "quote": "同人于野，亨。 利涉大川，利君子貞。 天與火，同人；君子以類族辨物"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:14",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 14
+    },
+    "title": "Quẻ 14 — Hỏa Thiên Đại Hữu",
+    "keywords": [
+      "có nhiều",
+      "tầm ảnh hưởng",
+      "sáng giữa trưa",
+      "giữ khiêm",
+      "chia ra"
+    ],
+    "body_vi": "**Thoán từ.** 大有：元亨。— *Đại Hữu: lớn, hanh thông.* Lời ngắn nhất, vì thế quẻ đã đủ nói: có nhiều, có tầm, mọi việc mở.\n\n**Tượng.** Lửa (Ly) ở trên trời (Càn): mặt trời giữa trưa, soi tới mọi chỗ. Đại Tượng: 火在天上，大有；君子以遏惡揚善，順天休命 — người quân tử nhân đó ngăn điều xấu, nêu điều tốt, thuận theo mệnh tốt lành của trời. Có nhiều thì trách nhiệm cũng nhiều: dùng ảnh hưởng của mình để làm rõ đúng sai.\n\n**Thế quẻ.** Một hào âm ở ngôi tôn (hào năm), năm hào dương đều theo: người đứng đầu mềm mỏng, rộng lòng, nên được nhiều người giỏi phò giúp. Cái “có” ở đây không chỉ là tiền, mà còn là người, uy tín, cơ hội. Mối nguy duy nhất nằm bên trong: kiêu, phô, giữ khư khư.\n\n**Trong đời thường.** Công việc: thành quả lớn, được công nhận, có tiếng nói; dùng nó để nâng người khác. Tình cảm: dư dả cảm xúc, có khả năng cho đi; cẩn thận đừng để sự hào phóng thành kiểm soát. Tiền bạc: dồi dào; chia sẻ và tính chuyện lâu dài.\n\n**Lời khuyên.** Có nhiều thì giữ khiêm và chia ra; ánh sáng soi cho người khác thì mới bền.",
+    "gist_en": "I Ching hexagram 14 Da You (great abundance), fire over heaven, the midday sun lighting everything: wealth, influence, people and opportunity. A gentle, open-hearted ruler attracts capable helpers. With much comes responsibility: use influence to curb wrong and raise what is good. The only real danger is arrogance, showing off or hoarding. Stay modest and share.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/大有",
+        "quote": "大有：元亨。 火在天上，大有；君子以遏惡揚善，順天休命"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:15",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 15
+    },
+    "title": "Quẻ 15 — Địa Sơn Khiêm",
+    "keywords": [
+      "khiêm nhường",
+      "san bằng",
+      "có mà không đè",
+      "đi đến cuối",
+      "không khiêm giả"
+    ],
+    "body_vi": "**Thoán từ.** 謙：亨，君子有終。— *Khiêm: hanh thông, người quân tử có kết cục tốt.* Ý là: khiêm không làm việc chậm lại; nó giúp việc đi được đến cuối.\n\n**Tượng.** Núi (Cấn) nằm dưới đất (Khôn): cái cao chịu ở dưới cái thấp. Đại Tượng: 地中有山，謙；君子以裒多益寡，稱物平施 — người quân tử nhân đó bớt chỗ nhiều, bù chỗ ít, cân nhắc sự vật mà chia cho đều. Khiêm không phải tự hạ thấp mình, mà là san cho bằng.\n\n**Thế quẻ.** Thoán Truyện nói đạo trời bớt chỗ đầy mà thêm chỗ khiêm, đạo người ghét kẻ đầy mà ưa người khiêm. Đây là quẻ hiếm hoi mà sáu hào đều không có lời xấu. Khiêm ở đây là khiêm của người có thật: có núi trong lòng, nhưng không đè lên ai. Cái bẫy là khiêm giả: nói nhún để được khen, hoặc tự hạ đến mức không dám nhận phần mình.\n\n**Trong đời thường.** Công việc: làm chắc, để kết quả tự nói; ghi công cho người khác. Tình cảm: lắng nghe nhiều hơn là chứng minh mình đúng; nhường mà không nhịn đến nghẹn. Tiền bạc: tiêu vừa phải, chia sẻ khi dư.\n\n**Lời khuyên.** Nói ít làm nhiều, đừng nhận công về mình; nhưng cũng đừng chối phần việc mình đã làm.",
+    "gist_en": "I Ching hexagram 15 Qian (humility), earth over mountain, the high resting beneath the low: humility carries work through to a good end. It levels things, taking from excess to fill what lacks. A rare hexagram with no harsh line. Real humility belongs to someone with substance; fake self-deprecation or refusing due credit misses the point. Let results speak.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/謙",
+        "quote": "謙：亨，君子有終。 地中有山，謙；君子以裒多益寡，稱物平施"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
     "id": "hexagram:16",
     "kind": "hexagram",
     "ref": {
@@ -13,9 +403,1264 @@
       "tập hợp người",
       "vui mà không buông"
     ],
-    "body_vi": "**Thoán từ.** 豫：利建侯行師。— *Dự: lợi cho việc dựng người đứng đầu, đem quân đi.* Ý là: lúc lòng người phấn chấn, thuận để khởi sự và kéo người theo mình.\n\n**Tượng.** Sấm (Chấn) ra khỏi đất (Khôn): năng lượng bị nén lâu nay bật lên. Người xưa nhân đó mà làm nhạc, vì nhạc gom được lòng người.\n\n**Thế quẻ.** Có đà, có hứng, dễ được ủng hộ. Đây là thời điểm tốt để bắt đầu, lên kế hoạch lớn, rủ người cùng làm. Cái bẫy của quẻ là vui quá đà: hứng khởi mà không chuẩn bị thì hứng qua rồi việc bỏ dở.\n\n**Trong đời thường.** Công việc: khởi động dự án, kêu gọi đội nhóm, ra mắt. Tình cảm: giai đoạn vui vẻ, dễ gần; nhưng đừng hứa vội lúc đang phấn khích. Tiền bạc: thuận, nhưng tránh tiêu theo cảm hứng.\n\n**Lời khuyên.** Tận dụng đà đang có, nhưng chốt việc chuẩn bị trước khi cảm hứng nguội.",
-    "gist_en": "I Ching hexagram 16 Yu (Enthusiasm), thunder over earth: momentum, excitement, rallying people, good time to launch and lead. Danger is over-indulgence and acting on excitement without preparation. Advice: use the momentum but prepare before enthusiasm fades.",
-    "source": "Nháp Claude Opus 5.5 — diễn giải từ Chu Dịch, cần duyệt",
-    "review_status": "draft"
+    "body_vi": "**Thoán từ.** 豫：利建侯行師。— *Dự: lợi về việc lập chư hầu, dấy quân.* Ý là: khi lòng người đã thuận và phấn chấn, đó là lúc dựng người cầm đầu, tổ chức lực lượng, khởi sự việc lớn. Chữ Dự vừa là vui vừa là dự bị: niềm vui ở đây đi cùng sự sắp đặt trước.\n\n**Tượng.** Dưới là Khôn (đất, thuận), trên là Chấn (sấm, động). Đại Tượng nói 雷出地奮: sấm ra khỏi đất mà vang dậy, sức bị nén lâu nay bật lên. Các vua đời trước nhân đó làm nhạc để tôn đức, dâng lên Thượng Đế và phối thờ tổ tiên: niềm vui được đặt vào lễ nhạc, có khuôn phép, không phải vui tràn.\n\n**Thế quẻ.** Thoán truyện gói lại trong 順以動: thuận theo mà động. Cả quẻ chỉ có một hào dương (hào 4), năm hào âm đều hướng về nó: một người tạo đà, nhiều người hưởng ứng. Có đà, có hứng, dễ được ủng hộ, nên tốt để bắt đầu, lên kế hoạch lớn, rủ người cùng làm. Cái bẫy nằm ở các hào âm: khoe niềm vui ra miệng (hào 1), ngước nhìn trông vào người trên (hào 3), say sưa không biết dừng (hào 6). Hứng mà không chuẩn bị thì hứng qua rồi việc bỏ dở.\n\n**Trong đời thường.** Công việc: khởi động dự án, kêu gọi đội nhóm, ra mắt; hợp nhất khi đã có kế hoạch và người đứng mũi. Tình cảm: giai đoạn vui vẻ, dễ gần; đừng hứa vội lúc đang phấn khích. Tiền bạc: thuận, nhưng tránh tiêu hay rót tiền theo cảm hứng nhất thời.\n\n**Lời khuyên.** Tận dụng đà đang có, thuận theo lòng người thay vì ép; chốt việc chuẩn bị trước khi cảm hứng nguội.",
+    "gist_en": "I Ching hexagram 16 Yu (joyful readiness), thunder over earth, thunder breaking out of the ground: pent-up energy releases, people are eager and responsive. One firm line rallies five yielding ones. Good time to appoint leaders, organise and launch, moving in step with others. Yu also means preparing ahead. Avoid boasting and getting carried away; prepare before excitement cools.",
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/豫",
+        "quote": "豫：利建侯行師。 / 雷出地奮，豫。 / 順以動"
+      }
+    ]
+  },
+  {
+    "id": "hexagram:17",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 17
+    },
+    "title": "Quẻ 17 — Trạch Lôi Tùy",
+    "keywords": [
+      "theo thời",
+      "thích ứng",
+      "theo người xứng đáng",
+      "biết lúc nghỉ",
+      "đừng theo cái tiện"
+    ],
+    "body_vi": "**Thoán từ.** 隨：元亨。利貞。无咎。— *Tùy: lớn, hanh thông, lợi giữ chính, không lỗi.* Ý là: đi theo thì tốt, với điều kiện cái mình theo là đúng.\n\n**Tượng.** Sấm (Chấn) ở trong đầm (Đoài): sấm nằm nghỉ dưới nước, chờ mùa. Đại Tượng: 澤中有雷，隨；君子以嚮晦入宴息 — người quân tử nhân đó khi trời sắp tối thì vào nhà nghỉ ngơi. Theo thời là biết cả lúc làm lẫn lúc nghỉ.\n\n**Thế quẻ.** Thoán Truyện: cái cứng đến mà chịu ở dưới cái mềm, động mà vui, nên người ta theo. Người dẫn đầu biết theo người khác thì người khác mới theo mình. Thoán Truyện còn khen nghĩa của “theo thời” là lớn lắm. Cái bẫy là theo cho tiện: theo đám đông, theo người đang có thế, theo thói quen cũ vì ngại đổi.\n\n**Trong đời thường.** Công việc: thích ứng với thay đổi, chịu đổi cách làm, theo một người dẫn có tầm. Tình cảm: lắng nghe nhịp của người kia, bớt ép theo kế hoạch của mình. Tiền bạc: điều chỉnh theo hoàn cảnh, đừng giữ một chiến lược đã lỗi thời.\n\n**Lời khuyên.** Theo cái đúng chứ đừng theo cái tiện; mệt thì nghỉ, rồi mới tính tiếp.",
+    "gist_en": "I Ching hexagram 17 Sui (going along), lake over thunder, thunder resting under water at dusk: following works when what you follow is right. A leader who can yield earns followers, and adapting to the times includes knowing when to rest. Trap: following for convenience, the crowd, whoever holds power, or old habits. Adjust plans and listen to others' rhythm.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/隨",
+        "quote": "隨：元亨。利貞。无咎。 澤中有雷，隨；君子以嚮晦入宴息"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:18",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 18
+    },
+    "title": "Quẻ 18 — Sơn Phong Cổ",
+    "keywords": [
+      "sửa cái hỏng",
+      "tồn đọng lâu",
+      "xử lý tận gốc",
+      "di sản cũ",
+      "trước ba ngày sau ba ngày"
+    ],
+    "body_vi": "**Thoán từ.** 蠱：元亨。利涉大川。先甲三日，後甲三日。— *Cổ: lớn, hanh thông, lợi qua sông lớn. Trước ngày Giáp ba ngày, sau ngày Giáp ba ngày.* Ý là: sửa cái hỏng là việc lớn và làm được, nếu xem kỹ nguyên nhân trước khi làm và theo dõi sau khi sửa.\n\n**Tượng.** Gió (Tốn) ở dưới núi (Cấn): gió quẩn chân núi không thoát ra được, khí tù đọng. Chữ Cổ vẽ sâu bọ trong bát: thứ để lâu thì sinh hỏng. Đại Tượng: 山下有風，蠱；君子以振民育德 — người quân tử nhân đó khích lệ người, nuôi dưỡng đức.\n\n**Thế quẻ.** Các hào nói chuyện sửa việc hỏng của cha mẹ: cái hỏng ở đây thường được thừa hưởng, từ người trước, từ một hệ thống cũ, từ thói quen đã lâu. Không cần đổ lỗi, nhưng phải gọi đúng tên. “Ba ngày trước, ba ngày sau”: tìm hiểu gốc rồi mới làm, làm xong thì giữ cho không tái lại. Thoán Truyện: hết thì lại có bắt đầu.\n\n**Trong đời thường.** Công việc: nợ kỹ thuật, quy trình hỏng, văn hóa nhóm có vấn đề; sửa tận gốc. Tình cảm: khuôn mẫu cũ từ gia đình lặp lại trong quan hệ; nhận ra rồi mới đổi được. Tiền bạc: dọn khoản nợ cũ, thói chi tiêu dai dẳng.\n\n**Lời khuyên.** Nhìn thẳng vào nguyên nhân cũ; vá tạm sẽ hỏng lại.",
+    "gist_en": "I Ching hexagram 18 Gu (repairing decay), wind under mountain, stale air trapped at the hill's foot, like worms in a bowl: something inherited has gone bad, from predecessors, old systems or family patterns. Name it without blaming. Study the causes before acting and keep watch afterwards so it does not return. Fix the root, not the surface.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/蠱",
+        "quote": "蠱：元亨。利涉大川。先甲三日，後甲三日。 山下有風，蠱；君子以振民育德"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:19",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 19
+    },
+    "title": "Quẻ 19 — Địa Trạch Lâm",
+    "keywords": [
+      "đang lên",
+      "tiến tới gần",
+      "dìu dắt",
+      "thời có hạn",
+      "tháng tám"
+    ],
+    "body_vi": "**Thoán từ.** 臨：元亨。利貞。至于八月有凶。— *Lâm: lớn, hanh thông, lợi giữ chính. Đến tháng tám thì có điều xấu.* Ý là: thời đang lên rất thuận, nhưng không kéo mãi; tính trước lúc nó chuyển.\n\n**Tượng.** Đầm (Đoài) ở dưới đất (Khôn): đất ôm lấy bờ đầm, cái cao cúi xuống gần cái thấp. Đại Tượng: 澤上有地，臨；君子以教思无窮，容保民无疆 — người quân tử nhân đó dạy dỗ và lo nghĩ cho người không cùng, bao dung che chở người không giới hạn. Lâm là đến gần, là người trên đến với người dưới.\n\n**Thế quẻ.** Hai hào dương đang lớn dần từ dưới lên: sức đang tăng, tình thế mở. Thuận để tiếp cận, nhận việc, dẫn dắt người mới. “Tháng tám” là lời nhắc rằng chu kỳ nào cũng có lúc quay đầu; Thoán Truyện nói cái suy không còn xa. Tốt nhất là dùng lúc đang lên để xây những gì vẫn đứng được khi gió đổi.\n\n**Trong đời thường.** Công việc: được giao thêm, được tin, mở thị trường; vừa tiến vừa đào tạo người kế. Tình cảm: thời để chủ động tới gần, quan tâm bằng sự có mặt. Tiền bạc: đang tăng, nên để dành cho lúc chững lại.\n\n**Lời khuyên.** Tiến khi còn thuận, tận tâm với người mình phụ trách, nhưng nhớ thời nào cũng có hạn.",
+    "gist_en": "I Ching hexagram 19 Lin (drawing near), earth over lake, the higher bending close to the lower: two yang lines are growing, influence and opportunity rising. Favourable to approach, take on responsibility, mentor newcomers and care for those in your charge. Yet the eighth month brings a downturn: every cycle turns, so build what will survive when conditions change.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/臨",
+        "quote": "臨：元亨。利貞。至于八月有凶。 澤上有地，臨；君子以教思无窮，容保民无疆"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:20",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 20
+    },
+    "title": "Quẻ 20 — Phong Địa Quán",
+    "keywords": [
+      "quan sát",
+      "chiêm nghiệm",
+      "làm gương",
+      "chưa ra tay",
+      "lòng thành nghiêm trang"
+    ],
+    "body_vi": "**Thoán từ.** 觀：盥而不薦，有孚顒若。— *Quán: đã rửa tay mà chưa dâng lễ, lòng thành nghiêm trang.* Ý là: khoảnh khắc trước khi hành động, khi mọi người đang nhìn và chính mình cũng đang nhìn; sự nghiêm túc lúc này thuyết phục hơn mọi lời nói.\n\n**Tượng.** Gió (Tốn) thổi trên đất (Khôn): đi khắp nơi, chạm tới mọi thứ. Đại Tượng: 風行地上，觀；先王以省方，觀民設教 — các vua xưa nhân đó đi xem xét các phương, nhìn dân mà đặt cách dạy. Quan sát trước, rồi mới đặt quy tắc.\n\n**Thế quẻ.** Hai hào dương ở trên cao, bốn hào âm ở dưới ngước lên: có người nhìn và có người được nhìn. Quẻ có hai mặt: mình nhìn đời cho kỹ, và mình là tấm gương người khác đang nhìn. Thoán Truyện: người dưới nhìn lên mà tự đổi. Đây chưa phải lúc ra tay; là lúc thu thập, thấu hiểu, tự soi.\n\n**Trong đời thường.** Công việc: nghiên cứu, khảo sát, quan sát cách tổ chức vận hành trước khi đề xuất; người quản lý nên biết cấp dưới học theo việc mình làm, không theo lời mình nói. Tình cảm: nhìn hành vi, đừng chỉ nghe lời. Tiền bạc: tìm hiểu kỹ trước khi quyết.\n\n**Lời khuyên.** Nhìn cho kỹ, kể cả cách mình đang được người khác nhìn.",
+    "gist_en": "I Ching hexagram 20 Guan (observing), wind over earth, reaching everywhere: the solemn pause after washing hands, before the offering. Look carefully at the world and remember you are also watched as an example; people copy what you do, not what you say. Not yet time to act; gather information, understand, reflect, and judge others by behaviour.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/觀",
+        "quote": "觀：盥而不薦，有孚顒若。 風行地上，觀；先王以省方，觀民設教"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:21",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 21
+    },
+    "title": "Quẻ 21 — Hỏa Lôi Phệ Hạp",
+    "keywords": [
+      "cắn vỡ",
+      "xử lý dứt khoát",
+      "vật cản giữa",
+      "minh bạch",
+      "đúng mức"
+    ],
+    "body_vi": "**Thoán từ.** 噬嗑：亨。利用獄。— *Phệ Hạp: hanh thông, lợi dùng việc xét xử.* Ý là: có vật cản cần xử lý thẳng, theo một chuẩn rõ ràng, thì việc mới thông.\n\n**Tượng.** Sấm (Chấn) ở dưới, chớp (Ly) ở trên: tiếng và ánh sáng cùng lúc. Thoán Truyện tả hình quẻ như cái miệng có vật nằm giữa: hào trên và hào dưới là hai hàm, hào bốn là vật cản; phải cắn thì hai hàm mới khép. Đại Tượng: 雷電噬嗑；先王以明罰敕法 — các vua xưa nhân đó làm rõ hình phạt, chỉnh đốn phép tắc.\n\n**Thế quẻ.** Có một thứ chặn ở giữa: một người cản trở, một lời nói dối, một vấn đề ai cũng né. Bỏ qua thì quan hệ hay công việc không khép lại được. Quẻ khen sự dứt khoát đi với sáng suốt: động như sấm, rõ như chớp. Xử nhẹ quá thì vô ích, nặng quá thì thành tàn nhẫn.\n\n**Trong đời thường.** Công việc: đặt lại quy định, xử lý vi phạm, nói thẳng về vấn đề tồn đọng; có căn cứ và đúng mức. Tình cảm: có điều chưa nói đang làm nghẹn; nói ra, rõ ràng, không lôi chuyện cũ. Tiền bạc: đòi khoản nợ, rà lại hợp đồng, chặn chỗ thất thoát.\n\n**Lời khuyên.** Cắn vào đúng chỗ, minh bạch và vừa mức; nửa vời thì vật cản vẫn còn đó.",
+    "gist_en": "I Ching hexagram 21 Shi He (clamping jaws), fire over thunder, lightning with thunder: a mouth with something stuck between the jaws must bite before it can close. An obstacle, a lie or an avoided issue blocks progress; deal with it decisively and by clear standards. Too lenient is useless, too harsh is cruel. Enforce rules, speak plainly, recover debts.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/噬嗑",
+        "quote": "噬嗑：亨。利用獄。 雷電噬嗑；先王以明罰敕法"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:22",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 22
+    },
+    "title": "Quẻ 22 — Sơn Hỏa Bí",
+    "keywords": [
+      "trang sức",
+      "vẻ ngoài",
+      "hình thức và thực chất",
+      "lợi nhỏ",
+      "đừng phán qua bề ngoài"
+    ],
+    "body_vi": "**Thoán từ.** 賁：亨。小利有攸往。— *Bí: hanh thông. Có lợi nhỏ nếu tiến tới.* Ý là: trang sức làm mọi thứ dễ đi hơn, nhưng chỉ ở mức nhỏ; nó không thay được thực chất.\n\n**Tượng.** Lửa (Ly) ở dưới núi (Cấn): ánh lửa soi chân núi làm cảnh đẹp ra, nhưng không chiếu được xa. Đại Tượng: 山下有火，賁；君子以明庶政，无敢折獄 — người quân tử nhân đó làm sáng các việc thường ngày, nhưng không dám dựa vào đó mà xử án. Vẻ ngoài đủ dùng cho việc nhỏ, không đủ để phán việc lớn.\n\n**Thế quẻ.** Thoán Truyện nói cứng mềm đan nhau là văn vẻ của trời, văn minh mà biết dừng là văn vẻ của người. Đẹp đúng chỗ giúp người ta muốn đến gần, giúp ý tưởng dễ được nghe. Cái bẫy là sống bằng hình ảnh: trau chuốt hồ sơ, lời lẽ, bao bì, mà phần ruột không theo kịp.\n\n**Trong đời thường.** Công việc: thiết kế, trình bày, thương hiệu, buổi gặp đầu; làm cho đẹp, nhưng đừng hứa vượt khả năng. Tình cảm: giai đoạn đẹp, lãng mạn, ấn tượng ban đầu; nhìn qua lớp áo. Tiền bạc: cẩn thận chi cho vẻ ngoài vượt giá trị thật.\n\n**Lời khuyên.** Trang sức vừa đủ; đừng để hình thức che mất thực chất, và đừng phán người chỉ qua vẻ ngoài.",
+    "gist_en": "I Ching hexagram 22 Bi (adornment), mountain over fire, firelight beautifying the hillside without reaching far: beauty and presentation ease small matters but cannot replace substance or decide big ones. Good for design, branding, first impressions, romance. Trap: living on image, polishing surfaces while the core lags. Decorate moderately and do not judge people by appearance.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/賁",
+        "quote": "賁：亨。小利有攸往。 山下有火，賁；君子以明庶政，无敢折獄"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:23",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 23
+    },
+    "title": "Quẻ 23 — Sơn Địa Bác",
+    "keywords": [
+      "bào mòn",
+      "suy từ dưới",
+      "giữ gốc",
+      "bồi nền",
+      "không gồng chống"
+    ],
+    "body_vi": "**Thoán từ.** 剝：不利。有攸往。— *Bác: không lợi cho việc tiến tới* (bản chép ngắt ở giữa, nhưng Thoán Truyện đọc liền thành một câu nên dịch liền). Ý là: thời đang tróc lở; cố đi lúc này chỉ hao thêm.\n\n**Tượng.** Núi (Cấn) dựa trên đất (Khôn): núi cao mà đất dưới chân đang lở. Năm hào âm từ dưới lên, chỉ còn một hào dương trên cùng. Đại Tượng: 山附地上，剝；上以厚下，安宅 — người ở trên nhân đó bồi dày cho bên dưới để yên chỗ ở. Giữ nhà là đắp nền, không phải xây cao thêm.\n\n**Thế quẻ.** Bào mòn từ từ, từ dưới lên: lòng tin giảm, nguồn lực hao, những thứ trước kia vững nay lung lay. Thoán Truyện khuyên thuận mà dừng, nhìn tượng mà hiểu, vì đầy vơi tiêu lớn là lẽ trời. Không chống thời suy bằng cách gồng. Đến hào năm, các hào âm chịu xếp hàng theo hào dương; hào trên cùng nói tới quả lớn chưa bị ăn: hạt giống vẫn còn, và quẻ kế tiếp là Phục.\n\n**Trong đời thường.** Công việc: tổ chức đang đi xuống, vị trí của mình bị bào dần; giữ năng lực cốt lõi, đừng mở dự án mới. Tình cảm: quan hệ mòn dần vì những điều nhỏ không ai sửa; tập trung vào phần nền còn lại. Tiền bạc: phòng thủ, bảo toàn.\n\n**Lời khuyên.** Không chống thời suy bằng sức; giữ gốc, bồi nền, chờ.",
+    "gist_en": "I Ching hexagram 23 Bo (stripping away), mountain over earth, five yin lines eroding the single yang at the top: a slow decline from below, trust and resources wearing thin. Pushing forward now only drains more. Do not fight the downturn by force; yield, pause, reinforce the base and protect core strengths. A seed remains uneaten, and renewal comes next.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/剝",
+        "quote": "剝：不利。有攸往。 山附地上，剝；上以厚下，安宅"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:24",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 24
+    },
+    "title": "Quẻ 24 — Địa Lôi Phục",
+    "keywords": [
+      "trở lại",
+      "hồi phục",
+      "mầm mới",
+      "đúng nhịp",
+      "bắt đầu nhỏ"
+    ],
+    "body_vi": "**Thoán từ.** 復：亨。出入无疾，朋來无咎。反復其道，七日來復，利有攸往。— *Phục: hanh thông. Ra vào không gì hại, bạn đến không lỗi. Đi về trên đường của nó, bảy ngày thì trở lại; lợi cho việc tiến tới.* Ý là: cái tốt đang quay lại theo nhịp tự nhiên; không cần ép, chỉ cần đón.\n\n**Tượng.** Sấm (Chấn) nằm trong đất (Khôn): một hào dương vừa trở lại ở dưới cùng, bên trên là năm hào âm. Đại Tượng: 雷在地中，復 — sấm trong lòng đất; các vua xưa nhân đó đóng cửa ải ngày đông chí, khách buôn không đi, vua không đi tuần. Mầm vừa trở lại cần yên để lớn, chưa cần phô ra.\n\n**Thế quẻ.** Sau Bác là Phục: chỗ tối nhất đã qua. Thoán Truyện hỏi: ở Phục mà thấy được lòng của trời đất chăng? Một chút sức lại về, một thói quen tốt bắt đầu lại, một người cũ liên lạc. Cái quý là nhịp đúng: bắt đầu nhỏ, đều đặn, quay về điều mình biết là đúng.\n\n**Trong đời thường.** Công việc: hồi phục sau giai đoạn khó, quay lại một dự án, sửa sai sớm. Tình cảm: hàn gắn, nối lại liên lạc; đi chậm, đừng đòi mọi thứ như xưa ngay. Tiền bạc: dựng lại từ những khoản nhỏ.\n\n**Lời khuyên.** Bắt đầu lại từ cái nhỏ, đúng nhịp; mầm mới cần yên hơn cần nhanh.",
+    "gist_en": "I Ching hexagram 24 Fu (coming back), earth over thunder, one yang line returning at the bottom: the darkest point has passed and good returns in its natural rhythm, as after seven days. Strength, habits or old contacts come back. Do not force it; let the new sprout grow quietly. Recovery, reconnecting, correcting mistakes early; restart small and steady.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/復",
+        "quote": "復：亨。出入无疾，朋來无咎。反復其道，七日來復，利有攸往。 雷在地中，復"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:25",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 25
+    },
+    "title": "Quẻ 25 — Thiên Lôi Vô Vọng",
+    "keywords": [
+      "chân thật",
+      "không vọng cầu",
+      "không tính toan",
+      "tự nhiên",
+      "tránh đường tắt"
+    ],
+    "body_vi": "**Thoán từ.** 无妄：元亨。利貞。其匪正有眚，不利有攸往。— *Vô Vọng: lớn, hanh thông, lợi giữ chính. Nếu không chính thì có lỗi lầm tai vạ, không lợi cho việc tiến tới.* Ý là: cái gì thật, tự nhiên thì thông; cái gì có tính toan lệch thì tự vấp.\n\n**Tượng.** Sấm (Chấn) dưới trời (Càn): sấm đi khắp dưới trời, muôn vật nhân đó sống đúng bản tính. Đại Tượng: 天下雷行，物與无妄；先王以茂對時，育萬物 — các vua xưa nhân đó hết lòng đáp đúng thời mà nuôi muôn vật.\n\n**Thế quẻ.** Vô Vọng là không càn, không bịa, không mong điều không thuộc về mình. Quẻ nói về sự thẳng của hành động: làm vì việc đáng làm, không vì toan tính sau lưng. Thoán Truyện hỏi: không đúng mà cứ đi thì đi đâu, mệnh trời không giúp thì đi sao được? Các hào còn nói tới rắc rối đến không do lỗi mình; khi đó đừng xoay xở bằng mánh, giữ thẳng là đủ. Cái bẫy là thấy việc thuận rồi bắt đầu tính khéo.\n\n**Trong đời thường.** Công việc: làm đúng phần mình, minh bạch; tránh đường tắt, tránh lách kẽ hở. Tình cảm: thật lòng, không thử lòng, không diễn. Tiền bạc: tránh đầu cơ, tránh những khoản lời nghe “quá dễ”.\n\n**Lời khuyên.** Bỏ ý đồ vụ lợi; làm việc nên làm, và để kết quả đến theo cách của nó.",
+    "gist_en": "I Ching hexagram 25 Wu Wang (without pretence), heaven over thunder: things live true to their nature. What is genuine and unforced goes well; hidden agendas trip themselves up. Act because something is worth doing, not for gain. Trouble may arrive through no fault of yours; stay straight rather than scheming. Avoid shortcuts, speculation and returns that look too easy.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/无妄",
+        "quote": "无妄：元亨。利貞。其匪正有眚，不利有攸往。 天下雷行，物與无妄；先王以茂對時，育萬物"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:26",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 26
+    },
+    "title": "Quẻ 26 — Sơn Thiên Đại Súc",
+    "keywords": [
+      "tích lớn",
+      "kìm để dồn sức",
+      "học người xưa",
+      "ra ngoài làm việc lớn",
+      "nuôi tài"
+    ],
+    "body_vi": "**Thoán từ.** 大畜：利貞，不家食吉，利涉大川。— *Đại Súc: lợi giữ chính; không ăn cơm nhà thì tốt; lợi qua sông lớn.* Ý là: sức đã tích nhiều, đến lúc đem ra phục vụ việc lớn bên ngoài, chứ không chỉ giữ trong nhà.\n\n**Tượng.** Trời (Càn) nằm trong núi (Cấn): cái lớn nhất được chứa trong cái vững nhất. Đại Tượng: 天在山中，大畜；君子以多識前言往行，以畜其德 — người quân tử nhân đó học nhiều lời nói, việc làm của người trước để tích đức mình. Thứ được tích ở đây là hiểu biết, kinh nghiệm, nhân cách.\n\n**Thế quẻ.** Khác Tiểu Súc (cái nhỏ níu cái lớn), ở đây cái vững (Cấn) chủ động kìm cái mạnh (Càn) để nó không phung ra. Thoán Truyện: cứng mạnh, đầy đặn, sáng rỡ, mỗi ngày đổi mới đức mình; biết dừng cái mạnh là chính lớn. Dừng lúc này là để dồn sức, không phải bế tắc. Khi tích đủ, việc lớn đi được.\n\n**Trong đời thường.** Công việc: học thêm, luyện nghề, tích vốn; sau đó là cơ hội lớn ra ngoài phạm vi quen. Tình cảm: vun đắp từ bên trong trước khi bước lên nấc lớn hơn. Tiền bạc: tích lũy có kỷ luật; khi đủ thì dùng cho việc có tầm.\n\n**Lời khuyên.** Nuôi tài và học; dừng lại lúc này là để đi xa.",
+    "gist_en": "I Ching hexagram 26 Da Chu (great accumulation), mountain over heaven, the greatest held inside the most stable: strength is gathered and held back so it is not scattered. Learn from past words and deeds to build character. Pausing now stores energy. Once enough is stored, serve something larger beyond home; ambitious ventures open up. Study, train, save with discipline.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/大畜",
+        "quote": "大畜：利貞，不家食吉，利涉大川。 天在山中，大畜；君子以多識前言往行，以畜其德"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:27",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 27
+    },
+    "title": "Quẻ 27 — Sơn Lôi Di",
+    "keywords": [
+      "nuôi dưỡng",
+      "cẩn trọng lời nói",
+      "điều độ",
+      "tự nuôi mình",
+      "nạp vào gì"
+    ],
+    "body_vi": "**Thoán từ.** 頤：貞吉。觀頤，自求口實。— *Di: giữ chính thì tốt. Xem cách nuôi, xem người ta tự tìm cái bỏ vào miệng.* Ý là: muốn hiểu một người, hãy nhìn cái họ nuôi và cách họ tự nuôi mình.\n\n**Tượng.** Sấm (Chấn) dưới núi (Cấn): hàm dưới động, hàm trên đứng yên, như cái miệng đang nhai. Hai hào dương ở hai đầu, bốn hào âm ở giữa: hình cái miệng mở. Đại Tượng: 山下有雷，頤；君子以慎言語，節飲食 — người quân tử nhân đó cẩn thận lời nói, điều độ ăn uống. Cái đi ra khỏi miệng và cái đi vào miệng đều cần giữ.\n\n**Thế quẻ.** Thoán Truyện: nuôi cho chính thì tốt; trời đất nuôi muôn vật, bậc thánh nuôi người hiền để tới được muôn dân. Quẻ hỏi ba câu: mình đang nạp vào gì (thông tin, quan hệ, thói quen), mình đang nuôi ai, và mình có đang trông chờ người khác nuôi mình không.\n\n**Trong đời thường.** Công việc: nuôi đội ngũ, đào tạo, giữ nguồn thu ổn định; cẩn trọng lời nói nơi làm việc. Tình cảm: chăm nhau qua bữa ăn, qua lời nói; một câu nặng có thể làm hỏng nhiều ngày tốt. Tiền bạc: xem dòng tiền đang nuôi cái gì; cắt những khoản lặt vặt.\n\n**Lời khuyên.** Xem mình đang nạp vào những gì, cả nghĩa đen lẫn nghĩa bóng, và cân lời trước khi nói.",
+    "gist_en": "I Ching hexagram 27 Yi (feeding and sustenance), mountain over thunder, shaped like an open mouth chewing: notice what a person feeds on and how they feed themselves. Consider what you take in, whom you nourish, and whether you rely on others to feed you. Be careful with speech and moderate in eating; one harsh word spoils many good days.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/頤",
+        "quote": "頤：貞吉。觀頤，自求口實。 山下有雷，頤；君子以慎言語，節飲食"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:28",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 28
+    },
+    "title": "Quẻ 28 — Trạch Phong Đại Quá",
+    "keywords": [
+      "quá tải",
+      "xà cong",
+      "gánh vượt sức",
+      "hành động bất thường",
+      "đứng một mình không sợ"
+    ],
+    "body_vi": "**Thoán từ.** 大過：棟橈，利有攸往，亨。— *Đại Quá: cây xà cong oằn; lợi cho việc tiến tới, hanh thông.* Ý là: tình thế đã quá tải, nhưng không thể đứng yên chờ gãy; phải hành động thì mới thông.\n\n**Tượng.** Đầm (Đoài) ở trên, cây (Tốn) ở dưới: nước dâng ngập cây. Bốn hào dương dồn ở giữa, hai đầu là hào âm yếu; Thoán Truyện nói gốc và ngọn đều yếu nên xà cong. Đại Tượng: 澤滅木，大過。君子以獨立不懼，遯世无悶 — người quân tử nhân đó đứng một mình mà không sợ, lánh đời mà không buồn.\n\n**Thế quẻ.** Một thứ đang gánh nhiều hơn sức nó: chính người hỏi, một mối quan hệ, một hệ thống. Thời bất thường đòi cách làm bất thường; quy tắc cũ không đủ. Thoán Truyện: cứng mà vẫn giữ được giữa, mềm mỏng và vui vẻ mà đi thì thông. Đừng gồng thêm cho tới lúc gãy, và đừng sợ đứng một mình nếu quyết định đúng đòi như vậy.\n\n**Trong đời thường.** Công việc: quá tải, ôm quá nhiều, kỳ vọng vượt nguồn lực; cắt bớt, xin hỗ trợ, đổi cấu trúc ngay. Tình cảm: một bên đang gánh hết; nói ra trước khi kiệt. Tiền bạc: cam kết vượt khả năng, vay quá tay; giảm tải.\n\n**Lời khuyên.** Bỏ bớt hoặc chống đỡ ngay; đừng gồng tới lúc gãy.",
+    "gist_en": "I Ching hexagram 28 Da Guo (great excess), lake over wind, water flooding the tree: the ridgepole sags, weak at both ends, overloaded in the middle. Something carries more than it can bear: you, a relationship, a system. Waiting until it snaps is worse; act now with unusual measures. Cut back, ask for support, dare to stand alone if needed.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/大過",
+        "quote": "大過：棟橈，利有攸往，亨。 澤滅木，大過。君子以獨立不懼，遯世无悶"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:29",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 29
+    },
+    "title": "Quẻ 29 — Thuần Khảm",
+    "keywords": [
+      "hiểm nối hiểm",
+      "đi xuyên qua",
+      "giữ lòng thành",
+      "luyện bài bản",
+      "không hoảng"
+    ],
+    "body_vi": "**Thoán từ.** 習坎：有孚，維心亨。行有尚。— *Khảm chồng Khảm: có lòng tin, chỉ có cái tâm là thông được. Đi thì được trọng.* Ý là: gặp hiểm nối hiểm, thứ đưa mình qua là lòng thành và sự vững bên trong, không phải mánh.\n\n**Tượng.** Nước (Khảm) chồng lên nước: hố nối hố. Đại Tượng: 水洊至，習坎；君子以常德行，習教事 — nước chảy tới liên tiếp; người quân tử nhân đó giữ đức hạnh cho thường, luyện đi luyện lại việc dạy bảo. Chữ Tập là lặp lại, cũng là làm quen dần.\n\n**Thế quẻ.** Thoán Truyện: nước chảy mà không tràn, đi trong hiểm mà không mất chữ tín. Nước không leo qua chướng ngại, nó lấp đầy chỗ trũng rồi chảy tiếp. Đây là thời phải đi xuyên qua, không vòng được, và khó khăn có thể lặp lại. Cách đi: giữ đều, theo bài bản, không hoảng, không đánh mất mình.\n\n**Trong đời thường.** Công việc: chuỗi trục trặc nối nhau; tập trung từng bước, giữ quy trình, luyện kỹ. Tình cảm: một vấn đề cứ quay lại; giữ thành thật, đừng đóng lòng. Tiền bạc: giai đoạn khó, giữ kỷ luật, tránh quyết định trong lúc hoảng.\n\n**Lời khuyên.** Giữ lòng thành và làm đúng bài bản; nước gặp chỗ trũng rồi vẫn chảy tiếp.",
+    "gist_en": "I Ching hexagram 29 Kan (repeated pitfalls), water over water, pit after pit: danger keeps coming and you must pass through it, not around. Sincerity and inner steadiness carry you, not tricks. Water fills each hollow and flows on without losing its course. Keep routines, practise, stay calm and honest, and avoid decisions made in panic.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/坎",
+        "quote": "習坎：有孚，維心亨。行有尚。 水洊至，習坎；君子以常德行，習教事"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:30",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 30
+    },
+    "title": "Quẻ 30 — Thuần Ly",
+    "keywords": [
+      "sáng rõ",
+      "bám vào",
+      "chỗ dựa đúng",
+      "lửa đều hơn lửa cao",
+      "lệ thuộc"
+    ],
+    "body_vi": "**Thoán từ.** 離：利貞。亨。畜牝牛，吉。— *Ly: lợi giữ chính, hanh thông. Nuôi bò cái thì tốt.* Ý là: ánh sáng bền khi đi với sự hiền hòa, nhẫn nại như con bò cái, chứ không phải ngọn lửa bốc cao rồi tắt.\n\n**Tượng.** Lửa (Ly) chồng lửa: hai lần sáng. Đại Tượng: 明兩作離，大人以繼明照于四方 — ánh sáng hai lần nổi lên; bậc đại nhân nhân đó nối ánh sáng mà soi bốn phương. Thoán Truyện giải Ly là bám: mặt trời mặt trăng bám vào trời, cỏ cây lúa thóc bám vào đất.\n\n**Thế quẻ.** Lửa không có hình riêng, nó sống bằng thứ nó bám vào. Sự sáng suốt, sự nổi bật của người hỏi cũng vậy: phụ thuộc vào nền mình đang tựa. Bám đúng thì sáng lâu; bám vào người, ý tưởng, thói quen sai thì cháy nhanh rồi tàn. Cái bẫy là chói mà dễ bốc, dễ dao động, sáng cho người khác mà quên giữ nhiên liệu cho mình.\n\n**Trong đời thường.** Công việc: thời để trình bày, làm rõ, truyền đạt, được nhìn thấy; dựa vào nền giá trị vững. Tình cảm: say mê, gắn bó, nhưng cẩn thận thành lệ thuộc. Tiền bạc: xem mình đang dựa vào nguồn nào, có ổn định không.\n\n**Lời khuyên.** Nương vào cái đúng; đừng bám vào thứ sẽ tắt, và giữ ngọn lửa đều hơn là cao.",
+    "gist_en": "I Ching hexagram 30 Li (attached brightness), fire over fire, light rising twice: fire has no shape of its own and lives on whatever it rests upon. Clarity depends on a sound base; latch onto the wrong person or idea and you flare up and burn out. Gentle patience, like a cow's, keeps the light even. Watch for dependency.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/離",
+        "quote": "離：利貞。亨。畜牝牛，吉。 明兩作離，大人以繼明照于四方"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:31",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 31
+    },
+    "title": "Quẻ 31 — Trạch Sơn Hàm",
+    "keywords": [
+      "cảm ứng",
+      "sức hút tự nhiên",
+      "lòng rộng mở",
+      "hạ mình",
+      "chân thành"
+    ],
+    "body_vi": "**Thoán từ.** 咸：亨。利貞。取女吉。— *Hàm: hanh thông, lợi giữ chính, cưới vợ thì tốt.* Ý là: hai bên cảm nhau thật thì thông; gắn kết đi tới cam kết là tốt, miễn là đúng đắn. Nghĩa rộng: kết đôi, kết giao.\n\n**Tượng.** Đầm (Đoài) ở trên núi (Cấn): núi đỡ nước, nước thấm nuôi núi. Thoán Truyện: mềm ở trên, cứng ở dưới, hai khí cảm ứng mà đến với nhau; dừng mà vui; người nam hạ mình trước người nữ. Đại Tượng: 山上有澤，咸；君子以虛受人 — người quân tử nhân đó để lòng trống mà tiếp nhận người.\n\n**Thế quẻ.** Chữ Hàm là chữ Cảm chưa có bộ tâm: cảm ứng không cần cố. Đây là sức hút tự nhiên, sự đồng điệu, cái rung động đầu tiên. Quẻ mở đầu phần sau của Kinh Dịch, phần nói về chuyện người với người. Cảm cần lòng rộng mở, không định sẵn; cảm mà thiếu chân thành thì chỉ là kích động nhất thời.\n\n**Trong đời thường.** Tình cảm: sức hút rõ, dễ tiến tới; người chủ động nên nhún nhường. Công việc: đồng thuận đến tự nhiên khi đúng người đúng việc; thuyết phục bằng thấu cảm hơn là áp đặt. Tiền bạc: cơ hội đến qua quan hệ; giữ minh bạch.\n\n**Lời khuyên.** Để lòng trống mà nhận người; cảm mà giữ được chân thành thì bền.",
+    "gist_en": "I Ching hexagram 31 Xian (mutual attraction), lake over mountain, the mountain holding water that nourishes it: two sides respond to each other naturally. Genuine feeling flows, and moving toward commitment or marriage is favourable if done rightly. Keep an open, empty heart to receive others; whoever takes the initiative should be humble. Without sincerity, attraction is passing excitement.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/咸",
+        "quote": "咸：亨。利貞。取女吉。 山上有澤，咸；君子以虛受人"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:32",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 32
+    },
+    "title": "Quẻ 32 — Lôi Phong Hằng",
+    "keywords": [
+      "lâu bền",
+      "giữ hướng",
+      "nếp đều đặn",
+      "đổi cách không đổi hướng",
+      "cam kết dài"
+    ],
+    "body_vi": "**Thoán từ.** 恆：亨，无咎。利貞，利有攸往。— *Hằng: hanh thông, không lỗi. Lợi giữ chính, lợi cho việc tiến tới.* Ý là: bền đúng cách thì thông, và bền không có nghĩa là đứng yên.\n\n**Tượng.** Sấm (Chấn) ở trên, gió (Tốn) ở dưới: sấm và gió luôn đi cùng nhau. Đại Tượng: 雷風，恆；君子以立不易方 — người quân tử nhân đó đứng vững, không đổi hướng. Thoán Truyện: mặt trời mặt trăng nhờ trời mà soi mãi, bốn mùa biến đổi mà thành mãi; hết thì lại có bắt đầu.\n\n**Thế quẻ.** Sau Hàm (cảm) là Hằng (bền): sau rung động là nếp sống chung. Cứng ở trên, mềm ở dưới, ai đúng chỗ nấy. Hằng là giữ hướng, không phải giữ hình: hướng không đổi, cách làm vẫn đổi theo mùa. Cái bẫy là nhầm bền với cứng nhắc, hoặc đòi bền ngay khi chưa có nền.\n\n**Trong đời thường.** Công việc: thói quen làm việc đều, cam kết dài hạn; kết quả đến từ việc lặp lại mỗi ngày. Tình cảm: hôn nhân, quan hệ lâu năm; giữ những nghi thức nhỏ, cùng nhau điều chỉnh. Tiền bạc: tích lũy định kỳ, kế hoạch dài.\n\n**Lời khuyên.** Giữ hướng, giữ nếp, nhưng đừng cứng; bền không có nghĩa là bất động.",
+    "gist_en": "I Ching hexagram 32 Heng (constancy), thunder over wind, two forces that always travel together: lasting the right way brings success, and lasting does not mean standing still. Keep your direction while methods change with the seasons, each in its proper place. Trap: mistaking endurance for rigidity, or demanding permanence before foundations exist. Daily habits, long commitments, small shared rituals.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/恒",
+        "quote": "恆：亨，无咎。利貞，利有攸往。 雷風，恆；君子以立不易方"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:33",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 33
+    },
+    "title": "Quẻ 33 — Thiên Sơn Độn",
+    "keywords": [
+      "lui về",
+      "rút đúng lúc",
+      "giữ khoảng cách",
+      "giữ sức",
+      "không hoảng loạn"
+    ],
+    "body_vi": "**Thoán từ.** 遯：亨。小利貞。 — *Lui thì hanh thông. Việc nhỏ thì lợi ở giữ chính.* Ý là: lùi đúng lúc thì đường vẫn thông; lúc này chỉ nên làm việc nhỏ cho chắc, đừng mở việc lớn.\n\n**Tượng.** Trời (Càn) trên, núi (Cấn) dưới: núi càng cao thì trời càng như lùi xa, không để núi chạm tới. Đại Tượng dạy người quân tử xa kẻ tiểu nhân, 不惡而嚴 — không ghét bỏ mà giữ nghiêm: giữ khoảng cách bằng phép tắc, không bằng gây hấn.\n\n**Thế quẻ.** Hai hào âm đang lớn dần từ dưới lên, thế của mình đang bị lấn. Độn không phải bỏ chạy: Thoán truyện nói lui là để đi cùng thời. Lui sớm, lui có trật tự thì giữ được sức, giữ được tên; lui muộn hoặc lui trong hoảng loạn thì mất cả. Cái khó của quẻ là lòng tự ái: ở lại để chứng minh mình đúng thường tốn hơn là đi.\n\n**Trong đời thường.** Công việc: môi trường đổi chiều, người mới nắm quyền không cùng cách nghĩ; chuẩn bị đường lui, bàn giao gọn, đừng cãi tay đôi. Tình cảm: một mối quan hệ đang làm mình nhỏ lại; giãn khoảng cách một cách lịch sự, không cần cắt đứt ầm ĩ. Tiền bạc: thu bớt vị thế, giữ tiền mặt, không đổ thêm vào chỗ đang lỗ để gỡ.\n\n**Lời khuyên.** Lui khi còn chọn được cách lui. Giữ lễ với người mình rời xa, và giữ sức cho lúc thời đổi lại.",
+    "gist_en": "I Ching hexagram 33 Dun (Withdrawal), heaven above mountain: shadowy forces gain ground, so stepping back in good order keeps strength and reputation intact. Hold petty people at a distance with dignity rather than hostility; only modest aims prosper. Advice: leave while you can still choose the manner of leaving, calmly, without letting pride keep you in a losing position.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/遯",
+        "quote": "遯：亨。小利貞。 天下有山，遯；君子以遠小人，不惡而嚴。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:34",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 34
+    },
+    "title": "Quẻ 34 — Lôi Thiên Đại Tráng",
+    "keywords": [
+      "sức mạnh lớn",
+      "đà lên",
+      "mạnh mà giữ lễ",
+      "đừng húc bừa",
+      "dùng lý hơn dùng sức"
+    ],
+    "body_vi": "**Thoán từ.** 大壯：利貞。 — *Đại Tráng: lợi ở giữ chính.* Ý là: sức đã lớn thì điều kiện duy nhất là dùng nó cho ngay; sức không có chính thì thành húc bừa.\n\n**Tượng.** Sấm (Chấn) ở trên trời (Càn): tiếng động lớn, uy lực vang xa. Bốn hào dương từ dưới đẩy lên, thế đang lên rất mạnh. Đại Tượng nói 非禮弗履 — trái lễ thì không bước: càng mạnh càng phải biết chỗ nào không giẫm vào.\n\n**Thế quẻ.** Đây là lúc có lực: có tiếng nói, có nguồn lực, có người nghe. Nguy hiểm nằm ở chính sức mạnh ấy. Hình ảnh trong các hào là con dê đực húc vào hàng rào rồi mắc sừng, tiến không được lui không xong. Quẻ không bảo kìm sức lại, mà bảo dùng sức có lý, có chừng, và để người khác còn chỗ đứng.\n\n**Trong đời thường.** Công việc: đang ở thế mạnh trong đàm phán hay dự án; thắng bằng lập luận chứ đừng bằng cấp bậc hay giọng to. Tình cảm: mình đang áp đảo, dễ quyết thay người kia; hỏi ý trước khi làm. Tiền bạc: có vốn, có đà, nhưng không vì thế mà dồn hết vào một cửa.\n\n**Lời khuyên.** Trước khi dùng sức, hỏi: việc này đúng không, hay chỉ là mình làm được? Mạnh mà biết dừng mới giữ được cái mạnh.",
+    "gist_en": "I Ching hexagram 34 Da Zhuang (Great Strength), thunder high in the sky: power and momentum are at their height. The risk is pushing by force alone, like a ram that charges a fence and traps its horns. Use strength with reason and courtesy. Advice: before acting, ask whether it is right, not only whether you can.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/大壯",
+        "quote": "大壯：利貞。 雷在天上，大壯；君子以非禮弗履。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:35",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 35
+    },
+    "title": "Quẻ 35 — Hỏa Địa Tấn",
+    "keywords": [
+      "tiến lên",
+      "được ghi nhận",
+      "sáng dần",
+      "thực lực",
+      "ra ánh sáng"
+    ],
+    "body_vi": "**Thoán từ.** 晉：康侯用錫馬蕃庶，晝日三接。 — *Tấn: bậc hầu giữ yên nước được ban nhiều ngựa, một ngày được tiếp kiến ba lần.* Ý là: người làm tốt việc được người trên thấy, được thưởng và được tin dùng liên tục.\n\n**Tượng.** Lửa (Ly) trên đất (Khôn): mặt trời mọc lên khỏi mặt đất, càng lên càng sáng. Đại Tượng: người quân tử nhân đó 自昭明德 — tự làm sáng cái đức sáng của mình. Sự tiến bộ ở đây đến từ chỗ tự rõ ràng, không đợi ai soi cho.\n\n**Thế quẻ.** Thời thuận để tiến và được ghi nhận. Cái được ở quẻ này là được nhìn thấy: công sức trước kia giờ có người biết. Khôn ở dưới là sự thuận theo, Ly ở trên là sự sáng rõ — tiến nhờ vừa có năng lực vừa biết phục vụ việc chung. Bẫy của quẻ là tiến bằng quan hệ suông, hoặc vội phô trương khi nền còn mỏng.\n\n**Trong đời thường.** Công việc: thăng chức, được giao việc lớn hơn, được khách hàng nhớ tên; hãy để kết quả nói thay. Tình cảm: mối quan hệ bước ra ánh sáng — ra mắt, công khai, nói rõ ý định. Tiền bạc: thu nhập tăng theo uy tín; giữ giấy tờ minh bạch.\n\n**Lời khuyên.** Làm cho việc mình rõ ràng, dễ thấy, dễ kiểm. Được tiếp ba lần trong ngày thì mỗi lần đều phải có cái thật để trình.",
+    "gist_en": "I Ching hexagram 35 Jin (Advance), sun rising over the earth: a period of moving up and being noticed, when earlier effort is finally recognised and rewarded by those above. Advancement rests on transparent, real competence rather than mere connections. Advice: make the work easy to see and to verify, and bring something solid each time you are received.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/晉",
+        "quote": "晉：康侯用錫馬蕃庶，晝日三接。 明出地上，晉；君子以自昭明德。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:36",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 36
+    },
+    "title": "Quẻ 36 — Địa Hỏa Minh Di",
+    "keywords": [
+      "ánh sáng bị che",
+      "giấu tài",
+      "chịu đựng",
+      "giữ chí",
+      "bị hiểu sai"
+    ],
+    "body_vi": "**Thoán từ.** 明夷：利艱貞。 — *Minh Di: lợi ở giữ chính trong gian nan.* Ý là: khi cái sáng bị tổn hại, việc đúng là chịu khó mà giữ lòng ngay, không đổi mình cho hợp với thời tối.\n\n**Tượng.** Lửa (Ly) chui vào trong đất (Khôn): mặt trời lặn, ánh sáng bị vùi. Đại Tượng: người quân tử khi đứng trước đám đông thì 用晦而明 — dùng sự tối mà vẫn sáng, tức kín đáo bề ngoài, tỉnh táo bên trong. Thoán truyện nhắc Văn Vương và Cơ Tử, những người phải giấu tài để giữ được mình và giữ được chí.\n\n**Thế quẻ.** Người có năng lực đang ở dưới một sức ép không công bằng: bị hiểu sai, bị gạt ra, hoặc ở chỗ nói thật là bị phạt. Quẻ không khuyên đối đầu, cũng không khuyên đầu hàng. Nó khuyên giữ phần sáng ở bên trong — vẫn biết rõ mình đúng ở đâu — nhưng đừng đem ra phô lúc này. Thời này không kéo dài mãi, nhưng cũng không qua nhanh.\n\n**Trong đời thường.** Công việc: cấp trên khó, văn hóa nhóm nặng nề; làm tròn việc, ghi chép lại, âm thầm chuẩn bị lối ra. Tình cảm: mình đang bị coi nhẹ hoặc phải nén cảm xúc thật; tìm một chỗ an toàn để nói ra, đừng để mình tắt hẳn. Tiền bạc: giữ kín kế hoạch, không khoe, tránh biến mình thành mục tiêu.\n\n**Lời khuyên.** Hạ giọng, không hạ chuẩn. Giữ ngọn đèn bên trong cho tới khi ra được chỗ sáng.",
+    "gist_en": "I Ching hexagram 36 Ming Yi (Light Hidden), sun sunk into the earth: a capable person is overshadowed, misjudged or pressured unfairly. Stay upright through the hard stretch, keep a low outward profile while staying clear within, as King Wen and Jizi did. Advice: lower your voice, not your standards; document, endure and quietly prepare an exit.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/明夷",
+        "quote": "明夷：利艱貞。 明入地中，明夷；君子以蒞眾，用晦而明。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:37",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 37
+    },
+    "title": "Quẻ 37 — Phong Hỏa Gia Nhân",
+    "keywords": [
+      "gia đình",
+      "vai trò rõ",
+      "nề nếp",
+      "lời đi đôi việc",
+      "chuyện nội bộ"
+    ],
+    "body_vi": "**Thoán từ.** 家人：利女貞。 — *Gia Nhân: lợi cho người nữ giữ chính.* Ý là: nhà yên khi người giữ nếp trong nhà giữ được sự ngay thẳng. Thoán truyện giải: nữ đúng vị ở trong, nam đúng vị ở ngoài — ứng với hào Sáu Hai và Chín Năm đều đắc chính. Vai \"trong nhà\" xưa gán cho người nữ; đọc ngày nay, đó là bất kỳ ai đang giữ nhịp sống chung.\n\n**Tượng.** Gió (Tốn) từ lửa (Ly) mà ra: ảnh hưởng tỏa ra ngoài bắt nguồn từ ngọn lửa bên trong, như tiếng tăm một nhà bắt đầu từ bếp lửa của nhà ấy. Đại Tượng: 言有物，而行有恆 — lời nói có thực chất, việc làm có trước có sau.\n\n**Thế quẻ.** Quẻ về trật tự trong một nhóm nhỏ, gắn bó: gia đình, cặp đôi, đội làm việc thân. Mỗi người có một vai, và nhà yên khi vai rõ, lời nói đi đôi với việc làm. Thoán truyện nói nhà ngay thì thiên hạ định. Bẫy nằm ở hai đầu: quá lỏng thì ai cũng tùy tiện, quá chặt thì nhà thành trại. Gốc vẫn là người đứng đầu tự giữ mình trước.\n\n**Trong đời thường.** Công việc: chuyện nội bộ quan trọng hơn chuyện bên ngoài lúc này; phân vai, đặt quy ước, giữ lời. Tình cảm: bàn rõ chuyện chung sống — tiền nhà, việc nhà, ranh giới với họ hàng. Gia đình: một cuộc nói chuyện thẳng thắn có thể đặt lại nề nếp. Tiền bạc: lập quỹ chung, ghi chép rõ ràng.\n\n**Lời khuyên.** Muốn chỉnh nhà, chỉnh mình trước: nói ít mà giữ đúng, làm đều đặn hơn làm lớn.",
+    "gist_en": "I Ching hexagram 37 Jia Ren (Household), wind arising from fire: order within a family, couple or close team. Peace comes when roles are clear, speech has substance and conduct is steady; whoever keeps the home's rhythm sets the tone. Avoid both laxity and harshness. Advice: agree on chores, money and boundaries, and start by setting yourself right.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/家人",
+        "quote": "家人：利女貞。 風自火出，家人；君子以言有物，而行有恆。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:38",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 38
+    },
+    "title": "Quẻ 38 — Hỏa Trạch Khuê",
+    "keywords": [
+      "trái chiều",
+      "khác biệt",
+      "hiểu lầm",
+      "việc nhỏ vẫn được",
+      "hòa mà khác"
+    ],
+    "body_vi": "**Thoán từ.** 睽：小事吉。 — *Khuê: việc nhỏ thì tốt.* Ý là: khi hai bên đang lệch nhau, đừng mưu việc lớn cần đồng lòng; việc nhỏ, cụ thể vẫn làm cùng được.\n\n**Tượng.** Lửa (Ly) bốc lên, đầm (Đoài) thấm xuống: hai thứ ở cạnh nhau mà đi hai hướng. Thoán truyện ví như hai chị em ở chung nhà mà chí hướng không cùng. Đại Tượng: người quân tử 同而異 — chung mà vẫn khác, hòa đồng mà không đánh mất cái riêng.\n\n**Thế quẻ.** Thời trái chiều: hiểu lầm, bất đồng quan điểm, mỗi người nhìn một kiểu. Quẻ không coi khác biệt là xấu — trời đất khác nhau mà việc vẫn chung. Cái hỏng là ép hai bên phải giống nhau, hoặc đọc mọi hành động của người kia qua lăng kính nghi ngờ. Các hào của Khuê đầy cảnh nhìn nhầm: tưởng thấy giặc, hóa ra người đến cầu thân.\n\n**Trong đời thường.** Công việc: nhóm đang lệch mục tiêu; chia việc thành phần nhỏ mà hai bên đều đồng ý, gác tranh luận lớn lại. Tình cảm: cãi nhau vì hiểu sai ý nhiều hơn vì hết thương; hỏi lại xem mình hiểu có đúng không trước khi phản ứng. Tiền bạc: tránh hợp tác góp vốn lúc này.\n\n**Lời khuyên.** Chấp nhận là khác nhau, tìm chỗ chung nhỏ mà làm. Trước khi kết luận về người kia, kiểm lại cái mình đang nhìn.",
+    "gist_en": "I Ching hexagram 38 Kui (Divergence), fire rising while the lake sinks: two parties pulling in different directions, with misreadings and suspicion. Small shared tasks still work; large undertakings needing full agreement do not. One can belong together and remain different. Advice: find a small area of agreement and double-check your perception before treating the other side as an enemy.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/睽",
+        "quote": "睽：小事吉。 上火下澤，睽；君子以同而異。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:39",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 39
+    },
+    "title": "Quẻ 39 — Thủy Sơn Kiển",
+    "keywords": [
+      "trắc trở",
+      "vướng chân",
+      "dừng lại",
+      "tìm người giúp",
+      "xét lại mình"
+    ],
+    "body_vi": "**Thoán từ.** 蹇：利西南，不利東北；利見大人，貞吉。 — *Kiển: lợi về tây nam, không lợi về đông bắc; lợi gặp bậc đại nhân; giữ chính thì tốt.* Ý là: gặp đường khó thì chọn hướng bằng phẳng (tây nam ứng với Khôn, đất bằng), tránh hướng núi (đông bắc ứng với Cấn), và đi tìm người giỏi giúp.\n\n**Tượng.** Nước (Khảm) trên núi (Cấn): trước mặt là hiểm, sau lưng là núi chắn. Đại Tượng: người quân tử 反身修德 — quay về mình mà sửa đức. Khi bên ngoài bế tắc, phần việc còn nằm trong tay mình là xét lại chính mình.\n\n**Thế quẻ.** Trở ngại có thật, không do tưởng tượng. Lời hào lặp lại một ý: đi thì gặp khó, quay lại thì được khen, được tụ người. Thoán truyện: thấy hiểm mà dừng được, thế là khôn. Quẻ không bảo bỏ cuộc mà bảo đổi cách: dừng bước liều, tìm đồng minh, sửa chỗ yếu của mình rồi mới đi tiếp.\n\n**Trong đời thường.** Công việc: dự án vướng nhiều phía; đừng ép tiến độ, gọi người có kinh nghiệm vào và xem lại kế hoạch. Tình cảm: vướng hoàn cảnh (khoảng cách, gia đình, thời điểm); cùng nhau tìm lối dễ hơn thay vì húc vào tường. Tiền bạc: không bỏ thêm tiền để vượt khó; ưu tiên giữ vững.\n\n**Lời khuyên.** Chưa vượt được thì lùi một bước, nhờ người, sửa mình. Đường vòng qua đất bằng thường nhanh hơn trèo thẳng lên núi.",
+    "gist_en": "I Ching hexagram 39 Jian (Hardship on the Road), water atop a mountain: genuine obstacles in front and behind. Forcing ahead brings trouble; turning back, gathering capable allies and looking at one's own weak points help. Level ground is favoured over steep terrain. Advice: halt the risky push, ask experienced people for help, and take the easier route around.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/蹇",
+        "quote": "蹇：利西南，不利東北；利見大人，貞吉。 山上有水，蹇；君子以反身修德。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:40",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 40
+    },
+    "title": "Quẻ 40 — Lôi Thủy Giải",
+    "keywords": [
+      "tháo gỡ",
+      "nhẹ nhõm",
+      "dứt điểm",
+      "tha thứ",
+      "về nhịp thường"
+    ],
+    "body_vi": "**Thoán từ.** 解：利西南，无所往，其來復吉。有攸往，夙吉。 — *Giải: lợi về tây nam. Không còn chỗ phải đi thì quay về là tốt; có chỗ phải đi thì đi sớm là tốt.* Ý là: khi nút thắt vừa gỡ, trở về nhịp bình thường; việc gì còn phải làm thì làm ngay, đừng để nguội.\n\n**Tượng.** Sấm (Chấn) trên nước (Khảm): sấm nổ, mưa rơi, không khí ngột ngạt tan đi, mầm cây nứt vỏ. Đại Tượng: 赦過宥罪 — tha cái lỗi, khoan cái tội. Lúc giải tỏa là lúc nới tay, không truy cứu thêm.\n\n**Thế quẻ.** Sau Kiển là Giải: chỗ khó đã qua hoặc đang qua. Cảm giác chủ đạo là nhẹ nhõm. Quẻ dặn hai điều. Một, dứt cho gọn những gì còn sót — món nợ nhỏ, việc dở, lời xin lỗi chưa nói — vì cái dây dưa sẽ thắt lại. Hai, đừng nhân lúc thoát nạn mà trả đũa hay bới chuyện cũ.\n\n**Trong đời thường.** Công việc: xung đột, khủng hoảng được gỡ; hoàn tất thủ tục, đóng hồ sơ, rồi về nhịp thường. Tình cảm: sau căng thẳng là lúc làm lành; tha cho nhau những lời nặng nói lúc nóng. Tiền bạc: trả dứt khoản nợ, thanh lý thứ đang giữ chân mình.\n\n**Lời khuyên.** Gỡ xong thì buông tay. Cái gì cần làm nốt thì làm sớm; cái gì nên bỏ qua thì bỏ qua thật.",
+    "gist_en": "I Ching hexagram 40 Xie (Release), thunderstorm over water: built-up tension breaks and a knot comes undone, bringing relief. Return to ordinary rhythm and finish leftover tasks promptly, before they tighten again. This is a time to pardon mistakes rather than settle scores. Advice: tie off loose ends early, clear what still binds you, then genuinely let go.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/解",
+        "quote": "解：利西南，无所往，其來復吉。有攸往，夙吉。 雷雨作，解；君子以赦過宥罪。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:41",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 41
+    },
+    "title": "Quẻ 41 — Sơn Trạch Tổn",
+    "keywords": [
+      "bớt đi",
+      "cắt giảm",
+      "hy sinh có ý",
+      "ít mà thật",
+      "kiềm giận"
+    ],
+    "body_vi": "**Thoán từ.** 損：有孚，元吉。无咎，可貞，利有攸往。曷之用？二簋可用享。 — *Tổn: có lòng thành thì rất tốt, không lỗi, có thể giữ chính, lợi có chỗ đi. Lấy gì mà dâng? Hai bát đơn sơ cũng dâng được.* Ý là: bớt đi mà thật lòng thì cái ít vẫn trọn; hình thức không quan trọng bằng sự thành.\n\n**Tượng.** Dưới núi (Cấn) có đầm (Đoài): đầm khoét sâu xuống thì núi thêm cao — bớt chỗ dưới để bồi chỗ trên. Đại Tượng: 懲忿窒欲 — răn cơn giận, lấp lòng ham. Cái đầu tiên nên bớt là những thứ thừa trong lòng mình.\n\n**Thế quẻ.** Thời phải cắt giảm: thời gian, tiền, kỳ vọng, hoặc một phần cái tôi. Quẻ không bi quan về chuyện mất; nó hỏi bớt cái gì và bớt vì ai. Bớt cái thừa để nuôi cái chính thì lời. Bớt vì sợ, hay bớt cho có, thì chỉ là mất. Hai bát cơm dâng bằng lòng thật hơn mâm cao cỗ đầy bày cho người xem.\n\n**Trong đời thường.** Công việc: cắt bớt dự án, gọn quy trình, chấp nhận làm ít mà tập trung. Tình cảm: nhường một chút thói quen hay sở thích cho người kia, nhưng đừng bớt đến mức mất mình. Tiền bạc: thắt chi, sống đơn giản một thời gian; khoản bớt ra là để dành cho việc có ý nghĩa hơn.\n\n**Lời khuyên.** Liệt kê cái thừa và cắt thật. Cho ít mà thật lòng, hơn cho nhiều mà gượng.",
+    "gist_en": "I Ching hexagram 41 Sun (Reduction), lake beneath mountain: taking from below to build up what is above. Cutting back with an honest heart turns loss into gain; even two plain bowls make a worthy offering. Rein in anger and craving first. Advice: cut real excess in time, money or ego, and give little but sincerely without erasing yourself.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/損",
+        "quote": "損：有孚，元吉。无咎，可貞，利有攸往。曷之用？二簋可用享。 山下有澤，損；君子以懲忿窒欲。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:42",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 42
+    },
+    "title": "Quẻ 42 — Phong Lôi Ích",
+    "keywords": [
+      "được thêm",
+      "có hỗ trợ",
+      "cho đi",
+      "làm ngay",
+      "sửa lỗi nhanh"
+    ],
+    "body_vi": "**Thoán từ.** 益：利有攸往。利涉大川。 — *Ích: lợi có chỗ đi. Lợi vượt sông lớn.* Ý là: thời được thêm, nên bắt tay vào việc lớn, kể cả việc có rủi ro.\n\n**Tượng.** Gió (Tốn) trên sấm (Chấn): sấm khuấy động, gió lan đi, hai thứ tiếp sức nhau. Thoán truyện nói Ích là bớt trên để thêm dưới, người dưới vui không bờ bến. Đại Tượng: 見善則遷，有過則改 — thấy điều tốt thì theo, có lỗi thì sửa: tự thêm cho mình bằng cách học nhanh.\n\n**Thế quẻ.** Ngược với Tổn, đây là thời có nguồn bồi: có người đỡ, có vốn, có cơ hội. Điểm then chốt là dòng chảy đi từ trên xuống — người có nhiều cho người có ít — nên quẻ cũng nhắc mình, khi đã được, nhớ chia lại. Thời thuận không kéo dài; cái được của Ích nằm ở chỗ dám đem nó vào một việc thực.\n\n**Trong đời thường.** Công việc: có tài trợ, cấp trên ủng hộ, cơ hội học thêm; nhận và làm ngay. Tình cảm: hai người làm nhau tốt lên; chủ động góp công cho mối quan hệ. Tiền bạc: thu nhập tăng hoặc có hỗ trợ; dùng một phần cho kỹ năng hay để giúp người khác.\n\n**Lời khuyên.** Đừng ngồi giữ cái được. Đem nó vào một việc đáng làm, và sửa ngay chỗ sai khi thấy.",
+    "gist_en": "I Ching hexagram 42 Yi (Gain), wind above thunder: those above give to those below, and help, resources and openings arrive. A good time to begin something substantial, even a risky venture. Learn fast: move toward what is good and fix mistakes once seen. Advice: put the support to real use right away and share the benefit onward.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/益",
+        "quote": "益：利有攸往。利涉大川。 風雷，益；君子以見善則遷，有過則改。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:43",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 43
+    },
+    "title": "Quẻ 43 — Trạch Thiên Quải",
+    "keywords": [
+      "quyết đoán",
+      "nói ra",
+      "dứt điểm",
+      "công khai",
+      "không hằn học"
+    ],
+    "body_vi": "**Thoán từ.** 夬：揚于王庭，孚號，有厲，告自邑，不利即戎，利有攸往。 — *Quải: nêu rõ ở sân vua, thành thật mà hô lên, có nguy. Báo từ ấp của mình, không lợi đem binh ngay; lợi có chỗ đi.* Ý là: muốn loại bỏ điều sai thì đưa ra chỗ sáng, nói thật, bắt đầu từ người của mình, không dùng vũ lực.\n\n**Tượng.** Đầm (Đoài) dâng lên trên trời (Càn): nước dồn lên cao tới mức phải vỡ bờ. Năm hào dương đẩy hào âm cuối cùng ra. Đại Tượng: 施祿及下，居德則忌 — ban lộc xuống người dưới; vế sau các nhà chú giải hiểu không thống nhất, cách đọc thông dụng là ôm giữ cái mình có, hay tự đắc về đức mình, đều là điều kỵ.\n\n**Thế quẻ.** Đã tới lúc dứt điểm một chuyện kéo dài: một sai trái, một thói quen, một người đang phá. Quẻ đòi làm công khai và đường hoàng, vì cái sai chỉ còn một hào mà vẫn bám rất dai. Chữ có nguy là để nhắc: ngay cả khi mình đúng, đi bằng thủ đoạn hay cơn giận sẽ làm hỏng việc. Bắt đầu từ trong nhà mình, không phải kéo quân đi đánh người.\n\n**Trong đời thường.** Công việc: nêu vấn đề trong cuộc họp, có dữ kiện, có đề xuất; đừng nói sau lưng. Tình cảm: một điều lâu nay né tránh cần được nói thẳng, bình tĩnh. Bản thân: bỏ dứt một thói quen xấu, nói cho người thân biết để có người nhắc mình. Tiền bạc: cắt ngay khoản chi rò rỉ.\n\n**Lời khuyên.** Nói thẳng, nói thật, nói ở chỗ sáng. Quyết dứt mà không hằn học.",
+    "gist_en": "I Ching hexagram 43 Guai (Decisive Parting), lake swollen above heaven: five firm lines push out the final weak one. A long-standing wrong must be named openly and truthfully, starting with one's own side and without force or tricks. Spread benefits downward instead of hoarding them. Advice: speak plainly in the open, decide firmly, and leave out resentment.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/夬",
+        "quote": "夬：揚于王庭，孚號，有厲，告自邑，不利即戎，利有攸往。 澤上于天，夬；君子以施祿及下，居德則忌。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:44",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 44
+    },
+    "title": "Quẻ 44 — Thiên Phong Cấu",
+    "keywords": [
+      "gặp gỡ bất ngờ",
+      "cám dỗ",
+      "lấn dần",
+      "chưa cam kết",
+      "đặt giới hạn sớm"
+    ],
+    "body_vi": "**Thoán từ.** 姤：女壯，勿用取女。 — *Cấu: người nữ mạnh, chớ cưới.* Ý là: thứ vừa xuất hiện mà đã mạnh thì đừng vội ràng buộc lâu dài với nó. Thoán truyện giải: mềm gặp cứng, không thể cùng nhau lâu dài. \"Nữ\" là hình ảnh của hào âm vừa lẻn vào, nên đọc như một thế lực hay một mối quan hệ, không phải lời nhận xét về phụ nữ.\n\n**Tượng.** Dưới trời (Càn) có gió (Tốn): gió đi khắp nơi, chạm vào mọi thứ. Một hào âm lẻn vào dưới năm hào dương — thoạt nhìn yếu ớt, nhưng âm đã bắt đầu thì sẽ lớn. Đại Tượng: bậc quân vương nhân đó ban lệnh, 誥四方 — báo khắp bốn phương, để ai cũng biết rõ.\n\n**Thế quẻ.** Thời gặp gỡ bất ngờ: một người mới, một lời mời, một thói quen nhỏ, một cám dỗ. Quẻ không bảo tránh mọi cuộc gặp — trời đất gặp nhau thì muôn vật mới tươi. Nó bảo nhìn cho rõ thứ đang vào: cái gì mới gặp đã đòi chiếm chỗ, đòi cam kết, thì cần giữ khoảng cách. Hào đầu nói phải buộc nó vào cái hãm xe bằng kim loại ngay khi nó còn nhỏ.\n\n**Trong đời thường.** Công việc: đối tác mới hứa hẹn nhiều, hoặc một người mới trong nhóm lấn rất nhanh; ký ít, thử trước. Tình cảm: một sức hút mạnh và nhanh; thú vị, nhưng chưa phải lúc hứa hẹn. Bản thân: một thói quen nhỏ (mạng xã hội, mua sắm, rượu) đang lấn dần. Tiền bạc: cảnh giác lời mời lợi nhuận cao.\n\n**Lời khuyên.** Gặp thì cứ gặp, nhưng chưa trao chìa khóa. Thứ gì đang lớn nhanh, đặt giới hạn cho nó ngay từ bây giờ.",
+    "gist_en": "I Ching hexagram 44 Gou (Encounter), wind under heaven: a single yin line slips in beneath five yang lines. Something new, an attraction, partner or habit, looks minor but grows quickly and asks for room. Do not bind yourself to it for the long term. Advice: meet it openly, test before committing, and set limits while it is still small.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/姤",
+        "quote": "姤：女壯，勿用取女。 天下有風，姤；后以施命誥四方。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:45",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 45
+    },
+    "title": "Quẻ 45 — Trạch Địa Tụy",
+    "keywords": [
+      "tụ họp",
+      "quy tụ",
+      "điểm chung",
+      "người cầm trịch",
+      "phòng bất ngờ"
+    ],
+    "body_vi": "**Thoán từ.** 萃：王假有廟，利見大人，亨。利貞。用大牲吉，利有攸往。 — *Tụy: vua đến nhà miếu; lợi gặp bậc đại nhân, hanh thông, lợi giữ chính. Dùng lễ vật lớn thì tốt; lợi có chỗ đi.* Ý là: muốn tụ được người phải có một điểm chung đáng kính và một người đứng ra; khi đã tụ thì đầu tư cho xứng.\n\n**Tượng.** Đầm (Đoài) ở trên đất (Khôn): nước dồn về một chỗ thành hồ. Nước tụ nhiều thì dễ tràn, nên Đại Tượng dạy 除戎器，戒不虞 — sửa sang binh khí, phòng điều không ngờ.\n\n**Thế quẻ.** Thời đông người: họp mặt, liên minh, cộng đồng, một nhóm bắt đầu lớn. Miếu là biểu tượng của giá trị chung — người ta tụ quanh điều họ cùng tin chứ không chỉ quanh lợi lộc. Quẻ cảnh giác hai điều: tụ mà không có người chủ thì loạn, và đông người thì sinh va chạm, cần lường trước.\n\n**Trong đời thường.** Công việc: xây đội, gọi vốn, tổ chức sự kiện; định rõ mục tiêu chung và ai chịu trách nhiệm cuối. Tình cảm: gặp gỡ qua bạn bè, gia đình hai bên đến với nhau; chuẩn bị chu đáo. Gia đình: đoàn tụ, giỗ chạp, dịp cùng ngồi lại. Tiền bạc: đáng chi cho dịp quan trọng, nhưng có dự phòng.\n\n**Lời khuyên.** Tụ người quanh một điều đáng tin, chọn người cầm trịch, và luôn có phương án cho chuyện bất ngờ.",
+    "gist_en": "I Ching hexagram 45 Cui (Assembling), lake over earth: people and resources converge on a common centre, as water pools into a lake. A gathering needs a purpose worth respecting, someone accountable to lead it, and suitable investment; crowds also bring friction. Advice: unite people around a real shared value, name who leads, and keep a plan for surprises.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/萃",
+        "quote": "萃：王假有廟，利見大人，亨。利貞。用大牲吉，利有攸往。 澤上于地，萃；君子以除戎器，戒不虞。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:46",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 46
+    },
+    "title": "Quẻ 46 — Địa Phong Thăng",
+    "keywords": [
+      "đi lên",
+      "tích tiến",
+      "thuận đà",
+      "từng bậc",
+      "góp nhỏ thành lớn"
+    ],
+    "body_vi": "**Thoán từ.** 升：元亨，用見大人，勿恤，南征吉。 — *Thăng: rất hanh thông; nên gặp bậc đại nhân, chớ lo, tiến về nam thì tốt.* Ý là: đang ở đà đi lên thuận; cứ mạnh dạn tìm người có thể nâng mình, không cần lo lắng.\n\n**Tượng.** Trong đất (Khôn) mọc cây (Tốn): mầm cây đội đất mà lên, không vội, không ngừng. Đại Tượng: 順德，積小以高大 — thuận theo đức, góp cái nhỏ mà thành cao lớn.\n\n**Thế quẻ.** Khác với Tấn (sáng rực, được ghi nhận ngay), Thăng là đi lên âm thầm, từng chút, nhờ kiên trì và mềm dẻo như rễ cây lách qua đất. Không có trở lực lớn, chỉ cần không bỏ giữa chừng. Bẫy của quẻ nằm ở hào cuối: lên mãi trong mờ mịt, không biết khi nào nên dừng.\n\n**Trong đời thường.** Công việc: tiến bộ đều, học thêm, lên từng nấc; chủ động xin gặp người có thể chỉ đường. Tình cảm: mối quan hệ lớn dần một cách tự nhiên; đừng ép nhanh. Tiền bạc: tích lũy định kỳ hơn là tìm một cú lớn. Bản thân: mỗi ngày một việc nhỏ có ích.\n\n**Lời khuyên.** Đi lên từng bậc, đều tay. Thành quả lớn ở đây là tổng của nhiều việc nhỏ làm đúng.",
+    "gist_en": "I Ching hexagram 46 Sheng (Rising), trees growing out of the earth: a quiet, steady ascent, like a shoot working its way up through soil. Approach people able to lift you, without anxiety. Small accumulations become something tall. Advice: climb one rung at a time, keep a steady pace, and notice when climbing has become mere habit.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/升",
+        "quote": "升：元亨，用見大人，勿恤，南征吉。 地中生木，升；君子以順德，積小以高大。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:47",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 47
+    },
+    "title": "Quẻ 47 — Trạch Thủy Khốn",
+    "keywords": [
+      "khốn cùng",
+      "cạn kiệt",
+      "bị vây",
+      "nói không ai tin",
+      "giữ chí"
+    ],
+    "body_vi": "**Thoán từ.** 困：亨，貞大人吉，无咎，有言不信。 — *Khốn: hanh thông. Bậc đại nhân giữ chính thì tốt, không lỗi. Có nói cũng không ai tin.* Ý là: ở cảnh khốn mà giữ được mình thì cảnh khốn hóa thành chỗ rèn người; lúc này lời nói ít tác dụng.\n\n**Tượng.** Đầm (Đoài) ở trên, nước (Khảm) rò xuống dưới: 澤无水 — đầm không còn nước. Đại Tượng: người quân tử 致命遂志 — dốc trọn thân mình để thành chí. Bên ngoài cạn hết, chỉ còn cái chí bên trong là của mình.\n\n**Thế quẻ.** Thời bị vây và bị cạn: thiếu tiền, thiếu sức, thiếu người tin. Cái đau riêng của Khốn là có nói cũng không ai nghe, giải thích càng nhiều càng bị nghi. Thoán truyện nói thẳng: chuộng miệng lưỡi thì càng cùng. Hanh thông không đến từ hoàn cảnh mà từ chỗ khốn mà không mất chỗ đứng của mình — không để cảnh khốn làm mất chí, mất nết.\n\n**Trong đời thường.** Công việc: bế tắc, bị nghi ngờ năng lực; làm cho ra việc thay vì thanh minh. Tình cảm: cảm giác không được hiểu; bớt tranh cãi, giữ sự tử tế. Tiền bạc: eo hẹp; cắt về mức tối thiểu, tìm nguồn hỗ trợ chính thức, đừng vay nóng để lấp. Bản thân: mệt thì giữ sức, đừng gồng.\n\n**Lời khuyên.** Nói ít, làm thật, giữ chí. Khi đã qua chỗ cạn, việc mình làm sẽ nói thay mình.",
+    "gist_en": "I Ching hexagram 47 Kun (Confinement), a lake with its water drained away: hemmed in, depleted, and not believed when one speaks. Someone who keeps integrity can still come through, and hardship becomes a forge. Explanations help little now; conduct counts. Advice: talk less, do real work, save energy, avoid desperate borrowing, and hold on to your purpose.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/困",
+        "quote": "困：亨，貞大人吉，无咎，有言不信。 澤无水，困；君子以致命遂志。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:48",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 48
+    },
+    "title": "Quẻ 48 — Thủy Phong Tỉnh",
+    "keywords": [
+      "nguồn nuôi",
+      "cái gốc",
+      "sửa nền",
+      "của chung",
+      "làm đến nơi"
+    ],
+    "body_vi": "**Thoán từ.** 井：改邑不改井，无喪无得，往來井井。汔至亦未繘井。羸其瓶，凶。 — *Tỉnh: dời làng chứ không dời giếng; không vơi không đầy; người đi kẻ lại đều múc giếng. Gần lên tới nơi mà gàu chưa ra khỏi giếng, làm vỡ bình, xấu.* Ý là: nguồn nuôi căn bản thì bền và không thuộc riêng ai; hỏng là ở khâu múc, ở chỗ làm gần xong rồi đánh vỡ.\n\n**Tượng.** Nước (Khảm) trên gỗ (Tốn): gàu gỗ đưa nước lên, như cây hút nước lên ngọn. Đại Tượng: người quân tử 勞民勸相 — khích lệ người làm, khuyên mọi người giúp nhau: giếng là của chung, phải cùng giữ.\n\n**Thế quẻ.** Giếng là cái nền: kỹ năng gốc, giá trị cốt lõi, nguồn lực mọi người cùng dùng. Hoàn cảnh bên ngoài đổi (dời làng) nhưng giếng thì không. Vấn đề hiếm khi là thiếu nguồn, mà là giếng bị bùn lấp (hào đầu), không ai sửa, hoặc múc cẩu thả. Quẻ khuyên chăm lại cái gốc, và làm trọn từng việc đến khi nước thật sự tới tay người cần.\n\n**Trong đời thường.** Công việc: quay về kỹ năng nền, sửa quy trình gốc thay vì chạy theo cái mới; chia sẻ kiến thức cho nhóm. Tình cảm: nuôi lại những điều cơ bản — thời gian bên nhau, sự lắng nghe. Tiền bạc: chăm nguồn thu chính trước khi mở nguồn mới. Bản thân: ăn, ngủ, vận động — cái giếng của sức mình.\n\n**Lời khuyên.** Khơi lại cái giếng của mình và làm đến nơi đến chốn. Đừng đánh vỡ bình ở đoạn cuối.",
+    "gist_en": "I Ching hexagram 48 Jing (Well), water drawn up by wood: villages relocate but the well stays and serves everyone who comes. The source is seldom the problem; mud, neglect, or a vessel cracked just before it reaches the top is. Advice: tend core skills, shared resources and basic health, and carry each task through until the water really arrives.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/井",
+        "quote": "井：改邑不改井，无喪无得，往來井井。汔至亦未繘井。羸其瓶，凶。 木上有水，井；君子以勞民勸相。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:49",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 49
+    },
+    "title": "Quẻ 49 — Trạch Hỏa Cách",
+    "keywords": [
+      "cải cách",
+      "thay cũ",
+      "đúng thời",
+      "được tin",
+      "chuyển mình"
+    ],
+    "body_vi": "**Thoán từ.** 革：已日乃孚，元亨。利貞。悔亡。 — *Cách: đến đúng ngày mới được tin; rất hanh thông, lợi giữ chính, hối hận tiêu mất.* Ý là: thay đổi lớn chỉ thành khi thời đã chín và người ta đã tin; đổi đúng thời thì không phải hối.\n\n**Tượng.** Trong đầm (Đoài) có lửa (Ly): nước và lửa triệt nhau, cái này thắng thì cái kia phải đổi. Thoán truyện nhắc Thang, Vũ đổi triều: thuận trời, ứng người. Đại Tượng: 治歷明時 — sửa lịch, làm rõ thời tiết: muốn đổi thì trước hết phải đọc đúng thời.\n\n**Thế quẻ.** Thời thay da đổi thịt: bỏ cái cũ đã hết tác dụng — một cách làm, một vai, một hệ thống. Chữ quan trọng là đến ngày mới tin: đổi quá sớm thì không ai theo, cũng không ai tin mình nghiêm túc. Đổi vì chán, vì bốc đồng thì dễ hối. Đổi khi đã có lý do rõ, có người ủng hộ, có lộ trình — đó là lúc hối hận tiêu đi.\n\n**Trong đời thường.** Công việc: chuyển việc, đổi mô hình, tái cấu trúc; chuẩn bị bằng chứng và người đồng hành trước khi tuyên bố. Tình cảm: một mối quan hệ cần đổi luật chơi, hoặc khép lại để bắt đầu khác; nói rõ chứ đừng đổi lén. Bản thân: đổi một thói quen lớn, đặt mốc thời gian cụ thể.\n\n**Lời khuyên.** Đổi khi đã chín, không đổi khi đang nóng. Như sửa lịch: đo kỹ, công bố rõ, rồi làm đúng.",
+    "gist_en": "I Ching hexagram 49 Ge (Reform), fire inside a lake: what has outlived its use must go. Change holds only once its day has come and people trust it; then nothing is regretted. Read the times precisely, like correcting a calendar. Advice: change when the situation is ripe, not when restless, with evidence, allies and a plan.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/革",
+        "quote": "革：已日乃孚，元亨。利貞。悔亡。 澤中有火，革；君子以治歷明時。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:50",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 50
+    },
+    "title": "Quẻ 50 — Hỏa Phong Đỉnh",
+    "keywords": [
+      "cái vạc",
+      "nuôi dưỡng",
+      "dựng nền mới",
+      "đúng vị trí",
+      "ổn định"
+    ],
+    "body_vi": "**Thoán từ.** 鼎：元吉，亨。 — *Đỉnh: rất tốt, hanh thông.* Ý là: một trong số ít quẻ có lời Thoán gần như trọn lành — khi đã có cái nền nuôi được người, mọi việc thuận.\n\n**Tượng.** Lửa (Ly) trên gỗ (Tốn): củi cháy dưới vạc, nấu sống thành chín. Hình quẻ chính là cái vạc: chân, bụng, tai, quai. Đại Tượng: 正位凝命 — đứng ngay ngắn ở vị trí của mình, giữ vững điều được giao.\n\n**Thế quẻ.** Nếu Cách là phá cái cũ thì Đỉnh là dựng cái mới để nuôi người. Vạc thời xưa vừa là nồi nấu vừa là vật thiêng của quốc gia: nó tượng cho một cấu trúc vững giúp biến nguyên liệu thô thành thứ nuôi được nhiều người. Bẫy của quẻ nằm ở các hào: chân vạc gãy làm đổ thức ăn — nhận việc quá sức mình, hoặc đặt người không đúng chỗ.\n\n**Trong đời thường.** Công việc: xây hệ thống, đào tạo người, đặt vai trò rõ; việc thành nhờ nền vững chứ không nhờ một người giỏi. Tình cảm: cùng xây nếp sống chung, nấu cho nhau ăn theo cả nghĩa đen lẫn nghĩa bóng. Tiền bạc: bỏ vốn vào thứ sinh giá trị lâu dài. Bản thân: chín dần nhờ học hỏi và một người thầy tốt.\n\n**Lời khuyên.** Đặt vững ba chân rồi hãy nhóm lửa. Nhận đúng sức mình, đặt người đúng chỗ.",
+    "gist_en": "I Ching hexagram 50 Ding (Cauldron), fire beneath wood: raw ingredients cooked into food, a sturdy structure that feeds many after upheaval. Highly auspicious. Stand squarely in your role and hold firmly to what you are entrusted with. The danger is a snapped leg: overreach or misplaced people. Advice: steady all three legs before lighting the fire.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/鼎",
+        "quote": "鼎：元吉，亨。 木上有火，鼎；君子以正位凝命。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:51",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 51
+    },
+    "title": "Quẻ 51 — Thuần Chấn",
+    "keywords": [
+      "chấn động",
+      "giật mình",
+      "tỉnh ra",
+      "giữ việc chính",
+      "sợ mà không loạn"
+    ],
+    "body_vi": "**Thoán từ.** 震：亨。震來虩虩，笑言啞啞。震驚百里，不喪匕鬯。 — *Chấn: hanh thông. Sấm đến thì nơm nớp, rồi cười nói ha hả. Sấm động trăm dặm mà không đánh rơi muôi và rượu tế.* Ý là: biến cố làm mọi người hoảng; ai qua được cơn hoảng mà vẫn giữ việc mình đang làm thì về sau cười được.\n\n**Tượng.** Sấm (Chấn) chồng sấm: 洊雷 — sấm nối tiếp sấm, cú sốc này chưa dứt đã tới cú khác. Đại Tượng: người quân tử 恐懼修省 — nhân sợ hãi mà sửa mình, xét mình. Cái sợ ở đây được dùng làm chuông báo thức.\n\n**Thế quẻ.** Thời biến động bất ngờ: tin xấu, thay đổi đột ngột, một cú giật mình. Quẻ không phủ nhận nỗi sợ — nơm nớp là phản ứng bình thường. Điều quẻ nhìn vào là chuyện sau đó: người chủ lễ giữa tiếng sấm vẫn giữ chắc muôi và rượu tế, tức giữ được việc quan trọng nhất trong tay. Cú sốc đi qua, để lại sự tỉnh táo hơn trước.\n\n**Trong đời thường.** Công việc: thay đổi tổ chức, mất khách lớn, sự cố; ổn định cái cốt lõi trước rồi mới xử chuyện khác. Tình cảm: một phát hiện hay một câu nói làm chao đảo; cho mình thời gian bình tĩnh trước khi quyết. Tiền bạc: thị trường giật mạnh; đừng bán tháo trong hoảng. Bản thân: xem cú sốc chỉ ra điều gì mình đã lơ.\n\n**Lời khuyên.** Hít một hơi, giữ chặt việc chính. Sợ thì cứ sợ, nhưng đừng để tay buông.",
+    "gist_en": "I Ching hexagram 51 Zhen (Thunder), thunder repeated: one jolt follows another, bringing fright first and laughter later. Whoever keeps hold of ladle and ritual wine while the noise shakes the whole district comes through. Fear can serve as an alarm for self-examination. Advice: steady the essentials, make no panicked decisions, and ask what the jolt revealed.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/震",
+        "quote": "震：亨。震來虩虩，笑言啞啞。震驚百里，不喪匕鬯。 洊雷，震；君子以恐懼修省。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:52",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 52
+    },
+    "title": "Quẻ 52 — Thuần Cấn",
+    "keywords": [
+      "dừng lại",
+      "tĩnh",
+      "biết đủ",
+      "đúng chỗ của mình",
+      "yên tâm trí"
+    ],
+    "body_vi": "**Thoán từ.** 艮：艮其背，不獲其身，行其庭，不見其人，无咎。 — *Cấn: dừng ở lưng, không thấy thân mình; đi qua sân mà không thấy người; không lỗi.* Ý là: dừng ở chỗ ham muốn không kéo được mình đi — như cái lưng chẳng nhìn thấy gì để mà động; lòng đã yên thì đi giữa người vẫn không bị cuốn.\n\n**Tượng.** Núi (Cấn) chồng núi: 兼山 — núi nối núi, đứng yên không dời. Đại Tượng: người quân tử 思不出其位 — nghĩ không ra khỏi chỗ của mình, tức lo đúng việc của mình, không lan man.\n\n**Thế quẻ.** Thời dừng: không phải bế tắc, mà là chọn dừng. Thoán truyện nói: lúc nên dừng thì dừng, lúc nên đi thì đi, động tĩnh không lỡ thời. Sáu hào đi từ dưới lên như dọc thân người: dừng ngón chân, bắp chân, ngang lưng, thân, rồi tới hàm — lời nói có thứ tự — và cuối cùng là sự dừng đôn hậu, vững vàng. Cái khó là dừng được tâm, không chỉ dừng tay.\n\n**Trong đời thường.** Công việc: tạm ngưng mở rộng, không nhận thêm việc, làm cho xong phần đang có. Tình cảm: cần một khoảng lặng; không phải lúc tỏ tình hay đòi câu trả lời. Bản thân: thiền, đi bộ, cất điện thoại; tập nghĩ một việc một lúc. Tiền bạc: đứng ngoài thị trường cũng là một quyết định.\n\n**Lời khuyên.** Dừng đúng chỗ là một năng lực. Giữ yên thân trước, rồi tâm sẽ theo.",
+    "gist_en": "I Ching hexagram 52 Gen (Stopping), mountain upon mountain: a deliberate halt, not a dead end. Halt or move as the moment requires; keep your thinking within your own role. The lines climb the body from toes to jaw, ending in solid calm. Advice: pause expansion, accept no new commitments, settle the body so the mind can follow.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/艮",
+        "quote": "艮：艮其背，不獲其身，行其庭，不見其人，无咎。 兼山，艮；君子以思不出其位。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:53",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 53
+    },
+    "title": "Quẻ 53 — Phong Sơn Tiệm",
+    "keywords": [
+      "tiến dần",
+      "tuần tự",
+      "đúng trình tự",
+      "bền lâu",
+      "không nhảy cóc"
+    ],
+    "body_vi": "**Thoán từ.** 漸：女歸吉，利貞。 — *Tiệm: người con gái về nhà chồng thì tốt, lợi giữ chính.* Ý là: việc lớn như cưới hỏi thời xưa phải đi đủ lễ, từng bước; đi đúng trình tự thì kết quả bền.\n\n**Tượng.** Trên núi (Cấn) có cây (Tốn): cây trên núi lớn chậm nhưng rễ bám chắc, càng lâu càng vững. Đại Tượng: người quân tử 居賢德，善俗 — giữ đức tốt nơi mình, rồi dần làm tốt phong tục quanh mình. Ảnh hưởng đến chậm mà sâu.\n\n**Thế quẻ.** Thời tiến dần. Sáu hào là hành trình của con chim hồng: từ bờ nước, lên tảng đá, ra đất bằng, lên cây, lên gò cao, rồi chặng cuối lại ra đất bằng (nguyên văn lặp chữ của hào ba; nhiều nhà chú giải đời Tống đọc là đường mây), và lông nó được dùng làm đồ nghi lễ. Mỗi chặng có chỗ của nó; nhảy cóc là mất chỗ đáp. Khác Thăng (đi lên nhờ sức bền), Tiệm nhấn vào trình tự và sự chính danh: quen rồi thân, thân rồi hứa, hứa rồi cưới.\n\n**Trong đời thường.** Công việc: thăng tiến theo đúng lộ trình, tích lũy kinh nghiệm ở từng vị trí; đừng xin vượt cấp. Tình cảm: một mối quan hệ đi đúng nhịp — tìm hiểu, ra mắt, cam kết — rất tốt cho chuyện lâu dài. Tiền bạc: tích lũy, góp đều, không đầu cơ. Bản thân: thói quen nhỏ bền hơn quyết tâm lớn.\n\n**Lời khuyên.** Đi đúng thứ tự, mỗi bước cho trọn. Chậm mà chắc ở đây không phải lời an ủi, mà là cách làm duy nhất.",
+    "gist_en": "I Ching hexagram 53 Jian (Step by Step), trees growing on a mountain: slow, well-rooted progress. A wild goose moves stage by stage from riverbank to rock, dry land, tree and hilltop. A marriage that follows every proper step turns out well. Advice: keep the right order, finish each step fully, and trust small habits over grand resolutions.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/漸",
+        "quote": "漸：女歸吉，利貞。 山上有木，漸；君子以居賢德，善俗。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:54",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 54
+    },
+    "title": "Quẻ 54 — Lôi Trạch Quy Muội",
+    "keywords": [
+      "danh không chính",
+      "lệch vai",
+      "vội vào",
+      "biết chỗ đứng",
+      "nghĩ tới đoạn cuối"
+    ],
+    "body_vi": "**Thoán từ.** 歸妹：征凶，无攸利。 — *Quy Muội: tiến thì xấu, không có gì lợi.* Ý là: khi đã bước vào một vị trí không chính danh, cố đòi thêm chỉ làm mình thiệt.\n\n**Tượng.** Sấm (Chấn) trên đầm (Đoài): sấm động mà nước đầm rung theo, như cái vui đi theo sự kích động. Hình ảnh là người em gái theo chị về nhà chồng làm vợ thứ — vào nhà bằng cửa phụ. Đại Tượng: 永終知敝 — nghĩ đến chỗ trọn vẹn lâu dài mà biết trước chỗ sẽ hư.\n\n**Thế quẻ.** Quẻ về vị thế lệch: vào một quan hệ hay một tổ chức mà vai của mình không rõ, không được thừa nhận đầy đủ, hoặc bước vào vì vội, vì cảm xúc. Không phải lúc nào cũng xấu — hào đầu và hào năm vẫn được tốt, hào hai vẫn có lợi, khi biết giữ phận. Cái xấu là đòi ngồi ghế không phải của mình. Quẻ hỏi: mình đang thật sự đứng ở đâu, và chuyện này về lâu dài sẽ đi về đâu?\n\n**Trong đời thường.** Công việc: nhận vị trí tạm, vị trí phụ, hoặc làm thay mà không có danh nghĩa; làm tốt, nhưng đề nghị ghi rõ vai bằng văn bản. Tình cảm: mối quan hệ không được công khai, hoặc mình là người đến sau trong một tình thế phức tạp; nhìn thẳng vào chỗ đứng thật. Tiền bạc: tránh thỏa thuận miệng, góp vốn không giấy tờ.\n\n**Lời khuyên.** Biết chỗ đứng của mình trước khi tiến. Nghĩ tới đoạn cuối của chuyện này, không chỉ đoạn đầu.",
+    "gist_en": "I Ching hexagram 54 Gui Mei (The Younger Sister Marries), thunder over a lake: entering a relationship or position by a side door, in a secondary role, often hastily. Pressing forward goes badly. Think of the long run and where things will wear thin. Advice: see where you really stand, get your role stated clearly, and avoid informal deals.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/歸妹",
+        "quote": "歸妹：征凶，无攸利。 澤上有雷，歸妹；君子以永終知敝。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:55",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 55
+    },
+    "title": "Quẻ 55 — Lôi Hỏa Phong",
+    "keywords": [
+      "thịnh",
+      "đỉnh cao",
+      "như mặt trời đứng bóng",
+      "quyết khi đang sáng",
+      "chuẩn bị lúc xế"
+    ],
+    "body_vi": "**Thoán từ.** 豐：亨。王假之，勿憂，宜日中。 — *Phong: hanh thông. Vua đạt tới chỗ ấy; chớ lo, nên như mặt trời giữa trưa.* Ý là: lúc đầy đủ nhất thì cứ đường hoàng tỏa sáng, đừng lo trước cái suy; hãy soi khắp như nắng đứng bóng.\n\n**Tượng.** Sấm (Chấn) trên chớp lửa (Ly): 雷電皆至 — sấm chớp cùng tới, có uy lại có sáng. Đại Tượng dạy người quân tử nhân đó 折獄致刑 — xử án, định hình phạt cho rõ: thời thịnh có đủ sáng và đủ uy để giải quyết những chuyện tồn đọng.\n\n**Thế quẻ.** Thời đỉnh cao: dồi dào, đông vui, thành công rõ. Thoán truyện nói thẳng: mặt trời đứng bóng thì xế, trăng tròn thì khuyết. Quẻ không bảo buồn vì sắp xế, mà bảo dùng đúng lúc đang sáng để làm những việc cần ánh sáng nhất — quyết định khó, sắp xếp lại, chia phần. Các hào nói tới cảnh giữa trưa mà thấy sao: thịnh mà bị che, thường vì quanh mình quá nhiều thứ phô trương.\n\n**Trong đời thường.** Công việc: dự án thành công, doanh số cao; lúc này nên chốt quy trình, giải quyết việc tồn, chia thưởng công bằng. Tình cảm: giai đoạn đẹp; nói ra điều cần nói khi lòng đang rộng. Tiền bạc: dư dả; để phần cho mùa thấp. Bản thân: đừng để lịch kín mít che mất điều quan trọng.\n\n**Lời khuyên.** Sáng lúc nào làm việc lúc ấy. Cái gì cần quyết, quyết khi đang đủ người đủ uy; cái gì cần để dành, để dành khi đang dư.",
+    "gist_en": "I Ching hexagram 55 Feng (Fullness), thunder and lightning arriving together: a high point of plenty and visible success. No need to fret; shine like the noon sun, knowing noon is when decline begins. Use this bright moment to settle outstanding matters, make hard calls and distribute rewards fairly. Advice: decide while strong and set reserves aside for leaner times.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/豐",
+        "quote": "豐：亨。王假之，勿憂，宜日中。 雷電皆至，豐；君子以折獄致刑。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:56",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 56
+    },
+    "title": "Quẻ 56 — Hỏa Sơn Lữ",
+    "keywords": [
+      "lữ khách",
+      "tạm bợ",
+      "xa nhà",
+      "khiêm và gọn",
+      "người mới đến"
+    ],
+    "body_vi": "**Thoán từ.** 旅：小亨，旅貞吉。 — *Lữ: hanh thông nhỏ; người lữ khách giữ chính thì tốt.* Ý là: khi ở đất người, mọi việc chỉ thông ở mức vừa; giữ mình đứng đắn, gọn gàng là đủ yên.\n\n**Tượng.** Trên núi (Cấn) có lửa (Ly): núi đứng yên, còn lửa cháy lan đi rồi không ở lại — như người lữ khách. Đại Tượng: 明慎用刑，而不留獄 — sáng suốt, thận trọng khi xử phạt, và không để án tồn lại: xử việc nhanh, gọn, không để vướng lâu, như người không ở lâu một chỗ.\n\n**Thế quẻ.** Thời xa gốc: đi xa, ở trọ, mới vào chỗ lạ, hoặc thấy mình như khách trong chính cuộc sống của mình. Người khách không có quyền của chủ nhà, nên cư xử khiêm, gọn, giữ đồ đạc của mình và đừng gây chuyện. Các hào xấu của quẻ là khách lấn chủ: kiêu căng thì bị cháy mất chỗ trọ, mất cả người giúp việc.\n\n**Trong đời thường.** Công việc: công tác, hợp đồng ngắn hạn, mới vào công ty; học luật chơi trước, góp ý sau. Tình cảm: yêu xa, hoặc mối quan hệ chưa có gốc; nhẹ nhàng, đừng đòi hỏi như đã gắn bó lâu năm. Tiền bạc: chi gọn, giữ giấy tờ cẩn thận. Bản thân: cảm giác lạc lõng là có thật; tìm một thói quen nhỏ làm điểm tựa.\n\n**Lời khuyên.** Làm khách cho ra khách: khiêm, gọn, sạch sẽ, sẵn sàng lên đường. Đừng cư xử như chủ ở nơi chưa phải nhà mình.",
+    "gist_en": "I Ching hexagram 56 Lü (Traveler), fire on a mountain: the mountain stays put while the fire moves on. Away from home, as a newcomer or short-term guest, only modest success is available. Stay courteous, tidy and upright and settle matters swiftly; arrogance burns down one's lodging. Advice: behave as a guest, learn the house rules first, and travel light.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/旅",
+        "quote": "旅：小亨，旅貞吉。 山上有火，旅；君子以明慎用刑，而不留獄。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:57",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 57
+    },
+    "title": "Quẻ 57 — Thuần Tốn",
+    "keywords": [
+      "thấm dần",
+      "mềm mỏng",
+      "thuyết phục",
+      "lặp lại",
+      "có hướng"
+    ],
+    "body_vi": "**Thoán từ.** 巽：小亨。利有攸往。利見大人。 — *Tốn: hanh thông nhỏ. Lợi có chỗ đi, lợi gặp bậc đại nhân.* Ý là: sự mềm mỏng, thấm dần làm được việc ở mức vừa; muốn đi xa thì cần hướng rõ và người dẫn.\n\n**Tượng.** Gió (Tốn) theo gió: 隨風 — đợt gió này nối đợt gió kia, len vào mọi khe. Đại Tượng: người quân tử 申命行事 — nhắc đi nhắc lại mệnh lệnh rồi mới làm việc. Ảnh hưởng của Tốn đến từ sự lặp lại kiên nhẫn chứ không từ một cú mạnh.\n\n**Thế quẻ.** Thời thuyết phục, thấm dần. Gió không phá tường mà đi qua khe; rễ cây (cũng là Tốn) len vào đất. Điểm mạnh là mềm dẻo, biết nghe; điểm yếu là do dự, tiến lui không quyết — hào đầu nói tiến rồi lui, nên lấy cái kiên định của người lính mà giữ. Mềm nhưng phải có hướng, không thì chỉ là lửng lơ.\n\n**Trong đời thường.** Công việc: thay đổi bằng cách thuyết phục từng người, nhắc lại mục tiêu nhiều lần, viết rõ ra; tìm người có tầm để đỡ lưng. Tình cảm: tác động nhẹ nhàng và đều đặn tốt hơn một cuộc nói chuyện lớn. Tiền bạc: góp nhỏ, định kỳ. Bản thân: cẩn thận với thói chần chừ đội lốt mềm mỏng.\n\n**Lời khuyên.** Đi vào nhẹ nhưng đi đều và có hướng. Chọn một điều, lặp lại cho tới khi nó thấm.",
+    "gist_en": "I Ching hexagram 57 Xun (Wind), wind following wind: influence that works its way in gently and persistently, never by force. Modest success; it helps to have a direction and someone of stature to guide. Repeat instructions before acting. The weakness is wavering. Advice: stay soft but steady and clear, repeating one message until it takes hold.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/巽",
+        "quote": "巽：小亨。利有攸往。利見大人。 隨風，巽；君子以申命行事。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:58",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 58
+    },
+    "title": "Quẻ 58 — Thuần Đoài",
+    "keywords": [
+      "niềm vui",
+      "giao tiếp",
+      "cởi mở",
+      "học cùng nhau",
+      "tránh nịnh"
+    ],
+    "body_vi": "**Thoán từ.** 兌：亨。利貞。 — *Đoài: hanh thông, lợi giữ chính.* Ý là: vui vẻ, cởi mở thì việc gì cũng thông, miễn là cái vui ấy ngay thẳng, không phải lấy lòng.\n\n**Tượng.** Đầm (Đoài) nối đầm: 麗澤 — hai cái đầm liền nhau, nước qua lại nuôi nhau. Đại Tượng: người quân tử 朋友講習 — cùng bạn bè giảng giải, luyện tập. Niềm vui sâu nhất của quẻ là niềm vui học cùng nhau.\n\n**Thế quẻ.** Thời vui, dễ nói chuyện, dễ kết nối. Đoài là miệng, là lời nói: hợp với giao tiếp, thương lượng, dạy học, bán hàng. Thoán truyện: lấy niềm vui đi trước người khác thì người ta quên nhọc. Nhưng lời vui có hai mặt — thật lòng thì gắn kết, chiều lòng thì hại. Từ hào ba trở lên, các hào cảnh báo thứ vui dựa vào bên ngoài: chạy đi tìm vui, tin lời ngọt đang bào mòn mình, bị cuộc vui kéo đi không dứt.\n\n**Trong đời thường.** Công việc: làm việc nhóm, thuyết trình, chăm khách; không khí tốt giúp việc trôi. Tình cảm: vui, nhiều trò chuyện; cười cùng nhau nhưng cũng nói thật với nhau. Tiền bạc: tránh chi tiêu theo cơn vui. Bản thân: học một thứ mới cùng bạn bè; để ý ai chỉ khen mình mà không bao giờ góp ý.\n\n**Lời khuyên.** Vui cho thật, nói cho thật. Giữ bên mình người dám nói điều mình không muốn nghe.",
+    "gist_en": "I Ching hexagram 58 Dui (Lake, Delight), two lakes joined: pleasure, open conversation and mutual nourishment, especially friends learning together. Things go well when the gladness is honest and upright; flattery and chasing amusement erode. Advice: enjoy people genuinely, tell the truth, and keep close those who give frank feedback instead of only praise.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/兌",
+        "quote": "兌：亨。利貞。 麗澤，兌；君子以朋友講習。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:59",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 59
+    },
+    "title": "Quẻ 59 — Phong Thủy Hoán",
+    "keywords": [
+      "làm tan",
+      "khơi thông",
+      "tản mát",
+      "quy tụ lại",
+      "bỏ bè phái"
+    ],
+    "body_vi": "**Thoán từ.** 渙：亨，王假有廟，利涉大川，利貞。 — *Hoán: hanh thông. Vua đến nhà miếu; lợi vượt sông lớn, lợi giữ chính.* Ý là: khi lòng người tản mát, cần một điều lớn hơn để quy về; làm tan cái cứng đọng rồi mới đi xa được.\n\n**Tượng.** Gió (Tốn) thổi trên nước (Khảm): mặt nước tan sóng, băng tan ra. Đại Tượng: 先王以享于帝立廟 — các vua xưa nhân đó tế trời, dựng miếu: khi mọi thứ tản ra, dựng lại một điểm thiêng chung để gom lòng người.\n\n**Thế quẻ.** Hoán có hai chiều: làm tan và bị tan. Cái cần làm tan là băng — chia rẽ, bè phái, cảm xúc dồn nén, cái tôi cứng. Cái đáng lo là tan rã — nhóm mất kết nối, mỗi người một ngả. Quẻ nối hai việc lại: làm tan cái đóng băng, rồi quy tụ quanh một giá trị chung. Hào bốn được rất tốt chính vì dám làm tan bè nhóm của mình.\n\n**Trong đời thường.** Công việc: nhóm rời rạc hoặc chia phe; một buổi nói chuyện thẳng và một mục tiêu chung mới có thể nối lại. Tình cảm: khoảng cách đang lạnh dần; chủ động làm tan bằng một cử chỉ ấm. Bản thân: căng thẳng tích tụ cần chỗ xả — vận động, viết, khóc. Tiền bạc: tiền tản vào quá nhiều chỗ nhỏ; gom lại.\n\n**Lời khuyên.** Làm tan cái cứng, đừng để mình tan theo. Tìm điều chung lớn hơn cái riêng mà quy về.",
+    "gist_en": "I Ching hexagram 59 Huan (Scattering), wind moving across water: frozen things loosen and rigid blocks break up. Melt division, cliques and bottled-up feelings, then regather people around something larger, as old kings founded a temple. Advice: dissolve rigidity and ego without letting yourself fall apart, and reconnect a scattered group around a common aim.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/渙",
+        "quote": "渙：亨，王假有廟，利涉大川，利貞。 風行水上，渙；先王以享于帝立廟。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:60",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 60
+    },
+    "title": "Quẻ 60 — Thủy Trạch Tiết",
+    "keywords": [
+      "tiết chế",
+      "giới hạn",
+      "chừng mực",
+      "đặt ranh",
+      "không khắt khe"
+    ],
+    "body_vi": "**Thoán từ.** 節：亨。苦節不可貞。 — *Tiết: hanh thông. Tiết chế đến mức khổ thì không thể giữ lâu.* Ý là: có giới hạn thì mọi việc trôi; nhưng giới hạn khắc nghiệt đến mức người ta khổ thì không bền được.\n\n**Tượng.** Trên đầm (Đoài) có nước (Khảm): đầm chứa nước có hạn, đầy thì tràn. Đại Tượng: 制數度，議德行 — đặt ra số lượng, mức độ; bàn định đức hạnh, cách hành xử. Tiết là cái thước để biết đủ.\n\n**Thế quẻ.** Thời cần một đường ranh: ngân sách, giờ giấc, hạn mức, quy tắc. Cây tre có đốt mới mọc cao mà cứng; người có chừng mực mới đi xa được. Quẻ cảnh báo hai đầu: không tiết thì tràn bờ rồi than thở (hào ba); tiết quá thì khổ, sớm muộn cũng vỡ (hào cuối). Tiết tốt nhất là tiết dễ chịu — hào năm gọi là tiết ngọt — mình theo được mà người khác cũng theo được.\n\n**Trong đời thường.** Công việc: đặt hạn rõ — giờ làm, phạm vi việc, số dự án nhận; biết từ chối và nói rõ lý do. Tình cảm: thỏa thuận ranh giới, thời gian riêng; nhưng đừng biến quy tắc thành kiểm soát. Tiền bạc: lập ngân sách vừa sức, có chỗ cho niềm vui nhỏ. Bản thân: kỷ luật vừa phải bền hơn kỷ luật hà khắc.\n\n**Lời khuyên.** Đặt giới hạn mà mình giữ được lâu. Giới hạn đúng là thứ làm mình nhẹ đi, không phải nặng thêm.",
+    "gist_en": "I Ching hexagram 60 Jie (Measure), water above a lake: a lake holds only so much. Set quantities, budgets and boundaries, like the nodes of bamboo. Without measure comes lament; harsh, painful restraint cannot last. The best measure is one that feels agreeable to keep. Advice: choose limits you can sustain, ones that lighten life rather than turn into control.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/節",
+        "quote": "節：亨。苦節不可貞。 澤上有水，節；君子以制數度，議德行。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:61",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 61
+    },
+    "title": "Quẻ 61 — Phong Trạch Trung Phu",
+    "keywords": [
+      "lòng thành",
+      "tin cậy",
+      "thực chất",
+      "lòng không thiên kiến",
+      "xét kỹ xử khoan"
+    ],
+    "body_vi": "**Thoán từ.** 中孚：豚魚吉，利涉大川，利貞。 — *Trung Phu: lòng tin cảm tới cả heo cá thì tốt; lợi vượt sông lớn, lợi giữ chính.* Ý là: lòng thành thật sự thì cảm được cả những kẻ khó cảm nhất; có nó thì dám làm việc lớn.\n\n**Tượng.** Trên đầm (Đoài) có gió (Tốn): gió lướt mặt nước, nước gợn theo — cái vô hình lay được cái hữu hình. Hình quẻ rỗng ở giữa (hai hào âm nằm trong): lòng trống, không thiên kiến. Đại Tượng dạy người quân tử 議獄緩死 — bàn kỹ khi xét án, khoan hoãn án tử: lấy lòng thành mà xét người.\n\n**Thế quẻ.** Thời của niềm tin thật. Không phải lời hứa, không phải hợp đồng, mà là thứ người khác cảm được qua hành vi đều đặn. Hào hai có câu đẹp: hạc kêu trong bóng râm, con nó họa theo — lòng thành không cần lớn tiếng vẫn có người đáp. Bẫy của quẻ là tin mù quáng, hoặc tiếng vang hơn thực chất (hào cuối: tiếng gà đòi vút lên trời).\n\n**Trong đời thường.** Công việc: xây uy tín bằng sự nhất quán; đàm phán dựa trên hiểu nhau thật sự. Tình cảm: tin tưởng là nền; thể hiện bằng việc làm đều đặn hơn lời thề. Gia đình: lắng nghe trước, phán xét sau. Tiền bạc: chỉ hợp tác với người mình đã kiểm chứng.\n\n**Lời khuyên.** Để người ta tin mình vì thấy, không vì nghe. Xét người cho kỹ, xử người cho khoan.",
+    "gist_en": "I Ching hexagram 61 Zhong Fu (Sincerity at the Center), wind over a lake: real good faith reaches even piglets and fish, the hardest to move. Trust grows from consistent conduct, not vows; the open centre is an unbiased heart. Judge carefully and defer the harshest penalties. Advice: earn trust through what people see; avoid blind faith and empty boasts.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/中孚",
+        "quote": "中孚：豚魚吉，利涉大川，利貞。 澤上有風，中孚；君子以議獄緩死。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:62",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 62
+    },
+    "title": "Quẻ 62 — Lôi Sơn Tiểu Quá",
+    "keywords": [
+      "vượt nhỏ",
+      "khiêm",
+      "chi tiết",
+      "bay thấp",
+      "chưa làm việc lớn"
+    ],
+    "body_vi": "**Thoán từ.** 小過：亨。利貞。可小事，不可大事。飛鳥遺之音，不宜上宜下，大吉。 — *Tiểu Quá: hanh thông, lợi giữ chính. Làm được việc nhỏ, không làm được việc lớn. Chim bay để lại tiếng; không nên lên, nên xuống, thì rất tốt.* Ý là: lúc này chỉ nên vượt mức một chút ở việc nhỏ; như chim nên bay thấp, gần chỗ đậu.\n\n**Tượng.** Sấm (Chấn) trên núi (Cấn): sấm trên núi nghe gần mà nhỏ hơn sấm giữa trời. Hai hào dương bị bốn hào âm kẹp ở giữa, cái nhỏ đang trội. Đại Tượng: người quân tử 行過乎恭，喪過乎哀，用過乎儉 — cư xử thì hơi quá về cung kính, việc buồn thì hơi quá về thương, chi dùng thì hơi quá về tiết kiệm.\n\n**Thế quẻ.** Ngược với Đại Quá (quẻ 28) là vượt lớn, Tiểu Quá là thời chỉ được vượt nhỏ: cẩn thận hơn mức cần, chú ý chi tiết, khiêm tốn hơn thường lệ. Tham vọng lớn lúc này giống chim bay quá cao, mất chỗ đậu. Hào đầu nói chim vội bay lên thì gặp xấu; cái lợi nằm ở chỗ biết mình đang ở thời nhỏ.\n\n**Trong đời thường.** Công việc: làm kỹ việc nhỏ, rà lỗi, chăm chút khâu hoàn thiện; chưa phải lúc đổi chiến lược lớn. Tình cảm: những cử chỉ nhỏ, chu đáo có ý nghĩa hơn lời tuyên bố lớn. Tiền bạc: thắt chặt hơn bình thường một chút. Bản thân: hạ kỳ vọng xuống mức làm được ngay.\n\n**Lời khuyên.** Bay thấp, đậu gần. Làm tốt việc nhỏ trước mắt và để việc lớn chờ thời khác.",
+    "gist_en": "I Ching hexagram 62 Xiao Guo (Small Exceeding), thunder on a mountain: go slightly beyond the norm in small things only, not great ones. A bird should fly low and land, not climb. Lean a bit further toward respect, mourning and frugality. Advice: be extra careful, polish details, and scale ambitions down to what is doable now.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/小過",
+        "quote": "小過：亨。利貞。可小事，不可大事。飛鳥遺之音，不宜上宜下，大吉。 山上有雷，小過；君子以行過乎恭，喪過乎哀，用過乎儉。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:63",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 63
+    },
+    "title": "Quẻ 63 — Thủy Hỏa Ký Tế",
+    "keywords": [
+      "đã xong",
+      "hoàn tất",
+      "dễ lơi",
+      "phòng từ trước",
+      "duy trì"
+    ],
+    "body_vi": "**Thoán từ.** 既濟：亨小。利貞。初吉終亂。 — *Ký Tế: hanh thông, đến cái nhỏ cũng thông; lợi giữ chính. Đầu thì tốt, cuối thì loạn.* Ý là: việc đã xong, mọi thứ vào đúng chỗ; nhưng chính sự yên ổn đó là mầm của rối nếu lơi tay.\n\n**Tượng.** Nước (Khảm) ở trên lửa (Ly): nồi nước đặt trên bếp, đang sôi vừa độ. Sáu hào âm dương đều ở đúng vị trí — quẻ duy nhất như vậy. Nhưng nước tràn thì tắt lửa, lửa to thì cạn nước. Đại Tượng: 思患而豫防之 — nghĩ tới họa mà phòng từ trước.\n\n**Thế quẻ.** Thời đã qua sông: mục tiêu đạt, dự án chạy, quan hệ ổn. Quẻ không mừng suông. Khi mọi thứ đã khớp thì hướng còn lại chỉ là xáo trộn, và cái hỏng thường bắt đầu từ chủ quan, từ chỗ ngừng bảo trì. Hào cuối nhắc: qua sông rồi mà còn lội tiếp đến ướt cả đầu — đắm trong thành công, tiến quá đà hay lơ là đều gặp nguy.\n\n**Trong đời thường.** Công việc: dự án vừa ra mắt; giờ là vận hành, sửa lỗi nhỏ, ghi tài liệu, đừng ngủ quên. Tình cảm: đã về chung một nhà hoặc vừa cam kết; tiếp tục chăm nhau như lúc đầu. Tiền bạc: đạt mục tiêu thì lập quỹ phòng ngừa. Bản thân: duy trì thói quen ngay cả khi đã thấy kết quả.\n\n**Lời khuyên.** Xong rồi mới là lúc giữ. Mỗi tuần kiểm một chỗ có thể hỏng, khi mọi thứ vẫn còn yên.",
+    "gist_en": "I Ching hexagram 63 Ji Ji (Already Across), water set over fire: every line sits in its proper place and the crossing is done. Even small matters go smoothly, yet a good start can end in disorder once attention slips. Anticipate trouble and prepare beforehand. Advice: keep up maintenance after success, and check weak points while everything still seems calm.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/既濟",
+        "quote": "既濟：亨小。利貞。初吉終亂。 水在火上，既濟；君子以思患而豫防之。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
+  },
+  {
+    "id": "hexagram:64",
+    "kind": "hexagram",
+    "ref": {
+      "hexagram": 64
+    },
+    "title": "Quẻ 64 — Hỏa Thủy Vị Tế",
+    "keywords": [
+      "chưa xong",
+      "sắp tới",
+      "dở dang",
+      "cẩn thận đoạn cuối",
+      "sắp xếp đúng chỗ"
+    ],
+    "body_vi": "**Thoán từ.** 未濟：亨。小狐汔濟，濡其尾，无攸利。 — *Vị Tế: hanh thông. Con cáo nhỏ gần qua được sông thì ướt đuôi, không có gì lợi.* Ý là: việc còn dở, đường còn mở; nhưng nếu vội và chủ quan ở đoạn cuối thì hỏng đúng lúc tưởng đã tới.\n\n**Tượng.** Lửa (Ly) ở trên nước (Khảm): lửa bốc lên, nước chảy xuống, hai thứ chưa gặp được nhau. Không hào nào ở đúng vị trí, nhưng hào nào cũng có hào ứng. Đại Tượng: 慎辨物居方 — thận trọng phân biệt từng thứ, để mỗi thứ về đúng chỗ của nó.\n\n**Thế quẻ.** Quẻ cuối của Kinh Dịch không phải là xong mà là chưa xong — thứ tự ấy tự nó đã là một lời dạy. Thời này có hy vọng, có đủ yếu tố, chỉ là chưa xếp đúng. Con cáo non tự tin, lội gần sang bờ thì đuôi chạm nước, nặng lại, không qua nổi. Cái cần là kiên nhẫn sắp xếp và tỉnh táo ở đoạn cuối, chứ không phải thêm sức.\n\n**Trong đời thường.** Công việc: dự án sắp xong mà còn khâu quyết định; kiểm lại kỹ trước khi nộp, đừng tuyên bố sớm. Tình cảm: mối quan hệ đang hình thành, chưa ổn định; đặt mọi thứ vào đúng chỗ dần dần. Tiền bạc: thương vụ chưa chốt thì chưa tiêu. Bản thân: đang chuyển giai đoạn; cho phép mình chưa hoàn chỉnh.\n\n**Lời khuyên.** Đoạn cuối cần cẩn thận nhất. Phân loại, sắp xếp, rồi mới bước những bước cuối cùng.",
+    "gist_en": "I Ching hexagram 64 Wei Ji (Not Yet Across), fire above water: nothing has aligned yet; no line stands in its proper place, though each has a partner. Success remains possible, but a young fox nearly across the river wets its tail. Advice: take most care at the end, sort each thing into its place, and claim nothing early.",
+    "source_refs": [
+      {
+        "source": "Chu Dịch (Wikisource)",
+        "url": "https://zh.wikisource.org/wiki/周易/未濟",
+        "quote": "未濟：亨。小狐汔濟，濡其尾，无攸利。 火在水上，未濟；君子以慎辨物居方。"
+      }
+    ],
+    "source": "Claude Opus 5.5 viết, bám nguyên văn Chu Dịch; duyệt chéo bởi agent độc lập",
+    "review_status": "approved"
   }
 ]

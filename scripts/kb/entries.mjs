@@ -25,14 +25,32 @@ export async function saveFile(name, entries) {
   await writeFile(join(KNOWLEDGE_DIR, name), `${JSON.stringify(sorted, null, 2)}\n`)
 }
 
+// Lời tiên tri chắc chắn, hù dọa, mê tín: mục tri thức là nền cho người đọc bài,
+// thứ gì ở đây cũng có thể lọt vào câu trả lời.
+const FORBIDDEN = [
+  /chắc chắn sẽ/i, /chắc chắn là/i, /\bsẽ chết\b/i, /cái chết của/i, /mang thai/i, /ung thư/i,
+  /tai họa ập/i, /nghiệp chướng/i, /bùa/i, /giải hạn/i, /định mệnh đã an bài/i, /không thể tránh khỏi/i,
+]
+
+// Câu chữ đặc trưng của bản dịch Wilhelm/Baynes (còn bản quyền). gist_en của quẻ
+// và hào từng chép gần nguyên văn bản này; viết bằng lời của mình.
+const WILHELM =
+  /no blame|furthers|perseverance|supreme success|great water|remorse|superior man|misfortune|good fortune|The (Creative|Receptive|Arousing|Gentle|Joyous|Clinging|Abysmal|Wanderer)\b|Marrying Maiden|Inner Truth|Darkening of the Light|After Completion|Before Completion/i
+
 export function validate(entry) {
   const problems = []
   if (!entry.id || typeof entry.id !== 'string') problems.push('thiếu id')
   if (!KINDS.includes(entry.kind)) problems.push(`kind lạ: ${entry.kind}`)
   if (!entry.title) problems.push('thiếu title')
   if (!entry.body_vi || entry.body_vi.length < 80) problems.push('body_vi quá ngắn')
+  for (const pattern of FORBIDDEN) {
+    if (pattern.test(entry.body_vi ?? '')) problems.push(`body_vi có câu cấm: ${pattern}`)
+  }
   if (!entry.gist_en) problems.push('thiếu gist_en')
   else if (entry.gist_en.split(/\s+/).length > 90) problems.push('gist_en quá dài (>90 từ)')
+  else if (['hexagram', 'hexagram_line'].includes(entry.kind) && WILHELM.test(entry.gist_en)) {
+    problems.push(`gist_en dùng câu chữ bản Wilhelm: ${entry.gist_en.match(WILHELM)[0]}`)
+  }
   if (!['draft', 'approved', 'rejected'].includes(entry.review_status)) {
     problems.push(`review_status lạ: ${entry.review_status}`)
   }
