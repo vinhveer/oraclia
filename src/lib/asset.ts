@@ -6,3 +6,8 @@
 export function asset(path: string): string {
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
 }
+
+/** Bản WebP cạnh ảnh PNG (scripts/optimize-images.mjs); nhỏ hơn khoảng 7 lần. */
+export function webp(path: string): string {
+  return asset(path.replace(/\.png$/, '.webp'))
+}

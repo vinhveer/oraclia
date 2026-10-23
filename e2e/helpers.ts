@@ -49,6 +49,16 @@ export async function distanceFromBottom(page: Page) {
  * - axe không có lỗi serious / critical.
  */
 export async function checkLayout(page: Page, label: string) {
+  // Đo giữa lúc phần tử còn đang mờ dần lên thì axe báo thiếu tương phản giả.
+  // Spinner quay vô hạn thì bỏ qua, không thì chờ mãi.
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every(
+        (animation) =>
+          animation.playState !== 'running' || animation.effect?.getTiming().iterations === Infinity,
+      ),
+  )
   const report = await page.evaluate(() => {
     const doc = document.documentElement
     const width = window.innerWidth

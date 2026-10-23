@@ -1,11 +1,10 @@
-import { generateColors } from '@mantine/colors-generator'
 import {
   createTheme,
   type CSSVariablesResolver,
   type MantineColorsTuple,
   type MantineThemeOverride,
 } from '@mantine/core'
-import { palettes, type Palette } from './palettes'
+import type { Palette } from './palettes'
 
 /**
  * Nền tối lấy đúng các surface cũ của app (M3, hơi ấm, ngả tím rất nhẹ) thay vì
@@ -25,9 +24,19 @@ const dark: MantineColorsTuple = [
   '#0a090c',
 ]
 
-const accentColors = Object.fromEntries(
-  palettes.map((palette) => [palette.id, generateColors(palette.seed)]),
-) as Record<string, MantineColorsTuple>
+/**
+ * Mười sắc độ mỗi palette, dựng từ đúng các tông M3 của bản cũ (10/30/40/80/90)
+ * và nội suy OKLab cho phần còn lại. Không sinh lúc chạy: bộ sinh màu tự động đặt
+ * seed tối vào sắc độ 9, khiến nút chính của Lam ngọc / Hổ phách nhạt tới mức chữ
+ * trắng không đọc được. Ở đây sắc độ 7 = primary sáng (chữ trắng ≥ 6.4:1), sắc độ
+ * 4 = primary tối (≥ 10.9:1 trên nền tối).
+ */
+const accentColors: Record<string, MantineColorsTuple> = {
+  violet: ['#f9f5ff', '#f2ebff', '#eaddff', '#ddcdff', '#d0bcff', '#b4a0e8', '#8c78c6', '#6750a4', '#4f378b', '#361f74'],
+  teal: ['#dbfdfe', '#b3fafd', '#6ff6fb', '#5ee7ed', '#4cd9df', '#3bbcc1', '#209196', '#00696d', '#004f52', '#003739'],
+  amber: ['#fff5e7', '#ffebcf', '#ffddaf', '#ffcc82', '#feba4b', '#dda03a', '#ae791f', '#815500', '#623f00', '#452b00'],
+  rose: ['#fff4f4', '#ffe9e8', '#ffdad9', '#ffc7c5', '#ffb3b2', '#e69696', '#c16b6d', '#9c4146', '#7e2a30', '#5e151c'],
+}
 
 export function buildTheme(palette: Palette): MantineThemeOverride {
   return createTheme({

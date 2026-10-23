@@ -6,6 +6,11 @@
   perspective: 800px;
 }
 
+.cardFrame picture,
+.back picture {
+  display: contents;
+}
+
 .cardFace {
   display: block;
   width: 100%;

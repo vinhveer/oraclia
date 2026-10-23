@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, Modal, Text, UnstyledButton } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconArrowsShuffle, IconCards, IconRotateClockwise2 } from '@tabler/icons-react'
-import { asset } from '@/lib/asset'
+import { asset, webp } from '@/lib/asset'
 import type { PendingDraw } from '../chat/store'
 import { deckStyle } from './decks'
 import classes from './Tarot.module.css'
@@ -94,7 +94,10 @@ export function CardPicker({
               aria-pressed={picked}
               aria-label={`Lá thứ ${index + 1}`}
             >
-              <img src={asset(deck.back)} alt="" draggable={false} loading="lazy" decoding="async" />
+              <picture>
+                <source srcSet={webp(deck.back)} type="image/webp" />
+                <img src={asset(deck.back)} alt="" draggable={false} loading="lazy" decoding="async" />
+              </picture>
               {picked && <span className={classes.backOrder}>{order + 1}</span>}
             </UnstyledButton>
           )

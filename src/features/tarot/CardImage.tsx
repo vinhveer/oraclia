@@ -1,4 +1,4 @@
-import { asset } from '@/lib/asset'
+import { asset, webp } from '@/lib/asset'
 import type { DrawnCard } from '@db'
 import { deckStyle } from './decks'
 import classes from './Tarot.module.css'
@@ -26,17 +26,20 @@ export function CardImage({
       data-reveal={reveal || undefined}
       style={{ width, height }}
     >
-      <img
-        className={classes.cardFace}
-        src={asset(card.image)}
-        alt={card.name_vi}
-        width={deck.width}
-        height={deck.height}
-        loading="lazy"
-        decoding="async"
-        data-reversed={reversed || undefined}
-        draggable={false}
-      />
+      <picture>
+        <source srcSet={webp(card.image)} type="image/webp" />
+        <img
+          className={classes.cardFace}
+          src={asset(card.image)}
+          alt={card.name_vi}
+          width={deck.width}
+          height={deck.height}
+          loading="lazy"
+          decoding="async"
+          data-reversed={reversed || undefined}
+          draggable={false}
+        />
+      </picture>
     </span>
   )
 }

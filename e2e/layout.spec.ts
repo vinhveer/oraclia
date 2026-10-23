@@ -61,3 +61,27 @@ async function composerInView(page: Page) {
   expect(box, 'ô nhập').not.toBeNull()
   expect(box!.y + box!.height, 'ô nhập nằm trong màn hình').toBeLessThanOrEqual(height)
 }
+
+/**
+ * Mỗi màu chủ đạo, cả sáng lẫn tối, phải qua kiểm tra tương phản. Bản đầu sinh
+ * sắc độ tự động và nút chính của Lam ngọc / Hổ phách nhạt tới mức chữ trắng
+ * không đọc được — các test khác không thấy vì chỉ chạy màu mặc định.
+ */
+for (const palette of ['violet', 'teal', 'amber', 'rose']) {
+  for (const scheme of ['light', 'dark'] as const) {
+    test(`màu ${palette} (${scheme}) đủ tương phản`, async ({ page }) => {
+      test.skip(test.info().project.name !== 'desktop', 'màu không phụ thuộc thiết bị')
+      await page.addInitScript(
+        ([paletteId, value]) => {
+          localStorage.setItem('oraclia.palette', paletteId)
+          localStorage.setItem('oraclia.color-scheme', value)
+        },
+        [palette, scheme],
+      )
+      await ask(page, '[e2e:clarify] Một câu hỏi vừa đủ dài để rút ba lá')
+      await pickCards(page)
+      await expect(page.getByRole('button', { name: 'Đúng vậy' })).toBeVisible()
+      await checkLayout(page, `${palette}/${scheme}`)
+    })
+  }
+}

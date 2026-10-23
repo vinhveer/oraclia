@@ -3,10 +3,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Center, Loader } from '@mantine/core'
 import { AppLayout } from '@/app/AppLayout'
 import { SessionProvider, useSession } from '@/features/auth/SessionProvider'
-import ChatPage from '@/pages/ChatPage'
 import LoginPage from '@/pages/LoginPage'
 
-// Cài đặt ít người mở; tách ra để lần tải đầu chỉ có màn hình chat.
+// Màn hình chat kéo theo assistant-ui và bộ render markdown; trang đăng nhập
+// không cần tới, nên tách ra. Cài đặt ít người mở, cũng tách.
+const ChatPage = lazy(() => import('@/pages/ChatPage'))
 const MemoryPage = lazy(() => import('@/pages/settings/MemoryPage'))
 const StylePage = lazy(() => import('@/pages/settings/StylePage'))
 const AccountPage = lazy(() => import('@/pages/settings/AccountPage'))
@@ -26,7 +27,7 @@ export default function App() {
               </RequireSession>
             }
           >
-            <Route path="/chat/:id?" element={<ChatPage />} />
+            <Route path="/chat/:id?" element={<Lazy page={<ChatPage />} />} />
             <Route path="/settings/memory" element={<Lazy page={<MemoryPage />} />} />
             <Route path="/settings/style" element={<Lazy page={<StylePage />} />} />
             <Route path="/settings/account" element={<Lazy page={<AccountPage />} />} />
