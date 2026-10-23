@@ -24,7 +24,7 @@ export class PromptBuilder {
     const sections = [
       this.settings.aboutYou && `<about_user>\n${this.settings.aboutYou}\n</about_user>`,
       this.memories.length &&
-        `<memories>\nNhững điều bạn đã ghi nhớ về người hỏi từ trước:\n${this.memories
+        `<memories>\nNhững điều bạn đã ghi nhớ về người hỏi từ trước (trong ngoặc là lúc ghi; hai điều lệch nhau thì tin điều mới hơn):\n${this.memories
           .map((fact) => `- ${fact}`)
           .join('\n')}\n</memories>`,
       this.settings.responseStyle &&
@@ -34,7 +34,7 @@ export class PromptBuilder {
           .map((item) => `- ${item}`)
           .join('\n')}\n</asked_before>`,
       this.pastReadings.length &&
-        `<past_readings>\nVài lượt đọc gần đây ở các cuộc trò chuyện khác (gọi recall_readings để tìm sâu hơn khi câu hỏi nối tiếp chuyện cũ):\n${this.pastReadings
+        `<past_readings>\nVài lượt đọc ở các cuộc trò chuyện khác — lượt khớp với câu hỏi này đứng trước, rồi lượt gần đây (gọi recall_readings để tìm theo nghĩa khi câu hỏi nối tiếp chuyện cũ mà ở đây chưa thấy):\n${this.pastReadings
           .map((item) => `- ${item}`)
           .join('\n')}\n</past_readings>`,
       summary && `<conversation_summary>\n${summary}\n</conversation_summary>`,

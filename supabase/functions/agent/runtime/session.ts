@@ -129,7 +129,7 @@ export class AgentSession {
       this.prompts.userSettings(),
       this.memories.recall(question),
       this.clarifications.recentQuestions(conversationId, 4),
-      this.readingRecords.recentElsewhere(conversationId, 3),
+      this.readingRecords.forQuestion(conversationId, question),
     ])
     const history = buildHistory(state.pending)
 
@@ -166,7 +166,7 @@ export class AgentSession {
     const builder = new PromptBuilder(
       prompt.body,
       settings,
-      memories.map((row) => row.content),
+      memories.map((row) => `(${monthOf(row.updated_at)}) ${row.content}`),
       asked,
       past.map(
         (row) =>
@@ -543,5 +543,11 @@ export class AgentSession {
 
 /** Dòng điều nhớ cho lượt phản tư: id rút gọn để update_memory / forget trỏ tới được. */
 function memoryLine(row: MemoryRow): string {
-  return `[${row.id.slice(0, 8)}] (${row.kind}, quan trọng ${row.importance}) ${row.content}`
+  return `[${row.id.slice(0, 8)}] (${row.kind}, quan trọng ${row.importance}, ${monthOf(row.updated_at)}) ${row.content}`
+}
+
+/** "10/2026" — đủ để thấy điều nào mới hơn, không lộ giờ phút vô nghĩa. */
+function monthOf(timestamp: string | undefined): string {
+  const [year, month] = (timestamp ?? '').slice(0, 7).split('-')
+  return year && month ? `${Number(month)}/${year}` : 'không rõ lúc nào'
 }

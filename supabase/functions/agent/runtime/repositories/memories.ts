@@ -9,7 +9,8 @@ export interface MemoryRow {
   content: string
   kind: MemoryKind
   importance: number
-  created_at: string
+  /** Lần cuối điều này được ghi hay sửa — để model biết điều nào mới hơn khi hai điều lệch nhau. */
+  updated_at: string
 }
 
 export interface NewMemory {
@@ -27,11 +28,14 @@ export interface NewMemory {
  */
 const DUPLICATE_SIMILARITY = 0.9
 
+/** Dưới ngưỡng này đưa mọi điều nhớ vào context — chừng ấy dòng ngắn chưa tới 5k ký tự. */
+const ALL_IN_CONTEXT = 30
+
 export class MemoryRepository extends Repository {
   async list(limit = 60): Promise<MemoryRow[]> {
     const { data } = await this.db
       .from('memories')
-      .select('id, content, kind, importance, created_at')
+      .select('id, content, kind, importance, updated_at')
       .order('importance', { ascending: false })
       .order('updated_at', { ascending: false })
       .limit(limit)
@@ -39,18 +43,30 @@ export class MemoryRepository extends Repository {
   }
 
   /**
-   * Trí nhớ cho một câu hỏi: hồ sơ và điều quan trọng nhất luôn có mặt, cộng điều
-   * liên quan tới câu hỏi, cộng vài điều gần đây — thay vì 40 dòng mới nhất.
+   * Trí nhớ cho một câu hỏi. Còn ít thì đưa hết: model tự nhận ra điều nào liên
+   * quan tốt hơn mọi cách xếp hạng, còn nhánh vector chưa chạy được ở đầu lượt vì
+   * chưa có truy vấn tiếng Anh — xếp theo chữ thì "công việc dạo này" không kéo
+   * được "vừa bị cắt giảm nhân sự". Nhiều rồi mới chọn: hồ sơ và điều quan trọng
+   * nhất, điều khớp chữ với câu hỏi, vài điều gần đây.
    */
   async recall(question: string, limit = 16): Promise<MemoryRow[]> {
+    const all = await this.list(ALL_IN_CONTEXT + 1)
+    if (all.length <= ALL_IN_CONTEXT) return this.touched(all)
+
     const { data, error } = await this.db.rpc('recall_memories', {
       query_text: question,
       match_count: limit,
     })
-    if (error) return this.list(limit)
-    const rows = (data ?? []) as MemoryRow[]
+    if (error) {
+      console.error('recall_memories lỗi, dùng điều nhớ mới nhất:', error.message)
+      return all.slice(0, limit)
+    }
+    return this.touched((data ?? []) as MemoryRow[])
+  }
+
+  /** Không chờ: chỉ là dấu vết để sau này biết điều nào không còn được dùng. */
+  private touched(rows: MemoryRow[]): MemoryRow[] {
     if (rows.length) {
-      // Không chờ: chỉ là dấu vết để sau này biết điều nào không còn được dùng.
       this.db
         .from('memories')
         .update({ last_used_at: new Date().toISOString() })

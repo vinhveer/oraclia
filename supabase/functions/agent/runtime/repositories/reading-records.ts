@@ -64,6 +64,22 @@ export class ReadingRecordRepository extends OwnedRepository {
     return (data ?? []) as ReadingRecordRow[]
   }
 
+  /**
+   * Lượt cũ cho đầu lượt: lượt khớp chữ với câu hỏi đứng trước, lấp phần còn lại
+   * bằng lượt gần nhất. Chỉ có nhánh chữ — lúc này chưa có truy vấn tiếng Anh cho
+   * vector; muốn tìm theo nghĩa thì model gọi recall_readings.
+   */
+  async forQuestion(conversationId: string, question: string, limit = 4): Promise<ReadingRecordRow[]> {
+    const [related, recent] = await Promise.all([
+      this.search(question, '', conversationId, 2).catch(() => []),
+      this.recentElsewhere(conversationId, limit),
+    ])
+    const seen = new Set<string>()
+    return [...related, ...recent]
+      .filter((row) => !seen.has(row.id) && seen.add(row.id))
+      .slice(0, limit)
+  }
+
   async search(queryVi: string, queryEn: string, excludeConversation: string, limit = 3) {
     const embedding = queryEn.trim() ? toVector(await sharedEmbedder.embed(queryEn)) : null
     const { data, error } = await this.asUser.rpc('match_readings', {
