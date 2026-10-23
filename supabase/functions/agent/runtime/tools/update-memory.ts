@@ -1,6 +1,7 @@
 import type { ToolDefinition } from '../../../_shared/types.ts'
 import { MEMORY_KINDS, type MemoryKind } from '../repositories/memories.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
+import { clip } from '../text.ts'
 
 /**
  * Sửa một điều đã nhớ khi hoàn cảnh đổi ("đang tìm việc" → "đã nhận việc ở X"),
@@ -37,10 +38,10 @@ export class UpdateMemoryTool extends Tool {
         content: JSON.stringify({ error: 'Id không khớp đúng một điều đã nhớ.' }),
       }
     }
-    const content = String(args.content ?? '').split(/\s+/).join(' ').trim().slice(0, 300)
+    const content = clip(String(args.content ?? '').split(/\s+/).join(' ').trim(), 300)
     await context.memories.update(row.id, {
       content: content || undefined,
-      gist_en: String(args.gist_en ?? '').trim().slice(0, 300) || undefined,
+      gist_en: clip(String(args.gist_en ?? '').trim(), 300) || undefined,
       kind: MEMORY_KINDS.includes(args.kind as MemoryKind) ? (args.kind as MemoryKind) : undefined,
       importance: args.importance ? Math.min(3, Math.max(1, Number(args.importance))) : undefined,
     })

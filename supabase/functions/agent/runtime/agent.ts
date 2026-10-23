@@ -16,6 +16,11 @@ const MAX_STEPS = 6
  */
 const MAX_RUN_STEPS = 14
 
+
+/** Lời nhắc viết tiếp khi bài đọc bị cắt vì trần độ dài. */
+const CONTINUE =
+  'Bài đọc vừa bị ngắt giữa chừng vì giới hạn độ dài. Viết tiếp ngay từ chữ cuối cùng, ' +
+  'không chào, không lặp lại phần đã viết, gọn lại để kết thúc trọn ý.'
 export interface AgentDeps {
   adapter: ModelAdapter
   registry: ToolRegistry
@@ -75,6 +80,9 @@ export class Agent {
 
     let steps = run.stepsTaken ?? 0
     const budget = Math.min(steps + MAX_STEPS, MAX_RUN_STEPS)
+    // Phần bài đọc đã viết trước khi chạm trần độ dài, chờ lượt viết tiếp nối vào.
+    let carried = ''
+    let continued = false
 
     try {
       while (steps < budget) {
@@ -108,16 +116,28 @@ export class Agent {
           ...(calls.length ? { tool_calls: calls } : {}),
         }
         state.push(assistantTurn)
-        if (calls.length && result.content) {
+        if (calls.length && (result.content || carried)) {
           // Chữ viết ra trước một tool call là câu dở dang; báo client bỏ bản nháp.
           stream.emit({ type: 'draft.discarded' })
+          carried = ''
+        }
+
+        // Chạm trần max_tokens giữa bài đọc: cho viết tiếp một lần từ đúng chỗ dở,
+        // chữ nối thẳng vào bản nháp trên màn hình. Bài đọc cụt ý tệ hơn một
+        // lượt gọi model thêm.
+        if (!calls.length && result.finishReason === 'length' && !continued && steps < budget) {
+          continued = true
+          carried = result.content
+          state.push({ role: 'user', content: CONTINUE })
+          continue
         }
 
         if (!calls.length) {
           if (run.persistMessage !== false) {
             // Chạm trần max_tokens: lưu phần đã có nhưng nói rõ là bị cắt, để người
             // đọc không tưởng bài đọc kết thúc lửng là cố ý.
-            let content = result.content
+            // NFC: model đôi khi trả dấu rời; lưu dạng ghép để tìm kiếm và so chữ khớp.
+            let content = (carried + result.content).normalize('NFC')
             if (result.finishReason === 'length') {
               const notice = '\n\n*(Bài đọc bị cắt vì vượt giới hạn độ dài.)*'
               content += notice

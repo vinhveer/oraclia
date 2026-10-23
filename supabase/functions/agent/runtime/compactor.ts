@@ -1,6 +1,7 @@
 import type { ModelAdapter } from './model/factory.ts'
 import type { ConversationRepository } from './repositories/conversations.ts'
 import { assistantContent, buildHistory } from './history.ts'
+import { clip } from './text.ts'
 
 const SYSTEM = `Bạn cô đọng một cuộc trò chuyện xem tarot / bài tây / Kinh Dịch thành bộ nhớ.
 Viết văn xuôi gọn, dưới 600 từ, không tiêu đề. Gộp bộ nhớ cũ với phần mới, giữ:
@@ -48,7 +49,7 @@ export class Compactor {
 
     await this.conversations.saveSummary(
       conversationId,
-      summary.slice(0, 6000),
+      clip(summary, 6000),
       folded[folded.length - 1].created_at,
     )
     return true

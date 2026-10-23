@@ -1,6 +1,7 @@
 import type { ToolDefinition } from '../../../_shared/types.ts'
 import { MEMORY_KINDS, type MemoryKind, type NewMemory } from '../repositories/memories.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
+import { clip } from '../text.ts'
 
 const MAX_ITEMS = 8
 
@@ -84,10 +85,10 @@ function parseItems(args: Record<string, unknown>): NewMemory[] {
         ? (value.kind as MemoryKind)
         : 'profile'
       return {
-        content: String(value.content ?? '').split(/\s+/).join(' ').trim().slice(0, 300),
+        content: clip(String(value.content ?? '').split(/\s+/).join(' ').trim(), 300),
         kind,
         importance: Math.min(3, Math.max(1, Number(value.importance) || 2)),
-        gist_en: String(value.gist_en ?? '').trim().slice(0, 300),
+        gist_en: clip(String(value.gist_en ?? '').trim(), 300),
       }
     })
     .filter((item) => item.content.length > 3)

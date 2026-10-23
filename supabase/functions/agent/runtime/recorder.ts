@@ -2,6 +2,7 @@ import type { Casting, DrawnCard } from '../../_shared/types.ts'
 import { readingRecord } from './history.ts'
 import type { ModelAdapter } from './model/factory.ts'
 import type { ReadingRecordRepository } from './repositories/reading-records.ts'
+import { clip } from './text.ts'
 
 const SYSTEM = `Bạn tóm tắt một lượt xem bói vừa xong để lưu vào trí nhớ dài hạn.
 Trả về đúng một object JSON, không kèm chữ nào khác:
@@ -44,14 +45,14 @@ export class ReadingRecorder {
         { role: 'system', content: SYSTEM },
         {
           role: 'user',
-          content: `Câu hỏi: ${input.question}\n${record}\n\nBài đọc:\n${input.answer.slice(0, 6000)}`,
+          content: `Câu hỏi: ${input.question}\n${record}\n\nBài đọc:\n${clip(input.answer, 6000)}`,
         },
       ])
       const parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1))
       if (typeof parsed.synthesis === 'string' && parsed.synthesis.trim()) {
-        synthesis = parsed.synthesis.trim().slice(0, 600)
+        synthesis = clip(parsed.synthesis.trim(), 600)
       }
-      if (typeof parsed.gist_en === 'string') gistEn = parsed.gist_en.trim().slice(0, 400)
+      if (typeof parsed.gist_en === 'string') gistEn = clip(parsed.gist_en.trim(), 400)
     } catch {
       // Giữ phần kết luận cắt từ bài đọc.
     }
@@ -74,5 +75,5 @@ export class ReadingRecorder {
 export function conclusion(answer: string): string {
   const match = answer.match(/###\s*(Tóm lại|Nên làm)\s*\n+([\s\S]*?)(?=\n###|$)/)
   const text = (match?.[2] ?? answer.trim().split(/\n{2,}/).at(-1) ?? '').trim()
-  return text.replace(/\[\[card:\d+\]\]/g, '').split(/\s+/).join(' ').slice(0, 500)
+  return clip(text.replace(/\[\[card:\d+\]\]/g, '').split(/\s+/).join(' '), 500)
 }

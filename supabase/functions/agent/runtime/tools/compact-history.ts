@@ -1,5 +1,6 @@
 import type { ToolDefinition } from '../../../_shared/types.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
+import { clip } from '../text.ts'
 
 export class CompactHistoryTool extends Tool {
   readonly definition: ToolDefinition = {
@@ -39,7 +40,7 @@ export class CompactHistoryTool extends Tool {
     const until =
       pending.length > keep ? (pending.at(-keep - 1)?.created_at ?? null) : (marker?.compacted_until ?? null)
 
-    await context.conversations.saveSummary(context.conversationId, summary.slice(0, 6000), until)
+    await context.conversations.saveSummary(context.conversationId, clip(summary, 6000), until)
     context.emit({ type: 'history.compacted', length: summary.length })
     return {
       kind: 'result',

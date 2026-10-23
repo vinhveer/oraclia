@@ -223,6 +223,21 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
     const watchdog = this.watchdogs.get(response)
     const decoder = new TextDecoder()
     let buffer = ''
+    let dropped = 0
+    // Mỗi dòng `data:` là một khung JSON. Khung hỏng bị bỏ là mất chữ trên màn
+    // hình, nên đếm lại để thấy trong log thay vì mất lặng lẽ.
+    const parse = (line: string): unknown => {
+      const trimmed = line.trim()
+      if (!trimmed.startsWith('data:')) return undefined
+      const payload = trimmed.slice(5).trim()
+      if (!payload || payload === '[DONE]') return undefined
+      try {
+        return JSON.parse(payload)
+      } catch {
+        dropped += 1
+        return undefined
+      }
+    }
     while (true) {
       let chunk: ReadableStreamReadResult<Uint8Array>
       try {
@@ -245,17 +260,15 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
       const lines = buffer.split('\n')
       buffer = lines.pop() ?? ''
       for (const line of lines) {
-        const trimmed = line.trim()
-        if (!trimmed.startsWith('data:')) continue
-        const payload = trimmed.slice(5).trim()
-        if (!payload || payload === '[DONE]') continue
-        try {
-          yield JSON.parse(payload)
-        } catch {
-          // Một khung bị cắt dở không đáng để bỏ cả lượt đọc.
-        }
+        const frame = parse(line)
+        if (frame !== undefined) yield frame
       }
     }
+    // Có gateway đóng stream mà dòng cuối không kèm xuống dòng; bỏ qua phần còn
+    // trong bộ đệm là mất mấy chữ cuối của bài đọc.
+    const last = parse(buffer + decoder.decode())
+    if (last !== undefined) yield last
+    if (dropped) console.error(`${this.name}: bỏ ${dropped} khung stream không đọc được`)
   }
 }
 
