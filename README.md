@@ -45,6 +45,21 @@ SUPABASE_URL=… SUPABASE_SERVICE_ROLE_KEY=… node scripts/kb/sync.mjs   # đ�
 Tìm kiếm là hybrid: full-text bỏ dấu + trigram cho tiếng Việt, vector gte-small cho
 `gist_en` tiếng Anh (gte-small không phân biệt được nghĩa câu tiếng Việt).
 
+## Eval
+
+```bash
+npm run test:functions        # deno test: policy, history, prompt builder
+npm run check:readings        # dữ liệu: 384 hào, kho tri thức trỏ đúng lá/quẻ
+npm run eval:retrieval        # top-1/top-3 của tìm kiếm tri thức
+# bài đọc end-to-end; function server chạy với SHUFFLE_SEED để cố định trải bài,
+# READER_PROMPT_VERSION=v19 để thử prompt mới; JUDGE_* bật LLM-judge
+npm run eval:readings -- --label v18
+npm run eval:readings -- --label v19 --compare scripts/eval/results/v18-….json
+```
+
+Số liệu thật: bảng `model_calls` + view `run_usage` (token, TTFT, cắt cụt) và view
+`feedback_by_prompt` (👍/👎 theo phiên bản prompt).
+
 ---
 
 Tarot và Kinh Dịch ở đây chỉ để tự soi chiếu, không thay thế tư vấn y tế, pháp lý

@@ -81,8 +81,11 @@ export class ToolRegistry {
 
     try {
       const outcome = await tool.run(args, { ...context, callId: call.id })
+      // Lưu nguyên thứ model đã đọc: muốn biết vì sao một bài đọc lệch thì phải
+      // thấy đúng dữ liệu nó được đưa, không chỉ một dòng tóm tắt.
       await finish(outcome.kind === 'interrupt' ? 'awaiting_input' : 'completed', {
         summary: outcome.summary,
+        ...(outcome.kind === 'result' ? { content: outcome.content } : {}),
       })
       context.emit({
         type: 'tool.completed',

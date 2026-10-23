@@ -84,10 +84,19 @@ export class ConversationRepository extends Repository {
     content: string,
     cards: DrawnCard[] | null = null,
     hexagram: Casting | null = null,
+    runId: string | null = null,
   ): Promise<string> {
     const { data, error } = await this.db
       .from('messages')
-      .insert({ conversation_id: conversationId, user_id: userId, role, content, cards, hexagram })
+      .insert({
+        conversation_id: conversationId,
+        user_id: userId,
+        role,
+        content,
+        cards,
+        hexagram,
+        run_id: runId,
+      })
       .select('id')
       .single()
     if (error) throw new Error(`Không lưu được tin nhắn: ${error.message}`)

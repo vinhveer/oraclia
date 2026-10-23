@@ -31,3 +31,4 @@ supabase/.env.local
 supabase/.branches
 supabase/.temp
 supabase/functions/deno.lock
+scripts/eval/results/

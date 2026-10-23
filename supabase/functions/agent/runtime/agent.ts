@@ -129,6 +129,7 @@ export class Agent {
               content,
               run.cards,
               casting,
+              run.runId,
             )
             stream.emit({ type: 'message.completed', message_id: messageId })
             run.onCompleted?.({ messageId, content, cards: run.cards, casting })

@@ -1,0 +1,11 @@
+[
+  { "vi": "người thân nói lời làm tôi tổn thương", "en": "a family member said hurtful words to me", "expect": "card:swords-03:upright" },
+  { "vi": "ba kiem nguoc", "en": "", "expect": "card:swords-03:reversed" },
+  { "vi": "công ty tái cơ cấu, tôi sợ mất việc đột ngột", "en": "company restructuring, fear of sudden job loss", "expect": "card:major-16:upright" },
+  { "vi": "tôi biết phải thay đổi nhưng cứ chần chừ", "en": "I know I must change but keep postponing it", "expect": "card:major-16:reversed" },
+  { "vi": "học thêm kỹ năng để lên tay nghề", "en": "practising to master a skill", "expect": "card:pentacles-08:upright" },
+  { "vi": "dạo này làm việc qua loa cho xong", "en": "lately I just rush work to get it done", "expect": "card:pentacles-08:reversed" },
+  { "vi": "nghĩ quá nhiều, lo âu, cãi vã", "en": "overthinking, anxiety, arguments", "expect": "suit:swords" },
+  { "vi": "khởi động dự án, kêu gọi mọi người", "en": "launching a project and rallying people", "expect": "hexagram:16" },
+  { "vi": "dự hào tư", "en": "", "expect": "line:16:4" }
+]

@@ -16,7 +16,12 @@
     "functions:serve": "supabase functions serve --env-file supabase/.env.local",
     "db:stop": "supabase stop",
     "db:status": "supabase status",
-    "test:functions": "deno test --config supabase/functions/deno.json --no-lock supabase/functions"
+    "test:functions": "deno test --config supabase/functions/deno.json --no-lock supabase/functions",
+    "eval:readings": "node scripts/eval/readings.mjs",
+    "eval:retrieval": "node scripts/eval/retrieval.mjs",
+    "kb:sync": "node scripts/kb/sync.mjs",
+    "kb:review": "node scripts/kb/review.mjs",
+    "kb:generate": "node scripts/kb/generate.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",
