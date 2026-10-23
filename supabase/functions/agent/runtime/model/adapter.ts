@@ -22,6 +22,10 @@ export interface ModelStep {
   usage?: ModelUsage
   /** Mili giây từ lúc gửi tới byte nội dung đầu tiên (chữ, reasoning hoặc tool call). */
   ttftMs?: number
+  /** Model thật sự trả lời, khi khác model của adapter (model dự phòng). */
+  model?: string
+  /** Vì sao phải dùng model dự phòng. */
+  fallbackReason?: string
 }
 
 export interface StepHandlers {

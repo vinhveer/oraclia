@@ -1,5 +1,6 @@
 import { ModelAdapter, type ModelProfile } from './adapter.ts'
 import { DemoAdapter } from './demo.ts'
+import { FallbackAdapter } from './fallback.ts'
 import { OpenAICompatibleAdapter } from './openai.ts'
 
 /**
@@ -14,11 +15,32 @@ export function createModelAdapter(role: ModelRole = 'main'): ModelAdapter {
   if (!apiKey) return new DemoAdapter()
   const main = Deno.env.get('LLM_MODEL') ?? 'gpt-4.1-mini'
   const model = role === 'fast' ? Deno.env.get('LLM_MODEL_FAST') || main : main
-  return new OpenAICompatibleAdapter(
+  const primary = new OpenAICompatibleAdapter(
     Deno.env.get('LLM_BASE_URL') ?? 'https://api.openai.com/v1',
     apiKey,
     model,
     role === 'fast' && model !== main ? {} : profileFromEnv(),
+  )
+  const backup = createBackup(role)
+  return backup ? new FallbackAdapter(primary, backup) : primary
+}
+
+/**
+ * Provider thứ hai cho lúc provider chính hỏng — tốt nhất là khác hẳn đường đi
+ * (không cùng router), vì router chết thì mọi model sau nó chết theo.
+ */
+function createBackup(role: ModelRole): ModelAdapter | null {
+  const apiKey = Deno.env.get('LLM_FALLBACK_API_KEY') ?? ''
+  const main = Deno.env.get('LLM_FALLBACK_MODEL') ?? ''
+  if (!apiKey || !main) return null
+  const model = role === 'fast' ? Deno.env.get('LLM_FALLBACK_MODEL_FAST') || main : main
+  // reasoning_effort chỉnh cho model chính; model dự phòng có thể không nhận.
+  const profile = role === 'fast' && model !== main ? {} : { ...profileFromEnv(), reasoningEffort: undefined }
+  return new OpenAICompatibleAdapter(
+    Deno.env.get('LLM_FALLBACK_BASE_URL') ?? 'https://api.openai.com/v1',
+    apiKey,
+    model,
+    profile,
   )
 }
 
