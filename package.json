@@ -16,7 +16,7 @@
     "functions:serve": "supabase functions serve --env-file supabase/.env.local",
     "db:stop": "supabase stop",
     "db:status": "supabase status",
-    "test:functions": "deno test --config supabase/functions/deno.json --no-lock supabase/functions",
+    "test:functions": "deno test --config supabase/functions/deno.json --no-lock --allow-net=127.0.0.1 supabase/functions",
     "eval:readings": "node scripts/eval/readings.mjs",
     "eval:retrieval": "node scripts/eval/retrieval.mjs",
     "eval:pairwise": "node scripts/eval/pairwise.mjs",

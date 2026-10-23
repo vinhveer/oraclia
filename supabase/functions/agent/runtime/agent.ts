@@ -114,6 +114,9 @@ export class Agent {
           role: 'assistant',
           content: result.content || null,
           ...(calls.length ? { tool_calls: calls } : {}),
+          // Reasoning mã hoá của Responses API: gửi trả ở bước sau để GPT giữ mạch
+          // suy luận qua lần gọi tool, kể cả khi run đỗ chờ chọn bài rồi nối lại.
+          ...(result.providerItems?.length ? { provider_items: result.providerItems } : {}),
         }
         state.push(assistantTurn)
         if (calls.length && (result.content || carried)) {

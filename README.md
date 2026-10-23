@@ -25,6 +25,8 @@ LLM_MODEL_FAST=          # tiêu đề + phản tư; trống = LLM_MODEL
 LLM_TEMPERATURE=         # trống = 0.75, "none" = không gửi
 LLM_MAX_TOKENS=
 LLM_REASONING_EFFORT=    # low | medium | high
+LLM_API=                 # auto | responses | chat (auto: Responses với api.openai.com)
+LLM_VERBOSITY=           # low | medium | high (GPT-5, Responses API)
 LLM_FALLBACK_API_KEY=    # provider dự phòng khi provider chính hỏng; nên khác router
 LLM_FALLBACK_BASE_URL=
 LLM_FALLBACK_MODEL=

@@ -2,6 +2,7 @@ import { ModelAdapter, type ModelProfile } from './adapter.ts'
 import { DemoAdapter } from './demo.ts'
 import { FallbackAdapter } from './fallback.ts'
 import { OpenAICompatibleAdapter } from './openai.ts'
+import { OpenAIResponsesAdapter } from './responses.ts'
 
 /**
  * `main` đọc bài; `fast` làm việc nền — đặt tiêu đề, phản tư, cô đọng — nơi một
@@ -15,7 +16,8 @@ export function createModelAdapter(role: ModelRole = 'main'): ModelAdapter {
   if (!apiKey) return new DemoAdapter()
   const main = Deno.env.get('LLM_MODEL') ?? 'gpt-4.1-mini'
   const model = role === 'fast' ? Deno.env.get('LLM_MODEL_FAST') || main : main
-  const primary = new OpenAICompatibleAdapter(
+  const primary = openAIAdapter(
+    Deno.env.get('LLM_API'),
     Deno.env.get('LLM_BASE_URL') ?? 'https://api.openai.com/v1',
     apiKey,
     model,
@@ -34,14 +36,38 @@ function createBackup(role: ModelRole): ModelAdapter | null {
   const main = Deno.env.get('LLM_FALLBACK_MODEL') ?? ''
   if (!apiKey || !main) return null
   const model = role === 'fast' ? Deno.env.get('LLM_FALLBACK_MODEL_FAST') || main : main
-  // reasoning_effort chỉnh cho model chính; model dự phòng có thể không nhận.
-  const profile = role === 'fast' && model !== main ? {} : { ...profileFromEnv(), reasoningEffort: undefined }
-  return new OpenAICompatibleAdapter(
+  // reasoning_effort / verbosity chỉnh cho model chính; model dự phòng có thể không nhận.
+  const profile =
+    role === 'fast' && model !== main
+      ? {}
+      : { ...profileFromEnv(), reasoningEffort: undefined, verbosity: undefined }
+  return openAIAdapter(
+    Deno.env.get('LLM_FALLBACK_API'),
     Deno.env.get('LLM_FALLBACK_BASE_URL') ?? 'https://api.openai.com/v1',
     apiKey,
     model,
     profile,
   )
+}
+
+/**
+ * Chọn đường gọi. `responses` cho GPT qua OpenAI (giữ reasoning giữa các bước tool,
+ * stream được suy luận); `chat` cho mọi provider tương thích. `auto` (mặc định):
+ * Responses khi gọi thẳng api.openai.com, còn router và provider khác dùng Chat
+ * Completions — đặt LLM_API=responses nếu router có hỗ trợ (không có thì tự lùi).
+ */
+export function openAIAdapter(
+  api: string | undefined,
+  baseUrl: string,
+  apiKey: string,
+  model: string,
+  profile: ModelProfile,
+): ModelAdapter {
+  const mode = (api ?? 'auto').trim().toLowerCase()
+  const responses = mode === 'responses' || (mode === 'auto' && /api\.openai\.com/.test(baseUrl))
+  return responses
+    ? new OpenAIResponsesAdapter(baseUrl, apiKey, model, profile)
+    : new OpenAICompatibleAdapter(baseUrl, apiKey, model, profile)
 }
 
 function profileFromEnv(): ModelProfile {
@@ -58,6 +84,7 @@ function profileFromEnv(): ModelProfile {
     temperature,
     maxTokens: number('LLM_MAX_TOKENS'),
     reasoningEffort: Deno.env.get('LLM_REASONING_EFFORT')?.trim() || undefined,
+    verbosity: Deno.env.get('LLM_VERBOSITY')?.trim() || undefined,
   }
 }
 

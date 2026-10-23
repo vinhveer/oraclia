@@ -1,5 +1,4 @@
 import type { ModelMessage, ModelToolCall, ToolDefinition } from '../../../_shared/types.ts'
-import { AgentError } from '../errors.ts'
 import {
   ModelAdapter,
   type ModelProfile,
@@ -7,49 +6,45 @@ import {
   type ModelUsage,
   type StepHandlers,
 } from './adapter.ts'
+import { isOpenAIModel, isReasoningModel, strictTools } from './gpt.ts'
+import { ParamNegotiator, ProviderError, StreamInterrupted, Transport, parseLoose } from './transport.ts'
 
-/**
- * Provider im lặng quá lâu — không byte nào, kể cả reasoning — thì coi như treo.
- * Đo theo khoảng lặng chứ không theo tổng thời gian, vì một bài đọc dài có reasoning
- * có thể chảy vài phút mà vẫn khoẻ.
- */
-const IDLE_TIMEOUT_MS = 90_000
-
-/**
- * Tham số không phải provider nào cũng nhận. Gặp 400 nhắc tới một trong số này
- * thì gửi lại không kèm chúng, và nhớ luôn cho các lượt sau của worker.
- */
+/** Tham số không phải provider nào cũng nhận; bị từ chối thì bỏ riêng từng cái. */
 const OPTIONAL_PARAMS = [
   'temperature',
   'max_tokens',
+  'max_completion_tokens',
   'reasoning_effort',
   'parallel_tool_calls',
   'stream_options',
+  'prompt_cache_key',
 ] as const
-
-/** Stream đứt hoặc treo giữa chừng — thử lại được nếu chưa có chữ nào ra màn hình. */
-class StreamInterrupted extends AgentError {
-  constructor(message: string) {
-    super(502, message)
-  }
-}
 
 /**
  * Bất kỳ provider nào tương thích OpenAI Chat Completions — OpenAI, OpenRouter,
  * endpoint compat của Gemini, gateway nội bộ. Chỉ vài biến môi trường phân biệt.
+ *
+ * Với model GPT, Responses API (responses.ts) tốt hơn; adapter này là đường chung
+ * cho mọi provider và là đường lui khi gateway không có /responses.
  */
 export class OpenAICompatibleAdapter extends ModelAdapter {
   readonly demo = false
-  /** Provider đã từ chối tham số tuỳ chọn một lần; từ đó chỉ gửi phần lõi. */
-  private lean = false
+  private readonly transport: Transport
+  private readonly params = new ParamNegotiator(OPTIONAL_PARAMS)
+  private readonly reasoning: boolean
+  /** Strict tool chỉ cho model OpenAI; provider khác từ chối thì tắt hẳn. */
+  private strict: boolean
 
   constructor(
-    private readonly baseUrl: string,
-    private readonly apiKey: string,
+    baseUrl: string,
+    apiKey: string,
     readonly name: string,
     private readonly profile: ModelProfile = {},
   ) {
     super()
+    this.transport = new Transport(baseUrl, apiKey, name)
+    this.reasoning = isReasoningModel(name)
+    this.strict = isOpenAIModel(name, baseUrl)
   }
 
   async step(
@@ -85,10 +80,10 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
     handlers: StepHandlers,
   ): Promise<ModelStep> {
     const started = Date.now()
-    const response = await this.post({
+    const response = await this.post(() => ({
       model: this.name,
-      messages,
-      tools: tools.length ? tools : undefined,
+      messages: toChatMessages(messages),
+      tools: tools.length ? (this.strict ? strictTools(tools) : tools) : undefined,
       tool_choice: tools.length ? 'auto' : undefined,
       stream: true,
       ...this.tuning(),
@@ -96,7 +91,7 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
       // xin một call mỗi lượt thì không call nào bị vứt.
       ...(tools.length ? { parallel_tool_calls: false } : {}),
       stream_options: { include_usage: true },
-    })
+    }))
 
     let content = ''
     let finishReason: string | undefined
@@ -109,7 +104,7 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
       { id: string; name: string; arguments: string; extra?: unknown }
     >()
 
-    for await (const chunk of this.readSse(response)) {
+    for await (const chunk of this.transport.readSse(response)) {
       if (chunk?.usage) usage = readUsage(chunk.usage)
       const choice = chunk?.choices?.[0]
       if (choice?.finish_reason) finishReason = choice.finish_reason
@@ -152,124 +147,69 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
   }
 
   async complete(messages: ModelMessage[]): Promise<string> {
-    const response = await this.post({
+    const response = await this.post(() => ({
       model: this.name,
-      messages,
+      messages: toChatMessages(messages),
       stream: false,
       ...this.tuning(0.2),
-    })
-    // Có gateway nối thêm `data: [DONE]` vào cả lượt không streaming, làm
-    // .json() ném lỗi; đọc text rồi cắt đúng object.
-    const raw = await response.text().finally(() => this.watchdogs.get(response)?.stop())
-    const payload = parseLoose(raw)
+    }))
+    const payload = parseLoose(await this.transport.text(response))
     return payload?.choices?.[0]?.message?.content ?? ''
   }
 
-  /** Tham số tinh chỉnh theo model; model reasoning thường chỉ nhận temperature mặc định. */
+  /**
+   * Tham số tinh chỉnh theo model. Model suy luận của OpenAI chỉ nhận temperature
+   * mặc định và đòi `max_completion_tokens`; gửi sai là mỗi worker mất một lượt
+   * gọi hỏng trước khi kịp học.
+   */
   private tuning(temperature = this.profile.temperature): Record<string, unknown> {
+    const { maxTokens, reasoningEffort } = this.profile
     return {
-      ...(temperature !== undefined && this.profile.temperature !== undefined
+      ...(temperature !== undefined && this.profile.temperature !== undefined && !this.reasoning
         ? { temperature }
         : {}),
-      ...(this.profile.maxTokens ? { max_tokens: this.profile.maxTokens } : {}),
-      ...(this.profile.reasoningEffort ? { reasoning_effort: this.profile.reasoningEffort } : {}),
+      ...(maxTokens
+        ? this.reasoning
+          ? { max_completion_tokens: maxTokens }
+          : { max_tokens: maxTokens }
+        : {}),
+      ...(reasoningEffort ? { reasoning_effort: reasoningEffort } : {}),
+      // Định tuyến các lượt có cùng phần đầu (prompt hệ thống) về cùng cache.
+      ...(this.strict ? { prompt_cache_key: 'oraclia-reader' } : {}),
     }
   }
 
-  /** Lỗi tạm thời: hết lượt, quá tải, gateway chập chờn. Thử lại một lần là đủ. */
-  private static readonly RETRYABLE = new Set([408, 409, 425, 429, 500, 502, 503, 504])
-
-  private async post(input: Record<string, unknown>, attempt = 0): Promise<Response> {
-    const body = this.lean ? withoutOptional(input) : input
-    const watchdog = new IdleWatchdog(IDLE_TIMEOUT_MS)
-    let response: Response
+  /** Gửi, và nếu provider từ chối một tham số tuỳ chọn thì bỏ riêng nó rồi gửi lại. */
+  private async post(build: () => Record<string, unknown>, tries = 0): Promise<Response> {
+    const body = this.params.apply(build())
     try {
-      response = await fetch(`${this.baseUrl.replace(/\/$/, '')}/chat/completions`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${this.apiKey}` },
-        body: JSON.stringify(body),
-        signal: watchdog.signal,
-      })
+      return await this.transport.post('/chat/completions', body)
     } catch (exception) {
-      watchdog.stop()
-      if (watchdog.fired) throw new StreamInterrupted('Provider không phản hồi. Thử lại sau ít phút.')
+      if (!(exception instanceof ProviderError) || exception.httpStatus !== 400 || tries > 3) {
+        throw exception
+      }
+      if (this.params.learn(exception.detail, body)) return this.post(build, tries + 1)
+      // Schema strict bị chê (provider không hỗ trợ, hoặc từ khoá schema lạ): tắt.
+      if (this.strict && /strict|schema|additionalproperties/i.test(exception.detail)) {
+        this.strict = false
+        return this.post(build, tries + 1)
+      }
       throw exception
     }
-    if (response.ok) {
-      this.watchdogs.set(response, watchdog)
-      return response
-    }
-    watchdog.stop()
-
-    const detail = await response.text().catch(() => '')
-    if (response.status === 400 && !this.lean && rejectsOptional(detail)) {
-      this.lean = true
-      return this.post(input, attempt)
-    }
-    if (attempt === 0 && OpenAICompatibleAdapter.RETRYABLE.has(response.status)) {
-      await new Promise((resolve) => setTimeout(resolve, 1200))
-      return this.post(input, attempt + 1)
-    }
-    // Lời đã được viết lại cho người đọc (không chứa trang HTML hay khoá API).
-    throw new AgentError(502, explain(response.status, detail))
   }
+}
 
-  /** Bộ canh của từng response đang đọc, để mỗi khung đến là đặt lại đồng hồ. */
-  private readonly watchdogs = new WeakMap<Response, IdleWatchdog>()
-
-  private async *readSse(response: Response): AsyncGenerator<any> {
-    const reader = response.body?.getReader()
-    if (!reader) return
-    const watchdog = this.watchdogs.get(response)
-    const decoder = new TextDecoder()
-    let buffer = ''
-    let dropped = 0
-    // Mỗi dòng `data:` là một khung JSON. Khung hỏng bị bỏ là mất chữ trên màn
-    // hình, nên đếm lại để thấy trong log thay vì mất lặng lẽ.
-    const parse = (line: string): unknown => {
-      const trimmed = line.trim()
-      if (!trimmed.startsWith('data:')) return undefined
-      const payload = trimmed.slice(5).trim()
-      if (!payload || payload === '[DONE]') return undefined
-      try {
-        return JSON.parse(payload)
-      } catch {
-        dropped += 1
-        return undefined
-      }
-    }
-    while (true) {
-      let chunk: ReadableStreamReadResult<Uint8Array>
-      try {
-        chunk = await reader.read()
-      } catch (exception) {
-        watchdog?.stop()
-        throw new StreamInterrupted(
-          watchdog?.fired
-            ? 'Provider ngừng trả lời giữa chừng. Thử lại sau.'
-            : `Mất kết nối với provider: ${exception instanceof Error ? exception.message : ''}`,
-        )
-      }
-      const { value, done } = chunk
-      if (done) {
-        watchdog?.stop()
-        break
-      }
-      watchdog?.reset()
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split('\n')
-      buffer = lines.pop() ?? ''
-      for (const line of lines) {
-        const frame = parse(line)
-        if (frame !== undefined) yield frame
-      }
-    }
-    // Có gateway đóng stream mà dòng cuối không kèm xuống dòng; bỏ qua phần còn
-    // trong bộ đệm là mất mấy chữ cuối của bài đọc.
-    const last = parse(buffer + decoder.decode())
-    if (last !== undefined) yield last
-    if (dropped) console.error(`${this.name}: bỏ ${dropped} khung stream không đọc được`)
-  }
+/**
+ * Chỉ các trường Chat Completions hiểu. Transcript còn mang `provider_items` của
+ * Responses API (khi cùng run đi qua cả hai đường); gửi trường lạ là bị từ chối.
+ */
+export function toChatMessages(messages: ModelMessage[]) {
+  return messages.map(({ role, content, tool_calls, tool_call_id }) => ({
+    role,
+    content,
+    ...(tool_calls?.length ? { tool_calls } : {}),
+    ...(tool_call_id ? { tool_call_id } : {}),
+  }))
 }
 
 function readUsage(raw: any): ModelUsage {
@@ -278,85 +218,5 @@ function readUsage(raw: any): ModelUsage {
     outputTokens: Number(raw.completion_tokens ?? raw.output_tokens ?? 0),
     cachedTokens: Number(raw.prompt_tokens_details?.cached_tokens ?? 0),
     reasoningTokens: Number(raw.completion_tokens_details?.reasoning_tokens ?? 0),
-  }
-}
-
-function withoutOptional(input: Record<string, unknown>): Record<string, unknown> {
-  const copy = { ...input }
-  for (const key of OPTIONAL_PARAMS) delete copy[key]
-  return copy
-}
-
-function rejectsOptional(detail: string): boolean {
-  const text = detail.toLowerCase()
-  return OPTIONAL_PARAMS.some((key) => text.includes(key))
-}
-
-/**
- * Provider hỏng thường trả về trang HTML của CDN chứ không phải JSON. Đổ nguyên
- * đoạn đó ra màn hình thì người dùng nhận được một mớ thẻ `<!DOCTYPE html>`, nên
- * lỗi được quy về vài câu đọc được.
- */
-function explain(status: number, detail: string): string {
-  const looksLikeHtml = /^\s*<(!doctype|html)/i.test(detail)
-  const message = looksLikeHtml ? '' : extractMessage(detail)
-
-  if (status === 401 || status === 403) return 'Khóa API của provider không hợp lệ.'
-  if (status === 404) return 'Model đang chọn không tồn tại ở provider này.'
-  if (status === 429) return 'Provider đang giới hạn lượt gọi. Thử lại sau ít phút.'
-  if (status >= 500 || status === 409) return 'Provider đang quá tải. Thử lại sau ít phút.'
-  return message
-    ? `Provider từ chối yêu cầu: ${message.slice(0, 200)}`
-    : `Provider trả về lỗi ${status}.`
-}
-
-function extractMessage(detail: string): string {
-  try {
-    const parsed = JSON.parse(detail)
-    const message = parsed?.error?.message ?? parsed?.message
-    return typeof message === 'string' ? message : ''
-  } catch {
-    return detail.slice(0, 200)
-  }
-}
-
-function parseLoose(raw: string): any {
-  try {
-    return JSON.parse(raw)
-  } catch {
-    const end = raw.lastIndexOf('}')
-    if (end < 0) return null
-    try {
-      return JSON.parse(raw.slice(raw.indexOf('{'), end + 1))
-    } catch {
-      return null
-    }
-  }
-}
-
-/** Huỷ request khi không có byte nào đến trong một khoảng; mỗi khung mới đặt lại đồng hồ. */
-class IdleWatchdog {
-  private readonly controller = new AbortController()
-  private timer: ReturnType<typeof setTimeout> | undefined
-  fired = false
-
-  constructor(private readonly ms: number) {
-    this.reset()
-  }
-
-  get signal(): AbortSignal {
-    return this.controller.signal
-  }
-
-  reset(): void {
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      this.fired = true
-      this.controller.abort()
-    }, this.ms)
-  }
-
-  stop(): void {
-    clearTimeout(this.timer)
   }
 }

@@ -88,6 +88,12 @@ export interface ModelMessage {
   content: string | null
   tool_calls?: ModelToolCall[]
   tool_call_id?: string
+  /**
+   * Item riêng của provider đi kèm lượt trợ lý — với Responses API của OpenAI là
+   * reasoning đã mã hoá. Gửi trả nguyên vẹn ở bước sau để model giữ mạch suy
+   * luận qua các lần gọi tool; adapter khác bỏ qua trường này.
+   */
+  provider_items?: unknown[]
 }
 
 export interface ModelToolCall {
@@ -107,6 +113,8 @@ export interface ToolDefinition {
     name: string
     description: string
     parameters: Record<string, unknown>
+    /** Strict mode của OpenAI: tham số luôn đúng schema. */
+    strict?: boolean
   }
 }
 

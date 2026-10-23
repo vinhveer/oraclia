@@ -5,6 +5,8 @@ export interface ModelProfile {
   temperature?: number
   maxTokens?: number
   reasoningEffort?: string
+  /** `low` | `medium` | `high` — độ dài câu trả lời của GPT-5 (Responses API). */
+  verbosity?: string
 }
 
 export interface ModelUsage {
@@ -26,6 +28,8 @@ export interface ModelStep {
   model?: string
   /** Vì sao phải dùng model dự phòng. */
   fallbackReason?: string
+  /** Item riêng của provider cần gửi lại ở bước sau (xem ModelMessage.provider_items). */
+  providerItems?: unknown[]
 }
 
 export interface StepHandlers {
