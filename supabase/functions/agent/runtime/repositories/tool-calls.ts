@@ -1,6 +1,6 @@
-import { Repository } from './base.ts'
+import { OwnedRepository } from './base.ts'
 
-export class ToolCallRepository extends Repository {
+export class ToolCallRepository extends OwnedRepository {
   async start(input: {
     runId: string
     userId: string
@@ -8,9 +8,7 @@ export class ToolCallRepository extends Repository {
     name: string
     args: Record<string, unknown>
   }): Promise<string | null> {
-    const { data } = await this.db
-      .from('tool_calls')
-      .insert({
+    const { data } = await this.insert('tool_calls', {
         run_id: input.runId,
         user_id: input.userId,
         call_id: input.callId,
@@ -25,9 +23,7 @@ export class ToolCallRepository extends Repository {
 
   async finish(id: string | null, status: string, result: unknown, durationMs: number) {
     if (!id) return
-    await this.db
-      .from('tool_calls')
-      .update({ status, result, duration_ms: durationMs })
+    await this.update('tool_calls', { status, result, duration_ms: durationMs })
       .eq('id', id)
   }
 }

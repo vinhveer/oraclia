@@ -1,3 +1,4 @@
+import type { Db } from '../../../_shared/db.ts'
 import { Repository } from './base.ts'
 
 export interface LoadedPrompt {
@@ -26,11 +27,22 @@ export type PromptSlug = 'reader' | 'reflector'
 
 export class PromptRepository extends Repository {
   /**
+   * Prompt hệ thống không cho trình duyệt đọc (đó là phần "bí quyết" của sản
+   * phẩm, kể cả các bản chưa bật); chỉ edge function đọc bằng service role.
+   */
+  constructor(
+    db: Db,
+    private readonly service: Db,
+  ) {
+    super(db)
+  }
+
+  /**
    * Prompt đang bật của slug. `version` ép một phiên bản cụ thể, kể cả chưa bật —
    * dùng để eval so phiên bản mới với bản đang chạy trước khi đổi.
    */
   async active(slug: PromptSlug, version?: string): Promise<LoadedPrompt> {
-    let query = this.db.from('prompts').select('version, body').eq('slug', slug)
+    let query = this.service.from('prompts').select('version, body').eq('slug', slug)
     query = version ? query.eq('version', version) : query.eq('is_active', true)
     const { data } = await query.maybeSingle()
     if (data?.body) return { version: data.version, body: data.body }

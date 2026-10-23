@@ -1,6 +1,6 @@
 import type { ModelMessage } from '../../../_shared/types.ts'
 import type { ModelStep } from '../model/adapter.ts'
-import { Repository } from './base.ts'
+import { OwnedRepository } from './base.ts'
 
 export type RunStatus = 'running' | 'awaiting_input' | 'completed' | 'failed'
 
@@ -19,7 +19,7 @@ export interface RunRow {
  */
 const STALE_AFTER_MS = 5 * 60 * 1000
 
-export class RunRepository extends Repository {
+export class RunRepository extends OwnedRepository {
   async create(input: {
     conversationId: string
     userId: string
@@ -28,9 +28,7 @@ export class RunRepository extends Repository {
     question: string
     state: ModelMessage[]
   }): Promise<string> {
-    const { data, error } = await this.db
-      .from('agent_runs')
-      .insert({
+    const { data, error } = await this.insert('agent_runs', {
         conversation_id: input.conversationId,
         user_id: input.userId,
         model: input.model,
@@ -46,9 +44,7 @@ export class RunRepository extends Repository {
   }
 
   async get(runId: string): Promise<RunRow | null> {
-    const { data } = await this.db
-      .from('agent_runs')
-      .select('id, conversation_id, question, state, status, step_count')
+    const { data } = await this.select('agent_runs', 'id, conversation_id, question, state, status, step_count')
       .eq('id', runId)
       .maybeSingle()
     return (data as RunRow) ?? null
@@ -61,24 +57,18 @@ export class RunRepository extends Repository {
     status: RunStatus,
     error: string | null,
   ): Promise<void> {
-    await this.db
-      .from('agent_runs')
-      .update({ state, step_count: stepCount, status, error, updated_at: new Date().toISOString() })
+    await this.update('agent_runs', { state, step_count: stepCount, status, error, updated_at: new Date().toISOString() })
       .eq('id', runId)
   }
 
   async setStatus(runId: string, status: RunStatus): Promise<void> {
-    await this.db
-      .from('agent_runs')
-      .update({ status, updated_at: new Date().toISOString() })
+    await this.update('agent_runs', { status, updated_at: new Date().toISOString() })
       .eq('id', runId)
   }
 
   /** Đánh dấu hỏng những run mà worker đã chết giữa chừng, để chúng không treo mãi. */
   async sweepStale(): Promise<void> {
-    await this.db
-      .from('agent_runs')
-      .update({ status: 'failed', error: 'Run bị gián đoạn.', updated_at: new Date().toISOString() })
+    await this.update('agent_runs', { status: 'failed', error: 'Run bị gián đoạn.', updated_at: new Date().toISOString() })
       .eq('status', 'running')
       .lt('updated_at', new Date(Date.now() - STALE_AFTER_MS).toISOString())
   }
@@ -89,13 +79,20 @@ export class RunRepository extends Repository {
    * Không đếm được thì ném lỗi: trả 0 là mở toang giới hạn đúng lúc DB trục trặc.
    */
   async countSince(userId: string, since: string): Promise<number> {
-    const { count, error } = await this.db
-      .from('agent_runs')
-      .select('id', { count: 'exact', head: true })
+    const { count, error } = await this.select('agent_runs', 'id', { count: 'exact', head: true })
       .eq('user_id', userId)
       .gte('created_at', since)
       .not('prompt_version', 'like', 'reflect:%')
     if (error) throw new Error(`Không kiểm tra được hạn mức: ${error.message}`)
+    return count ?? 0
+  }
+
+  /** Số lượt phản tư trong khoảng thời gian, để chặn gọi `reflect` liên tục. */
+  async countReflectsSince(since: string): Promise<number> {
+    const { count, error } = await this.select('agent_runs', 'id', { count: 'exact', head: true })
+      .gte('created_at', since)
+      .like('prompt_version', 'reflect:%')
+    if (error) throw new Error(`Không kiểm tra được hạn mức phản tư: ${error.message}`)
     return count ?? 0
   }
 
@@ -109,9 +106,7 @@ export class RunRepository extends Repository {
     result: ModelStep
   }): Promise<void> {
     const { result } = input
-    await this.db
-      .from('model_calls')
-      .insert({
+    await this.insert('model_calls', {
         run_id: input.runId,
         user_id: input.userId,
         step: input.step,

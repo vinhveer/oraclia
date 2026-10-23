@@ -1,4 +1,5 @@
 import type { ModelMessage, ModelToolCall, ToolDefinition } from '../../../_shared/types.ts'
+import { AgentError } from '../errors.ts'
 import {
   ModelAdapter,
   type ModelProfile,
@@ -27,7 +28,11 @@ const OPTIONAL_PARAMS = [
 ] as const
 
 /** Stream đứt hoặc treo giữa chừng — thử lại được nếu chưa có chữ nào ra màn hình. */
-class StreamInterrupted extends Error {}
+class StreamInterrupted extends AgentError {
+  constructor(message: string) {
+    super(502, message)
+  }
+}
 
 /**
  * Bất kỳ provider nào tương thích OpenAI Chat Completions — OpenAI, OpenRouter,
@@ -205,7 +210,8 @@ export class OpenAICompatibleAdapter extends ModelAdapter {
       await new Promise((resolve) => setTimeout(resolve, 1200))
       return this.post(input, attempt + 1)
     }
-    throw new Error(explain(response.status, detail))
+    // Lời đã được viết lại cho người đọc (không chứa trang HTML hay khoá API).
+    throw new AgentError(502, explain(response.status, detail))
   }
 
   /** Bộ canh của từng response đang đọc, để mỗi khung đến là đặt lại đồng hồ. */

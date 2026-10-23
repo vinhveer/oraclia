@@ -2,6 +2,7 @@ import type { Casting, DrawnCard, ModelMessage } from '../../_shared/types.ts'
 import type { ModelAdapter } from './model/factory.ts'
 import type { ConversationRepository } from './repositories/conversations.ts'
 import type { RunRepository } from './repositories/runs.ts'
+import { publicMessage } from './errors.ts'
 import { checkToolCall } from './policy.ts'
 import type { ToolRegistry } from './tools/registry.ts'
 import type { ToolContext } from './tools/tool.ts'
@@ -173,9 +174,10 @@ export class Agent {
     } catch (exception) {
       // Lỗi giữa chừng phải khép run lại; để nguyên `running` thì nó treo tới
       // khi bị quét, còn người hỏi không biết vì sao.
-      const message = exception instanceof Error ? exception.message : 'Không thể đọc bài lúc này.'
-      await runs.save(run.runId, state, steps, 'failed', message).catch(() => undefined)
-      stream.emit({ type: 'run.error', message })
+      const detail = exception instanceof Error ? exception.message : String(exception)
+      // Chi tiết đầy đủ chỉ nằm trong bảng run (trình duyệt không đọc được).
+      await runs.save(run.runId, state, steps, 'failed', detail).catch(() => undefined)
+      stream.emit({ type: 'run.error', message: publicMessage(exception) })
       return
     }
 

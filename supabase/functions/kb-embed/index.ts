@@ -13,7 +13,7 @@ const embedder = new GteSmallEmbedder()
 
 Deno.serve(async (request) => {
   const key = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-  if (!key || request.headers.get('authorization') !== `Bearer ${key}`) {
+  if (!key || !sameSecret(request.headers.get('authorization') ?? '', `Bearer ${key}`)) {
     return json({ error: 'Chỉ service role được gọi.' }, 403)
   }
   const payload = await request.json().catch(() => ({}))
@@ -54,6 +54,15 @@ Deno.serve(async (request) => {
     .is('embedding', null)
   return json({ embedded: rows?.length ?? 0, remaining: count ?? 0 })
 })
+
+/** So sánh thời gian hằng: so `!==` để lộ qua độ trễ khoá khớp tới ký tự thứ mấy. */
+function sameSecret(given: string, expected: string): boolean {
+  const a = new TextEncoder().encode(given)
+  const b = new TextEncoder().encode(expected)
+  let diff = a.length ^ b.length
+  for (let index = 0; index < b.length; index += 1) diff |= (a[index] ?? 0) ^ b[index]
+  return diff === 0
+}
 
 function dot(a: number[], b: number[]): number {
   let sum = 0

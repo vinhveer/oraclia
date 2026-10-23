@@ -1,4 +1,4 @@
-import { Repository } from './base.ts'
+import { OwnedRepository } from './base.ts'
 
 export interface ClarificationRow {
   id: string
@@ -8,7 +8,7 @@ export interface ClarificationRow {
   status: 'pending' | 'answered' | 'skipped'
 }
 
-export class ClarificationRepository extends Repository {
+export class ClarificationRepository extends OwnedRepository {
   async create(input: {
     conversationId: string
     runId: string
@@ -18,9 +18,7 @@ export class ClarificationRepository extends Repository {
     options: string[]
     allowFreeText: boolean
   }): Promise<string> {
-    const { data, error } = await this.db
-      .from('clarifications')
-      .insert({
+    const { data, error } = await this.insert('clarifications', {
         conversation_id: input.conversationId,
         run_id: input.runId,
         user_id: input.userId,
@@ -37,9 +35,7 @@ export class ClarificationRepository extends Repository {
   }
 
   async pending(id: string, runId: string): Promise<ClarificationRow | null> {
-    const { data } = await this.db
-      .from('clarifications')
-      .select('id, question, options, allow_free_text, status')
+    const { data } = await this.select('clarifications', 'id, question, options, allow_free_text, status')
       .eq('id', id)
       .eq('run_id', runId)
       .maybeSingle()
@@ -53,9 +49,7 @@ export class ClarificationRepository extends Repository {
   async recentQuestions(conversationId: string, limit = 4): Promise<string[]> {
     // Chỉ trong cuộc này: câu hỏi của chuyện tình cảm tuần trước chẳng liên quan
     // gì tới câu hỏi công việc hôm nay, đưa vào chỉ làm nhiễu.
-    const { data } = await this.db
-      .from('clarifications')
-      .select('question')
+    const { data } = await this.select('clarifications', 'question')
       .eq('conversation_id', conversationId)
       .order('created_at', { ascending: false })
       .limit(limit)
@@ -64,17 +58,13 @@ export class ClarificationRepository extends Repository {
 
   /** Đã hỏi mấy câu trong chính lượt này. */
   async countForRun(runId: string): Promise<number> {
-    const { count } = await this.db
-      .from('clarifications')
-      .select('id', { count: 'exact', head: true })
+    const { count } = await this.select('clarifications', 'id', { count: 'exact', head: true })
       .eq('run_id', runId)
     return count ?? 0
   }
 
   async answer(id: string, answer: string, skipped: boolean): Promise<void> {
-    await this.db
-      .from('clarifications')
-      .update({ answer, status: skipped ? 'skipped' : 'answered' })
+    await this.update('clarifications', { answer, status: skipped ? 'skipped' : 'answered' })
       .eq('id', id)
   }
 }

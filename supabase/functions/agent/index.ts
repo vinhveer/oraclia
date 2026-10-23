@@ -10,7 +10,7 @@
 
 import { jsonError, preflight } from '../_shared/cors.ts'
 import { serviceClient, userClient } from '../_shared/db.ts'
-import { AgentError } from './runtime/errors.ts'
+import { AgentError, publicMessage } from './runtime/errors.ts'
 import { AgentSession } from './runtime/session.ts'
 import { StreamController } from './runtime/stream.ts'
 
@@ -81,8 +81,7 @@ Deno.serve(async (request) => {
     if (exception instanceof AgentError) {
       return jsonError(request, exception.status, exception.message)
     }
-    const message = exception instanceof Error ? exception.message : 'Không thể xử lý yêu cầu.'
-    return jsonError(request, 400, message)
+    return jsonError(request, 500, publicMessage(exception, 'Không thể xử lý yêu cầu.'))
   }
 })
 
@@ -94,8 +93,7 @@ Deno.serve(async (request) => {
 function detach(stream: StreamController, work: () => Promise<void>): void {
   const task = work()
     .catch((exception) => {
-      const message = exception instanceof Error ? exception.message : 'Không thể đọc bài lúc này.'
-      stream.emit({ type: 'run.error', message })
+      stream.emit({ type: 'run.error', message: publicMessage(exception) })
     })
     .finally(() => stream.close())
   const runtime = (globalThis as { EdgeRuntime?: { waitUntil?: (p: Promise<unknown>) => void } })

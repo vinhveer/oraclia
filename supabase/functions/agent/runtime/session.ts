@@ -39,6 +39,11 @@ import { ToolRegistry } from './tools/registry.ts'
 import { PromptBuilder as Builder } from './prompts/builder.ts'
 
 const RUNS_PER_HOUR = Number(Deno.env.get('AGENT_RUNS_PER_HOUR') ?? '60')
+/**
+ * Lượt phản tư không tính vào hạn mức câu hỏi, nhưng vẫn phải có trần riêng:
+ * không thì gọi `reflect` liên tục là một đường gọi model không giới hạn.
+ */
+const REFLECTS_PER_HOUR = Number(Deno.env.get('AGENT_REFLECTS_PER_HOUR') ?? '60')
 
 /**
  * Lượt phản tư bình thường do client hẹn sau khi người dùng ngừng gõ. Ai hỏi dồn
@@ -74,17 +79,19 @@ export class AgentSession {
     serviceDb: Db,
     private readonly userId: string,
   ) {
-    this.conversations = new ConversationRepository(db)
-    this.runs = new RunRepository(db)
-    this.readings = new ReadingRepository(db, serviceDb)
-    this.castings = new CastingRepository(db)
+    // Bảng điều khiển run: chỉ edge function ghi, bằng service role, luôn lọc
+    // theo userId (xem OwnedRepository). Phần còn lại đi qua RLS như trình duyệt.
+    this.conversations = new ConversationRepository(serviceDb, userId)
+    this.runs = new RunRepository(serviceDb, userId)
+    this.readings = new ReadingRepository(serviceDb, userId)
+    this.castings = new CastingRepository(serviceDb, userId)
+    this.toolCalls = new ToolCallRepository(serviceDb, userId)
+    this.clarifications = new ClarificationRepository(serviceDb, userId)
+    this.readingRecords = new ReadingRecordRepository(serviceDb, userId, db)
+    this.prompts = new PromptRepository(db, serviceDb)
     this.catalog = new CatalogRepository(db)
-    this.prompts = new PromptRepository(db)
-    this.toolCalls = new ToolCallRepository(db)
     this.memories = new MemoryRepository(db)
-    this.clarifications = new ClarificationRepository(db)
     this.knowledge = new KnowledgeRepository(db)
-    this.readingRecords = new ReadingRecordRepository(db)
     this.adapter = createModelAdapter('main')
     this.fastAdapter = createModelAdapter('fast')
     this.compactor = new Compactor(this.conversations, this.fastAdapter)
@@ -280,6 +287,9 @@ export class AgentSession {
 
     const marker = await this.conversations.reflectionMarker(conversationId)
     if (!marker) throw new AgentError(404, 'Không tìm thấy cuộc trò chuyện.')
+
+    const since = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+    if ((await this.runs.countReflectsSince(since)) >= REFLECTS_PER_HOUR) return null
 
     // Không có gì mới kể từ lượt phản tư trước thì thôi, khỏi tốn một lượt model.
     const newest = await this.conversations.newestMessageAt(conversationId)

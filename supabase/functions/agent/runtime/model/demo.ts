@@ -1,4 +1,5 @@
 import type { ModelMessage, ToolDefinition } from '../../../_shared/types.ts'
+import { AgentError } from '../errors.ts'
 import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
 
 /**
@@ -29,7 +30,7 @@ export class DemoAdapter extends ModelAdapter {
     const done = toolResults(messages)
     const has = (name: string) => tools.some((tool) => tool.function.name === name)
 
-    if (scenario === 'error') throw new Error('Demo: lỗi giả lập từ provider.')
+    if (scenario === 'error') throw new AgentError(502, 'Demo: lỗi giả lập từ provider.')
 
     // Lượt phản tư: chỉ có tool trí nhớ, câu hỏi nằm trong đoạn hội thoại được đưa vào.
     if (has('remember')) {
