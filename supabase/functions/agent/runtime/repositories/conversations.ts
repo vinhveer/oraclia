@@ -14,8 +14,12 @@ export interface ConversationState {
 const PENDING_LIMIT = 120
 
 export class ConversationRepository extends Repository {
-  /** Trả về id cuộc trò chuyện, tạo mới nếu chưa có hoặc id không thuộc về người gọi. */
-  async ensure(userId: string, conversationId: string | null): Promise<string> {
+  /**
+   * Trả về id cuộc trò chuyện, tạo mới nếu chưa có hoặc id không thuộc về người
+   * gọi. Cuộc mới mang sẵn tiêu đề tạm: nếu request chết trước khi kịp đặt tên,
+   * danh sách vẫn không có một dòng "Cuộc trò chuyện mới" vô nghĩa.
+   */
+  async ensure(userId: string, conversationId: string | null, title?: string): Promise<string> {
     if (conversationId) {
       const { data, error } = await this.db
         .from('conversations')
@@ -27,7 +31,7 @@ export class ConversationRepository extends Repository {
     }
     const { data, error } = await this.db
       .from('conversations')
-      .insert({ user_id: userId })
+      .insert({ user_id: userId, ...(title ? { title } : {}) })
       .select('id')
       .single()
     if (error) throw new Error(`Không tạo được cuộc trò chuyện: ${error.message}`)

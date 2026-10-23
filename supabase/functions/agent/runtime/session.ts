@@ -113,6 +113,7 @@ export class AgentSession {
     const conversationId = await this.conversations.ensure(
       this.userId,
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
+      provisionalTitle(question),
     )
 
     const [state, prompt, settings, memories, asked, past] = await Promise.all([

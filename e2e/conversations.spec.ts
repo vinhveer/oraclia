@@ -72,7 +72,7 @@ test('cuộc trò chuyện mới không tạo hàng rỗng', async ({ page }) =>
   await page.goto('chat')
   // Mobile: nút ở header; desktop: nút đầu sidebar.
   const scope = isMobile(page) ? page.getByRole('banner') : page.getByRole('navigation', { name: 'Cuộc trò chuyện' })
-  await scope.getByRole('button', { name: 'Cuộc trò chuyện mới' }).click()
+  await scope.getByRole('button', { name: 'Cuộc trò chuyện mới', exact: true }).click()
   await expect(page).toHaveURL(/\/chat$/)
   await expect(page.getByRole('heading', { name: 'Bạn đang nghĩ gì?' })).toBeVisible()
 })
