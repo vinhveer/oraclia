@@ -1,0 +1,40 @@
+[
+  {
+    "id": "line:16:2",
+    "kind": "hexagram_line",
+    "ref": {
+      "hexagram": 16,
+      "line": 2
+    },
+    "title": "Quẻ 16 Dự — hào 2",
+    "keywords": [
+      "vững như đá",
+      "nhận ra sớm",
+      "giữ mình",
+      "không theo đám đông"
+    ],
+    "body_vi": "**Nguyên văn.** 六二：介于石，不終日，貞吉。\n\n**Dịch nghĩa (nháp).** Vững như đá; không đợi hết ngày đã nhận ra; giữ chính thì tốt.\n\n**Diễn giải.** Giữa lúc mọi người đang hào hứng, hào này đứng vững, không bị cuốn theo. Nhận ra sớm điều không ổn và rút ra ngay trong ngày, không chần chừ. Đây là hào tốt nhất của quẻ Dự: vui mà tỉnh.\n\n**Khi hào này động.** Đừng theo đám đông chỉ vì không khí đang sôi; nghe trực giác, thấy sai thì dừng ngay, càng sớm càng ít mất.",
+    "gist_en": "Hexagram 16 line 2: firm as a rock amid general excitement; recognizes trouble before the day ends and withdraws promptly; steadfastness brings good fortune. Do not be swept along by the crowd; trust early warning signs.",
+    "source": "Nháp Claude Opus 5.5 — dịch nghĩa cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "line:16:4",
+    "kind": "hexagram_line",
+    "ref": {
+      "hexagram": 16,
+      "line": 4
+    },
+    "title": "Quẻ 16 Dự — hào 4",
+    "keywords": [
+      "nguồn của niềm vui",
+      "được lớn",
+      "chớ ngờ",
+      "bạn bè tụ lại"
+    ],
+    "body_vi": "**Nguyên văn.** 九四：由豫，大有得。勿疑。朋盍簪。\n\n**Dịch nghĩa (nháp).** Niềm vui do mình mà có, được nhiều. Chớ ngờ vực; bạn bè tụ về như tóc gom vào trâm.\n\n**Diễn giải.** Hào dương duy nhất của quẻ — người tạo ra đà cho cả nhóm. Mình là trung tâm, mọi người tụ lại nhờ mình. Điều kiện là thành thật và không nghi kỵ: nghi người thì người tản.\n\n**Khi hào này động.** Mạnh dạn đứng ra dẫn dắt; tin người cùng làm; thành quả lớn đang trong tầm tay nếu không tự làm hỏng bằng ngờ vực.",
+    "gist_en": "Hexagram 16 line 4: the source of enthusiasm, the one strong line; great gains; do not doubt; friends gather around like hair held by a clasp. Lead with sincerity and trust; suspicion would scatter supporters.",
+    "source": "Nháp Claude Opus 5.5 — dịch nghĩa cần duyệt",
+    "review_status": "draft"
+  }
+]

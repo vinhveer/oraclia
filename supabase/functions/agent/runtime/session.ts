@@ -10,6 +10,7 @@ import { memo } from './lazy.ts'
 import { createModelAdapter, type ModelAdapter } from './model/factory.ts'
 import { PromptBuilder } from './prompts/builder.ts'
 import { CatalogRepository } from './repositories/catalog.ts'
+import { KnowledgeRepository } from './repositories/knowledge.ts'
 import { MemoryRepository } from './repositories/memories.ts'
 import { ClarificationRepository } from './repositories/clarifications.ts'
 import { ConversationRepository } from './repositories/conversations.ts'
@@ -28,6 +29,7 @@ import { RememberTool } from './tools/remember.ts'
 import { DrawCardsTool } from './tools/draw-cards.ts'
 import { DrawPlayingCardsTool } from './tools/draw-playing-cards.ts'
 import { LookupCardsTool } from './tools/lookup-cards.ts'
+import { SearchKnowledgeTool } from './tools/search-knowledge.ts'
 import { ToolRegistry } from './tools/registry.ts'
 import { PromptBuilder as Builder } from './prompts/builder.ts'
 
@@ -54,6 +56,7 @@ export class AgentSession {
   readonly toolCalls: ToolCallRepository
   readonly memories: MemoryRepository
   readonly clarifications: ClarificationRepository
+  readonly knowledge: KnowledgeRepository
   readonly adapter: ModelAdapter
   /** Model cho việc nền (tiêu đề, phản tư); không ai ngồi chờ nó. */
   readonly fastAdapter: ModelAdapter
@@ -73,6 +76,7 @@ export class AgentSession {
     this.toolCalls = new ToolCallRepository(db)
     this.memories = new MemoryRepository(db)
     this.clarifications = new ClarificationRepository(db)
+    this.knowledge = new KnowledgeRepository(db)
     this.adapter = createModelAdapter('main')
     this.fastAdapter = createModelAdapter('fast')
     this.compactor = new Compactor(this.conversations, this.fastAdapter)
@@ -224,7 +228,11 @@ export class AgentSession {
     state.push({
       role: 'tool',
       tool_call_id: pendingCall.id,
-      content: PromptBuilder.drawResult(run.question, revealed),
+      content: PromptBuilder.drawResult(
+        run.question,
+        revealed,
+        await this.knowledge.forCards(revealed),
+      ),
     })
     await this.runs.setStatus(run.id, 'running')
 
@@ -329,6 +337,7 @@ export class AgentSession {
             memories: this.memories,
             clarifications: this.clarifications,
             conversations: this.conversations,
+            knowledge: this.knowledge,
             emit: (event: AgentEvent) => stream.emit(event),
           },
         },
@@ -441,6 +450,7 @@ export class AgentSession {
         new DrawCardsTool(),
         new DrawPlayingCardsTool(),
         new LookupCardsTool(),
+        new SearchKnowledgeTool(),
         new CastIChingTool(),
       ],
       this.toolCalls,
@@ -478,6 +488,7 @@ export class AgentSession {
         memories: this.memories,
         clarifications: this.clarifications,
         conversations: this.conversations,
+        knowledge: this.knowledge,
         emit: (event) => input.stream.emit(event),
       },
     }

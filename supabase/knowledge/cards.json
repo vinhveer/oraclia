@@ -1,0 +1,68 @@
+[
+  {
+    "id": "card:swords-03:upright",
+    "kind": "card",
+    "ref": { "card_id": "swords-03", "orientation": "upright" },
+    "title": "Ba Kiếm — xuôi",
+    "keywords": ["tổn thương", "lời nói đau", "chia ly", "sự thật khó nghe", "đau buồn"],
+    "body_vi": "**Cốt lõi.** Một nỗi đau rõ ràng, có nguyên nhân cụ thể — thường là một câu nói, một sự thật vừa lộ ra, hoặc một cuộc chia tách. Lá này không nói nỗi đau sẽ kéo dài mãi; nó nói nỗi đau là thật và cần được gọi đúng tên.\n\n**Hình ảnh.** Ba thanh kiếm đâm xuyên một trái tim đỏ giữa trời mưa xám. Không có người: nỗi đau ở đây là chuyện bên trong, chưa chắc người ngoài thấy.\n\n**Tình cảm.** Bị phản bội, nghe lời chia tay, phát hiện điều người kia giấu; hoặc một cuộc cãi vã để lại vết. Có khi là mối quan hệ tay ba.\n**Công việc.** Bị phê bình nặng lời, mất một dự án mình đã dồn tâm sức, đồng nghiệp nói sau lưng.\n**Gia đình.** Một câu nói của người thân làm mình nhớ mãi.\n**Bản thân.** Tự trách, nhai đi nhai lại một ký ức đau.\n\n**Theo vị trí.** Ở nguồn cơn: chuyện hiện tại bắt rễ từ một vết thương chưa nói ra. Ở trở ngại: chính nỗi đau cũ đang làm mình phản ứng quá mức. Ở lời khuyên: nói thẳng điều làm mình đau, đừng nuốt vào. Ở kết quả: sẽ có một sự thật khó nghe, nhưng nó giải phóng.\n\n**Hay đi cùng.** Cạnh Mười Kiếm: chuyện đã chạm đáy, chỉ còn đường đi lên. Cạnh Sáu Cốc: vết thương đến từ quá khứ, từ người quen cũ. Cạnh Bốn Kiếm: cần thời gian nghỉ để lành, đừng quyết gì lúc này.\n\n**Lời khuyên.** Gọi tên nỗi đau, cho mình được buồn, rồi tách sự kiện ra khỏi câu chuyện mình tự kể thêm về nó.",
+    "gist_en": "Three of Swords upright: clear, specific heartbreak or grief caused by hurtful words, a revealed truth, betrayal or separation. Painful but honest; the wound must be named and felt, not ignored. In love: breakup, infidelity, triangle. At work: harsh criticism, loss. Advice: speak the hurt, allow grief.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "card:swords-03:reversed",
+    "kind": "card",
+    "ref": { "card_id": "swords-03", "orientation": "reversed" },
+    "title": "Ba Kiếm — ngược",
+    "keywords": ["đang lành", "nỗi đau dồn nén", "tha thứ", "chưa buông"],
+    "body_vi": "**Cốt lõi.** Hai hướng, phải nhìn các lá xung quanh để chọn: hoặc vết thương đang lành dần, hoặc nỗi đau bị dồn xuống, không nói ra nên âm ỉ lâu hơn.\n\n**Tình cảm.** Đã qua cú sốc, bắt đầu nói chuyện lại được; hoặc vẫn cười nói bình thường nhưng trong lòng còn ấm ức chưa xả.\n**Công việc.** Đã nhận lời phê bình và đang sửa; hoặc nuốt cục tức với sếp/đồng nghiệp, chờ ngày bùng.\n**Bản thân.** Bắt đầu tha thứ cho mình — hoặc đang cố tỏ ra ổn.\n\n**Theo vị trí.** Ở nguồn cơn: chuyện cũ tưởng đã qua nhưng chưa xong. Ở trở ngại: không chịu thừa nhận mình còn đau. Ở lời khuyên: cho phép mình buông, không cần ai xin lỗi trước. Ở kết quả: lành dần, chậm hơn mình mong.\n\n**Phân biệt hai hướng.** Lá xung quanh nhẹ, có Ngôi Sao, Bốn Kiếm, Sáu Kiếm → đang lành. Lá xung quanh căng, có Năm Kiếm, Bảy Kiếm, Mặt Trăng → đang dồn nén, có điều chưa nói.\n\n**Lời khuyên.** Hỏi thẳng mình: còn đau thật hay chỉ còn thói quen nhắc lại? Nếu còn, nói ra với một người an toàn.",
+    "gist_en": "Three of Swords reversed: either healing and recovering from heartbreak, beginning to forgive, or suppressed pain that festers because it is not spoken. Read surrounding cards to decide. Pretending to be fine, swallowed resentment, or slow recovery. Advice: admit what still hurts, let go.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "card:major-16:upright",
+    "kind": "card",
+    "ref": { "card_id": "major-16", "orientation": "upright" },
+    "title": "Tòa Tháp — xuôi",
+    "keywords": ["sụp đổ đột ngột", "sự thật lộ ra", "biến cố", "phá để xây lại", "thức tỉnh"],
+    "body_vi": "**Cốt lõi.** Một thứ dựng trên nền sai lệch sụp xuống, nhanh và không hỏi ý ai. Đau ở lúc đổ, nhưng thứ đổ đi vốn không đứng vững được lâu. Đây là lá Ẩn Chính mạnh nhất về biến cố: khi nó ra, chuyện đã vượt khỏi mức \"điều chỉnh nhẹ\".\n\n**Hình ảnh.** Sét đánh vào đỉnh tháp, vương miện bật ra, hai người rơi xuống. Vương miện là cái tôi, danh tiếng, niềm tin cũ — thứ bị đánh bật đầu tiên.\n\n**Tình cảm.** Phát hiện điều động trời, chia tay đột ngột, một trận cãi lớn làm lộ hết những gì giấu bấy lâu.\n**Công việc.** Mất việc bất ngờ, công ty tái cơ cấu, dự án đổ vỡ; hoặc chính mình bỏ ngang một con đường đã đi sai.\n**Tiền bạc.** Khoản lỗ lớn, đầu tư sụp. Không phải lúc liều.\n**Bản thân.** Một nhận thức làm sụp cả hệ niềm tin cũ về mình.\n\n**Theo vị trí.** Ở nguồn cơn: mọi chuyện bắt đầu từ một cú sốc. Ở hiện tại: biến cố đang diễn ra hoặc sắp tới rất gần. Ở trở ngại: cố níu thứ đã mục. Ở lời khuyên: chủ động tháo dỡ trước khi bị đánh đổ. Ở kết quả: thay đổi lớn, không quay về như cũ được.\n\n**Hay đi cùng.** Cạnh Ngôi Sao: sau sụp đổ là hồi phục rõ. Cạnh Mười Kiếm: kết thúc dứt khoát. Cạnh Bánh Xe Số Phận: biến cố đến từ hoàn cảnh, không phải do mình.\n\n**Lời khuyên.** Đừng tốn sức chống thứ không chống nổi; bảo vệ phần cốt lõi, để phần mục đổ đi.",
+    "gist_en": "The Tower upright: sudden collapse of something built on false foundations; shocking revelation, upheaval, unexpected loss of job, relationship or belief. Painful but clears what could not last. Strongest Major Arcana card of disruption. Advice: stop clinging, protect the core, let the rotten structure fall.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "card:major-16:reversed",
+    "kind": "card",
+    "ref": { "card_id": "major-16", "orientation": "reversed" },
+    "title": "Tòa Tháp — ngược",
+    "keywords": ["né biến cố", "sợ thay đổi", "sụp đổ từ bên trong", "trì hoãn điều tất yếu"],
+    "body_vi": "**Cốt lõi.** Biến cố vẫn có đó nhưng bị né, bị hoãn, hoặc diễn ra âm thầm bên trong thay vì nổ ra ngoài. Thường là dấu hiệu người hỏi biết nền móng đã nứt mà vẫn cố giữ.\n\n**Tình cảm.** Biết mối quan hệ có vấn đề lớn nhưng chưa ai dám nói; cố giữ vì sợ cảnh đổ vỡ.\n**Công việc.** Né một cuộc tái cơ cấu, giữ một việc không còn hợp vì ngại bắt đầu lại; hoặc vừa thoát được một khủng hoảng trong gang tấc.\n**Bản thân.** Thay đổi đang diễn ra bên trong, lặng lẽ, chưa ai thấy.\n\n**Theo vị trí.** Ở trở ngại: chính nỗi sợ thay đổi là vấn đề lớn nhất. Ở lời khuyên: tự tay tháo dần trước khi bị tháo cùng lúc. Ở kết quả: tránh được cú sốc lớn, nhưng vấn đề gốc chưa đi đâu.\n\n**Lời khuyên.** Hỏi mình đang trì hoãn điều gì. Điều tất yếu hoãn càng lâu thì lúc đến càng mạnh.",
+    "gist_en": "The Tower reversed: avoiding or delaying an inevitable upheaval, fear of change, clinging to a cracked foundation; or a crisis narrowly averted, transformation happening quietly inside. Problems postponed grow stronger. Advice: dismantle gradually by choice before everything collapses at once.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "card:pentacles-08:upright",
+    "kind": "card",
+    "ref": { "card_id": "pentacles-08", "orientation": "upright" },
+    "title": "Tám Tiền — xuôi",
+    "keywords": ["rèn nghề", "chăm chỉ", "tỉ mỉ", "học việc", "tiến bộ đều"],
+    "body_vi": "**Cốt lõi.** Làm đi làm lại một việc với chủ đích, mỗi lần tốt hơn một chút. Không hào nhoáng, không thắng lớn ngay; đây là lá của tay nghề được tích từng ngày.\n\n**Hình ảnh.** Người thợ cúi đầu khắc đồng tiền, sáu đồng đã treo lên, một đồng còn dưới chân. Thành phố ở xa: anh ta chọn ở lại xưởng.\n\n**Công việc.** Giai đoạn học hỏi, nâng kỹ năng, nhận việc khó để lên tay; hợp với học thêm, chuyển nghề có đào tạo, làm dự án cần tỉ mỉ.\n**Tiền bạc.** Thu nhập đến từ công sức đều đặn, không từ may rủi.\n**Tình cảm.** Vun đắp kiên nhẫn; hoặc một người quá mải việc mà ít thời gian cho nhau.\n**Bản thân.** Kỷ luật tốt, nhưng dễ cầu toàn.\n\n**Theo vị trí.** Ở hiện tại: đang đi đúng đường, chỉ cần bền. Ở trở ngại: cắm mặt làm mà quên nhìn lên xem có đúng hướng. Ở lời khuyên: chọn một kỹ năng và luyện có chủ đích. Ở kết quả: tay nghề được công nhận, chậm mà chắc.\n\n**Hay đi cùng.** Cạnh Ba Tiền: được người có nghề ghi nhận. Cạnh Mười Tiền: nền tảng tài chính dài hạn. Cạnh Năm Gậy: phải cạnh tranh bằng chất lượng.\n\n**Lời khuyên.** Đo tiến bộ theo tuần, không theo ngày; làm cho tốt, đừng chỉ làm cho xong.",
+    "gist_en": "Eight of Pentacles upright: diligent, deliberate practice; apprenticeship, skill-building, mastery through repetition, steady progress and earned income. Good for studying, retraining, detailed projects. Risk: perfectionism, workaholism. Advice: practise with intent, measure progress over weeks.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  },
+  {
+    "id": "card:pentacles-08:reversed",
+    "kind": "card",
+    "ref": { "card_id": "pentacles-08", "orientation": "reversed" },
+    "title": "Tám Tiền — ngược",
+    "keywords": ["làm cho xong", "chán việc", "cầu toàn", "mất động lực", "đi đường tắt"],
+    "body_vi": "**Cốt lõi.** Nhịp rèn luyện bị lệch: hoặc làm qua loa cho xong, hoặc cầu toàn tới mức không xong được việc gì. Cũng có thể là chán công việc lặp lại không còn dạy mình điều gì mới.\n\n**Công việc.** Làm việc không có hướng phát triển; ôm việc vặt; chất lượng giảm vì vội; muốn đi đường tắt.\n**Tiền bạc.** Thu nhập đứng yên vì không nâng được giá trị bản thân.\n**Tình cảm.** Mối quan hệ thành thói quen, không ai đầu tư thêm.\n\n**Theo vị trí.** Ở trở ngại: đang nỗ lực sai chỗ. Ở lời khuyên: dừng lại hỏi việc mình làm có còn đưa mình tới đâu không. Ở kết quả: nếu không đổi cách làm, kết quả sẽ ở mức tạm được.\n\n**Lời khuyên.** Chọn lại một mục tiêu kỹ năng cụ thể; bỏ bớt việc vặt để có chỗ cho việc làm mình giỏi lên.",
+    "gist_en": "Eight of Pentacles reversed: cutting corners, rushing to finish, low quality; or perfectionism that blocks completion; boredom with repetitive work that no longer teaches anything; stagnant income and skills. Advice: refocus effort on one concrete skill, drop busywork.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  }
+]

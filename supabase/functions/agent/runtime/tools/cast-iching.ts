@@ -1,4 +1,5 @@
 import type { Casting, HexagramLine, ToolDefinition } from '../../../_shared/types.ts'
+import type { KnowledgeEntry } from '../repositories/knowledge.ts'
 import { Tool, type ToolContext, type ToolOutcome } from './tool.ts'
 
 export class CastIChingTool extends Tool {
@@ -26,10 +27,10 @@ export class CastIChingTool extends Tool {
   async run(args: Record<string, unknown>, context: ToolContext): Promise<ToolOutcome> {
     const asked = String(args.question ?? '').split(/\s+/).join(' ').slice(0, 300)
     const casting = (await context.caster()).cast(asked || context.question)
-    const movingLineTexts = await context.catalog.hexagramLines(
-      casting.primary.number,
-      casting.movingLines,
-    )
+    const [movingLineTexts, knowledge] = await Promise.all([
+      context.catalog.hexagramLines(casting.primary.number, casting.movingLines),
+      context.knowledge.forCasting(casting),
+    ])
 
     await context.castings.create({
       conversationId: context.conversationId,
@@ -43,7 +44,7 @@ export class CastIChingTool extends Tool {
     return {
       kind: 'result',
       summary: this.summarise(casting),
-      content: this.describe(casting, movingLineTexts),
+      content: this.describe(casting, movingLineTexts, knowledge),
     }
   }
 
@@ -55,7 +56,15 @@ export class CastIChingTool extends Tool {
   }
 
   /** Những gì model đọc được sau khi gieo. */
-  private describe(casting: Casting, movingLineTexts: HexagramLine[]): string {
+  private describe(
+    casting: Casting,
+    movingLineTexts: HexagramLine[],
+    knowledge: Map<string, KnowledgeEntry>,
+  ): string {
+    const deep = (id: string, label: string) => {
+      const entry = knowledge.get(id)
+      return entry ? `\n${label}:\n${entry.body_vi}\n` : ''
+    }
     const lineText = casting.tosses
       .map((toss, index) => {
         const label =
@@ -71,9 +80,12 @@ export class CastIChingTool extends Tool {
     const moving = movingLineTexts.length
       ? `Dữ liệu hào động:\n${movingLineTexts
           .map((line) => {
-            const reference = line.translation_vi && line.review_status === 'reviewed'
-              ? `Bản Việt đã duyệt: ${line.translation_vi}`
-              : `Nguyên văn Hán cổ: ${line.source_text}\n  Trạng thái: chưa có bản Việt được duyệt`
+            const entry = knowledge.get(`line:${line.hexagram_number}:${line.line_number}`)
+            const reference = entry
+              ? `Nguyên văn: ${line.source_text}\n${entry.body_vi}`
+              : line.translation_vi && line.review_status === 'reviewed'
+                ? `Bản Việt đã duyệt: ${line.translation_vi}`
+                : `Nguyên văn Hán cổ: ${line.source_text}\n  Trạng thái: chưa có bản Việt được duyệt`
             return `- Hào ${line.line_number}: ${reference}`
           })
           .join('\n')}`
@@ -85,12 +97,14 @@ Quẻ chính: ${casting.primary.number}. ${casting.primary.full_name} (${casting
 Từ khóa: ${casting.primary.keywords.join(', ')}
 Ý nghĩa tham khảo: ${casting.primary.meaning}
 Lời khuyên tham khảo: ${casting.primary.advice}
-
+${deep(`hexagram:${casting.primary.number}`, 'Tri thức về quẻ chính')}
 Kết quả sáu lần gieo, từ dưới lên:
 ${lineText}
 Hào động: ${casting.movingLines.length ? casting.movingLines.join(', ') : 'không có'}
 ${moving}
 ${changed}
+${casting.changed ? deep(`hexagram:${casting.changed.number}`, 'Tri thức về quẻ biến') : ''}
+Phần "Tri thức" là nền để hiểu quẻ cho sâu; chọn ý hợp với câu hỏi, viết bằng lời của mình.
 
 Viết 220-350 từ, dùng đúng ba tiêu đề Markdown: "### Thế quẻ" chốt tình hình hiện tại;
 "### Điểm chuyển" gộp các hào động và hướng sang quẻ biến trong một đoạn ngắn; "### Nên làm"

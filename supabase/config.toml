@@ -46,3 +46,7 @@ policy = "oneshot"
 # The browser sends a Supabase JWT and the runtime verifies it itself, so the
 # platform-level check stays on.
 verify_jwt = true
+
+[functions.kb-embed]
+# Chỉ service role gọi; hàm tự so khoá, nền tảng không cần kiểm JWT người dùng.
+verify_jwt = false

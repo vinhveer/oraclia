@@ -1,4 +1,5 @@
 import type { ChatTurn, DrawnCard, ModelMessage } from '../../../_shared/types.ts'
+import type { KnowledgeEntry } from '../repositories/knowledge.ts'
 import type { UserSettings } from '../repositories/prompts.ts'
 import { spreadSignals } from '../tarot/spread.ts'
 
@@ -49,17 +50,37 @@ export class PromptBuilder {
   }
 
   /** Những gì model thấy sau khi người hỏi đã tự tay chọn bài. */
-  static drawResult(question: string, cards: DrawnCard[]): string {
+  static drawResult(
+    question: string,
+    cards: DrawnCard[],
+    knowledge: Map<string, KnowledgeEntry> = new Map(),
+  ): string {
     const playing = cards.every((card) => card.deck === 'playing')
     const lines = cards
-      .map(
-        (card, index) =>
+      .map((card, index) => {
+        const entry = knowledge.get(
+          card.deck === 'playing' ? `playing:${card.id}` : `card:${card.id}:${card.orientation}`,
+        )
+        return (
           `- ${card.position}: ${card.name_vi} (${card.name})` +
           `${playing ? '' : `, ${card.orientation}`}\n` +
           `  Từ khóa: ${card.keywords.join(', ')}\n  Nghĩa tham khảo: ${card.meaning}\n` +
-          `  Chèn bằng: [[card:${index + 1}]]`,
-      )
+          `  Chèn bằng: [[card:${index + 1}]]` +
+          (entry ? `\n  Tri thức về lá này:\n${indent(entry.body_vi, 4)}` : '')
+        )
+      })
       .join('\n')
+    const suits = [...knowledge.values()].filter((entry) => entry.kind === 'suit')
+    const suitBlock = suits.length
+      ? `\nHồ sơ chất xuất hiện nhiều trong trải bài:\n${suits
+          .map((entry) => `- ${entry.title}:\n${indent(entry.body_vi, 4)}`)
+          .join('\n')}\n`
+      : ''
+    const knowledgeNote = knowledge.size
+      ? `\nPhần "Tri thức" là nền để hiểu lá cho sâu, không phải văn để chép. Chọn đúng ý hợp với
+vị trí và câu hỏi, bỏ phần không liên quan, viết lại bằng lời của mình.
+`
+      : ''
     const range = PromptBuilder.readingLength(cards.length, playing)
     const kind = playing ? 'bài tây' : 'tarot'
     const cardDetail = playing
@@ -82,7 +103,7 @@ Tín hiệu nào không giúp trả lời câu hỏi thì bỏ qua, đừng cố
     return `Người hỏi đã tự chọn ${cards.length} lá ${kind} cho câu hỏi: ${question}
 
 ${lines}
-${structure}
+${suitBlock}${knowledgeNote}${structure}
 Trình bày bằng đúng ba tiêu đề Markdown sau:
 
 1. "### Bức tranh chung" — phần này TUYỆT ĐỐI không chứa mã [[card:N]] nào; mọi
@@ -149,4 +170,12 @@ móc như "Đầu tiên, bạn rút được...". Độ dài toàn bài khoảng
       },
     ]
   }
+}
+
+function indent(text: string, spaces: number): string {
+  const pad = ' '.repeat(spaces)
+  return text
+    .split('\n')
+    .map((line) => (line ? pad + line : line))
+    .join('\n')
 }

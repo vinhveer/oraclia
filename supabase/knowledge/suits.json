@@ -1,0 +1,13 @@
+[
+  {
+    "id": "suit:swords",
+    "kind": "suit",
+    "ref": { "suit": "swords" },
+    "title": "Chất Kiếm",
+    "keywords": ["lý trí", "lời nói", "xung đột", "sự thật", "lo âu", "nguyên tố Khí"],
+    "body_vi": "**Nguyên tố Khí — đầu óc và lời nói.** Kiếm nói về suy nghĩ, quyết định, giao tiếp, và những va chạm sinh ra từ đó. Lưỡi kiếm hai mặt: cắt được sự rối rắm, cũng cắt được người.\n\n**Khi trải bài nhiều Kiếm.** Vấn đề đang nằm trong đầu nhiều hơn ngoài đời: lo nghĩ, tranh cãi, căng thẳng, quyết định khó. Người hỏi có thể đang nghĩ quá nhiều, hoặc đang ở giữa một cuộc đấu khẩu.\n\n**Thang số.** Át: một ý tưởng hay sự thật sắc bén. 2-4: phân vân, đau, cần nghỉ. 5-7: xung đột, rút lui, mưu mẹo. 8-10: tự giam mình trong suy nghĩ, lo âu, chạm đáy.\n\n**Lá hoàng gia.** Người lý trí, nói thẳng, có khi lạnh; giỏi phân tích, khó gần.\n\n**Lời khuyên chung.** Tách sự kiện khỏi câu chuyện mình tự kể; nói rõ ràng nhưng chọn lời.",
+    "gist_en": "Suit of Swords (Air): thoughts, decisions, words, communication, conflict and truth. Many Swords in a spread means the issue lives in the mind: overthinking, anxiety, arguments, hard choices. Numbers move from clarity through conflict to mental entrapment.",
+    "source": "Nháp Claude Opus 5.5 — cần duyệt",
+    "review_status": "draft"
+  }
+]
