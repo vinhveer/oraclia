@@ -9,6 +9,7 @@ import type { MemoryRepository } from '../repositories/memories.ts'
 import type { ClarificationRepository } from '../repositories/clarifications.ts'
 import type { ConversationRepository } from '../repositories/conversations.ts'
 import type { KnowledgeRepository } from '../repositories/knowledge.ts'
+import type { ReadingRecordRepository } from '../repositories/reading-records.ts'
 
 /**
  * Tool hoặc trả về kết quả để vòng lặp đưa thẳng lại cho model, hoặc **ngắt**:
@@ -36,6 +37,7 @@ export interface ToolContext {
   clarifications: ClarificationRepository
   conversations: ConversationRepository
   knowledge: KnowledgeRepository
+  readingRecords: ReadingRecordRepository
   emit: (event: AgentEvent) => void
   /** Quẻ vừa gieo trong run này, để gắn vào tin nhắn khi lưu. */
   onCasting: (casting: Casting) => void

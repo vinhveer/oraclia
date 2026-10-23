@@ -11,7 +11,9 @@ import { createModelAdapter, type ModelAdapter } from './model/factory.ts'
 import { PromptBuilder } from './prompts/builder.ts'
 import { CatalogRepository } from './repositories/catalog.ts'
 import { KnowledgeRepository } from './repositories/knowledge.ts'
-import { MemoryRepository } from './repositories/memories.ts'
+import { MemoryRepository, type MemoryRow } from './repositories/memories.ts'
+import { ReadingRecordRepository } from './repositories/reading-records.ts'
+import { ReadingRecorder } from './recorder.ts'
 import { ClarificationRepository } from './repositories/clarifications.ts'
 import { ConversationRepository } from './repositories/conversations.ts'
 import { PromptRepository } from './repositories/prompts.ts'
@@ -25,7 +27,10 @@ import { PlayingDeck } from './tarot/playing-deck.ts'
 import { AskUserTool } from './tools/ask-user.ts'
 import { CastIChingTool } from './tools/cast-iching.ts'
 import { CompactHistoryTool } from './tools/compact-history.ts'
+import { ForgetTool } from './tools/forget.ts'
+import { RecallReadingsTool } from './tools/recall-readings.ts'
 import { RememberTool } from './tools/remember.ts'
+import { UpdateMemoryTool } from './tools/update-memory.ts'
 import { DrawCardsTool } from './tools/draw-cards.ts'
 import { DrawPlayingCardsTool } from './tools/draw-playing-cards.ts'
 import { LookupCardsTool } from './tools/lookup-cards.ts'
@@ -57,10 +62,12 @@ export class AgentSession {
   readonly memories: MemoryRepository
   readonly clarifications: ClarificationRepository
   readonly knowledge: KnowledgeRepository
+  readonly readingRecords: ReadingRecordRepository
   readonly adapter: ModelAdapter
   /** Model cho việc nền (tiêu đề, phản tư); không ai ngồi chờ nó. */
   readonly fastAdapter: ModelAdapter
   readonly compactor: Compactor
+  readonly recorder: ReadingRecorder
 
   constructor(
     private readonly db: Db,
@@ -77,9 +84,11 @@ export class AgentSession {
     this.memories = new MemoryRepository(db)
     this.clarifications = new ClarificationRepository(db)
     this.knowledge = new KnowledgeRepository(db)
+    this.readingRecords = new ReadingRecordRepository(db)
     this.adapter = createModelAdapter('main')
     this.fastAdapter = createModelAdapter('fast')
     this.compactor = new Compactor(this.conversations, this.fastAdapter)
+    this.recorder = new ReadingRecorder(this.readingRecords, this.fastAdapter)
   }
 
   async enforceRateLimit(): Promise<void> {
@@ -106,12 +115,13 @@ export class AgentSession {
       typeof payload.conversation_id === 'string' ? payload.conversation_id : null,
     )
 
-    const [state, prompt, settings, memories, asked] = await Promise.all([
+    const [state, prompt, settings, memories, asked, past] = await Promise.all([
       this.conversations.state(conversationId),
       this.prompts.active('reader', Deno.env.get('READER_PROMPT_VERSION') || undefined),
       this.prompts.userSettings(),
-      this.memories.list(40),
+      this.memories.recall(question),
       this.clarifications.recentQuestions(conversationId, 4),
+      this.readingRecords.recentElsewhere(conversationId, 3),
     ])
     const history = buildHistory(state.pending)
 
@@ -150,6 +160,11 @@ export class AgentSession {
       settings,
       memories.map((row) => row.content),
       asked,
+      past.map(
+        (row) =>
+          `${row.created_at.slice(0, 10)} — "${row.question}" — ${row.record}` +
+          (row.synthesis ? ` — ${row.synthesis}` : ''),
+      ),
     )
     const messages = builder.runMessages(state.summary, history.turns, question)
     const runId = await this.runs.create({
@@ -281,7 +296,7 @@ export class AgentSession {
     const messages = Builder.reflectMessages(
       prompt.body,
       marker.context_summary ?? '',
-      memories.map((row) => row.content),
+      memories.map(memoryLine),
       turns,
       pending.length,
     )
@@ -296,7 +311,7 @@ export class AgentSession {
     })
 
     const registry = new ToolRegistry(
-      [new RememberTool(), new CompactHistoryTool()],
+      [new RememberTool(), new UpdateMemoryTool(), new ForgetTool(), new CompactHistoryTool()],
       this.toolCalls,
     )
     const agent = new Agent({
@@ -338,6 +353,7 @@ export class AgentSession {
             clarifications: this.clarifications,
             conversations: this.conversations,
             knowledge: this.knowledge,
+            readingRecords: this.readingRecords,
             emit: (event: AgentEvent) => stream.emit(event),
           },
         },
@@ -451,6 +467,7 @@ export class AgentSession {
         new DrawPlayingCardsTool(),
         new LookupCardsTool(),
         new SearchKnowledgeTool(),
+        new RecallReadingsTool(),
         new CastIChingTool(),
       ],
       this.toolCalls,
@@ -470,6 +487,21 @@ export class AgentSession {
       userId: this.userId,
       cards: input.revealed ?? null,
       stepsTaken: input.stepsTaken ?? 0,
+      onCompleted: (completed) => {
+        if (!completed.cards?.length && !completed.casting) return
+        this.inBackground(() =>
+          this.recorder.record({
+            userId: this.userId,
+            conversationId: input.conversationId,
+            runId: input.runId,
+            messageId: completed.messageId,
+            question: input.question,
+            cards: completed.cards,
+            casting: completed.casting,
+            answer: completed.content,
+          }),
+        )
+      },
       toolContext: {
         callId: '',
         userId: this.userId,
@@ -489,10 +521,16 @@ export class AgentSession {
         clarifications: this.clarifications,
         conversations: this.conversations,
         knowledge: this.knowledge,
+        readingRecords: this.readingRecords,
         emit: (event) => input.stream.emit(event),
       },
     }
 
     return { agent, run }
   }
+}
+
+/** Dòng điều nhớ cho lượt phản tư: id rút gọn để update_memory / forget trỏ tới được. */
+function memoryLine(row: MemoryRow): string {
+  return `[${row.id.slice(0, 8)}] (${row.kind}, quan trọng ${row.importance}) ${row.content}`
 }

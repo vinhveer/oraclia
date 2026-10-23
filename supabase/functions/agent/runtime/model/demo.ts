@@ -12,6 +12,7 @@ import { ModelAdapter, type ModelStep, type StepHandlers } from './adapter.ts'
  *   [e2e:playing]  rút bài tây → đọc
  *   [e2e:long]     rút bài → bài đọc rất dài, chảy chậm (thử cuộn, rời trang giữa stream)
  *   [e2e:error]    model ném lỗi
+ *   [e2e:remember] lượt phản tư sau đó ghi nhớ hai điều cố định
  * Không marker thì như cũ: rút tarot theo độ dài câu hỏi rồi đọc.
  */
 export class DemoAdapter extends ModelAdapter {
@@ -29,6 +30,30 @@ export class DemoAdapter extends ModelAdapter {
     const has = (name: string) => tools.some((tool) => tool.function.name === name)
 
     if (scenario === 'error') throw new Error('Demo: lỗi giả lập từ provider.')
+
+    // Lượt phản tư: chỉ có tool trí nhớ, câu hỏi nằm trong đoạn hội thoại được đưa vào.
+    if (has('remember')) {
+      const transcript = messages.map((message) => message.content ?? '').join('\n')
+      if (transcript.includes('[e2e:remember]') && !done.has('remember')) {
+        return call('remember', {
+          items: [
+            {
+              content: 'Làm thiết kế đồ hoạ ở một agency',
+              kind: 'profile',
+              importance: 3,
+              gist_en: 'Works as a graphic designer at an agency',
+            },
+            {
+              content: 'Muốn câu trả lời ngắn và thẳng',
+              kind: 'preference',
+              importance: 2,
+              gist_en: 'Prefers short, direct answers',
+            },
+          ],
+        })
+      }
+      return { content: 'bỏ qua', toolCalls: [] }
+    }
 
     if (scenario === 'chat' || !has('draw_cards')) {
       await stream(handlers, 'Mình nghe đây. Đây là câu trả lời mẫu, không rút bài.', 15)

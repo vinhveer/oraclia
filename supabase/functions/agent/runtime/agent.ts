@@ -38,6 +38,13 @@ export interface AgentRun {
   persistMessage?: boolean
   /** Số bước run đã đi ở các request trước, đọc từ `agent_runs.step_count`. */
   stepsTaken?: number
+  /** Gọi sau khi câu trả lời đã lưu; dùng cho việc nền như ghi lại lượt đọc. */
+  onCompleted?: (completed: {
+    messageId: string
+    content: string
+    cards: DrawnCard[] | null
+    casting: Casting | null
+  }) => void
   toolContext: Omit<ToolContext, 'onCasting'>
 }
 
@@ -124,6 +131,7 @@ export class Agent {
               casting,
             )
             stream.emit({ type: 'message.completed', message_id: messageId })
+            run.onCompleted?.({ messageId, content, cards: run.cards, casting })
           }
           await runs.save(run.runId, state, steps, 'completed', null)
           stream.emit({ type: 'run.completed', run_id: run.runId, status: 'completed' })

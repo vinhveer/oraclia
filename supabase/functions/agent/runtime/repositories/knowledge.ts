@@ -1,5 +1,5 @@
 import type { Casting, DrawnCard } from '../../../_shared/types.ts'
-import { GteSmallEmbedder, toVector, type Embedder } from '../../../_shared/embed.ts'
+import { sharedEmbedder as embedder, toVector } from '../../../_shared/embed.ts'
 import { Repository } from './base.ts'
 
 export interface KnowledgeEntry {
@@ -8,9 +8,6 @@ export interface KnowledgeEntry {
   title: string
   body_vi: string
 }
-
-/** Một worker một session embedding: nạp model tốn hơn chạy nó nhiều. */
-const embedder: Embedder = new GteSmallEmbedder()
 
 /**
  * Bản nháp chỉ dùng khi dev bật KB_INCLUDE_DRAFTS — để thử tri thức mới trước

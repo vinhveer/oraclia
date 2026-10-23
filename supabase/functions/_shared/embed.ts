@@ -37,3 +37,6 @@ export class GteSmallEmbedder implements Embedder {
 export function toVector(values: number[]): string {
   return `[${values.join(',')}]`
 }
+
+/** Một worker một session: nạp model tốn hơn chạy nó nhiều. */
+export const sharedEmbedder: Embedder = new GteSmallEmbedder()

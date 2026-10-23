@@ -11,6 +11,8 @@ export class PromptBuilder {
     private readonly memories: string[] = [],
     /** Các câu làm rõ đã hỏi gần đây, để không hỏi lại theo cùng một khuôn. */
     private readonly askedBefore: string[] = [],
+    /** Vài lượt đọc gần nhất ở các cuộc khác, mỗi lượt một dòng. */
+    private readonly pastReadings: string[] = [],
   ) {}
 
   /**
@@ -31,6 +33,10 @@ export class PromptBuilder {
         `<asked_before>\nCâu làm rõ đã hỏi trong cuộc này — lần này mở đầu khác và chọt vào góc khác:\n${this.askedBefore
           .map((item) => `- ${item}`)
           .join('\n')}\n</asked_before>`,
+      this.pastReadings.length &&
+        `<past_readings>\nVài lượt đọc gần đây ở các cuộc trò chuyện khác (gọi recall_readings để tìm sâu hơn khi câu hỏi nối tiếp chuyện cũ):\n${this.pastReadings
+          .map((item) => `- ${item}`)
+          .join('\n')}\n</past_readings>`,
       summary && `<conversation_summary>\n${summary}\n</conversation_summary>`,
     ].filter(Boolean)
 
