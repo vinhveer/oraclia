@@ -127,7 +127,7 @@ async function call(
 
   if (!response.ok) {
     const payload = (await response.json().catch(() => null)) as { error?: string } | null
-    throw new Error(payload?.error ?? `Yêu cầu thất bại (${response.status}).`)
+    throw new Error(payload?.error ?? describeStatus(response.status))
   }
   if (!response.body) throw new Error('Trình duyệt không hỗ trợ streaming.')
 
@@ -151,4 +151,12 @@ async function call(
       }
     }
   }
+}
+
+/** Lỗi không kèm lời giải thích từ server (gateway, mạng): nói bằng câu người đọc hiểu. */
+function describeStatus(status: number): string {
+  if (status === 401 || status === 403) return 'Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại.'
+  if (status === 429) return 'Bạn đang hỏi hơi dồn. Nghỉ một chút rồi hỏi tiếp nhé.'
+  if (status >= 500) return 'Máy chủ đang bận. Thử lại sau giây lát.'
+  return `Yêu cầu thất bại (${status}).`
 }

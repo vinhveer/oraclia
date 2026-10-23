@@ -32,3 +32,6 @@ supabase/.branches
 supabase/.temp
 supabase/functions/deno.lock
 scripts/eval/results/
+e2e/.auth/
+test-results/
+playwright-report/

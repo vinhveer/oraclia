@@ -35,9 +35,13 @@
 
 .itemDelete {
   position: absolute;
-  top: 50%;
+  /* Căn giữa bằng margin, không bằng transform: ActionIcon dùng transform cho
+     hiệu ứng nhấn, nó ghi đè translateY(-50%) nên nút tụt xuống 15px giữa lúc
+     nhấn và lúc thả — cú bấm rơi vào link bên dưới và không xoá được gì. */
+  inset-block: 0;
   right: 4px;
-  transform: translateY(-50%);
+  margin-block: auto;
+  z-index: 1;
 }
 
 /* Chuột thì hiện nút xoá khi rê vào; cảm ứng không có hover nên luôn hiện. */

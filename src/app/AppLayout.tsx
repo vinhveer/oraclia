@@ -56,6 +56,9 @@ export function AppLayout() {
       padding={0}
       classNames={{ main: classes.main, navbar: classes.navbar, header: classes.header }}
     >
+      {/* Chỉ render khi cần: header thu gọn vẫn nằm trong DOM, và bàn phím lẫn
+          trình đọc màn hình sẽ gặp những nút vô hình trùng tên với sidebar. */}
+      {mobile && (
       <AppShell.Header>
         <Group h="100%" px="xs" gap="xs" wrap="nowrap">
           <Burger opened={opened} onClick={toggle} size="sm" aria-label="Mở danh sách" />
@@ -76,8 +79,11 @@ export function AppLayout() {
           </ActionIcon>
         </Group>
       </AppShell.Header>
+      )}
 
-      <AppShell.Navbar>
+      {/* Menu đóng trên mobile chỉ bị đẩy ra ngoài màn hình; không `inert` thì
+          bàn phím và trình đọc màn hình vẫn đi vào những nút không ai thấy. */}
+      <AppShell.Navbar inert={mobile && !opened}>
         <Sidebar activeId={activeId} onNavigate={close} />
       </AppShell.Navbar>
 

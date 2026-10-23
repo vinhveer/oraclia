@@ -160,6 +160,12 @@
   flex: 1;
 }
 
+.incomplete {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .reflecting {
   display: flex;
   align-items: center;
@@ -259,8 +265,9 @@
 .scrollDown {
   position: absolute;
   top: -2.75rem;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Không dùng transform để căn: ActionIcon ghi đè nó khi nhấn (xem Sidebar). */
+  inset-inline: 0;
+  margin-inline: auto;
   box-shadow: var(--mantine-shadow-sm);
 }
 

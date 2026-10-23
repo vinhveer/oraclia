@@ -67,7 +67,11 @@ export function buildTheme(palette: Palette): MantineThemeOverride {
       TextInput: { defaultProps: { size: 'md' } },
       PasswordInput: { defaultProps: { size: 'md' } },
       Textarea: { defaultProps: { size: 'md' } },
-      Modal: { defaultProps: { centered: true, radius: 'lg' } },
+      Modal: {
+        defaultProps: { centered: true, radius: 'lg', closeButtonProps: { 'aria-label': 'Đóng' } },
+      },
+      // 20px là dưới ngưỡng chạm tối thiểu (24px).
+      Checkbox: { defaultProps: { size: 'md' } },
       Tooltip: { defaultProps: { openDelay: 400, withArrow: false } },
     },
   })
@@ -78,6 +82,10 @@ export const cssVariablesResolver: CSSVariablesResolver = () => ({
   variables: {},
   light: {
     '--mantine-color-body': '#fdfbfe',
+    // Xám mặc định của Mantine chỉ đạt ~3.3:1 trên nền này; dùng on-surface-variant
+    // của bộ màu cũ để chữ phụ vẫn đọc được (≥ 4.5:1).
+    '--mantine-color-dimmed': '#5d5864',
+    '--mantine-color-placeholder': '#6f6a76',
     '--app-surface': '#f6f2f8',
     '--app-surface-strong': '#ece6f0',
     '--app-border': '#e2dce6',

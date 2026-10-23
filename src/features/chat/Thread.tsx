@@ -31,6 +31,7 @@ import {
   answerClarify,
   ask,
   isBusy,
+  resend,
   scheduleReflection,
   selectThread,
   useChatStore,
@@ -68,7 +69,7 @@ const SUGGESTIONS = [
 export function Thread() {
   return (
     <ThreadPrimitive.Root className={classes.root}>
-      <ThreadPrimitive.Viewport className={classes.viewport}>
+      <ThreadPrimitive.Viewport className={classes.viewport} data-testid="thread-viewport">
         <div className={classes.column}>
           <ThreadPrimitive.Empty>
             <Welcome />
@@ -150,7 +151,14 @@ function Composer() {
       />
       <AuiIf condition={(state) => !state.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
-          <ActionIcon size={40} variant="filled" aria-label="Gửi">
+          <ActionIcon
+            size={40}
+            variant="filled"
+            aria-label="Gửi"
+            // Giữ focus trong ô nhập: trên điện thoại mất focus là bàn phím sập
+            // xuống sau mỗi câu hỏi, rồi lại phải chạm vào ô để gõ tiếp.
+            onMouseDown={(event) => event.preventDefault()}
+          >
             <IconArrowUp size={20} />
           </ActionIcon>
         </ComposerPrimitive.Send>
@@ -251,6 +259,7 @@ function AssistantMessage() {
         />
       )}
       {request?.kind === 'draw' && <DrawPrompt draw={request} onOpen={openPicker} />}
+      <IncompleteNotice />
 
       {meta.serverId && (
         <ActionBarPrimitive.Root className={classes.assistantActions} hideWhenRunning>
@@ -279,6 +288,42 @@ function AssistantMessage() {
         </ActionBarPrimitive.Root>
       )}
     </MessagePrimitive.Root>
+  )
+}
+
+/** Lượt chết giữa đường (mất mạng, máy chủ bận): nói rõ và cho hỏi lại tại chỗ. */
+function IncompleteNotice() {
+  const { threadKey } = useChatContext()
+  const failed = useAuiState((state) => state.message.status?.type === 'incomplete')
+  // Selector phải trả giá trị nguyên thủy: trả object mới mỗi lần là React tưởng
+  // state luôn đổi và render lại vô hạn.
+  const parentId = useAuiState((state) => {
+    const parent = state.thread.messages[state.message.index - 1]
+    return parent?.role === 'user' ? parent.id : ''
+  })
+  const parentText = useAuiState((state) => {
+    const parent = state.thread.messages[state.message.index - 1]
+    return parent?.role === 'user'
+      ? parent.content.map((part) => (part.type === 'text' ? part.text : '')).join('')
+      : ''
+  })
+  const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
+  if (!failed || !parentId) return null
+  return (
+    <div className={classes.incomplete}>
+      <Text size="sm" c="dimmed">
+        Lượt đọc này bị gián đoạn.
+      </Text>
+      <Button
+        variant="default"
+        size="compact-sm"
+        leftSection={<IconRefresh size={14} />}
+        disabled={busy}
+        onClick={() => resend(threadKey, parentId, parentText)}
+      >
+        Hỏi lại
+      </Button>
+    </div>
   )
 }
 

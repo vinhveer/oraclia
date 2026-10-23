@@ -70,6 +70,12 @@ export interface ChatMessage {
   status: 'running' | 'requires-action' | 'complete' | 'incomplete'
   /** Lượt đang chờ người dùng: chọn bài hoặc trả lời câu làm rõ. */
   request: PendingRequest | null
+  /**
+   * Đánh giá nằm ngay trên tin, không ở một bảng riêng của thread: assistant-ui
+   * chỉ chuyển đổi lại tin khi chính object tin đổi, nên để chỗ khác thì nút
+   * 👍 bấm rồi vẫn không sáng.
+   */
+  rating: Rating | null
 }
 
 export interface Thread {
@@ -80,7 +86,6 @@ export interface Thread {
   turn: TurnState
   error: string
   reflecting: 'idle' | 'thinking' | 'saved'
-  ratings: Record<string, Rating>
 }
 
 const emptyThread = (): Thread => ({
@@ -91,7 +96,6 @@ const emptyThread = (): Thread => ({
   turn: IDLE_TURN,
   error: '',
   reflecting: 'idle',
-  ratings: {},
 })
 
 interface ChatState {
@@ -150,7 +154,7 @@ export function pendingRequest(thread: Thread): PendingRequest | null {
 // Tải và đồng bộ
 // ---------------------------------------------------------------------------
 
-const fromServer = (row: Message): ChatMessage => ({
+const fromServer = (row: Message, rating: Rating | null = null): ChatMessage => ({
   id: row.id,
   serverId: row.id,
   role: row.role === 'user' ? 'user' : 'assistant',
@@ -161,6 +165,7 @@ const fromServer = (row: Message): ChatMessage => ({
   activities: [],
   status: 'complete',
   request: null,
+  rating,
 })
 
 export async function loadThread(id: string): Promise<void> {
@@ -171,18 +176,37 @@ export async function loadThread(id: string): Promise<void> {
   try {
     const [rows, ratings] = await Promise.all([listMessages(id), listRatings(id)])
     update(id, (current) =>
-      current.running ? { loading: false } : { messages: rows.map(fromServer), ratings, loaded: true, loading: false },
+      current.running
+        ? { loading: false }
+        : {
+            messages: rows.map((row) => fromServer(row, ratings[row.id] ?? null)),
+            loaded: true,
+            loading: false,
+          },
     )
   } catch (exception) {
     update(id, () => ({ loading: false, error: describe(exception) }))
   }
 }
 
-/** Tin mới từ tab khác hoặc thiết bị khác (Realtime). */
+/**
+ * Tin mới từ tab khác hoặc thiết bị khác (Realtime). Realtime cũng báo lại cả
+ * tin chính tab này vừa gửi, và có khi báo muộn — sau khi lượt đã đỗ chờ chọn
+ * bài. Chèn mù thì câu hỏi hiện hai lần và lời xin rút bài bị đẩy khỏi cuối.
+ */
 export function receiveRow(id: string, row: Message) {
   update(id, (thread) => {
-    if (thread.running || !thread.loaded) return {}
+    if (!thread.loaded || isBusy(thread)) return {}
     if (thread.messages.some((message) => message.serverId === row.id)) return {}
+    const local = thread.messages.findIndex(
+      (message) =>
+        !message.serverId && message.role === row.role && message.content.trim() === row.content.trim(),
+    )
+    if (local >= 0) {
+      const messages = [...thread.messages]
+      messages[local] = { ...messages[local], serverId: row.id, createdAt: row.created_at }
+      return { messages }
+    }
     return { messages: [...thread.messages, fromServer(row)] }
   })
 }
@@ -353,7 +377,16 @@ async function runStream(initialKey: string, call: StreamCall): Promise<void> {
     // Lượt chưa xong mà stream đã đóng (lỗi, mất mạng, bị huỷ): đánh dấu dở dang
     // để giao diện thôi quay vòng, thay vì treo ở "đang suy nghĩ" mãi.
     updateDraft(key, (draft) =>
-      draft.status === 'running' ? { status: 'incomplete', request: null } : {},
+      draft.status === 'running'
+        ? {
+            status: 'incomplete',
+            request: null,
+            // Chỉ báo "đang lắng nghe" không được quay tiếp sau khi lượt đã chết.
+            activities: draft.activities.map((activity) =>
+              activity.status === 'running' ? { ...activity, status: 'failed' } : activity,
+            ),
+          }
+        : {},
     )
     update(key, (thread) => ({
       running: false,
@@ -386,6 +419,7 @@ const localMessage = (role: ChatMessage['role'], content: string): ChatMessage =
   activities: role === 'assistant' ? startTurn().activities : [],
   status: role === 'assistant' ? 'running' : 'complete',
   request: null,
+  rating: null,
 })
 
 export async function ask(key: string, question: string): Promise<void> {
@@ -444,20 +478,27 @@ export async function resend(key: string, messageId: string, question: string): 
   const index = thread.messages.findIndex((message) => message.id === messageId)
   if (index < 0) return
   const target = thread.messages[index]
+  const removed = thread.messages.slice(index)
+  // Cắt trên màn hình ngay khi bấm; đợi server xoá xong mới cắt thì câu trả lời
+  // cũ còn treo đó cả nhịp, trông như chưa có gì xảy ra.
+  update(key, (current) => ({ messages: current.messages.slice(0, index) }))
   if (target.serverId) {
     try {
       await deleteMessagesFrom(target.serverId)
     } catch (exception) {
-      update(key, () => ({ error: describe(exception) }))
+      update(key, (current) => ({ messages: [...current.messages, ...removed], error: describe(exception) }))
       return
     }
   }
-  update(key, (current) => ({ messages: current.messages.slice(0, index) }))
   await ask(key, question)
 }
 
 export function setRating(key: string, serverId: string, rating: Rating) {
-  update(key, (thread) => ({ ratings: { ...thread.ratings, [serverId]: rating } }))
+  update(key, (thread) => ({
+    messages: thread.messages.map((message) =>
+      message.serverId === serverId ? { ...message, rating } : message,
+    ),
+  }))
 }
 
 export function clearError(key: string) {

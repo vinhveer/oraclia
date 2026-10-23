@@ -73,7 +73,7 @@ export function useOracliaRuntime(key: string) {
     // lại ngay sau mỗi câu hỏi, và người dùng mất chỗ đang gõ dở.
     isSendDisabled: busy,
     convertMessage: (message): ThreadMessageLike => {
-      const rating = message.serverId ? thread.ratings[message.serverId] : undefined
+      const rating = message.rating
       return {
         id: message.id,
         role: message.role,

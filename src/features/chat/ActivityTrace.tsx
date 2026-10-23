@@ -11,11 +11,17 @@ import classes from './Thread.module.css'
  */
 export function ActivityTrace({ activities }: { activities: Activity[] }) {
   const [open, setOpen] = useState(false)
-  if (!activities.length) return null
-
   const running = activities.filter((item) => item.status === 'running')
-  const settled = activities.filter((item) => item.status !== 'running')
+  // Chỉ báo chờ ("đang lắng nghe", "đang giải nghĩa") chỉ có nghĩa lúc đang chạy;
+  // xong rồi mà còn giữ thì dòng "đã làm" toàn là việc chưa từng làm.
+  const settled = activities.filter(
+    (item) =>
+      item.status !== 'running' &&
+      item.kind !== 'listening' &&
+      !(item.kind === 'thinking' && !item.detail && item.status === 'done'),
+  )
   const failed = settled.some((item) => item.status === 'failed')
+  if (!running.length && !settled.length) return null
 
   return (
     <div className={classes.trace}>
@@ -28,7 +34,7 @@ export function ActivityTrace({ activities }: { activities: Activity[] }) {
           >
             {failed ? <IconAlertCircle size={16} /> : <IconCheck size={16} />}
             <Text size="sm" span>
-              {settled.length === 1 ? settled[0].label : `${settled.length} bước đã làm`}
+              {settled.length === 1 ? doneLabel(settled[0]) : `${settled.length} bước đã làm`}
             </Text>
             <IconChevronDown size={14} className={classes.traceChevron} data-open={open || undefined} />
           </UnstyledButton>
@@ -46,6 +52,12 @@ export function ActivityTrace({ activities }: { activities: Activity[] }) {
       ))}
     </div>
   )
+}
+
+/** Nhãn của việc đã xong: "đang suy nghĩ" thành "Đã suy nghĩ". */
+function doneLabel(activity: Activity): string {
+  if (activity.status === 'running') return activity.label
+  return activity.kind === 'thinking' ? 'Đã suy nghĩ' : activity.label
 }
 
 function Row({ activity }: { activity: Activity }) {
@@ -67,7 +79,7 @@ function Row({ activity }: { activity: Activity }) {
         )}
       </span>
       <div className={classes.traceBody}>
-        <Text size="sm">{activity.label}</Text>
+        <Text size="sm">{doneLabel(activity)}</Text>
         {detail && (
           <Text size="xs" c="dimmed" lineClamp={running ? 2 : 6} className={classes.traceDetail}>
             {detail}
