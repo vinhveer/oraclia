@@ -26,7 +26,7 @@ for (const project of PROJECTS) {
     await page.goto('login')
     await page.getByLabel('Email').fill(user.email)
     await page.getByLabel('Mật khẩu').fill(user.password)
-    await page.getByRole('button', { name: 'Đăng nhập' }).click()
+    await page.getByRole('button', { name: 'Đăng nhập', exact: true }).click()
     await page.waitForURL(/\/chat/)
     await page.context().storageState({ path: authFile(project) })
   })

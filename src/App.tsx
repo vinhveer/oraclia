@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Center, Loader } from '@mantine/core'
 import { AppLayout } from '@/app/AppLayout'
+import { ChatSkeleton, SettingsSkeleton } from '@/app/Skeletons'
 import { SessionProvider, useSession } from '@/features/auth/SessionProvider'
 import LoginPage from '@/pages/LoginPage'
 
@@ -27,7 +28,7 @@ export default function App() {
               </RequireSession>
             }
           >
-            <Route path="/chat/:id?" element={<Lazy page={<ChatPage />} />} />
+            <Route path="/chat/:id?" element={<Lazy page={<ChatPage />} fallback={<ChatSkeleton />} />} />
             <Route path="/settings/memory" element={<Lazy page={<MemoryPage />} />} />
             <Route path="/settings/style" element={<Lazy page={<StylePage />} />} />
             <Route path="/settings/account" element={<Lazy page={<AccountPage />} />} />
@@ -48,8 +49,8 @@ function Splash() {
   )
 }
 
-function Lazy({ page }: { page: React.ReactNode }) {
-  return <Suspense fallback={<Splash />}>{page}</Suspense>
+function Lazy({ page, fallback = <SettingsSkeleton /> }: { page: React.ReactNode; fallback?: React.ReactNode }) {
+  return <Suspense fallback={fallback}>{page}</Suspense>
 }
 
 function RequireSession({ children }: { children: React.ReactNode }) {

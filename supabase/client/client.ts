@@ -50,6 +50,9 @@ export const supabase = createClient<Database>(url, anonKey, {
     autoRefreshToken: true,
     detectSessionInUrl: true,
     storage: sessionStore,
+    // Passkey của Supabase Auth còn ở dạng thử nghiệm; không bật cờ này thì mọi
+    // hàm passkey ném lỗi ngay khi gọi.
+    experimental: { passkey: true },
   },
 })
 

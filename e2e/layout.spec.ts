@@ -50,7 +50,7 @@ test('trang đăng nhập', async ({ browser }) => {
   const context = await browser.newContext({ storageState: { cookies: [], origins: [] } })
   const page = await context.newPage()
   await page.goto('login')
-  await expect(page.getByRole('button', { name: 'Đăng nhập' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Đăng nhập', exact: true })).toBeVisible()
   await checkLayout(page, 'đăng nhập')
   await context.close()
 })

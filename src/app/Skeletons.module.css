@@ -1,0 +1,66 @@
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.question {
+  align-self: flex-end;
+  width: min(62%, 420px);
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cards {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.chat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.column {
+  flex: 1;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  overflow: hidden;
+}
+
+.composer {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 1rem calc(1.75rem + env(safe-area-inset-bottom));
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem;
+}
+
+@media (min-width: $mantine-breakpoint-sm) {
+  .column,
+  .composer {
+    padding-inline: 1.5rem;
+  }
+
+  .settings {
+    padding: 2rem 1.5rem;
+  }
+}

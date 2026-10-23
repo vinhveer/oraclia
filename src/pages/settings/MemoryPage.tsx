@@ -4,7 +4,6 @@ import {
   Badge,
   Button,
   Group,
-  Loader,
   Skeleton,
   Stack,
   Text,
@@ -14,6 +13,7 @@ import {
 import { modals } from '@mantine/modals'
 import { IconPencil, IconTrash } from '@tabler/icons-react'
 import type { Memory, MemoryKind } from '@db'
+import { RowsSkeleton } from '@/app/Skeletons'
 import { SettingsLayout } from './SettingsLayout'
 import {
   useDeleteMemory,
@@ -88,7 +88,7 @@ function Memories() {
         để quên hẳn.
       </Text>
       <Stack gap="xs" mt="md">
-        {isPending && <Skeleton height={56} />}
+        {isPending && <RowsSkeleton rows={3} />}
         {!isPending && !data.length && (
           <Text size="sm" c="dimmed">
             Chưa có gì. Cứ trò chuyện, Oraclia sẽ tự nhặt ra những điều đáng nhớ.
@@ -195,7 +195,7 @@ function Summaries() {
     <section>
       <Title order={2}>Bộ nhớ của từng cuộc trò chuyện</Title>
       <Stack gap="xs" mt="md">
-        {isPending && <Loader size="sm" />}
+        {isPending && <RowsSkeleton rows={2} height={72} />}
         {!isPending && !data.length && (
           <Text size="sm" c="dimmed">
             Chưa có gì. Phần này xuất hiện khi một cuộc trò chuyện đủ dài để được cô đọng lại; xoá

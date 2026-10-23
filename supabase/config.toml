@@ -32,6 +32,17 @@ additional_redirect_urls = ["https://nguyenquangvinh.id.vn/oraclia/**", "http://
 jwt_expiry = 3600
 enable_signup = true
 
+# Passkey: đăng nhập không cần mật khẩu bằng vân tay / Face ID / khoá thiết bị.
+# rp_id phải trùng tên miền trang web; production đặt trong dashboard với
+# rp_id = "nguyenquangvinh.id.vn", origin "https://nguyenquangvinh.id.vn".
+[auth.passkey]
+enabled = true
+
+[auth.webauthn]
+rp_display_name = "Oraclia"
+rp_id = "localhost"
+rp_origins = ["http://localhost:5173", "http://localhost:5188"]
+
 [auth.email]
 enable_signup = true
 # Bật cả ở local cho giống production: người dùng phải xác thực email.

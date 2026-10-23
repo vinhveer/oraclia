@@ -4,6 +4,7 @@ import {
   Anchor,
   Button,
   Checkbox,
+  Divider,
   PasswordInput,
   Stack,
   Text,
@@ -11,9 +12,17 @@ import {
   Title,
 } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconMail } from '@tabler/icons-react'
+import { useQuery } from '@tanstack/react-query'
+import { IconFingerprint, IconMail } from '@tabler/icons-react'
 import { useSession } from '@/features/auth/SessionProvider'
-import { isRemembering, setRemember, signIn, signUp } from '@db'
+import {
+  isRemembering,
+  passkeyEnabled,
+  setRemember,
+  signIn,
+  signInWithPasskey,
+  signUp,
+} from '@db'
 import classes from './LoginPage.module.css'
 
 export default function LoginPage() {
@@ -26,8 +35,29 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [sentTo, setSentTo] = useState('')
   const [remember, setRememberChoice] = useState(isRemembering)
+  const [passkeyBusy, setPasskeyBusy] = useState(false)
+  const { data: canPasskey = false } = useQuery({
+    queryKey: ['passkey-enabled'],
+    queryFn: passkeyEnabled,
+    staleTime: Infinity,
+    retry: false,
+  })
 
   if (ready && user) return <Navigate to="/chat" replace />
+
+  async function passkey() {
+    if (passkeyBusy) return
+    setPasskeyBusy(true)
+    setError('')
+    setRemember(remember)
+    try {
+      await signInWithPasskey()
+      // Giữ trạng thái chờ tới khi phiên chuyển trang, như đăng nhập mật khẩu.
+    } catch (exception) {
+      setError(exception instanceof Error ? exception.message : 'Không dùng được passkey.')
+      setPasskeyBusy(false)
+    }
+  }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
@@ -138,6 +168,21 @@ export default function LoginPage() {
             </Button>
           </Stack>
         </form>
+
+        {mode === 'signin' && canPasskey && (
+          <>
+            <Divider label="hoặc" labelPosition="center" my="md" />
+            <Button
+              variant="default"
+              fullWidth
+              leftSection={<IconFingerprint size={18} />}
+              loading={passkeyBusy}
+              onClick={passkey}
+            >
+              Đăng nhập bằng passkey
+            </Button>
+          </>
+        )}
 
         <Text size="sm" ta="center" mt="lg">
           {mode === 'signin' ? 'Chưa có tài khoản? ' : 'Đã có tài khoản? '}

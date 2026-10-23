@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { asset, webp } from '@/lib/asset'
 import type { DrawnCard } from '@db'
 import { deckStyle } from './decks'
@@ -20,10 +21,12 @@ export function CardImage({
   const deck = deckStyle(card.deck)
   const height = Math.round((width * deck.height) / deck.width)
   const reversed = deck.hasOrientation && card.orientation === 'reversed'
+  const [loaded, setLoaded] = useState(false)
   return (
     <span
       className={classes.cardFrame}
       data-reveal={reveal || undefined}
+      data-loaded={loaded || undefined}
       style={{ width, height }}
     >
       <picture>
@@ -38,6 +41,11 @@ export function CardImage({
           decoding="async"
           data-reversed={reversed || undefined}
           draggable={false}
+          // Ảnh trong cache có thể xong trước khi React gắn onLoad; ref bắt nốt ca đó.
+          ref={(node) => {
+            if (node?.complete && node.naturalWidth) setLoaded(true)
+          }}
+          onLoad={() => setLoaded(true)}
         />
       </picture>
     </span>

@@ -7,7 +7,8 @@ import {
   ThreadPrimitive,
   useAuiState,
 } from '@assistant-ui/react'
-import { ActionIcon, Button, Loader, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
+import { ActionIcon, Button, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
+import { MessagesSkeleton } from '@/app/Skeletons'
 import {
   IconArrowDown,
   IconArrowUp,
@@ -71,9 +72,11 @@ export function Thread() {
     <ThreadPrimitive.Root className={classes.root}>
       <ThreadPrimitive.Viewport className={classes.viewport} data-testid="thread-viewport">
         <div className={classes.column}>
-          <ThreadPrimitive.Empty>
+          {/* Không dùng ThreadPrimitive.Empty: nó ẩn mọi thứ trong lúc runtime đang
+              tải, nên khung xương đặt trong đó không bao giờ hiện. */}
+          <AuiIf condition={(state) => state.thread.messages.length === 0}>
             <Welcome />
-          </ThreadPrimitive.Empty>
+          </AuiIf>
           <ThreadPrimitive.Messages>
             {({ message }) => (message.role === 'user' ? <UserMessage /> : <AssistantMessage />)}
           </ThreadPrimitive.Messages>
@@ -105,13 +108,7 @@ function Welcome() {
   const { threadKey } = useChatContext()
   const loading = useChatStore((state) => selectThread(threadKey)(state).loading)
   // Đang tải cuộc cũ thì đừng chào như cuộc mới, kẻo màn hình nháy một nhịp.
-  if (loading) {
-    return (
-      <div className={classes.loading}>
-        <Loader size="sm" />
-      </div>
-    )
-  }
+  if (loading) return <MessagesSkeleton />
   return (
     <div className={classes.welcome}>
       <Title order={1}>Bạn đang nghĩ gì?</Title>

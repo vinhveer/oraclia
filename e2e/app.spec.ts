@@ -74,7 +74,7 @@ test('đăng nhập sai báo lỗi rõ ràng', async ({ browser }) => {
   await page.goto('login')
   await page.getByLabel('Email').fill('e2e-desktop@oraclia.test')
   await page.getByLabel('Mật khẩu').fill('sai-mat-khau')
-  await page.getByRole('button', { name: 'Đăng nhập' }).click()
+  await page.getByRole('button', { name: 'Đăng nhập', exact: true }).click()
   await expect(page.getByText('Email hoặc mật khẩu không đúng.')).toBeVisible()
   await context.close()
 })
