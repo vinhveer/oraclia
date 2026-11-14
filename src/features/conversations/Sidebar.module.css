@@ -33,3 +33,15 @@
     opacity: 1;
   }
 }
+
+/* Trong ngăn kéo trên điện thoại: SideNav mặc định rộng cố định 260px (cột trái
+   desktop), đặt vào ngăn 320px thì trống 60px bên phải và cắt chữ mục dài. Giãn
+   hết ngăn, lề 16px đều hai bên. */
+:global(.astryx-drawer) .sidebar {
+  width: 100%;
+  max-width: none;
+}
+
+:global(.astryx-drawer) .sidebar > :first-child {
+  padding-inline: var(--spacing-4);
+}

@@ -65,3 +65,11 @@
     padding: 0;
   }
 }
+
+/* Ô "Ghi nhớ đăng nhập": cả hàng là vùng chạm, cao 44px chứ không chỉ ô 24px. */
+@media (pointer: coarse), (max-width: 1023px) {
+  .form :global(.astryx-checkbox-input) > div {
+    min-height: 44px;
+    align-items: center;
+  }
+}

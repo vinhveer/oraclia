@@ -168,3 +168,15 @@
     flex: 1;
   }
 }
+
+/* Điện thoại: chọn nền và chọn màu cũng đủ 44px cho ngón tay (Astryx để 36px
+   cho ô chọn nền, ô màu 42px). */
+@media (pointer: coarse), (max-width: 1023px) {
+  .page :global(.astryx-segmented-control-item) {
+    min-height: 44px;
+  }
+
+  .option {
+    min-height: 48px;
+  }
+}

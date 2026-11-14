@@ -76,14 +76,36 @@
 }
 
 /*
- * Màn cảm ứng (điện thoại, máy tính bảng): mọi control tối thiểu 44px — cỡ ngón
- * tay theo HIG của Apple. Neutral mặc định 28/32/36px là cỡ cho chuột: nút copy,
- * 👍, ô nhập trên điện thoại vì thế bé và sát nhau.
+ * Điện thoại và máy tính bảng: mọi control tối thiểu 44px — cỡ ngón tay theo HIG
+ * của Apple. Neutral mặc định 28/32/36px là cỡ cho chuột. Xét theo bề rộng chứ
+ * không chỉ theo loại con trỏ: màn hẹp là màn để chạm, dù trình duyệt báo gì.
  */
-@media (pointer: coarse) {
+@media (pointer: coarse), (max-width: 1023px) {
   [data-astryx-theme] {
     --size-element-sm: 44px;
     --size-element-md: 44px;
     --size-element-lg: 48px;
+  }
+}
+
+/*
+ * Thang cỡ chữ mobile của Neutral (chữ thường 16px thay vì 14px), nhưng Astryx
+ * chỉ bật nó khi màn vừa hẹp vừa cảm ứng. Màn hẹp nào cũng là màn đọc trên tay,
+ * nên bật cho mọi màn dưới 1024px. Giá trị chép nguyên từ theme-neutral.
+ */
+@media (max-width: 1023px) {
+  [data-astryx-theme] {
+    --_scaled-font-size-4xs: min(calc(0.4375rem * var(--_dynamic-type-caption2, 1)), var(--_scaled-font-size-3xs));
+    --_scaled-font-size-3xs: min(calc(0.5rem * var(--_dynamic-type-caption2, 1)), var(--_scaled-font-size-2xs));
+    --_scaled-font-size-2xs: min(calc(0.625rem * var(--_dynamic-type-caption2, 1)), var(--_scaled-font-size-xs));
+    --_scaled-font-size-xs: min(calc(0.75rem * var(--_dynamic-type-caption1, 1)), var(--_scaled-font-size-sm));
+    --_scaled-font-size-sm: min(calc(0.875rem * var(--_dynamic-type-footnote, 1)), var(--_scaled-font-size-base));
+    --_scaled-font-size-base: min(calc(1rem * var(--_dynamic-type-body, 1)), var(--_scaled-font-size-lg));
+    --_scaled-font-size-lg: min(calc(1.1875rem * var(--_dynamic-type-title3, 1)), var(--_scaled-font-size-xl));
+    --_scaled-font-size-xl: min(calc(1.375rem * var(--_dynamic-type-title2, 1)), var(--_scaled-font-size-2xl));
+    --_scaled-font-size-2xl: min(calc(1.625rem * var(--_dynamic-type-title1, 1)), var(--_scaled-font-size-3xl));
+    --_scaled-font-size-3xl: min(calc(1.875rem * var(--_dynamic-type-title1, 1)), var(--_scaled-font-size-4xl));
+    --_scaled-font-size-4xl: min(calc(2.25rem * var(--_dynamic-type-large-title, 1)), var(--_scaled-font-size-5xl));
+    --_scaled-font-size-5xl: calc(2.625rem * var(--_dynamic-type-large-title, 1));
   }
 }

@@ -279,7 +279,8 @@
     flex-direction: row;
     align-items: flex-end;
     gap: var(--spacing-2);
-    padding: var(--spacing-1) var(--spacing-1) var(--spacing-1) var(--spacing-4);
+    /* Nút gửi cách viền đều 6px ba phía; chữ một dòng cao bằng nút nên nằm giữa. */
+    padding: var(--spacing-1-5) var(--spacing-1-5) var(--spacing-1-5) var(--spacing-4);
   }
 
   .composer > :first-child > :first-child {
