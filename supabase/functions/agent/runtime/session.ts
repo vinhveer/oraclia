@@ -166,13 +166,18 @@ export class AgentSession {
     const builder = new PromptBuilder(
       prompt.body,
       settings,
-      memories.map((row) => `(${monthOf(row.updated_at)}) ${row.content}`),
+      memories
+        .filter((row) => row.kind !== 'pattern')
+        .map((row) => `(${monthOf(row.updated_at)}) ${row.content}`),
       asked,
       past.map(
         (row) =>
           `${row.created_at.slice(0, 10)} — "${row.question}" — ${row.record}` +
           (row.synthesis ? ` — ${row.synthesis}` : ''),
       ),
+      memories
+        .filter((row) => row.kind === 'pattern')
+        .map((row) => `${row.content}${row.evidence ? ` (bằng chứng: ${row.evidence})` : ''}`),
     )
     const messages = builder.runMessages(state.summary, history.turns, question)
     const runId = await this.runs.create({
@@ -543,7 +548,8 @@ export class AgentSession {
 
 /** Dòng điều nhớ cho lượt phản tư: id rút gọn để update_memory / forget trỏ tới được. */
 function memoryLine(row: MemoryRow): string {
-  return `[${row.id.slice(0, 8)}] (${row.kind}, quan trọng ${row.importance}, ${monthOf(row.updated_at)}) ${row.content}`
+  const evidence = row.kind === 'pattern' && row.evidence ? ` — bằng chứng: ${row.evidence}` : ''
+  return `[${row.id.slice(0, 8)}] (${row.kind}, quan trọng ${row.importance}, ${monthOf(row.updated_at)}) ${row.content}${evidence}`
 }
 
 /** "10/2026" — đủ để thấy điều nào mới hơn, không lộ giờ phút vô nghĩa. */

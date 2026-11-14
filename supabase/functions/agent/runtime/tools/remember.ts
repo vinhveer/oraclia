@@ -32,7 +32,8 @@ export class RememberTool extends Tool {
                   enum: MEMORY_KINDS,
                   description:
                     'profile: con người, hoàn cảnh lâu dài. preference: cách muốn được trả lời. ' +
-                    'life_event: biến cố có mốc thời gian. ongoing: chuyện đang theo dõi, sẽ còn hỏi lại.',
+                    'life_event: biến cố có mốc thời gian. ongoing: chuyện đang theo dõi, sẽ còn hỏi lại. ' +
+                    'pattern: khuôn mẫu đã thấy ít nhất hai lần (cách nghĩ, cách quyết định, chỗ hay vướng, điều từng giúp).',
                 },
                 importance: {
                   type: 'integer',
@@ -43,6 +44,10 @@ export class RememberTool extends Tool {
                 gist_en: {
                   type: 'string',
                   description: 'Cùng điều đó viết bằng tiếng Anh, một câu, dùng để tìm kiếm.',
+                },
+                evidence: {
+                  type: 'string',
+                  description: 'Bắt buộc với pattern: đã thấy ở đâu, lúc nào (ít nhất hai lần).',
                 },
               },
               required: ['content', 'kind', 'importance', 'gist_en'],
@@ -89,7 +94,9 @@ function parseItems(args: Record<string, unknown>): NewMemory[] {
         kind,
         importance: Math.min(3, Math.max(1, Number(value.importance) || 2)),
         gist_en: clip(String(value.gist_en ?? '').trim(), 300),
+        evidence: clip(String(value.evidence ?? '').trim(), 600),
       }
     })
-    .filter((item) => item.content.length > 3)
+    // Khuôn mẫu không có bằng chứng chỉ là đoán; không lưu.
+    .filter((item) => item.content.length > 3 && (item.kind !== 'pattern' || item.evidence.length > 10))
 }

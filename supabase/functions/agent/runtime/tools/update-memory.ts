@@ -23,6 +23,7 @@ export class UpdateMemoryTool extends Tool {
           gist_en: { type: 'string', description: 'Nội dung mới bằng tiếng Anh, một câu.' },
           kind: { type: 'string', enum: MEMORY_KINDS },
           importance: { type: 'integer', minimum: 1, maximum: 3 },
+          evidence: { type: 'string', description: 'Với pattern: bằng chứng cập nhật (đã thấy ở đâu, lúc nào).' },
         },
         required: ['id', 'content', 'gist_en'],
       },
@@ -44,6 +45,7 @@ export class UpdateMemoryTool extends Tool {
       gist_en: clip(String(args.gist_en ?? '').trim(), 300) || undefined,
       kind: MEMORY_KINDS.includes(args.kind as MemoryKind) ? (args.kind as MemoryKind) : undefined,
       importance: args.importance ? Math.min(3, Math.max(1, Number(args.importance))) : undefined,
+      evidence: clip(String(args.evidence ?? '').trim(), 600) || undefined,
     })
     return { kind: 'result', summary: 'Đã sửa một điều đã nhớ.', content: 'Đã cập nhật.' }
   }

@@ -13,6 +13,8 @@ export class PromptBuilder {
     private readonly askedBefore: string[] = [],
     /** Vài lượt đọc gần nhất ở các cuộc khác, mỗi lượt một dòng. */
     private readonly pastReadings: string[] = [],
+    /** Khuôn mẫu đã thấy ở người hỏi, mỗi dòng kèm bằng chứng. */
+    private readonly patterns: string[] = [],
   ) {}
 
   /**
@@ -27,6 +29,10 @@ export class PromptBuilder {
         `<memories>\nNhững điều bạn đã ghi nhớ về người hỏi từ trước (trong ngoặc là lúc ghi; hai điều lệch nhau thì tin điều mới hơn):\n${this.memories
           .map((fact) => `- ${fact}`)
           .join('\n')}\n</memories>`,
+      this.patterns.length &&
+        `<understanding>\nKhuôn mẫu đã thấy ở người hỏi — giả thuyết kèm bằng chứng, dùng để hiểu chứ không để dán nhãn:\n${this.patterns
+          .map((item) => `- ${item}`)
+          .join('\n')}\n</understanding>`,
       this.settings.responseStyle &&
         `<response_style>\n${this.settings.responseStyle}\n</response_style>`,
       this.askedBefore.length &&

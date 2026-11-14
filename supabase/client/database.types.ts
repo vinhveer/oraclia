@@ -52,7 +52,7 @@ export type MessageRow = Omit<Row<'messages'>, 'cards' | 'hexagram' | 'role'> & 
   cards: DrawnCard[] | null
   hexagram: Casting | null
 }
-export type MemoryKind = 'profile' | 'preference' | 'life_event' | 'ongoing'
+export type MemoryKind = 'profile' | 'preference' | 'life_event' | 'ongoing' | 'pattern'
 export type MemoryRow = Omit<Row<'memories'>, 'kind'> & { kind: MemoryKind }
 export type UserSettingsRow = Row<'user_settings'>
 export type ProfileRow = Omit<Row<'profiles'>, 'role'> & { role: 'user' | 'admin' }

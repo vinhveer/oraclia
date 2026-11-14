@@ -1,8 +1,8 @@
 import { sharedEmbedder, toVector } from '../../../_shared/embed.ts'
 import { Repository } from './base.ts'
 
-export type MemoryKind = 'profile' | 'preference' | 'life_event' | 'ongoing'
-export const MEMORY_KINDS: MemoryKind[] = ['profile', 'preference', 'life_event', 'ongoing']
+export type MemoryKind = 'profile' | 'preference' | 'life_event' | 'ongoing' | 'pattern'
+export const MEMORY_KINDS: MemoryKind[] = ['profile', 'preference', 'life_event', 'ongoing', 'pattern']
 
 export interface MemoryRow {
   id: string
@@ -11,6 +11,8 @@ export interface MemoryRow {
   importance: number
   /** Lần cuối điều này được ghi hay sửa — để model biết điều nào mới hơn khi hai điều lệch nhau. */
   updated_at: string
+  /** Khuôn mẫu: đã thấy ở đâu, lúc nào. Trống với các loại khác. */
+  evidence?: string
 }
 
 export interface NewMemory {
@@ -18,6 +20,7 @@ export interface NewMemory {
   kind: MemoryKind
   importance: number
   gist_en: string
+  evidence?: string
 }
 
 /**
@@ -35,7 +38,7 @@ export class MemoryRepository extends Repository {
   async list(limit = 60): Promise<MemoryRow[]> {
     const { data } = await this.db
       .from('memories')
-      .select('id, content, kind, importance, updated_at')
+      .select('id, content, kind, importance, updated_at, evidence')
       .order('importance', { ascending: false })
       .order('updated_at', { ascending: false })
       .limit(limit)
@@ -98,6 +101,7 @@ export class MemoryRepository extends Repository {
         kind: item.kind,
         importance: item.importance,
         gist_en: item.gist_en,
+        evidence: item.evidence ?? '',
         embedding,
       })
       if (error) throw new Error(`Không lưu được trí nhớ: ${error.message}`)
@@ -120,6 +124,7 @@ export class MemoryRepository extends Repository {
     if (fields.content) patch.content = fields.content
     if (fields.kind) patch.kind = fields.kind
     if (fields.importance) patch.importance = fields.importance
+    if (fields.evidence) patch.evidence = fields.evidence
     if (fields.gist_en) {
       patch.gist_en = fields.gist_en
       patch.embedding = toVector(await sharedEmbedder.embed(fields.gist_en))

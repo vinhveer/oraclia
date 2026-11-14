@@ -31,6 +31,7 @@ const KIND_LABEL: Record<MemoryKind, string> = {
   preference: 'Cách trả lời',
   life_event: 'Sự kiện',
   ongoing: 'Đang theo dõi',
+  pattern: 'Khuôn mẫu',
 }
 
 /**
