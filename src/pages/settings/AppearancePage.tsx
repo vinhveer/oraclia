@@ -1,56 +1,50 @@
-import { ColorSwatch, Group, SegmentedControl, Text, Title, UnstyledButton } from '@mantine/core'
-import { useMantineColorScheme, type MantineColorScheme } from '@mantine/core'
+import { Icon } from '@astryxdesign/core/Icon'
+import { SegmentedControl, SegmentedControlItem } from '@astryxdesign/core/SegmentedControl'
+import { Text } from '@astryxdesign/core/Text'
 import { IconCheck } from '@tabler/icons-react'
-import { usePalette } from '@/theme/ThemeProvider'
-import { SettingsLayout } from './SettingsLayout'
+import { useAppTheme, type ColorScheme } from '@/theme/ThemeProvider'
+import { SettingsLayout, SettingsSection } from './SettingsLayout'
 import classes from './Settings.module.css'
 
 export default function AppearancePage() {
-  const { colorScheme, setColorScheme } = useMantineColorScheme()
-  const { palette, setPaletteId, palettes } = usePalette()
+  const { colorScheme, setColorScheme, palette, setPaletteId, palettes } = useAppTheme()
 
   return (
     <SettingsLayout title="Giao diện" description="Áp dụng ngay và nhớ cho lần sau.">
-      <section>
-        <Title order={2} mb="sm">
-          Nền
-        </Title>
+      <SettingsSection title="Nền">
         <SegmentedControl
-          fullWidth
+          label="Nền"
+          layout="fill"
           value={colorScheme}
-          onChange={(value) => setColorScheme(value as MantineColorScheme)}
-          data={[
-            { value: 'light', label: 'Sáng' },
-            { value: 'dark', label: 'Tối' },
-            { value: 'auto', label: 'Theo hệ thống' },
-          ]}
-        />
-      </section>
+          onChange={(value) => setColorScheme(value as ColorScheme)}
+        >
+          <SegmentedControlItem value="light" label="Sáng" />
+          <SegmentedControlItem value="dark" label="Tối" />
+          <SegmentedControlItem value="auto" label="Theo hệ thống" />
+        </SegmentedControl>
+      </SettingsSection>
 
-      <section>
-        <Title order={2} mb="sm">
-          Màu chủ đạo
-        </Title>
-        <Group gap="xs">
+      <SettingsSection title="Màu chủ đạo">
+        <div className={classes.row}>
           {palettes.map((entry) => {
             const active = entry.id === palette.id
             return (
-              <UnstyledButton
+              <button
+                type="button"
                 key={entry.id}
                 className={classes.option}
-                data-active={active || undefined}
                 onClick={() => setPaletteId(entry.id)}
                 aria-pressed={active}
               >
-                <ColorSwatch color={entry.seed} size={24} radius="sm">
-                  {active && <IconCheck size={14} color="white" />}
-                </ColorSwatch>
-                <Text size="sm">{entry.name}</Text>
-              </UnstyledButton>
+                <span className={classes.swatch} style={{ background: entry.seed }} aria-hidden="true">
+                  {active && <Icon icon={IconCheck} size="sm" />}
+                </span>
+                <Text type="label">{entry.name}</Text>
+              </button>
             )
           })}
-        </Group>
-      </section>
+        </div>
+      </SettingsSection>
     </SettingsLayout>
   )
 }
