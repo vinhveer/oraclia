@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import { Collapse, Loader, Text, UnstyledButton } from '@mantine/core'
-import { IconAlertCircle, IconCheck, IconChevronDown } from '@tabler/icons-react'
+import { Collapsible } from '@astryxdesign/core/Collapsible'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Spinner } from '@astryxdesign/core/Spinner'
+import { Text } from '@astryxdesign/core/Text'
+import { IconAlertCircle, IconCheck } from '@tabler/icons-react'
 import type { Activity } from './activity'
 import classes from './Thread.module.css'
 
 /**
  * Vẽ đúng dòng hoạt động mà reducer sinh ra — không suy đoán gì thêm. Việc đang
- * chạy luôn hiện; việc đã xong gom lại thành một dòng bấm mở, để bài đọc không
- * bị đẩy xuống bởi danh sách việc đã làm.
+ * chạy luôn hiện; việc đã xong gom lại thành một dòng bấm mở (Collapsible), để
+ * bài đọc không bị đẩy xuống bởi danh sách việc đã làm.
  */
 export function ActivityTrace({ activities }: { activities: Activity[] }) {
   const [open, setOpen] = useState(false)
@@ -26,26 +29,24 @@ export function ActivityTrace({ activities }: { activities: Activity[] }) {
   return (
     <div className={classes.trace}>
       {settled.length > 0 && (
-        <>
-          <UnstyledButton
-            className={classes.traceToggle}
-            onClick={() => setOpen((current) => !current)}
-            aria-expanded={open}
-          >
-            {failed ? <IconAlertCircle size={16} /> : <IconCheck size={16} />}
-            <Text size="sm" span>
-              {settled.length === 1 ? doneLabel(settled[0]) : `${settled.length} bước đã làm`}
-            </Text>
-            <IconChevronDown size={14} className={classes.traceChevron} data-open={open || undefined} />
-          </UnstyledButton>
-          <Collapse expanded={open}>
-            <div className={classes.traceList}>
-              {settled.map((activity) => (
-                <Row key={activity.id} activity={activity} />
-              ))}
-            </div>
-          </Collapse>
-        </>
+        <Collapsible
+          isOpen={open}
+          onOpenChange={setOpen}
+          trigger={
+            <span className={classes.traceToggle}>
+              <Icon icon={failed ? IconAlertCircle : IconCheck} size="sm" />
+              <Text type="label" color="secondary">
+                {settled.length === 1 ? doneLabel(settled[0]) : `${settled.length} bước đã làm`}
+              </Text>
+            </span>
+          }
+        >
+          <div className={classes.traceList}>
+            {settled.map((activity) => (
+              <Row key={activity.id} activity={activity} />
+            ))}
+          </div>
+        </Collapsible>
       )}
       {running.map((activity) => (
         <Row key={activity.id} activity={activity} />
@@ -71,17 +72,17 @@ function Row({ activity }: { activity: Activity }) {
     <div className={classes.traceRow} data-status={activity.status}>
       <span className={classes.traceIcon}>
         {running ? (
-          <Loader size={14} type="dots" />
-        ) : activity.status === 'failed' ? (
-          <IconAlertCircle size={16} />
+          <Spinner size="sm" shade="subtle" aria-label={activity.label} />
         ) : (
-          <IconCheck size={16} />
+          <Icon icon={activity.status === 'failed' ? IconAlertCircle : IconCheck} size="sm" />
         )}
       </span>
       <div className={classes.traceBody}>
-        <Text size="sm">{doneLabel(activity)}</Text>
+        <Text type="label" color="inherit">
+          {doneLabel(activity)}
+        </Text>
         {detail && (
-          <Text size="xs" c="dimmed" lineClamp={running ? 2 : 6} className={classes.traceDetail}>
+          <Text type="supporting" maxLines={running ? 2 : 6} hasTruncateTooltip={false} className={classes.traceDetail}>
             {detail}
           </Text>
         )}

