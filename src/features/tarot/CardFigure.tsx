@@ -1,6 +1,7 @@
-import { Badge, Group, Text } from '@mantine/core'
+import { Text } from '@astryxdesign/core/Text'
 import type { DrawnCard } from '@db'
 import { CardImage } from './CardImage'
+import { Keywords } from './Keywords'
 import { deckStyle, orientationLabel } from './decks'
 import classes from './Tarot.module.css'
 
@@ -14,26 +15,18 @@ export function CardFigure({ card }: { card: DrawnCard }) {
     <figure className={classes.figure}>
       <CardImage card={card} width={88} reveal />
       <figcaption className={classes.figureCaption}>
-        <Text size="sm" c="dimmed">
+        <Text type="supporting" display="block">
           {card.position}
         </Text>
-        <Text fw={600} size="lg" lh={1.35}>
+        <Text type="large" weight="semibold" display="block">
           {card.name_vi}
         </Text>
-        <Text size="sm" c="dimmed">
+        <Text type="supporting" display="block">
           {deck.hasOrientation
             ? `${card.name} · ${orientationLabel(card.orientation).toLowerCase()}`
             : `Bộ ${deck.label}`}
         </Text>
-        {card.keywords.length > 0 && (
-          <Group gap={6} mt={8}>
-            {card.keywords.map((keyword) => (
-              <Badge key={keyword} variant="light" radius="sm" tt="none" fw={500}>
-                {keyword}
-              </Badge>
-            ))}
-          </Group>
-        )}
+        <Keywords keywords={card.keywords} />
       </figcaption>
     </figure>
   )

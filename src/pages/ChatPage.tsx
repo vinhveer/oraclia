@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { AssistantRuntimeProvider } from '@assistant-ui/react'
-import { notifications } from '@mantine/notifications'
 import { subscribeToConversation } from '@db'
-import { useOracliaRuntime } from '@/features/chat/runtime'
+import { notify } from '@/app/notify'
 import {
   clearError,
   loadThread,
@@ -20,7 +18,6 @@ import { CardPicker } from '@/features/tarot/CardPicker'
 export default function ChatPage() {
   const { id } = useParams()
   const threadKey = id ?? NEW_THREAD
-  const runtime = useOracliaRuntime(threadKey)
   const thread = useChatStore(selectThread(threadKey))
   const request = pendingRequest(thread)
   const draw = request?.kind === 'draw' ? request : null
@@ -45,17 +42,15 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (!thread.error) return
-    notifications.show({ color: 'red', message: thread.error })
+    notify({ color: 'red', message: thread.error })
     clearError(threadKey)
   }, [thread.error, threadKey])
 
   const openPicker = useCallback(() => setPickerFor(drawId), [drawId])
 
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
-      <ChatProvider threadKey={threadKey} openPicker={openPicker}>
-        <Thread />
-      </ChatProvider>
+    <ChatProvider threadKey={threadKey} openPicker={openPicker}>
+      <Thread />
       {draw && (
         <CardPicker
           key={draw.readingId}
@@ -68,6 +63,6 @@ export default function ChatPage() {
           }}
         />
       )}
-    </AssistantRuntimeProvider>
+    </ChatProvider>
   )
 }

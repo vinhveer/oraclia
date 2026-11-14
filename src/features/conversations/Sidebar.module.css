@@ -1,47 +1,24 @@
 .sidebar {
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  min-height: 0;
 }
 
 .top {
-  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding-bottom: var(--spacing-2);
 }
 
-.list {
-  flex: 1;
-  min-height: 0;
-  padding: 0 0.5rem;
+.placeholder {
+  padding: 2px var(--spacing-2);
+}
+
+.empty {
+  padding: var(--spacing-3) var(--spacing-2);
 }
 
 .item {
   position: relative;
-  margin-bottom: 2px;
-}
-
-.itemLink {
-  min-height: 38px;
-  padding-right: 2.25rem;
-  border-radius: var(--mantine-radius-md);
-}
-
-.itemLabel {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: var(--mantine-font-size-sm);
-}
-
-.itemDelete {
-  position: absolute;
-  /* Căn giữa bằng margin, không bằng transform: ActionIcon dùng transform cho
-     hiệu ứng nhấn, nó ghi đè translateY(-50%) nên nút tụt xuống 15px giữa lúc
-     nhấn và lúc thả — cú bấm rơi vào link bên dưới và không xoá được gì. */
-  inset-block: 0;
-  right: 4px;
-  margin-block: auto;
-  z-index: 1;
 }
 
 /* Chuột thì hiện nút xoá khi rê vào; cảm ứng không có hover nên luôn hiện. */
@@ -55,22 +32,4 @@
   .item:focus-within .itemDelete {
     opacity: 1;
   }
-}
-
-.bottom {
-  padding: 0.5rem;
-  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
-  border-top: 1px solid var(--app-border);
-}
-
-.settingsLink {
-  border-radius: var(--mantine-radius-md);
-  font-size: var(--mantine-font-size-sm);
-}
-
-.undo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
 }

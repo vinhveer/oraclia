@@ -1,28 +1,25 @@
 import { useEffect, useRef, useState } from 'react'
-import { NavLink as RouterLink, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { Button } from '@astryxdesign/core/Button'
+import { Icon } from '@astryxdesign/core/Icon'
+import { NavIcon } from '@astryxdesign/core/NavIcon'
+import { SideNav, SideNavHeading, SideNavItem, SideNavSection } from '@astryxdesign/core/SideNav'
+import { Skeleton } from '@astryxdesign/core/Skeleton'
+import { Text } from '@astryxdesign/core/Text'
+import { TextInput } from '@astryxdesign/core/TextInput'
 import {
-  ActionIcon,
-  Button,
-  CloseButton,
-  Loader,
-  NavLink,
-  ScrollArea,
-  Skeleton,
-  Text,
-  TextInput,
-} from '@mantine/core'
-import { useDebouncedValue } from '@mantine/hooks'
-import { notifications } from '@mantine/notifications'
-import {
+  IconAdjustmentsHorizontal,
   IconBookmark,
+  IconMoonStars,
   IconPalette,
   IconPlus,
   IconSearch,
   IconTrash,
   IconUser,
-  IconAdjustmentsHorizontal,
 } from '@tabler/icons-react'
 import { deleteConversation, type Conversation } from '@db'
+import { notify } from '@/app/notify'
+import { useDebouncedValue } from '@/lib/hooks'
 import { refreshConversations, removeFromCache, useConversations } from './queries'
 import classes from './Sidebar.module.css'
 
@@ -36,6 +33,13 @@ const settingsLinks = [
 /** Xoá chờ chừng này trước khi thật sự gọi server, để kịp bấm Hoàn tác. */
 const UNDO_MS = 5000
 
+/**
+ * Danh sách cuộc trò chuyện, dựng bằng SideNav của Astryx (template "Side Nav").
+ * Dùng chung cho cột trái trên màn hình rộng và Drawer trên điện thoại.
+ *
+ * Không có đổi tên: bảng conversations chỉ cấp quyền select/delete cho người
+ * dùng (xem migration security_hardening), tiêu đề do Oraclia tự đặt.
+ */
 export function Sidebar({
   activeId,
   onNavigate,
@@ -45,8 +49,9 @@ export function Sidebar({
   onNavigate?: () => void
 }) {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const [term, setTerm] = useState('')
-  const [debounced] = useDebouncedValue(term, 220)
+  const debounced = useDebouncedValue(term, 220)
   const { data = [], isPending, isFetching } = useConversations(debounced)
   const [hidden, setHidden] = useState<Set<string>>(new Set())
   const timers = useRef(new Map<string, ReturnType<typeof setTimeout>>())
@@ -79,26 +84,20 @@ export function Sidebar({
         return next
       })
     }
-    const notificationId = notifications.show({
-      message: (
-        <div className={classes.undo}>
-          <Text size="sm" truncate>
-            Đã xoá “{item.title}”
-          </Text>
-          <Button
-            variant="subtle"
-            size="compact-sm"
-            onClick={() => {
-              restore()
-              notifications.hide(notificationId)
-            }}
-          >
-            Hoàn tác
-          </Button>
-        </div>
-      ),
+    const dismiss = notify({
+      message: `Đã xoá “${item.title}”`,
       autoClose: UNDO_MS,
-      withCloseButton: false,
+      action: (
+        <Button
+          label="Hoàn tác"
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            restore()
+            dismiss()
+          }}
+        />
+      ),
     })
     timers.current.set(
       item.id,
@@ -108,7 +107,7 @@ export function Sidebar({
           .then(() => removeFromCache(item.id))
           .catch((error: Error) => {
             restore()
-            notifications.show({ color: 'red', message: error.message || 'Không xoá được.' })
+            notify({ color: 'red', message: error.message || 'Không xoá được.' })
           })
           .finally(() => refreshConversations())
       }, UNDO_MS),
@@ -118,81 +117,88 @@ export function Sidebar({
   const items = data.filter((item) => !hidden.has(item.id))
 
   return (
-    <nav className={classes.sidebar} aria-label="Cuộc trò chuyện">
-      <div className={classes.top}>
-        <Button
-          fullWidth
-          variant="light"
-          justify="flex-start"
-          leftSection={<IconPlus size={18} />}
-          onClick={() => go('/chat')}
-        >
-          Cuộc trò chuyện mới
-        </Button>
-        <TextInput
-          mt="sm"
-          value={term}
-          onChange={(event) => setTerm(event.currentTarget.value)}
-          placeholder="Tìm cuộc trò chuyện"
-          aria-label="Tìm cuộc trò chuyện"
-          leftSection={<IconSearch size={16} />}
-          rightSection={
-            isFetching && term ? (
-              <Loader size={14} />
-            ) : term ? (
-              <CloseButton size="sm" aria-label="Xoá tìm kiếm" onClick={() => setTerm('')} />
-            ) : null
-          }
+    <SideNav
+      aria-label="Cuộc trò chuyện"
+      className={classes.sidebar}
+      header={
+        <SideNavHeading
+          heading="Oraclia"
+          icon={<NavIcon icon={<Icon icon={IconMoonStars} size="sm" />} />}
         />
-      </div>
-
-      <ScrollArea className={classes.list} type="hover" scrollbarSize={6}>
+      }
+      topContent={
+        <div className={classes.top}>
+          <Button
+            label="Cuộc trò chuyện mới"
+            variant="secondary"
+            width="100%"
+            icon={<Icon icon={IconPlus} />}
+            onClick={() => go('/chat')}
+          />
+          <TextInput
+            label="Tìm cuộc trò chuyện"
+            isLabelHidden
+            type="search"
+            placeholder="Tìm cuộc trò chuyện"
+            startIcon={IconSearch}
+            value={term}
+            onChange={setTerm}
+            hasClear
+            isLoading={isFetching && !!term}
+          />
+        </div>
+      }
+      footer={
+        <SideNavSection title="Cài đặt" isHeaderHidden>
+          {settingsLinks.map((link) => (
+            <SideNavItem
+              key={link.to}
+              label={link.label}
+              icon={link.icon}
+              href={link.to}
+              isSelected={pathname === link.to}
+              onClick={onNavigate}
+            />
+          ))}
+        </SideNavSection>
+      }
+    >
+      <SideNavSection title="Cuộc trò chuyện" isHeaderHidden>
         {isPending &&
           Array.from({ length: 6 }, (_, index) => (
-            <Skeleton key={index} height={36} radius="md" mb={6} />
+            <div key={index} className={classes.placeholder}>
+              <Skeleton height={32} radius={2} index={index} />
+            </div>
           ))}
         {!isPending && !items.length && (
-          <Text size="sm" c="dimmed" px="sm" py="md">
-            {term ? 'Không tìm thấy cuộc nào khớp.' : 'Chưa có cuộc trò chuyện nào.'}
-          </Text>
+          <div className={classes.empty}>
+            <Text type="supporting">
+              {term ? 'Không tìm thấy cuộc nào khớp.' : 'Chưa có cuộc trò chuyện nào.'}
+            </Text>
+          </div>
         )}
         {items.map((item) => (
           <div key={item.id} className={classes.item}>
-            <NavLink
-              component={RouterLink}
-              to={`/chat/${item.id}`}
-              onClick={onNavigate}
-              active={item.id === activeId}
+            <SideNavItem
               label={item.title}
-              classNames={{ root: classes.itemLink, label: classes.itemLabel }}
+              href={`/chat/${item.id}`}
+              isSelected={item.id === activeId}
+              onClick={onNavigate}
+              actions={
+                <Button
+                  className={classes.itemDelete}
+                  label={`Xoá ${item.title}`}
+                  variant="ghost"
+                  size="sm"
+                  isIconOnly
+                  icon={<Icon icon={IconTrash} />}
+                  onClick={() => remove(item)}
+                />
+              }
             />
-            <ActionIcon
-              className={classes.itemDelete}
-              variant="subtle"
-              color="gray"
-              size={30}
-              aria-label={`Xoá ${item.title}`}
-              onClick={() => remove(item)}
-            >
-              <IconTrash size={16} />
-            </ActionIcon>
           </div>
         ))}
-      </ScrollArea>
-
-      <div className={classes.bottom}>
-        {settingsLinks.map((link) => (
-          <NavLink
-            key={link.to}
-            component={RouterLink}
-            to={link.to}
-            onClick={onNavigate}
-            label={link.label}
-            leftSection={<link.icon size={18} stroke={1.75} />}
-            classNames={{ root: classes.settingsLink }}
-          />
-        ))}
-      </div>
-    </nav>
+      </SideNavSection>
+    </SideNav>
   )
 }

@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ActionIcon, Button, Divider, Group, PasswordInput, Stack, Text, Title } from '@mantine/core'
-import { RowsSkeleton } from '@/app/Skeletons'
-import { modals } from '@mantine/modals'
-import { notifications } from '@mantine/notifications'
+import { Button } from '@astryxdesign/core/Button'
+import { Divider } from '@astryxdesign/core/Divider'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Text } from '@astryxdesign/core/Text'
+import { TextInput } from '@astryxdesign/core/TextInput'
 import { IconFingerprint, IconLogout, IconTrash } from '@tabler/icons-react'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useConfirm } from '@/app/confirm'
+import { notify } from '@/app/notify'
+import { RowsSkeleton } from '@/app/Skeletons'
 import { useSession } from '@/features/auth/SessionProvider'
 import { queryClient } from '@/features/conversations/queries'
 import {
@@ -17,7 +21,7 @@ import {
   type Passkey,
 } from '@db'
 import classes from './Settings.module.css'
-import { SettingsLayout } from './SettingsLayout'
+import { SettingsLayout, SettingsSection } from './SettingsLayout'
 
 export default function AccountPage() {
   const navigate = useNavigate()
@@ -38,11 +42,11 @@ export default function AccountPage() {
     try {
       const { error } = await supabase.auth.updateUser({ password })
       if (error) throw new Error(error.message)
-      notifications.show({ message: 'Đã đổi mật khẩu.' })
+      notify({ message: 'Đã đổi mật khẩu.' })
       setPassword('')
       setConfirm('')
     } catch (exception) {
-      notifications.show({
+      notify({
         color: 'red',
         message: exception instanceof Error ? exception.message : 'Không đổi được mật khẩu.',
       })
@@ -53,35 +57,38 @@ export default function AccountPage() {
 
   return (
     <SettingsLayout title="Tài khoản">
-      <div>
-        <Text size="sm" c="dimmed">
-          Đang đăng nhập
-        </Text>
+      <div className={classes.sectionHeader}>
+        <Text type="supporting">Đang đăng nhập</Text>
         <Text>{user?.email}</Text>
       </div>
 
       <form onSubmit={changePassword}>
-        <Stack gap="sm">
-          <Title order={2}>Đổi mật khẩu</Title>
-          <PasswordInput
+        <SettingsSection title="Đổi mật khẩu">
+          <TextInput
             label="Mật khẩu mới"
+            type="password"
             autoComplete="new-password"
+            width="100%"
             value={password}
-            onChange={(event) => setPassword(event.currentTarget.value)}
-            error={tooShort ? 'Mật khẩu cần ít nhất 6 ký tự.' : undefined}
+            onChange={setPassword}
             description={tooShort ? undefined : 'Ít nhất 6 ký tự.'}
+            status={tooShort ? { type: 'error', message: 'Mật khẩu cần ít nhất 6 ký tự.' } : undefined}
+            statusVariant="detached"
           />
-          <PasswordInput
+          <TextInput
             label="Nhập lại mật khẩu mới"
+            type="password"
             autoComplete="new-password"
+            width="100%"
             value={confirm}
-            onChange={(event) => setConfirm(event.currentTarget.value)}
-            error={mismatch ? 'Hai lần nhập chưa khớp.' : undefined}
+            onChange={setConfirm}
+            status={mismatch ? { type: 'error', message: 'Hai lần nhập chưa khớp.' } : undefined}
+            statusVariant="detached"
           />
-          <Button type="submit" variant="light" loading={busy} disabled={!ready} w="fit-content">
-            Đổi mật khẩu
-          </Button>
-        </Stack>
+          <div>
+            <Button type="submit" label="Đổi mật khẩu" isLoading={busy} isDisabled={!ready} />
+          </div>
+        </SettingsSection>
       </form>
 
       <Divider />
@@ -90,19 +97,18 @@ export default function AccountPage() {
 
       <Divider />
 
-      <Button
-        variant="default"
-        leftSection={<IconLogout size={18} />}
-        loading={leaving}
-        w="fit-content"
-        onClick={async () => {
-          setLeaving(true)
-          await logout()
-          navigate('/login')
-        }}
-      >
-        Đăng xuất
-      </Button>
+      <div>
+        <Button
+          label="Đăng xuất"
+          icon={<Icon icon={IconLogout} />}
+          isLoading={leaving}
+          onClick={async () => {
+            setLeaving(true)
+            await logout()
+            navigate('/login')
+          }}
+        />
+      </div>
     </SettingsLayout>
   )
 }
@@ -112,6 +118,7 @@ const dateFormat = new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium' })
 
 /** Passkey: đăng nhập bằng vân tay / Face ID thay cho mật khẩu. */
 function Passkeys() {
+  const [confirmDialog, confirm] = useConfirm()
   const { data: supported, isPending: checking } = useQuery({
     queryKey: ['passkey-enabled'],
     queryFn: passkeyEnabled,
@@ -123,69 +130,58 @@ function Passkeys() {
     mutationFn: registerPasskey,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: passkeyKey })
-      notifications.show({ message: 'Đã tạo passkey. Lần sau có thể đăng nhập không cần mật khẩu.' })
+      notify({ message: 'Đã tạo passkey. Lần sau có thể đăng nhập không cần mật khẩu.' })
     },
-    onError: (error: Error) => notifications.show({ color: 'red', message: error.message }),
+    onError: (error: Error) => notify({ color: 'red', message: error.message }),
   })
   const remove = useMutation({
     mutationFn: deletePasskey,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: passkeyKey }),
-    onError: (error: Error) => notifications.show({ color: 'red', message: error.message }),
+    onError: (error: Error) => notify({ color: 'red', message: error.message }),
   })
 
   return (
-    <section>
-      <Title order={2}>Passkey</Title>
-      <Text size="sm" c="dimmed" mt={4}>
-        Đăng nhập bằng vân tay, Face ID hoặc khoá màn hình của thiết bị, không cần nhớ mật khẩu.
-      </Text>
-
+    <SettingsSection
+      title="Passkey"
+      description="Đăng nhập bằng vân tay, Face ID hoặc khoá màn hình của thiết bị, không cần nhớ mật khẩu."
+    >
       {checking ? (
-        <Stack gap="xs" mt="md">
+        <div className={classes.list}>
           <RowsSkeleton rows={1} height={52} />
-        </Stack>
+        </div>
       ) : !supported ? (
-        <Text size="sm" mt="sm">
-          Passkey chưa dùng được: trình duyệt không hỗ trợ, hoặc Oraclia chưa bật tính năng này.
-        </Text>
+        <Text>Passkey chưa dùng được: trình duyệt không hỗ trợ, hoặc Oraclia chưa bật tính năng này.</Text>
       ) : list.isError ? (
-        <Text size="sm" mt="sm">
-          {list.error.message}
-        </Text>
+        <Text>{list.error.message}</Text>
       ) : (
-        <Stack gap="xs" mt="md">
+        <div className={classes.list}>
           {list.isPending && <RowsSkeleton rows={1} height={52} />}
           {list.data?.map((item) => (
             <PasskeyRow
               key={item.id}
               passkey={item}
               onDelete={() =>
-                modals.openConfirmModal({
+                confirm({
                   title: 'Xoá passkey này?',
-                  children: (
-                    <Text size="sm">
-                      {item.name} sẽ không đăng nhập được nữa. Mật khẩu vẫn dùng bình thường.
-                    </Text>
-                  ),
-                  labels: { confirm: 'Xoá', cancel: 'Giữ lại' },
-                  confirmProps: { color: 'red' },
+                  description: `${item.name} sẽ không đăng nhập được nữa. Mật khẩu vẫn dùng bình thường.`,
+                  confirmLabel: 'Xoá',
                   onConfirm: () => remove.mutate(item.id),
                 })
               }
             />
           ))}
-          <Button
-            variant="light"
-            leftSection={<IconFingerprint size={18} />}
-            loading={add.isPending}
-            onClick={() => add.mutate()}
-            w="fit-content"
-          >
-            Thêm passkey cho thiết bị này
-          </Button>
-        </Stack>
+          <div>
+            <Button
+              label="Thêm passkey cho thiết bị này"
+              icon={<Icon icon={IconFingerprint} />}
+              isLoading={add.isPending}
+              onClick={() => add.mutate()}
+            />
+          </div>
+        </div>
       )}
-    </section>
+      {confirmDialog}
+    </SettingsSection>
   )
 }
 
@@ -194,20 +190,19 @@ function PasskeyRow({ passkey, onDelete }: { passkey: Passkey; onDelete: () => v
     <div className={classes.memory}>
       <div className={classes.memoryBody}>
         <Text>{passkey.name}</Text>
-        <Group gap="xs">
-          <Text size="xs" c="dimmed">
-            Tạo {dateFormat.format(new Date(passkey.createdAt))}
-          </Text>
-          {passkey.lastUsedAt && (
-            <Text size="xs" c="dimmed">
-              · Dùng lần cuối {dateFormat.format(new Date(passkey.lastUsedAt))}
-            </Text>
-          )}
-        </Group>
+        <Text type="supporting">
+          Tạo {dateFormat.format(new Date(passkey.createdAt))}
+          {passkey.lastUsedAt && ` · Dùng lần cuối ${dateFormat.format(new Date(passkey.lastUsedAt))}`}
+        </Text>
       </div>
-      <ActionIcon variant="subtle" color="gray" aria-label={`Xoá ${passkey.name}`} onClick={onDelete}>
-        <IconTrash size={16} />
-      </ActionIcon>
+      <Button
+        label={`Xoá ${passkey.name}`}
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        icon={<Icon icon={IconTrash} />}
+        onClick={onDelete}
+      />
     </div>
   )
 }

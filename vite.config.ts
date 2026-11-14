@@ -29,7 +29,7 @@ function contentSecurityPolicy(supabaseUrl: string): Plugin {
         const policy = [
           "default-src 'self'",
           `script-src 'self' ${hashes.join(' ')}`,
-          // Mantine đặt biến CSS qua thẻ <style> lúc chạy.
+          // Astryx (StyleX, Theme) đặt biến CSS qua thẻ <style> và style inline lúc chạy.
           "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
           'font-src https://fonts.gstatic.com',
           "img-src 'self' data: blob:",
@@ -59,16 +59,11 @@ export default defineConfig(({ mode }) => ({
     rolldownOptions: {
       output: {
         // Thư viện ít đổi tách thành chunk riêng: deploy app mới không bắt trình
-        // duyệt tải lại cả React, Mantine, Supabase.
+        // duyệt tải lại cả React, Astryx, Supabase.
         advancedChunks: {
           groups: [
             { name: 'react', test: /node_modules[\\/](react|react-dom|scheduler|react-router)/ },
-            { name: 'mantine', test: /node_modules[\\/](@mantine|@floating-ui)/ },
             { name: 'supabase', test: /node_modules[\\/]@supabase/ },
-            {
-              name: 'chat',
-              test: /node_modules[\\/](@assistant-ui|assistant-stream|micromark|mdast|remark|unified|hast|react-markdown)/,
-            },
           ],
         },
       },

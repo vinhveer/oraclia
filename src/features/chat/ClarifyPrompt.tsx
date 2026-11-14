@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { Button, Group, Text, Textarea } from '@mantine/core'
+import { Button } from '@astryxdesign/core/Button'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Text } from '@astryxdesign/core/Text'
+import { TextInput } from '@astryxdesign/core/TextInput'
 import { IconSend2 } from '@tabler/icons-react'
 import type { PendingClarify } from './store'
 import classes from './Thread.module.css'
@@ -23,57 +26,52 @@ export function ClarifyPrompt({
   return (
     <section className={classes.clarify} aria-live="polite">
       {clarify.basedOn && (
-        <Text size="sm" c="var(--mantine-primary-color-filled)" fw={500}>
+        <Text type="label" color="accent">
           {clarify.basedOn}
         </Text>
       )}
-      <Text size="md" mt={2}>
+      <Text type="large" display="block">
         {clarify.question}
       </Text>
 
       {clarify.options.length > 0 && (
-        <Group gap="xs" mt="sm">
+        <div className={classes.clarifyOptions}>
           {clarify.options.map((option) => (
-            <Button key={option} variant="default" size="sm" onClick={() => onAnswer(option)}>
-              {option}
-            </Button>
+            <Button key={option} label={option} onClick={() => onAnswer(option)} />
           ))}
-        </Group>
+        </div>
       )}
 
       {clarify.allowFreeText && (
-        <Group gap="xs" mt="sm" align="flex-end" wrap="nowrap">
-          <Textarea
-            className={classes.clarifyInput}
-            autosize
-            minRows={1}
-            maxRows={4}
-            value={text}
-            placeholder="Hoặc tự trả lời…"
-            aria-label="Câu trả lời của bạn"
-            onChange={(event) => setText(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
-                event.preventDefault()
+        <div className={classes.clarifyRow}>
+          <div className={classes.clarifyInput}>
+            <TextInput
+              label="Câu trả lời của bạn"
+              isLabelHidden
+              value={text}
+              placeholder="Hoặc tự trả lời…"
+              enterKeyHint="send"
+              onChange={setText}
+              // onEnter của Astryx đã chặn Enter lúc đang gõ dấu (IME).
+              onEnter={() => {
                 if (ready) onAnswer(text.trim())
-              }
-            }}
-          />
+              }}
+            />
+          </div>
           <Button
-            size="md"
-            disabled={!ready}
+            label="Gửi câu trả lời"
+            variant="primary"
+            isIconOnly
+            isDisabled={!ready}
+            icon={<Icon icon={IconSend2} />}
             onClick={() => onAnswer(text.trim())}
-            aria-label="Gửi câu trả lời"
-            px="sm"
-          >
-            <IconSend2 size={18} />
-          </Button>
-        </Group>
+          />
+        </div>
       )}
 
-      <Button variant="subtle" size="compact-sm" mt="sm" onClick={onSkip}>
-        Bỏ qua, cứ bói luôn
-      </Button>
+      <div>
+        <Button label="Bỏ qua, cứ bói luôn" variant="ghost" size="sm" onClick={onSkip} />
+      </div>
     </section>
   )
 }

@@ -5,122 +5,100 @@
   min-height: 0;
 }
 
-.viewport {
-  display: flex;
+/* ChatLayout tự cuộn (đây là vùng cuộn mà E2E đo); nó cần một khung có chiều cao. */
+.layout {
   flex: 1;
-  flex-direction: column;
   min-height: 0;
-  overflow-y: auto;
   overscroll-behavior: contain;
-  scroll-padding-bottom: 1rem;
 }
 
-.column {
+.loading {
+  padding: var(--spacing-6) 0;
+}
+
+/* ---- Trống (template AI Chat Landing) ---------------------------------- */
+
+.welcome {
   display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: 1.75rem;
+  gap: var(--spacing-3);
   width: 100%;
-  max-width: 760px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 1.5rem 1rem 2rem;
+  /* Màn hình thấp (điện thoại) thì bớt khoảng trên, để màn chào vừa một màn. */
+  padding: clamp(var(--spacing-4), 10vh - 2rem, 10vh) var(--spacing-4) var(--spacing-4);
 }
 
-@media (min-width: $mantine-breakpoint-sm) {
-  .column {
-    padding: 2rem 1.5rem 2.5rem;
+@media (max-height: 760px) {
+  .welcomeMark {
+    display: none;
   }
 }
 
-/* ---- Trống ------------------------------------------------------------- */
+.welcomeMark {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
 
-.welcome {
-  padding-top: 12vh;
+.welcomeText {
+  max-width: 560px;
 }
 
 .suggestions {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
+  gap: var(--spacing-2);
   max-width: 560px;
-}
-
-.suggestion {
-  padding: 0.625rem 0.875rem;
-  border: 1px solid var(--app-border);
-  border-radius: var(--mantine-radius-md);
-  font-size: var(--mantine-font-size-sm);
-  color: var(--mantine-color-text);
-  transition: background-color 150ms ease;
-}
-
-.suggestion:hover {
-  background: var(--app-surface);
-}
-
-.loading {
-  display: grid;
-  place-items: center;
-  padding: 4rem 0;
+  margin-top: var(--spacing-3);
 }
 
 /* ---- Tin người dùng ---------------------------------------------------- */
 
-.user {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.userBubble {
-  max-width: min(85%, 560px);
-  padding: 0.625rem 0.875rem;
-  border-radius: var(--mantine-radius-lg);
-  background: var(--app-surface-strong);
-  font-size: var(--mantine-font-size-md);
-  line-height: 1.6;
+.userText {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-.userActions,
-.assistantActions {
+.actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 2px;
   transition: opacity 150ms ease;
 }
 
-/* Chuột thì hiện khi rê vào; cảm ứng không có hover nên luôn hiện. */
+/* Chuột thì hiện khi rê vào; cảm ứng không có hover nên luôn hiện. Tin trả lời
+   cuối cùng luôn hiện nút để đánh giá ngay. */
 @media (hover: hover) {
-  .user .userActions,
-  .assistant:not(:last-child) .assistantActions {
+  .user .actions,
+  .assistant:not([data-latest]) .actions {
     opacity: 0;
   }
 
-  .user:hover .userActions,
-  .user:focus-within .userActions,
-  .assistant:hover .assistantActions,
-  .assistant:focus-within .assistantActions {
+  .user:hover .actions,
+  .user:focus-within .actions,
+  .assistant:hover .actions,
+  .assistant:focus-within .actions {
     opacity: 1;
   }
 }
 
 .feedback[data-submitted] {
-  color: var(--mantine-primary-color-filled);
+  color: var(--color-text-accent);
 }
 
 .editComposer {
   align-self: flex-end;
   width: min(100%, 560px);
-  padding: 0.625rem 0.75rem;
-  border: 1px solid var(--mantine-primary-color-filled);
-  border-radius: var(--mantine-radius-lg);
-  background: var(--app-surface);
+  margin-inline-start: auto;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-container);
+  background: var(--color-background-card);
 }
 
 .editInput {
+  display: block;
   width: 100%;
   max-height: 240px;
   resize: none;
@@ -128,6 +106,7 @@
   outline: 0;
   background: transparent;
   font: inherit;
+  /* 16px: nhỏ hơn là iOS tự phóng to trang khi chạm vào ô nhập. */
   font-size: 16px;
   line-height: 1.6;
   color: inherit;
@@ -136,41 +115,58 @@
 .editActions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
 }
 
 /* ---- Tin Oraclia ------------------------------------------------------- */
 
-.assistant {
+.assistantBody {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--spacing-4);
   min-width: 0;
 }
 
 .clarify {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--mantine-primary-color-light-color);
-  border-radius: var(--mantine-radius-md);
-  background: var(--mantine-primary-color-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 1px solid var(--color-accent-muted);
+  border-radius: var(--radius-container);
+  background: color-mix(in srgb, var(--color-accent-muted) 45%, transparent);
+}
+
+.clarifyOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.clarifyRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-2);
 }
 
 .clarifyInput {
   flex: 1;
+  min-width: 0;
 }
 
 .incomplete {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--spacing-3);
 }
 
 .reflecting {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--mantine-color-dimmed);
+  color: var(--color-text-secondary);
 }
 
 /* ---- Dòng hoạt động ---------------------------------------------------- */
@@ -185,22 +181,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  align-self: flex-start;
-  padding: 2px 6px 2px 2px;
-  border-radius: var(--mantine-radius-sm);
-  color: var(--mantine-color-dimmed);
-}
-
-.traceToggle:hover {
-  color: var(--mantine-color-text);
-}
-
-.traceChevron {
-  transition: transform 150ms ease;
-}
-
-.traceChevron[data-open] {
-  transform: rotate(180deg);
+  color: var(--color-text-secondary);
 }
 
 .traceList {
@@ -209,22 +190,22 @@
   gap: 6px;
   margin: 4px 0 0 2px;
   padding-left: 12px;
-  border-left: 1px solid var(--app-border);
+  border-left: 1px solid var(--color-border);
 }
 
 .traceRow {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  color: var(--mantine-color-dimmed);
+  color: var(--color-text-secondary);
 }
 
 .traceRow[data-status='running'] {
-  color: var(--mantine-color-text);
+  color: var(--color-text-primary);
 }
 
 .traceRow[data-status='failed'] {
-  color: var(--mantine-color-red-filled);
+  color: var(--color-text-error);
 }
 
 .traceIcon {
@@ -236,6 +217,8 @@
 }
 
 .traceBody {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
 }
 
@@ -245,76 +228,17 @@
 
 /* ---- Ô nhập ------------------------------------------------------------ */
 
-.footer {
-  position: sticky;
-  bottom: 0;
-  z-index: 2;
-  width: 100%;
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0 1rem calc(0.5rem + env(safe-area-inset-bottom));
-  background: linear-gradient(to bottom, transparent, var(--mantine-color-body) 1.25rem);
-}
-
-@media (min-width: $mantine-breakpoint-sm) {
-  .footer {
-    padding-inline: 1.5rem;
-  }
-}
-
-.scrollDown {
-  position: absolute;
-  top: -2.75rem;
-  /* Không dùng transform để căn: ActionIcon ghi đè nó khi nhấn (xem Sidebar). */
-  inset-inline: 0;
-  margin-inline: auto;
-  box-shadow: var(--mantine-shadow-sm);
-}
-
-.scrollDown:disabled {
-  display: none;
-}
-
-.composer {
-  display: flex;
-  align-items: flex-end;
-  gap: 0.5rem;
-  padding: 0.375rem 0.375rem 0.375rem 0.875rem;
-  border: 1px solid var(--app-border);
-  border-radius: var(--mantine-radius-lg);
-  background: var(--app-surface);
-  transition: border-color 150ms ease;
-}
-
-.composer:focus-within {
-  border-color: var(--mantine-primary-color-filled);
-}
-
-.composerInput {
-  flex: 1;
-  min-height: 40px;
-  max-height: 200px;
-  padding: 0.5rem 0;
-  resize: none;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  font: inherit;
-  /* 16px: nhỏ hơn là iOS tự phóng to trang khi chạm vào ô nhập. */
-  font-size: 16px;
-  line-height: 1.5;
-  color: inherit;
-}
-
-.composerInput::placeholder {
-  color: var(--mantine-color-placeholder);
-}
-
 .disclaimer {
+  margin: var(--spacing-1) 0 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  text-align: center;
   text-wrap: balance;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
-@media (max-width: $mantine-breakpoint-sm) {
+@media (max-width: 48em) {
   .disclaimer {
     display: none;
   }

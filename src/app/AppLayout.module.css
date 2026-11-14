@@ -1,19 +1,17 @@
 .main {
   display: flex;
   flex-direction: column;
-  /* dvh: thanh địa chỉ mobile co giãn thì trang co theo, ô nhập không bị đẩy khuất. */
-  height: 100dvh;
+  height: 100%;
   min-height: 0;
 }
 
-.navbar {
-  background: var(--app-surface);
-  border-color: var(--app-border);
-}
-
 .header {
-  border-color: var(--app-border);
-  padding-top: env(safe-area-inset-top);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  width: 100%;
+  min-height: 52px;
+  padding-inline: var(--spacing-1);
 }
 
 .title {

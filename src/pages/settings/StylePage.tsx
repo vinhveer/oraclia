@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Button, Group, Skeleton, Textarea } from '@mantine/core'
+import { Button } from '@astryxdesign/core/Button'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Skeleton } from '@astryxdesign/core/Skeleton'
+import { TextArea } from '@astryxdesign/core/TextArea'
 import { IconPlus } from '@tabler/icons-react'
 import { SettingsLayout } from './SettingsLayout'
 import { useSaveSettings, useUserSettings } from './queries'
+import classes from './Settings.module.css'
 
 const presets = [
   'Ngắn gọn, đi thẳng vào ý chính',
@@ -34,38 +38,36 @@ export default function StylePage() {
       description="Cách viết, độ dài, giọng điệu. Riêng các nguyên tắc an toàn thì Oraclia vẫn giữ."
       actions={
         <Button
+          label="Lưu"
+          variant="primary"
           onClick={() => save.mutate({ response_style: value.trim() })}
-          loading={save.isPending}
-          disabled={settings.isPending || value.trim() === (settings.data?.response_style ?? '').trim()}
-        >
-          Lưu
-        </Button>
+          isLoading={save.isPending}
+          isDisabled={settings.isPending || value.trim() === (settings.data?.response_style ?? '').trim()}
+        />
       }
     >
       {settings.isPending ? (
-        <Skeleton height={180} />
+        <Skeleton height={180} radius={3} />
       ) : (
         <>
-          <Group gap="xs">
+          <div className={classes.row}>
             {presets.map((preset) => (
               <Button
                 key={preset}
-                variant="default"
+                label={preset}
                 size="sm"
-                leftSection={<IconPlus size={14} />}
+                icon={<Icon icon={IconPlus} />}
                 onClick={() => append(preset)}
-                disabled={value.includes(preset)}
-              >
-                {preset}
-              </Button>
+                isDisabled={value.includes(preset)}
+              />
             ))}
-          </Group>
-          <Textarea
+          </div>
+          <TextArea
             label="Phong cách trả lời"
-            autosize
-            minRows={5}
+            rows={5}
+            width="100%"
             value={value}
-            onChange={(event) => setValue(event.currentTarget.value)}
+            onChange={setValue}
             placeholder="Ví dụ: viết ngắn, không hoa mỹ, kết thúc bằng một việc cụ thể nên làm."
           />
         </>

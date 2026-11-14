@@ -1,4 +1,4 @@
-import { Skeleton } from '@mantine/core'
+import { Skeleton } from '@astryxdesign/core/Skeleton'
 import classes from './Skeletons.module.css'
 
 /**
@@ -8,22 +8,26 @@ import classes from './Skeletons.module.css'
 export function MessagesSkeleton() {
   return (
     <div className={classes.messages} role="status" aria-busy="true" aria-label="Đang tải cuộc trò chuyện">
-      <Skeleton className={classes.question} height={44} radius="lg" />
-      <div className={classes.answer}>
-        <Skeleton height={14} width="38%" radius="sm" />
-        <Skeleton height={14} radius="sm" />
-        <Skeleton height={14} radius="sm" />
-        <Skeleton height={14} width="72%" radius="sm" />
+      <div className={classes.question}>
+        <Skeleton height={44} radius={4} />
       </div>
-      <Skeleton className={classes.question} height={44} width="46%" radius="lg" />
+      <div className={classes.answer}>
+        <Skeleton height={14} width="38%" radius={1} index={1} />
+        <Skeleton height={14} radius={1} index={2} />
+        <Skeleton height={14} radius={1} index={3} />
+        <Skeleton height={14} width="72%" radius={1} index={4} />
+      </div>
+      <div className={classes.question} data-short>
+        <Skeleton height={44} radius={4} index={5} />
+      </div>
       <div className={classes.answer}>
         <div className={classes.cards}>
           {[0, 1, 2].map((index) => (
-            <Skeleton key={index} width={96} height={168} radius="md" />
+            <Skeleton key={index} width={96} height={168} radius={3} index={6 + index} />
           ))}
         </div>
-        <Skeleton height={14} radius="sm" />
-        <Skeleton height={14} width="85%" radius="sm" />
+        <Skeleton height={14} radius={1} index={9} />
+        <Skeleton height={14} width="85%" radius={1} index={10} />
       </div>
     </div>
   )
@@ -37,7 +41,7 @@ export function ChatSkeleton() {
         <MessagesSkeleton />
       </div>
       <div className={classes.composer}>
-        <Skeleton height={54} radius="lg" />
+        <Skeleton height={96} radius={4} />
       </div>
     </div>
   )
@@ -46,12 +50,13 @@ export function ChatSkeleton() {
 export function SettingsSkeleton() {
   return (
     <div className={classes.settings} role="status" aria-busy="true" aria-label="Đang tải">
-      <Skeleton height={28} width={28} radius="sm" />
-      <Skeleton height={30} width="60%" radius="sm" mt={4} />
-      <Skeleton height={16} width="80%" radius="sm" />
-      <Skeleton height={140} radius="md" mt="md" />
-      <Skeleton height={56} radius="md" />
-      <Skeleton height={56} radius="md" />
+      <Skeleton height={28} width={28} radius={2} />
+      <Skeleton height={30} width="60%" radius={2} index={1} />
+      <Skeleton height={16} width="80%" radius={2} index={2} />
+      <div className={classes.gap} />
+      <Skeleton height={140} radius={3} index={3} />
+      <Skeleton height={56} radius={3} index={4} />
+      <Skeleton height={56} radius={3} index={5} />
     </div>
   )
 }
@@ -61,7 +66,7 @@ export function RowsSkeleton({ rows = 3, height = 56 }: { rows?: number; height?
   return (
     <>
       {Array.from({ length: rows }, (_, index) => (
-        <Skeleton key={index} height={height} radius="md" />
+        <Skeleton key={index} height={height} radius={3} index={index} />
       ))}
     </>
   )

@@ -1,20 +1,15 @@
 import { useEffect, useState } from 'react'
-import {
-  ActionIcon,
-  Badge,
-  Button,
-  Group,
-  Skeleton,
-  Stack,
-  Text,
-  Textarea,
-  Title,
-} from '@mantine/core'
-import { modals } from '@mantine/modals'
+import { Badge } from '@astryxdesign/core/Badge'
+import { Button } from '@astryxdesign/core/Button'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Skeleton } from '@astryxdesign/core/Skeleton'
+import { Text } from '@astryxdesign/core/Text'
+import { TextArea } from '@astryxdesign/core/TextArea'
 import { IconPencil, IconTrash, IconTrashX } from '@tabler/icons-react'
-import type { Memory, MemoryKind } from '@db'
+import type { Memory } from '@db'
+import { useConfirm } from '@/app/confirm'
 import { RowsSkeleton } from '@/app/Skeletons'
-import { SettingsLayout } from './SettingsLayout'
+import { SettingsLayout, SettingsSection } from './SettingsLayout'
 import {
   useDeleteMemory,
   useForgetEverything,
@@ -26,7 +21,12 @@ import {
 } from './queries'
 import classes from './Settings.module.css'
 
-const KIND_LABEL: Record<MemoryKind, string> = {
+/**
+ * Nhãn theo loại trí nhớ. Khoá là chuỗi chứ không phải MemoryKind: server có
+ * thể có loại mới trước khi kiểu ở client kịp cập nhật (như `pattern`), và loại
+ * lạ thì hiện nguyên tên thay vì vỡ trang.
+ */
+const KIND_LABEL: Record<string, string> = {
   profile: 'Về bạn',
   preference: 'Cách trả lời',
   life_event: 'Sự kiện',
@@ -53,24 +53,24 @@ export default function MemoryPage() {
       description="Những điều này đi kèm mọi cuộc trò chuyện, không riêng cuộc nào."
       actions={
         <Button
+          label="Lưu"
+          variant="primary"
           onClick={() => save.mutate({ about_you: about.trim() })}
-          loading={save.isPending}
-          disabled={settings.isPending || about.trim() === (settings.data?.about_you ?? '').trim()}
-        >
-          Lưu
-        </Button>
+          isLoading={save.isPending}
+          isDisabled={settings.isPending || about.trim() === (settings.data?.about_you ?? '').trim()}
+        />
       }
     >
       {settings.isPending ? (
-        <Skeleton height={150} />
+        <Skeleton height={150} radius={3} />
       ) : (
-        <Textarea
+        <TextArea
           label="Về bạn"
           description="Tuổi, công việc, hoàn cảnh — những gì bạn muốn Oraclia luôn nhớ."
-          autosize
-          minRows={5}
+          rows={5}
+          width="100%"
           value={about}
-          onChange={(event) => setAbout(event.currentTarget.value)}
+          onChange={setAbout}
           placeholder="Ví dụ: mình 28 tuổi, làm thiết kế, đang cân nhắc chuyển nghề…"
         />
       )}
@@ -84,24 +84,20 @@ export default function MemoryPage() {
 function Memories() {
   const { data = [], isPending } = useMemories()
   return (
-    <section>
-      <Title order={2}>Oraclia tự ghi nhớ</Title>
-      <Text size="sm" c="dimmed" mt={4}>
-        Oraclia tự lưu những điều này khi bạn ngừng trò chuyện một lúc. Sửa cho đúng, hoặc xoá
-        để quên hẳn.
-      </Text>
-      <Stack gap="xs" mt="md">
+    <SettingsSection
+      title="Oraclia tự ghi nhớ"
+      description="Oraclia tự lưu những điều này khi bạn ngừng trò chuyện một lúc. Sửa cho đúng, hoặc xoá để quên hẳn."
+    >
+      <div className={classes.list}>
         {isPending && <RowsSkeleton rows={3} />}
         {!isPending && !data.length && (
-          <Text size="sm" c="dimmed">
-            Chưa có gì. Cứ trò chuyện, Oraclia sẽ tự nhặt ra những điều đáng nhớ.
-          </Text>
+          <Text type="supporting">Chưa có gì. Cứ trò chuyện, Oraclia sẽ tự nhặt ra những điều đáng nhớ.</Text>
         )}
         {data.map((memory) => (
           <MemoryItem key={memory.id} memory={memory} />
         ))}
-      </Stack>
-    </section>
+      </div>
+    </SettingsSection>
   )
 }
 
@@ -110,44 +106,42 @@ function MemoryItem({ memory }: { memory: Memory }) {
   const [value, setValue] = useState(memory.content)
   const update = useUpdateMemory()
   const remove = useDeleteMemory()
+  const [confirmDialog, confirm] = useConfirm()
 
   if (editing) {
     return (
       <div className={classes.memory}>
         <div className={classes.memoryBody}>
-          <Textarea
-            autosize
-            minRows={2}
+          <TextArea
+            label="Sửa điều đã nhớ"
+            isLabelHidden
+            rows={2}
+            width="100%"
+            hasAutoFocus
             value={value}
-            onChange={(event) => setValue(event.currentTarget.value)}
-            aria-label="Sửa điều đã nhớ"
-            autoFocus
+            onChange={setValue}
           />
-          <Group justify="flex-end" gap="xs" mt="xs">
+          <div className={classes.row} style={{ justifyContent: 'flex-end' }}>
             <Button
-              variant="subtle"
-              size="compact-md"
+              label="Huỷ"
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 setValue(memory.content)
                 setEditing(false)
               }}
-            >
-              Huỷ
-            </Button>
+            />
             <Button
-              size="compact-md"
-              loading={update.isPending}
-              disabled={!value.trim() || value.trim() === memory.content}
+              label="Lưu"
+              variant="primary"
+              size="sm"
+              isLoading={update.isPending}
+              isDisabled={!value.trim() || value.trim() === memory.content}
               onClick={() =>
-                update.mutate(
-                  { id: memory.id, content: value.trim() },
-                  { onSuccess: () => setEditing(false) },
-                )
+                update.mutate({ id: memory.id, content: value.trim() }, { onSuccess: () => setEditing(false) })
               }
-            >
-              Lưu
-            </Button>
-          </Group>
+            />
+          </div>
         </div>
       </div>
     )
@@ -156,38 +150,37 @@ function MemoryItem({ memory }: { memory: Memory }) {
   return (
     <div className={classes.memory}>
       <div className={classes.memoryBody}>
-        <Text>{memory.content}</Text>
-        <Group gap={6} mt={6}>
-          <Badge variant="light" color="gray" radius="sm" tt="none" fw={500}>
-            {KIND_LABEL[memory.kind] ?? memory.kind}
-          </Badge>
-          {memory.importance === 3 && (
-            <Badge variant="light" radius="sm" tt="none" fw={500}>
-              Quan trọng
-            </Badge>
-          )}
-        </Group>
+        <Text display="block">{memory.content}</Text>
+        <div className={classes.tags}>
+          <Badge label={KIND_LABEL[memory.kind] ?? memory.kind} />
+          {memory.importance === 3 && <Badge label="Quan trọng" variant="purple" />}
+        </div>
       </div>
-      <ActionIcon variant="subtle" color="gray" aria-label="Sửa" onClick={() => setEditing(true)}>
-        <IconPencil size={16} />
-      </ActionIcon>
-      <ActionIcon
-        variant="subtle"
-        color="gray"
-        aria-label="Quên điều này"
-        loading={remove.isPending}
+      <Button
+        label="Sửa"
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        icon={<Icon icon={IconPencil} />}
+        onClick={() => setEditing(true)}
+      />
+      <Button
+        label="Quên điều này"
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        isLoading={remove.isPending}
+        icon={<Icon icon={IconTrash} />}
         onClick={() =>
-          modals.openConfirmModal({
+          confirm({
             title: 'Quên điều này?',
-            children: <Text size="sm">{memory.content}</Text>,
-            labels: { confirm: 'Quên', cancel: 'Giữ lại' },
-            confirmProps: { color: 'red' },
+            description: memory.content,
+            confirmLabel: 'Quên',
             onConfirm: () => remove.mutate(memory.id),
           })
         }
-      >
-        <IconTrash size={16} />
-      </ActionIcon>
+      />
+      {confirmDialog}
     </div>
   )
 }
@@ -195,28 +188,25 @@ function MemoryItem({ memory }: { memory: Memory }) {
 function Summaries() {
   const { data = [], isPending } = useSummaries()
   return (
-    <section>
-      <Title order={2}>Bộ nhớ của từng cuộc trò chuyện</Title>
-      <Stack gap="xs" mt="md">
+    <SettingsSection title="Bộ nhớ của từng cuộc trò chuyện">
+      <div className={classes.list}>
         {isPending && <RowsSkeleton rows={2} height={72} />}
         {!isPending && !data.length && (
-          <Text size="sm" c="dimmed">
+          <Text type="supporting">
             Chưa có gì. Phần này xuất hiện khi một cuộc trò chuyện đủ dài để được cô đọng lại; xoá
             cuộc trò chuyện là xoá luôn phần nhớ của nó.
           </Text>
         )}
         {data.map((item) => (
           <div key={item.title + item.summary.slice(0, 24)} className={classes.summary}>
-            <Text fw={500} size="sm">
+            <Text type="label" weight="medium">
               {item.title}
             </Text>
-            <Text size="sm" c="dimmed" mt={4}>
-              {item.summary}
-            </Text>
+            <Text type="supporting">{item.summary}</Text>
           </div>
         ))}
-      </Stack>
-    </section>
+      </div>
+    </SettingsSection>
   )
 }
 
@@ -226,37 +216,29 @@ function Summaries() {
  */
 function ForgetEverything() {
   const forget = useForgetEverything()
+  const [confirmDialog, confirm] = useConfirm()
   return (
-    <section className={classes.danger}>
-      <Title order={2}>Xoá toàn bộ ký ức</Title>
-      <Text size="sm" c="dimmed" mt={4}>
-        Oraclia quên hết những gì đã tự ghi nhớ về bạn, cả các lượt xem cũ lẫn bộ nhớ của từng cuộc
-        trò chuyện. Phần “Về bạn” và các cuộc trò chuyện vẫn giữ nguyên.
-      </Text>
+    <SettingsSection
+      danger
+      title="Xoá toàn bộ ký ức"
+      description="Oraclia quên hết những gì đã tự ghi nhớ về bạn, cả các lượt xem cũ lẫn bộ nhớ của từng cuộc trò chuyện. Phần “Về bạn” và các cuộc trò chuyện vẫn giữ nguyên."
+    >
       <Button
-        mt="sm"
-        color="red"
-        variant="outline"
-        leftSection={<IconTrashX size={18} />}
-        loading={forget.isPending}
+        label="Xoá toàn bộ ký ức"
+        variant="destructive"
+        icon={<Icon icon={IconTrashX} />}
+        isLoading={forget.isPending}
         onClick={() =>
-          modals.openConfirmModal({
+          confirm({
             title: 'Xoá toàn bộ ký ức?',
-            children: (
-              <Text size="sm">
-                Oraclia sẽ quên mọi điều đã tự ghi nhớ, mọi lượt xem cũ dùng để nhắc lại, và bộ nhớ cô
-                đọng của từng cuộc trò chuyện. Không hoàn tác được. Phần “Về bạn” và các cuộc trò
-                chuyện vẫn còn.
-              </Text>
-            ),
-            labels: { confirm: 'Xoá hết', cancel: 'Giữ lại' },
-            confirmProps: { color: 'red' },
+            description:
+              'Oraclia sẽ quên mọi điều đã tự ghi nhớ, mọi lượt xem cũ dùng để nhắc lại, và bộ nhớ cô đọng của từng cuộc trò chuyện. Không hoàn tác được. Phần “Về bạn” và các cuộc trò chuyện vẫn còn.',
+            confirmLabel: 'Xoá hết',
             onConfirm: () => forget.mutate(),
           })
         }
-      >
-        Xoá toàn bộ ký ức
-      </Button>
-    </section>
+      />
+      {confirmDialog}
+    </SettingsSection>
   )
 }

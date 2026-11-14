@@ -1,43 +1,62 @@
-import { createContext, useContext, useMemo } from 'react'
+import { createContext, memo, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { Button } from '@astryxdesign/core/Button'
 import {
-  ActionBarPrimitive,
-  AuiIf,
-  ComposerPrimitive,
-  MessagePrimitive,
-  ThreadPrimitive,
-  useAuiState,
-} from '@assistant-ui/react'
-import { ActionIcon, Button, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
-import { MessagesSkeleton } from '@/app/Skeletons'
+  ChatComposer,
+  ChatComposerInput,
+  ChatLayout,
+  ChatMessage,
+  ChatMessageBubble,
+  ChatMessageList,
+  ChatSendButton,
+} from '@astryxdesign/core/Chat'
+import { ClickableCard } from '@astryxdesign/core/ClickableCard'
+import { Heading } from '@astryxdesign/core/Heading'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Text } from '@astryxdesign/core/Text'
 import {
-  IconArrowDown,
-  IconArrowUp,
   IconBookmark,
   IconCheck,
   IconCopy,
+  IconMoonStars,
   IconPencil,
-  IconPlayerStopFilled,
   IconRefresh,
   IconThumbDown,
   IconThumbUp,
 } from '@tabler/icons-react'
+import { rateMessage, type Rating } from '@db'
+import { MessagesSkeleton } from '@/app/Skeletons'
+import { notify } from '@/app/notify'
+import { useMediaQuery } from '@/lib/hooks'
 import { DrawPrompt } from '../tarot/CardPicker'
 import { HexagramView } from '../tarot/HexagramView'
 import { RevealedCards } from '../tarot/RevealedCards'
 import { ActivityTrace } from './ActivityTrace'
 import { ClarifyPrompt } from './ClarifyPrompt'
 import { MarkdownText } from './MarkdownText'
-import { useMessageMeta } from './meta'
 import {
   answerClarify,
   ask,
+  cancel,
   isBusy,
   resend,
   scheduleReflection,
   selectThread,
+  setRating,
   useChatStore,
+  type ChatMessage as StoreMessage,
 } from './store'
 import classes from './Thread.module.css'
+
+/**
+ * Màn hình chat, dựng theo template "AI Chat Conversation" của Astryx
+ * (ChatLayout + ChatMessageList + ChatComposer) và "AI Chat Landing" cho màn
+ * trống. Không còn lớp runtime trung gian: mọi thứ đọc thẳng từ store (zustand)
+ * và gọi thẳng các hành động của nó — store vẫn là nguồn thật duy nhất, nên
+ * stream sống sót qua việc đổi trang hay đổi cuộc.
+ *
+ * Phần cuộn do ChatLayout lo: bám đáy khi chữ đang chảy, người dùng cuộn lên
+ * là nhả, nút "Xuống cuối" đưa về đáy và bám lại.
+ */
 
 interface ChatContextValue {
   threadKey: string
@@ -67,266 +86,434 @@ const SUGGESTIONS = [
   'Gieo một quẻ Kinh Dịch: có nên bắt đầu dự án mới lúc này?',
 ]
 
-export function Thread() {
-  return (
-    <ThreadPrimitive.Root className={classes.root}>
-      <ThreadPrimitive.Viewport className={classes.viewport} data-testid="thread-viewport">
-        <div className={classes.column}>
-          {/* Không dùng ThreadPrimitive.Empty: nó ẩn mọi thứ trong lúc runtime đang
-              tải, nên khung xương đặt trong đó không bao giờ hiện. */}
-          <AuiIf condition={(state) => state.thread.messages.length === 0}>
-            <Welcome />
-          </AuiIf>
-          <ThreadPrimitive.Messages>
-            {({ message }) => (message.role === 'user' ? <UserMessage /> : <AssistantMessage />)}
-          </ThreadPrimitive.Messages>
-          <ReflectingNote />
-        </div>
+/**
+ * Gửi một câu hỏi là muốn theo dõi câu trả lời: đưa về đáy và khoá bám đáy lại.
+ *
+ * ChatLayout (Astryx 0.7) nhả khoá khi thấy scrollTop giảm mà chưa chạm đáy. Lúc
+ * nội dung đổi hình (màn chào cao hơn màn hình được thay bằng câu hỏi ngắn, hay
+ * sửa câu hỏi cắt bớt tin), trình duyệt kẹp scrollTop xuống, và sự kiện scroll
+ * tới muộn một khung hình — khi nội dung đã dài ra — nên bị đọc nhầm là người
+ * dùng cuộn lên (gặp trên WebKit iPhone). Không có API công khai để khoá lại,
+ * nên đặt scrollTop về đáy rồi phát `scrollend`: ChatLayout tự khoá khi một lần
+ * cuộn kết thúc sát đáy.
+ */
+function useFollowOnSend(lastUserId: string | undefined) {
+  const ref = useRef<HTMLDivElement>(null)
+  const previous = useRef(lastUserId)
+  useEffect(() => {
+    if (previous.current === lastUserId) return
+    previous.current = lastUserId
+    const node = ref.current
+    if (!node) return
+    let second = 0
+    const first = requestAnimationFrame(() => {
+      node.scrollTop = node.scrollHeight
+      second = requestAnimationFrame(() => node.dispatchEvent(new Event('scrollend')))
+    })
+    return () => {
+      cancelAnimationFrame(first)
+      cancelAnimationFrame(second)
+    }
+  }, [lastUserId])
+  return ref
+}
 
-        <ThreadPrimitive.ViewportFooter className={classes.footer}>
-          <ThreadPrimitive.ScrollToBottom asChild>
-            <ActionIcon
-              className={classes.scrollDown}
-              variant="default"
-              size={36}
-              aria-label="Xuống cuối"
-            >
-              <IconArrowDown size={18} />
-            </ActionIcon>
-          </ThreadPrimitive.ScrollToBottom>
-          <Composer />
-          <Text size="xs" c="dimmed" ta="center" mt={6} className={classes.disclaimer}>
-            Tarot và Kinh Dịch ở đây để tự soi chiếu, không thay thế tư vấn y tế, pháp lý hay tài chính.
-          </Text>
-        </ThreadPrimitive.ViewportFooter>
-      </ThreadPrimitive.Viewport>
-    </ThreadPrimitive.Root>
+export function Thread() {
+  const { threadKey } = useChatContext()
+  const messages = useChatStore((state) => selectThread(threadKey)(state).messages)
+  const loading = useChatStore((state) => selectThread(threadKey)(state).loading)
+  const lastUserId = messages.findLast((message) => message.role === 'user')?.id
+  const layoutRef = useFollowOnSend(lastUserId)
+
+  return (
+    <div className={classes.root}>
+      <ChatLayout
+        ref={layoutRef}
+        data-testid="thread-viewport"
+        density="spacious"
+        className={classes.layout}
+        emptyState={<Welcome />}
+        composer={
+          <>
+            <Composer />
+            <p className={classes.disclaimer}>
+              Tarot và Kinh Dịch ở đây để tự soi chiếu, không thay thế tư vấn y tế, pháp lý hay tài chính.
+            </p>
+          </>
+        }
+      >
+        {messages.length > 0 ? (
+          <ChatMessageList gap={6}>
+            {messages.map((message, index) =>
+              message.role === 'user' ? (
+                <UserMessage key={message.id} message={message} />
+              ) : (
+                <AssistantMessage
+                  key={message.id}
+                  message={message}
+                  parent={messages[index - 1]}
+                  latest={index === messages.length - 1}
+                />
+              ),
+            )}
+            <ReflectingNote />
+          </ChatMessageList>
+        ) : loading ? (
+          // Đang tải cuộc cũ thì đừng chào như cuộc mới, kẻo màn hình nháy một nhịp.
+          <div className={classes.loading}>
+            <MessagesSkeleton />
+          </div>
+        ) : null}
+      </ChatLayout>
+    </div>
   )
 }
 
 function Welcome() {
   const { threadKey } = useChatContext()
-  const loading = useChatStore((state) => selectThread(threadKey)(state).loading)
-  // Đang tải cuộc cũ thì đừng chào như cuộc mới, kẻo màn hình nháy một nhịp.
-  if (loading) return <MessagesSkeleton />
   return (
     <div className={classes.welcome}>
-      <Title order={1}>Bạn đang nghĩ gì?</Title>
-      <Text c="dimmed" mt={8} maw={560}>
+      <div className={classes.welcomeMark}>
+        <Icon icon={IconMoonStars} size="md" color="accent" />
+        <Text type="large" color="secondary">
+          Oraclia
+        </Text>
+      </div>
+      <Heading level={1} type="display-3">
+        Bạn đang nghĩ gì?
+      </Heading>
+      <Text color="secondary" display="block" className={classes.welcomeText}>
         Hỏi một điều. Oraclia tự chọn tarot, bài tây hay Kinh Dịch cho câu hỏi đó, và nếu là rút
         bài thì bạn tự tay chọn từ bộ bài đã xáo úp mặt.
       </Text>
       <div className={classes.suggestions}>
         {SUGGESTIONS.map((suggestion) => (
-          <UnstyledButton
+          <ClickableCard
             key={suggestion}
-            className={classes.suggestion}
+            label={suggestion}
+            variant="muted"
+            padding={3}
             onClick={() => ask(threadKey, suggestion)}
           >
-            {suggestion}
-          </UnstyledButton>
+            <Text>{suggestion}</Text>
+          </ClickableCard>
         ))}
       </div>
     </div>
   )
 }
 
+const isEnter = (event: React.KeyboardEvent) =>
+  event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing && event.keyCode !== 229
+
 function Composer() {
   const { threadKey } = useChatContext()
+  const running = useChatStore((state) => selectThread(threadKey)(state).running)
+  const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
+  // Trên điện thoại Enter là xuống dòng; gửi bằng nút, như mọi app nhắn tin.
+  const touch = useMediaQuery('(pointer: coarse)')
+
   return (
-    <ComposerPrimitive.Root className={classes.composer}>
-      <ComposerPrimitive.Input
-        className={classes.composerInput}
-        placeholder="Hỏi một điều…"
-        aria-label="Câu hỏi"
-        rows={1}
-        submitMode="enter"
-        // Trên điện thoại Enter là xuống dòng; gửi bằng nút, như mọi app nhắn tin.
-        unstable_insertNewlineOnTouchEnter
-        // Gõ phím là dấu hiệu người dùng còn ở đây: dời lượt phản tư ra sau.
-        onKeyDown={() => scheduleReflection(threadKey)}
-      />
-      <AuiIf condition={(state) => !state.thread.isRunning}>
-        <ComposerPrimitive.Send asChild>
-          <ActionIcon
-            size={40}
-            variant="filled"
-            aria-label="Gửi"
-            // Giữ focus trong ô nhập: trên điện thoại mất focus là bàn phím sập
-            // xuống sau mỗi câu hỏi, rồi lại phải chạm vào ô để gõ tiếp.
-            onMouseDown={(event) => event.preventDefault()}
-          >
-            <IconArrowUp size={20} />
-          </ActionIcon>
-        </ComposerPrimitive.Send>
-      </AuiIf>
-      <AuiIf condition={(state) => state.thread.isRunning}>
-        <ComposerPrimitive.Cancel asChild>
-          <ActionIcon size={40} variant="default" aria-label="Dừng">
-            <IconPlayerStopFilled size={16} />
-          </ActionIcon>
-        </ComposerPrimitive.Cancel>
-      </AuiIf>
-    </ComposerPrimitive.Root>
+    <ChatComposer
+      density="balanced"
+      onSubmit={(text) => ask(threadKey, text)}
+      onStop={() => cancel(threadKey)}
+      isStopShown={running}
+      input={
+        <ChatComposerInput
+          label="Câu hỏi"
+          placeholder="Hỏi một điều…"
+          maxRows={8}
+          hasHistory={false}
+          pasteAsToken={false}
+          enterKeyHint={touch ? 'enter' : 'send'}
+          onKeyDown={(event) => {
+            // Gõ phím là dấu hiệu người dùng còn ở đây: dời lượt phản tư ra sau.
+            scheduleReflection(threadKey)
+            if (!isEnter(event)) return
+            if (touch) {
+              event.preventDefault()
+              document.execCommand('insertLineBreak')
+              return
+            }
+            // Đang có lượt chạy thì Enter không gửi — và không được xoá chữ đang
+            // gõ dở (ô nhập của Astryx xoá ngay khi tự gửi).
+            if (busy) event.preventDefault()
+          }}
+        />
+      }
+      sendButton={
+        <ChatSendButton
+          // Chỉ khoá nút gửi, không khoá ô nhập: khoá ô nhập là bàn phím mobile
+          // đóng lại ngay sau mỗi câu hỏi, và người dùng mất chỗ đang gõ dở.
+          {...(busy ? { isDisabled: true } : {})}
+          // Giữ focus trong ô nhập: trên điện thoại mất focus là bàn phím sập
+          // xuống sau mỗi câu hỏi, rồi lại phải chạm vào ô để gõ tiếp.
+          onMouseDown={(event) => event.preventDefault()}
+        />
+      }
+    />
   )
 }
 
-function UserMessage() {
-  const editing = useAuiState((state) => state.message.composer.isEditing)
+// ---------------------------------------------------------------------------
+// Tin người dùng
+// ---------------------------------------------------------------------------
+
+function useCopy() {
+  const [copied, setCopied] = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  useEffect(() => () => clearTimeout(timer.current), [])
+  return [
+    copied,
+    (text: string) => {
+      navigator.clipboard
+        ?.writeText(text)
+        .then(() => {
+          setCopied(true)
+          clearTimeout(timer.current)
+          timer.current = setTimeout(() => setCopied(false), 1500)
+        })
+        .catch(() => undefined)
+    },
+  ] as const
+}
+
+const UserMessage = memo(function UserMessage({ message }: { message: StoreMessage }) {
   const { threadKey } = useChatContext()
   const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
-  if (editing) return <EditComposer />
+  const [editing, setEditing] = useState(false)
+  const [copied, copy] = useCopy()
+
+  if (editing) {
+    return (
+      <EditComposer
+        initial={message.content}
+        onCancel={() => setEditing(false)}
+        onSend={(text) => {
+          setEditing(false)
+          resend(threadKey, message.id, text)
+        }}
+      />
+    )
+  }
 
   return (
-    <MessagePrimitive.Root className={classes.user}>
-      <div className={classes.userBubble}>
-        <MessagePrimitive.Parts />
-      </div>
-      <ActionBarPrimitive.Root className={classes.userActions}>
-        <ActionBarPrimitive.Copy asChild>
-          <ActionIcon variant="subtle" color="gray" size={32} aria-label="Chép câu hỏi">
-            <CopyIcon />
-          </ActionIcon>
-        </ActionBarPrimitive.Copy>
-        <ActionBarPrimitive.Edit asChild>
-          <ActionIcon variant="subtle" color="gray" size={32} aria-label="Sửa câu hỏi" disabled={busy}>
-            <IconPencil size={16} />
-          </ActionIcon>
-        </ActionBarPrimitive.Edit>
-      </ActionBarPrimitive.Root>
-    </MessagePrimitive.Root>
+    <ChatMessage
+      sender="user"
+      className={classes.user}
+      metadata={
+        <div className={classes.actions}>
+          <Button
+            label="Chép câu hỏi"
+            variant="ghost"
+            size="sm"
+            isIconOnly
+            icon={<Icon icon={copied ? IconCheck : IconCopy} />}
+            onClick={() => copy(message.content)}
+          />
+          <Button
+            label="Sửa câu hỏi"
+            variant="ghost"
+            size="sm"
+            isIconOnly
+            isDisabled={busy}
+            icon={<Icon icon={IconPencil} />}
+            onClick={() => setEditing(true)}
+          />
+        </div>
+      }
+    >
+      <ChatMessageBubble>
+        <span className={classes.userText}>{message.content}</span>
+      </ChatMessageBubble>
+    </ChatMessage>
   )
-}
+})
 
-function EditComposer() {
+function EditComposer({
+  initial,
+  onCancel,
+  onSend,
+}: {
+  initial: string
+  onCancel: () => void
+  onSend: (text: string) => void
+}) {
+  const [value, setValue] = useState(initial)
+  const ref = useRef<HTMLTextAreaElement>(null)
+  const touch = useMediaQuery('(pointer: coarse)')
+  const ready = value.trim().length > 0
+
+  // Ô tự giãn theo nội dung, tới trần thì cuộn.
+  useEffect(() => {
+    const node = ref.current
+    if (!node) return
+    node.style.height = 'auto'
+    node.style.height = `${Math.min(node.scrollHeight, 240)}px`
+  }, [value])
+
+  useEffect(() => {
+    const node = ref.current
+    node?.focus()
+    node?.setSelectionRange(node.value.length, node.value.length)
+  }, [])
+
   return (
-    <ComposerPrimitive.Root className={classes.editComposer}>
-      <ComposerPrimitive.Input
+    <div className={classes.editComposer}>
+      <textarea
+        ref={ref}
         className={classes.editInput}
         aria-label="Sửa câu hỏi"
-        autoFocus
-        submitMode="enter"
-        unstable_insertNewlineOnTouchEnter
+        rows={1}
+        value={value}
+        onChange={(event) => setValue(event.currentTarget.value)}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') onCancel()
+          if (!touch && isEnter(event)) {
+            event.preventDefault()
+            if (ready) onSend(value.trim())
+          }
+        }}
       />
       <div className={classes.editActions}>
-        <ComposerPrimitive.Cancel asChild>
-          <Button variant="subtle" size="compact-md">
-            Huỷ
-          </Button>
-        </ComposerPrimitive.Cancel>
-        <ComposerPrimitive.Send asChild>
-          <Button size="compact-md">Gửi lại</Button>
-        </ComposerPrimitive.Send>
+        <Button label="Huỷ" variant="ghost" size="sm" onClick={onCancel} />
+        <Button label="Gửi lại" variant="primary" size="sm" isDisabled={!ready} onClick={() => onSend(value.trim())} />
       </div>
-    </ComposerPrimitive.Root>
-  )
-}
-
-function useMessageText(): string {
-  return useAuiState((state) =>
-    state.message.content.map((part) => (part.type === 'text' ? part.text : '')).join(''),
-  )
-}
-
-const SLOT = /\[\[card:(\d+)\]\]/g
-
-function AssistantMessage() {
-  const meta = useMessageMeta()
-  const text = useMessageText()
-  const { threadKey, openPicker } = useChatContext()
-  const cards = meta.cards ?? []
-  // Lá nào đã được kể tới trong bài đọc thì nằm trong dòng chữ; hàng lá trên
-  // cùng chỉ giữ những lá chưa tới lượt, nên nó vơi dần khi đọc.
-  const told = new Set([...text.matchAll(SLOT)].map((match) => Number(match[1]) - 1))
-  const pending = cards.filter((_, index) => !told.has(index))
-  const request = meta.request
-
-  return (
-    <MessagePrimitive.Root className={classes.assistant}>
-      {pending.length > 0 && <RevealedCards cards={pending} />}
-      {meta.hexagram && <HexagramView casting={meta.hexagram} />}
-      <ActivityTrace activities={meta.activities} />
-      <MessagePrimitive.Parts components={{ Text: MarkdownText }} />
-
-      {request?.kind === 'clarify' && (
-        <ClarifyPrompt
-          clarify={request}
-          onAnswer={(answer) => answerClarify(threadKey, answer)}
-          onSkip={() => answerClarify(threadKey, '', true)}
-        />
-      )}
-      {request?.kind === 'draw' && <DrawPrompt draw={request} onOpen={openPicker} />}
-      <IncompleteNotice />
-
-      {meta.serverId && (
-        <ActionBarPrimitive.Root className={classes.assistantActions} hideWhenRunning>
-          <ActionBarPrimitive.Copy asChild>
-            <ActionIcon variant="subtle" color="gray" size={32} aria-label="Chép bài đọc">
-              <CopyIcon />
-            </ActionIcon>
-          </ActionBarPrimitive.Copy>
-          <Tooltip label="Hỏi lại câu này">
-            <ActionBarPrimitive.Reload asChild>
-              <ActionIcon variant="subtle" color="gray" size={32} aria-label="Hỏi lại">
-                <IconRefresh size={16} />
-              </ActionIcon>
-            </ActionBarPrimitive.Reload>
-          </Tooltip>
-          <ActionBarPrimitive.FeedbackPositive asChild>
-            <ActionIcon variant="subtle" color="gray" size={32} aria-label="Bài đọc hay" className={classes.feedback}>
-              <IconThumbUp size={16} />
-            </ActionIcon>
-          </ActionBarPrimitive.FeedbackPositive>
-          <ActionBarPrimitive.FeedbackNegative asChild>
-            <ActionIcon variant="subtle" color="gray" size={32} aria-label="Bài đọc chưa tốt" className={classes.feedback}>
-              <IconThumbDown size={16} />
-            </ActionIcon>
-          </ActionBarPrimitive.FeedbackNegative>
-        </ActionBarPrimitive.Root>
-      )}
-    </MessagePrimitive.Root>
-  )
-}
-
-/** Lượt chết giữa đường (mất mạng, máy chủ bận): nói rõ và cho hỏi lại tại chỗ. */
-function IncompleteNotice() {
-  const { threadKey } = useChatContext()
-  const failed = useAuiState((state) => state.message.status?.type === 'incomplete')
-  // Selector phải trả giá trị nguyên thủy: trả object mới mỗi lần là React tưởng
-  // state luôn đổi và render lại vô hạn.
-  const parentId = useAuiState((state) => {
-    const parent = state.thread.messages[state.message.index - 1]
-    return parent?.role === 'user' ? parent.id : ''
-  })
-  const parentText = useAuiState((state) => {
-    const parent = state.thread.messages[state.message.index - 1]
-    return parent?.role === 'user'
-      ? parent.content.map((part) => (part.type === 'text' ? part.text : '')).join('')
-      : ''
-  })
-  const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
-  if (!failed || !parentId) return null
-  return (
-    <div className={classes.incomplete}>
-      <Text size="sm" c="dimmed">
-        Lượt đọc này bị gián đoạn.
-      </Text>
-      <Button
-        variant="default"
-        size="compact-sm"
-        leftSection={<IconRefresh size={14} />}
-        disabled={busy}
-        onClick={() => resend(threadKey, parentId, parentText)}
-      >
-        Hỏi lại
-      </Button>
     </div>
   )
 }
 
-function CopyIcon() {
-  const copied = useAuiState((state) => state.message.isCopied)
-  return copied ? <IconCheck size={16} /> : <IconCopy size={16} />
+// ---------------------------------------------------------------------------
+// Tin Oraclia
+// ---------------------------------------------------------------------------
+
+const SLOT = /\[\[card:(\d+)\]\]/g
+
+const AssistantMessage = memo(function AssistantMessage({
+  message,
+  parent,
+  latest,
+}: {
+  message: StoreMessage
+  parent: StoreMessage | undefined
+  latest: boolean
+}) {
+  const { threadKey, openPicker } = useChatContext()
+  const text = message.content
+  const cards = message.cards ?? []
+  // Lá nào đã được kể tới trong bài đọc thì nằm trong dòng chữ; hàng lá trên
+  // cùng chỉ giữ những lá chưa tới lượt, nên nó vơi dần khi đọc.
+  const told = new Set([...text.matchAll(SLOT)].map((match) => Number(match[1]) - 1))
+  const pending = cards.filter((_, index) => !told.has(index))
+  const request = message.request
+  const running = message.status === 'running'
+
+  return (
+    <ChatMessage sender="assistant" className={classes.assistant} data-latest={latest ? '' : undefined}>
+      <ChatMessageBubble variant="ghost" width="100%">
+        <div className={classes.assistantBody}>
+          {pending.length > 0 && <RevealedCards cards={pending} />}
+          {message.hexagram && <HexagramView casting={message.hexagram} />}
+          <ActivityTrace activities={message.activities} />
+          {text && <MarkdownText text={text} cards={message.cards} streaming={running} />}
+
+          {request?.kind === 'clarify' && (
+            <ClarifyPrompt
+              clarify={request}
+              onAnswer={(answer) => answerClarify(threadKey, answer)}
+              onSkip={() => answerClarify(threadKey, '', true)}
+            />
+          )}
+          {request?.kind === 'draw' && <DrawPrompt draw={request} onOpen={openPicker} />}
+          {message.status === 'incomplete' && parent?.role === 'user' && (
+            <IncompleteNotice parent={parent} />
+          )}
+
+          {message.serverId && !running && <AssistantActions message={message} parent={parent} />}
+        </div>
+      </ChatMessageBubble>
+    </ChatMessage>
+  )
+})
+
+function AssistantActions({ message, parent }: { message: StoreMessage; parent: StoreMessage | undefined }) {
+  const { threadKey } = useChatContext()
+  const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
+  const [copied, copy] = useCopy()
+
+  function rate(rating: Rating) {
+    if (!message.serverId) return
+    setRating(threadKey, message.serverId, rating)
+    rateMessage(message.serverId, rating).catch(() =>
+      notify({ color: 'red', message: 'Chưa gửi được đánh giá.' }),
+    )
+  }
+
+  return (
+    <div className={classes.actions}>
+      <Button
+        label="Chép bài đọc"
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        icon={<Icon icon={copied ? IconCheck : IconCopy} />}
+        onClick={() => copy(message.content.replace(SLOT, '').trim())}
+      />
+      {parent?.role === 'user' && (
+        <Button
+          label="Hỏi lại"
+          tooltip="Hỏi lại câu này"
+          variant="ghost"
+          size="sm"
+          isIconOnly
+          isDisabled={busy}
+          icon={<Icon icon={IconRefresh} />}
+          onClick={() => resend(threadKey, parent.id, parent.content)}
+        />
+      )}
+      <Button
+        label="Bài đọc hay"
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        className={classes.feedback}
+        aria-pressed={message.rating === 1}
+        data-submitted={message.rating === 1 ? 'true' : undefined}
+        icon={<Icon icon={IconThumbUp} />}
+        onClick={() => rate(1)}
+      />
+      <Button
+        label="Bài đọc chưa tốt"
+        variant="ghost"
+        size="sm"
+        isIconOnly
+        className={classes.feedback}
+        aria-pressed={message.rating === -1}
+        data-submitted={message.rating === -1 ? 'true' : undefined}
+        icon={<Icon icon={IconThumbDown} />}
+        onClick={() => rate(-1)}
+      />
+    </div>
+  )
+}
+
+/** Lượt chết giữa đường (mất mạng, máy chủ bận): nói rõ và cho hỏi lại tại chỗ. */
+function IncompleteNotice({ parent }: { parent: StoreMessage }) {
+  const { threadKey } = useChatContext()
+  const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
+  return (
+    <div className={classes.incomplete}>
+      <Text type="supporting">Lượt đọc này bị gián đoạn.</Text>
+      <Button
+        label="Hỏi lại"
+        size="sm"
+        icon={<Icon icon={IconRefresh} />}
+        isDisabled={busy}
+        onClick={() => resend(threadKey, parent.id, parent.content)}
+      />
+    </div>
+  )
 }
 
 function ReflectingNote() {
@@ -335,10 +522,8 @@ function ReflectingNote() {
   if (reflecting === 'idle') return null
   return (
     <div className={classes.reflecting}>
-      {reflecting === 'saved' ? <IconCheck size={14} /> : <IconBookmark size={14} />}
-      <Text size="xs" c="dimmed">
-        {reflecting === 'saved' ? 'Đã ghi nhớ.' : 'Đang ghi nhớ…'}
-      </Text>
+      <Icon icon={reflecting === 'saved' ? IconCheck : IconBookmark} size="xsm" />
+      <Text type="supporting">{reflecting === 'saved' ? 'Đã ghi nhớ.' : 'Đang ghi nhớ…'}</Text>
     </div>
   )
 }

@@ -1,5 +1,6 @@
-import { Badge, Group, Text } from '@mantine/core'
+import { Text } from '@astryxdesign/core/Text'
 import type { Casting, Hexagram } from '@db'
+import { Keywords } from './Keywords'
 import classes from './Tarot.module.css'
 
 /**
@@ -20,7 +21,9 @@ function Lines({ lines, moving = [] }: { lines: string; moving?: number[] }) {
             style={{ animationDelay: `${index * 90}ms` }}
             title={`Hào ${position}${isMoving ? ' (động)' : ''}`}
           >
-            {value === '1' ? <span /> : (
+            {value === '1' ? (
+              <span />
+            ) : (
               <>
                 <span />
                 <span />
@@ -44,15 +47,13 @@ function HexagramCard({
 }) {
   return (
     <div className={classes.hexagramCard}>
-      <Text size="xs" c="dimmed">
-        {caption}
-      </Text>
+      <Text type="supporting">{caption}</Text>
       <Lines lines={hexagram.lines} moving={moving} />
       <div>
-        <Text size="sm" fw={600} ta="center">
+        <Text type="label" weight="semibold" display="block" justify="center">
           {hexagram.number}. {hexagram.name}
         </Text>
-        <Text size="xs" c="dimmed" ta="center">
+        <Text type="supporting" display="block" justify="center">
           {hexagram.full_name}
         </Text>
       </div>
@@ -66,15 +67,9 @@ export function HexagramView({ casting }: { casting: Casting }) {
       <HexagramCard hexagram={casting.primary} moving={casting.movingLines} caption="Quẻ chính" />
       {casting.changed && <HexagramCard hexagram={casting.changed} caption="Quẻ biến" />}
       <div className={classes.hexagramText}>
-        <Group gap={6}>
-          {casting.primary.keywords.map((keyword) => (
-            <Badge key={keyword} variant="light" radius="sm" tt="none" fw={500}>
-              {keyword}
-            </Badge>
-          ))}
-        </Group>
-        <Text mt={10}>{casting.primary.meaning}</Text>
-        <Text size="sm" c="dimmed" mt={6}>
+        <Keywords keywords={casting.primary.keywords} />
+        <Text display="block">{casting.primary.meaning}</Text>
+        <Text type="supporting" display="block">
           {casting.movingLines.length
             ? `Hào động: ${casting.movingLines.join(', ')} · vạch màu là hào đang biến.`
             : 'Không có hào động: quẻ tĩnh, không có quẻ biến.'}

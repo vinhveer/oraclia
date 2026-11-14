@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { notifications } from '@mantine/notifications'
 import {
   deleteMemory,
   forgetEverything,
@@ -11,6 +10,7 @@ import {
   type UserSettings,
 } from '@db'
 import { queryClient } from '@/features/conversations/queries'
+import { notify } from '@/app/notify'
 
 export const settingsKeys = {
   settings: ['settings'] as const,
@@ -27,14 +27,14 @@ export const useSummaries = () =>
   useQuery({ queryKey: settingsKeys.summaries, queryFn: listRememberedSummaries })
 
 const fail = (error: Error) =>
-  notifications.show({ color: 'red', message: error.message || 'Không lưu được.' })
+  notify({ color: 'red', message: error.message || 'Không lưu được.' })
 
 export function useSaveSettings() {
   return useMutation({
     mutationFn: (patch: Partial<UserSettings>) => saveUserSettings(patch),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: settingsKeys.settings })
-      notifications.show({ message: 'Đã lưu.' })
+      notify({ message: 'Đã lưu.' })
     },
     onError: fail,
   })
@@ -64,7 +64,7 @@ export function useForgetEverything() {
       queryClient.invalidateQueries({ queryKey: settingsKeys.memories })
       queryClient.invalidateQueries({ queryKey: settingsKeys.summaries })
       const total = result.memories + result.readings + result.summaries
-      notifications.show({
+      notify({
         message: total ? 'Oraclia đã quên hết những gì từng ghi nhớ về bạn.' : 'Không có gì để quên.',
       })
     },
