@@ -2,7 +2,7 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-9eKK0dJRlqx+BBS88wx/Ih2eSmzLpen8PgcVcCi3DAM='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://eexciimmlqzlpeyklroe.supabase.co wss://eexciimmlqzlpeyklroe.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-xoQTVVLypIWTPCuLGMC1Jj+cZeYXBPXib4qa+EDNSK8='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://eexciimmlqzlpeyklroe.supabase.co wss://eexciimmlqzlpeyklroe.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'" />
     <link rel="icon" type="image/svg+xml" href="/oraclia/favicon.svg" />
     <!-- viewport-fit=cover để dùng được safe-area (tai thỏ, thanh home);
          resizes-content để bàn phím ảo thu nhỏ trang thay vì che ô nhập. -->
@@ -41,21 +41,41 @@
             : window.matchMedia('(prefers-color-scheme: dark)').matches
               ? 'dark'
               : 'light'
-        document.documentElement.setAttribute('data-mantine-color-scheme', scheme)
+        var root = document.documentElement
+        // Astryx đọc data-theme (color-scheme cho light-dark()) và data-astryx-theme
+        // (CSS của theme); đặt sẵn để lần vẽ đầu đã đúng nền và đúng màu nhấn.
+        root.setAttribute('data-theme', scheme)
+        root.setAttribute('data-astryx-theme', 'neutral')
+        var palette = localStorage.getItem('oraclia.palette')
+        if (palette) root.setAttribute('data-palette', palette)
         document.documentElement.style.background = scheme === 'dark' ? '#141218' : '#fdfbfe'
         document
           .querySelector('meta[name="theme-color"]')
           .setAttribute('content', scheme === 'dark' ? '#141218' : '#fdfbfe')
       } catch (error) {}
     </script>
-    <script type="module" crossorigin src="/oraclia/assets/index-CLGsy_A8.js"></script>
-    <link rel="modulepreload" crossorigin href="/oraclia/assets/rolldown-runtime-qXqUbbKo.js">
-    <link rel="modulepreload" crossorigin href="/oraclia/assets/react-c4Cwhuzx.js">
-    <link rel="modulepreload" crossorigin href="/oraclia/assets/mantine-BfXedX-1.js">
-    <link rel="modulepreload" crossorigin href="/oraclia/assets/supabase-CpcNVyO8.js">
-    <link rel="modulepreload" crossorigin href="/oraclia/assets/chat-DMjd-BIT.js">
-    <link rel="stylesheet" crossorigin href="/oraclia/assets/mantine-Bp-CpzYm.css">
-    <link rel="stylesheet" crossorigin href="/oraclia/assets/index-BYwVniCQ.css">
+    <script type="module" crossorigin src="/oraclia/assets/index-CgT1u6e5.js"></script>
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/focusOutline.stylex-DJ-14khI.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/react-5s6kddiD.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/useLayerDismissal-Dct9FCT0.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/mergeProps--F8N0Ns4.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/devWarning-DJBFGYDN.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/useTooltip-DnLQfgpT.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/createReactComponent-BfbUkCSc.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/isRtlElement-BG33-k_H.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/nativeScroll-C8iGp1rp.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/animator-DPJI4_mi.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/Tooltip-BEts5xHQ.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/disabledInteraction-u9yjM5Jo.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/container.stylex-TgasoPjt.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/useDevWarning-C_QmCA0s.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/supabase-BAFQruP9.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/notify-B5bl9RSo.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/Skeletons-BwUyEM3y.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/hooks-3V_Jji5N.js">
+    <link rel="modulepreload" crossorigin href="/oraclia/assets/CheckboxInput-DcUYc3Mo.js">
+    <link rel="stylesheet" crossorigin href="/oraclia/assets/Skeletons-BPuqYTWm.css">
+    <link rel="stylesheet" crossorigin href="/oraclia/assets/index-L2GN5O1V.css">
   </head>
   <body>
     <div id="root"></div>

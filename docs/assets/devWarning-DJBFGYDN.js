@@ -1,0 +1,1 @@
+function e(e,t){return`${e}: ${t}`}function t(e,t,...n){}function n(){return(e,t,n=t)=>{}}function r(t,n,...r){console.error(e(t,n),...r)}function i(e,t,n,...r){}export{i,r as n,t as r,n as t};

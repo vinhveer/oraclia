@@ -1,0 +1,1 @@
+import{U as e}from"./focusOutline.stylex-DJ-14khI.js";import{h as t}from"./react-5s6kddiD.js";import{t as n}from"./devWarning-DJBFGYDN.js";var r=e(t(),1);function i(e,t,n=!0){o(e,t,n,!1)}function a(e,t,n=!0){o(e,t,n,!0)}function o(e,t,i,a){let[o]=(0,r.useState)(n);(0,r.useEffect)(()=>{i&&o(e,t,a?t:``)},[e,t,i,a,o])}export{a as n,i as t};
