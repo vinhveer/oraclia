@@ -27,6 +27,9 @@ import { rateMessage, type Rating } from '@db'
 import { MessagesSkeleton } from '@/app/Skeletons'
 import { notify } from '@/app/notify'
 import { useMediaQuery } from '@/lib/hooks'
+
+/** Màn hẹp cỡ điện thoại: dùng mật độ gọn cho khung chat và ô nhập. */
+const NARROW = '(max-width: 640px)'
 import { DrawPrompt } from '../tarot/CardPicker'
 import { HexagramView } from '../tarot/HexagramView'
 import { RevealedCards } from '../tarot/RevealedCards'
@@ -124,13 +127,15 @@ export function Thread() {
   const loading = useChatStore((state) => selectThread(threadKey)(state).loading)
   const lastUserId = messages.findLast((message) => message.role === 'user')?.id
   const layoutRef = useFollowOnSend(lastUserId)
+  // Điện thoại: mật độ compact — "spacious" chừa ~48px mỗi bên, phí 1/4 bề ngang.
+  const narrow = useMediaQuery(NARROW)
 
   return (
     <div className={classes.root}>
       <ChatLayout
         ref={layoutRef}
         data-testid="thread-viewport"
-        density="spacious"
+        density={narrow ? 'compact' : 'spacious'}
         className={classes.layout}
         emptyState={<Welcome />}
         composer={
@@ -212,10 +217,12 @@ function Composer() {
   const busy = useChatStore((state) => isBusy(selectThread(threadKey)(state)))
   // Trên điện thoại Enter là xuống dòng; gửi bằng nút, như mọi app nhắn tin.
   const touch = useMediaQuery('(pointer: coarse)')
+  const narrow = useMediaQuery(NARROW)
 
   return (
     <ChatComposer
-      density="balanced"
+      density={narrow ? 'compact' : 'balanced'}
+      className={classes.composer}
       onSubmit={(text) => ask(threadKey, text)}
       onStop={() => cancel(threadKey)}
       isStopShown={running}

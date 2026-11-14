@@ -74,3 +74,16 @@
   --oraclia-accent-soft-dark: #7e2a30;
   --oraclia-on-accent-dark: #5e151c;
 }
+
+/*
+ * Màn cảm ứng (điện thoại, máy tính bảng): mọi control tối thiểu 44px — cỡ ngón
+ * tay theo HIG của Apple. Neutral mặc định 28/32/36px là cỡ cho chuột: nút copy,
+ * 👍, ô nhập trên điện thoại vì thế bé và sát nhau.
+ */
+@media (pointer: coarse) {
+  [data-astryx-theme] {
+    --size-element-sm: 44px;
+    --size-element-md: 44px;
+    --size-element-lg: 48px;
+  }
+}

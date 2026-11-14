@@ -51,15 +51,6 @@ export default function MemoryPage() {
     <SettingsLayout
       title="Những gì Oraclia biết về bạn"
       description="Những điều này đi kèm mọi cuộc trò chuyện, không riêng cuộc nào."
-      actions={
-        <Button
-          label="Lưu"
-          variant="primary"
-          onClick={() => save.mutate({ about_you: about.trim() })}
-          isLoading={save.isPending}
-          isDisabled={settings.isPending || about.trim() === (settings.data?.about_you ?? '').trim()}
-        />
-      }
     >
       {settings.isPending ? (
         <Skeleton height={150} radius={3} />
@@ -74,6 +65,17 @@ export default function MemoryPage() {
           placeholder="Ví dụ: mình 28 tuổi, làm thiết kế, đang cân nhắc chuyển nghề…"
         />
       )}
+      {/* Nút này chỉ lưu ô "Về bạn", nên đứng ngay dưới nó — đặt ở thanh dính đáy
+          trang thì trông như lưu cả danh sách trí nhớ, và đè lên danh sách trên điện thoại. */}
+      <div className={classes.saveRow}>
+        <Button
+          label="Lưu"
+          variant="primary"
+          onClick={() => save.mutate({ about_you: about.trim() })}
+          isLoading={save.isPending}
+          isDisabled={settings.isPending || about.trim() === (settings.data?.about_you ?? '').trim()}
+        />
+      </div>
       <Memories />
       <Summaries />
       <ForgetEverything />

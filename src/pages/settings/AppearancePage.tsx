@@ -20,7 +20,7 @@ export default function AppearancePage() {
         >
           <SegmentedControlItem value="light" label="Sáng" />
           <SegmentedControlItem value="dark" label="Tối" />
-          <SegmentedControlItem value="auto" label="Theo hệ thống" />
+          <SegmentedControlItem value="auto" label="Tự động" />
         </SegmentedControl>
       </SettingsSection>
 

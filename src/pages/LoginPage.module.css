@@ -49,3 +49,19 @@
   justify-content: center;
   gap: var(--spacing-1);
 }
+
+/* Điện thoại: thẻ đăng nhập không cần khung — viền và lề trong cộng với lề trang
+   thành hai lần lề, bóp ô nhập. Nội dung đi thẳng trên nền, cùng lề 16px. */
+@media (max-width: 640px) {
+  .page {
+    place-items: start center;
+    padding-top: var(--spacing-8);
+  }
+
+  .column :global(.astryx-card) {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+  }
+}

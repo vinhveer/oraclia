@@ -243,3 +243,43 @@
     display: none;
   }
 }
+
+/* ---- Điện thoại ---------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  /* Một lề 16px cho mọi thứ: bài đọc không có khung bóng thoại thụt thêm vào. */
+  .assistant :global(.astryx-chat-message-bubble) {
+    padding-inline: 0;
+  }
+
+  /* Ô nhập một hàng như app nhắn tin: chữ bên trái, nút gửi bên phải. Astryx
+     dựng khung bên trong (con đầu của .composer) thành hai tầng: chữ trên, nút dưới. */
+  .composer {
+    /* ChatLayout chừa 8px; thêm 8px cho cùng lề 16px với bài đọc. */
+    margin-inline: var(--spacing-2);
+  }
+
+  /* Nút gửi tròn cho khớp ô nhập bo tròn. */
+  .composer :global(.astryx-chat-send-button) {
+    border-radius: var(--radius-full);
+  }
+
+  .composer > :first-child {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: var(--spacing-2);
+    padding: var(--spacing-1) var(--spacing-1) var(--spacing-1) var(--spacing-4);
+  }
+
+  .composer > :first-child > :first-child {
+    flex: 1;
+    min-width: 0;
+    align-self: center;
+    /* Chữ một dòng nằm giữa nút gửi 44px; nhiều dòng thì nở xuống dưới. */
+    padding-block: 11px;
+  }
+
+  .composer > :first-child > :last-child {
+    flex: none;
+  }
+}
