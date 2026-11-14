@@ -1,8 +1,13 @@
 import { useState } from 'react'
-import { Button, Modal, Text, UnstyledButton } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+import { Button } from '@astryxdesign/core/Button'
+import { ClickableCard } from '@astryxdesign/core/ClickableCard'
+import { Dialog, DialogHeader } from '@astryxdesign/core/Dialog'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Layout, LayoutContent, LayoutFooter } from '@astryxdesign/core/Layout'
+import { Text } from '@astryxdesign/core/Text'
 import { IconArrowsShuffle, IconCards, IconRotateClockwise2 } from '@tabler/icons-react'
 import { asset, webp } from '@/lib/asset'
+import { useMediaQuery } from '@/lib/hooks'
 import type { PendingDraw } from '../chat/store'
 import { deckStyle } from './decks'
 import classes from './Tarot.module.css'
@@ -52,100 +57,116 @@ export function CardPicker({
     })
   }
 
+  const close = (open: boolean) => {
+    if (!open) onClose()
+  }
+
   return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      fullScreen={mobile}
-      size="64rem"
-      radius={mobile ? 0 : 'lg'}
-      title={`Chọn ${draw.pickCount} lá từ bộ ${deck.label}`}
-      classNames={{ body: classes.pickerBody, content: classes.pickerContent }}
+    <Dialog
+      isOpen={opened}
+      onOpenChange={close}
+      variant={mobile ? 'fullscreen' : 'standard'}
+      width={1024}
+      maxHeight="90dvh"
+      purpose="form"
     >
-      {draw.reason && (
-        <Text size="sm" c="dimmed" mb="sm">
-          {draw.reason}
-        </Text>
-      )}
+      <Layout
+        height="fill"
+        header={
+          <DialogHeader title={`Chọn ${draw.pickCount} lá từ bộ ${deck.label}`} onOpenChange={close} />
+        }
+        content={
+          <LayoutContent>
+            {draw.reason && (
+              <Text type="supporting" display="block" className={classes.pickerReason}>
+                {draw.reason}
+              </Text>
+            )}
 
-      <ol className={classes.slots}>
-        {draw.positions.map((position, slot) => (
-          <li key={`${position}-${slot}`} className={classes.slot} data-filled={slot < selected.length || undefined}>
-            <span className={classes.slotNumber}>{slot + 1}</span>
-            {position}
-          </li>
-        ))}
-      </ol>
+            <ol className={classes.slots}>
+              {draw.positions.map((position, slot) => (
+                <li
+                  key={`${position}-${slot}`}
+                  className={classes.slot}
+                  data-filled={slot < selected.length || undefined}
+                >
+                  <span className={classes.slotNumber}>{slot + 1}</span>
+                  {position}
+                </li>
+              ))}
+            </ol>
 
-      <div
-        className={classes.deck}
-        style={{ ['--card-ratio' as string]: `${deck.width} / ${deck.height}` }}
-      >
-        {Array.from({ length: draw.deckSize }, (_, index) => {
-          const order = selected.indexOf(index)
-          const picked = order !== -1
-          return (
-            <UnstyledButton
-              key={index}
-              className={classes.back}
-              onClick={() => toggle(index)}
-              disabled={!picked && ready}
-              data-picked={picked || undefined}
-              aria-pressed={picked}
-              aria-label={`Lá thứ ${index + 1}`}
-            >
-              <picture>
-                <source srcSet={webp(deck.back)} type="image/webp" />
-                <img src={asset(deck.back)} alt="" draggable={false} loading="lazy" decoding="async" />
-              </picture>
-              {picked && <span className={classes.backOrder}>{order + 1}</span>}
-            </UnstyledButton>
-          )
-        })}
-      </div>
-
-      <div className={classes.pickerFooter}>
-        <Text size="sm" c="dimmed">
-          {ready ? 'Đã đủ số lá.' : `Còn ${remaining} lá nữa.`}
-        </Text>
-        <div className={classes.pickerActions}>
-          <Button
-            variant="subtle"
-            leftSection={<IconArrowsShuffle size={18} />}
-            onClick={pickForMe}
-            disabled={ready}
-          >
-            Chọn giúp tôi
-          </Button>
-          <Button
-            variant="default"
-            leftSection={<IconRotateClockwise2 size={18} />}
-            onClick={() => setSelected([])}
-            disabled={!selected.length}
-          >
-            Chọn lại
-          </Button>
-          <Button
-            className={classes.pickerConfirm}
-            leftSection={<IconCards size={18} />}
-            onClick={() => onConfirm(selected)}
-            disabled={!ready}
-          >
-            Lật bài
-          </Button>
-        </div>
-      </div>
-    </Modal>
+            <div className={classes.deck} style={{ ['--card-ratio' as string]: `${deck.width} / ${deck.height}` }}>
+              {Array.from({ length: draw.deckSize }, (_, index) => {
+                const order = selected.indexOf(index)
+                const picked = order !== -1
+                return (
+                  <button
+                    type="button"
+                    key={index}
+                    className={classes.back}
+                    onClick={() => toggle(index)}
+                    disabled={!picked && ready}
+                    data-picked={picked || undefined}
+                    aria-pressed={picked}
+                    aria-label={`Lá thứ ${index + 1}`}
+                  >
+                    <picture>
+                      <source srcSet={webp(deck.back)} type="image/webp" />
+                      <img src={asset(deck.back)} alt="" draggable={false} loading="lazy" decoding="async" />
+                    </picture>
+                    {picked && <span className={classes.backOrder}>{order + 1}</span>}
+                  </button>
+                )
+              })}
+            </div>
+          </LayoutContent>
+        }
+        footer={
+          <LayoutFooter hasDivider>
+            <div className={classes.pickerFooter}>
+              <Text type="supporting">{ready ? 'Đã đủ số lá.' : `Còn ${remaining} lá nữa.`}</Text>
+              <div className={classes.pickerActions}>
+                <Button
+                  label="Chọn giúp tôi"
+                  variant="ghost"
+                  icon={<Icon icon={IconArrowsShuffle} />}
+                  onClick={pickForMe}
+                  isDisabled={ready}
+                />
+                <Button
+                  label="Chọn lại"
+                  icon={<Icon icon={IconRotateClockwise2} />}
+                  onClick={() => setSelected([])}
+                  isDisabled={!selected.length}
+                />
+                <div className={classes.pickerConfirm}>
+                  <Button
+                    label="Lật bài"
+                    variant="primary"
+                    width="100%"
+                    icon={<Icon icon={IconCards} />}
+                    onClick={() => onConfirm(selected)}
+                    isDisabled={!ready}
+                  />
+                </div>
+              </div>
+            </div>
+          </LayoutFooter>
+        }
+      />
+    </Dialog>
   )
 }
 
 export function DrawPrompt({ draw, onOpen }: { draw: PendingDraw; onOpen: () => void }) {
+  const text = `Oraclia đã xáo bộ ${deckStyle(draw.deck).label}. Chọn ${draw.pickCount} lá để tiếp tục.`
   return (
-    <UnstyledButton className={classes.drawPrompt} onClick={onOpen}>
-      <IconCards size={20} className={classes.drawPromptIcon} />
-      <Text>
-        Oraclia đã xáo bộ {deckStyle(draw.deck).label}. Chọn {draw.pickCount} lá để tiếp tục.
-      </Text>
-    </UnstyledButton>
+    <ClickableCard label={text} onClick={onOpen} variant="muted" padding={3}>
+      <span className={classes.drawPrompt}>
+        <Icon icon={IconCards} color="accent" />
+        <Text>{text}</Text>
+      </span>
+    </ClickableCard>
   )
 }
