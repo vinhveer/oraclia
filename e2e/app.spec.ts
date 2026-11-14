@@ -4,19 +4,19 @@ import { ask, isMobile, pickCards, waitForReading } from './helpers'
 test('chế độ tối được nhớ và áp trước lần vẽ đầu', async ({ page }) => {
   await page.goto('settings/appearance')
   await page.getByText('Tối', { exact: true }).click()
-  await expect(page.locator('html')).toHaveAttribute('data-mantine-color-scheme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
 
   // Ghi lại thuộc tính ngay khi HTML vừa parse xong, trước khi React chạy.
   await page.addInitScript(() => {
     document.addEventListener('DOMContentLoaded', () => {
       ;(window as unknown as { firstScheme: string | null }).firstScheme =
-        document.documentElement.getAttribute('data-mantine-color-scheme')
+        document.documentElement.getAttribute('data-theme')
     })
   })
   await page.reload()
   expect(await page.evaluate(() => (window as unknown as { firstScheme: string }).firstScheme)).toBe('dark')
   await page.getByText('Sáng', { exact: true }).click()
-  await expect(page.locator('html')).toHaveAttribute('data-mantine-color-scheme', 'light')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
 })
 
 test('đổi màu chủ đạo', async ({ page }) => {
