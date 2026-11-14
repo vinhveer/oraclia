@@ -244,9 +244,17 @@
   }
 }
 
-/* ---- Điện thoại ---------------------------------------------------------- */
+/* ---- Dưới desktop: điện thoại, máy tính bảng, cửa sổ hẹp ----------------- */
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
+  /* Một cột đọc cho cả bài đọc và ô nhập: rộng tối đa 680px (độ dài dòng dễ
+     đọc), căn giữa, lề tối thiểu 16px — hai bên luôn thẳng hàng ở mọi bề rộng. */
+  .column {
+    width: 100%;
+    max-width: 680px;
+    margin-inline: auto;
+  }
+
   /* Một lề 16px cho mọi thứ: bài đọc không có khung bóng thoại thụt thêm vào. */
   .assistant :global(.astryx-chat-message-bubble) {
     padding-inline: 0;
@@ -255,8 +263,11 @@
   /* Ô nhập một hàng như app nhắn tin: chữ bên trái, nút gửi bên phải. Astryx
      dựng khung bên trong (con đầu của .composer) thành hai tầng: chữ trên, nút dưới. */
   .composer {
-    /* ChatLayout chừa 8px; thêm 8px cho cùng lề 16px với bài đọc. */
-    margin-inline: var(--spacing-2);
+    /* Rộng đúng bằng phần chữ: cột 680px trừ lề trong 16px mỗi bên của danh sách
+       tin. ChatLayout chừa 8px mỗi bên nên trừ thêm 16px để lề ngoài là 16px. */
+    box-sizing: border-box;
+    width: min(648px, 100% - 2 * var(--spacing-2));
+    margin-inline: auto;
   }
 
   /* Nút gửi tròn cho khớp ô nhập bo tròn. */
@@ -281,5 +292,15 @@
 
   .composer > :first-child > :last-child {
     flex: none;
+  }
+}
+
+/* Desktop: ChatLayout "spacious" đặt chữ trong cột 800px có lề trong 32px mỗi
+   bên, còn ô nhập rộng đủ 800px — lệch 32px. Cho ô nhập rộng đúng phần chữ. */
+@media (min-width: 1024px) {
+  .composer {
+    box-sizing: border-box;
+    width: min(736px, 100% - 48px);
+    margin-inline: auto;
   }
 }

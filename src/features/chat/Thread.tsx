@@ -28,8 +28,11 @@ import { MessagesSkeleton } from '@/app/Skeletons'
 import { notify } from '@/app/notify'
 import { useMediaQuery } from '@/lib/hooks'
 
-/** Màn hẹp cỡ điện thoại: dùng mật độ gọn cho khung chat và ô nhập. */
-const NARROW = '(max-width: 640px)'
+/**
+ * Dưới desktop (điện thoại, máy tính bảng, cửa sổ hẹp): mật độ gọn, một cột đọc
+ * duy nhất cho bài đọc lẫn ô nhập. Đồng bộ với @media trong Thread.module.css.
+ */
+const NARROW = '(max-width: 1023px)'
 import { DrawPrompt } from '../tarot/CardPicker'
 import { HexagramView } from '../tarot/HexagramView'
 import { RevealedCards } from '../tarot/RevealedCards'
@@ -127,7 +130,7 @@ export function Thread() {
   const loading = useChatStore((state) => selectThread(threadKey)(state).loading)
   const lastUserId = messages.findLast((message) => message.role === 'user')?.id
   const layoutRef = useFollowOnSend(lastUserId)
-  // Điện thoại: mật độ compact — "spacious" chừa ~48px mỗi bên, phí 1/4 bề ngang.
+  // Dưới desktop: mật độ compact — "spacious" chừa ~48px mỗi bên và lệch với ô nhập.
   const narrow = useMediaQuery(NARROW)
 
   return (
@@ -148,7 +151,7 @@ export function Thread() {
         }
       >
         {messages.length > 0 ? (
-          <ChatMessageList gap={6}>
+          <ChatMessageList gap={6} className={classes.column}>
             {messages.map((message, index) =>
               message.role === 'user' ? (
                 <UserMessage key={message.id} message={message} />
