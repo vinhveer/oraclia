@@ -7,6 +7,10 @@ body {
 
 body {
   margin: 0;
+  /* Astryx không đặt font cho tài liệu; component nào cũng `font: inherit`. */
+  font-family: var(--font-family-body);
+  color: var(--color-text-primary);
+  background: var(--color-background-body);
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
   text-rendering: optimizeLegibility;
@@ -17,7 +21,7 @@ body {
 }
 
 ::selection {
-  background: var(--mantine-primary-color-light);
+  background: var(--color-accent-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

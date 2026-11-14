@@ -40,7 +40,13 @@
             : window.matchMedia('(prefers-color-scheme: dark)').matches
               ? 'dark'
               : 'light'
-        document.documentElement.setAttribute('data-mantine-color-scheme', scheme)
+        var root = document.documentElement
+        // Astryx đọc data-theme (color-scheme cho light-dark()) và data-astryx-theme
+        // (CSS của theme); đặt sẵn để lần vẽ đầu đã đúng nền và đúng màu nhấn.
+        root.setAttribute('data-theme', scheme)
+        root.setAttribute('data-astryx-theme', 'neutral')
+        var palette = localStorage.getItem('oraclia.palette')
+        if (palette) root.setAttribute('data-palette', palette)
         document.documentElement.style.background = scheme === 'dark' ? '#141218' : '#fdfbfe'
         document
           .querySelector('meta[name="theme-color"]')

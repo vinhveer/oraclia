@@ -1,0 +1,76 @@
+/*
+ * Lớp màu của Oraclia trên theme Neutral của Astryx.
+ *
+ * Neutral giữ phần khung (chữ, khoảng cách, bo góc, component); ở đây chỉ đổi
+ * những token màu làm nên không khí: nền ngả tím rất nhẹ (bản cũ, M3), chữ phụ
+ * đủ tương phản, và màu nhấn theo lựa chọn của người dùng. Không nằm trong
+ * @layer nên thắng token của theme (ở @layer astryx-theme) mà không cần tăng
+ * độ đặc hiệu. Selector `[data-astryx-theme]` khớp cả <html> lẫn các lớp nổi
+ * (dialog, toast) mà Astryx render ra ngoài cây chính.
+ *
+ * Sắc độ màu nhấn lấy từ bộ 10 sắc của bản Mantine trước: sáng dùng sắc 7
+ * (chữ trắng ≥ 6.4:1), tối dùng sắc 4 (≥ 10.9:1 trên nền tối).
+ */
+
+[data-astryx-theme] {
+  --font-family-body: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-family-heading: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --color-background-body: light-dark(#fdfbfe, #141218);
+  --color-background-surface: light-dark(#fdfbfe, #1d1b20);
+  --color-background-card: light-dark(#ffffff, #1d1b20);
+  --color-background-popover: light-dark(#ffffff, #211f26);
+  --color-background-muted: light-dark(#f3eef6, #2b2930);
+  --color-background-gray: light-dark(#ece6f0, #2b2930);
+  --color-border: light-dark(#e2dce6, #36343b);
+  --color-border-emphasized: light-dark(#cac4d0, #49454f);
+  --color-text-primary: light-dark(#1d1b20, #e6e0e9);
+  /* Xám mặc định chỉ đạt ~3.3:1 trên nền này; on-surface-variant của bộ cũ ≥ 4.5:1. */
+  --color-text-secondary: light-dark(#5d5864, #cac4d0);
+
+  --color-accent: light-dark(var(--oraclia-accent-light), var(--oraclia-accent-dark));
+  --color-text-accent: light-dark(var(--oraclia-accent-light), var(--oraclia-accent-dark));
+  --color-icon-accent: light-dark(var(--oraclia-accent-light), var(--oraclia-accent-dark));
+  --color-accent-muted: light-dark(var(--oraclia-accent-soft-light), var(--oraclia-accent-soft-dark));
+  --color-on-accent: light-dark(#ffffff, var(--oraclia-on-accent-dark));
+
+  /* Đỏ cho hành động nguy hiểm: đỏ M3 cũ, chữ trắng ≥ 4.5:1. */
+  --color-error: light-dark(#b3261e, #f2b8b5);
+  --color-text-error: light-dark(#b3261e, #f2b8b5);
+}
+
+/* Tím (mặc định) */
+[data-astryx-theme] {
+  --oraclia-accent-light: #6750a4;
+  --oraclia-accent-dark: #d0bcff;
+  --oraclia-accent-soft-light: #eaddff;
+  --oraclia-accent-soft-dark: #4f378b;
+  --oraclia-on-accent-dark: #361f74;
+}
+
+:root[data-palette='teal'] [data-astryx-theme],
+:root[data-palette='teal'][data-astryx-theme] {
+  --oraclia-accent-light: #00696d;
+  --oraclia-accent-dark: #4cd9df;
+  --oraclia-accent-soft-light: #b3fafd;
+  --oraclia-accent-soft-dark: #004f52;
+  --oraclia-on-accent-dark: #003739;
+}
+
+:root[data-palette='amber'] [data-astryx-theme],
+:root[data-palette='amber'][data-astryx-theme] {
+  --oraclia-accent-light: #815500;
+  --oraclia-accent-dark: #feba4b;
+  --oraclia-accent-soft-light: #ffddaf;
+  --oraclia-accent-soft-dark: #623f00;
+  --oraclia-on-accent-dark: #452b00;
+}
+
+:root[data-palette='rose'] [data-astryx-theme],
+:root[data-palette='rose'][data-astryx-theme] {
+  --oraclia-accent-light: #9c4146;
+  --oraclia-accent-dark: #ffb3b2;
+  --oraclia-accent-soft-light: #ffdad9;
+  --oraclia-accent-soft-dark: #7e2a30;
+  --oraclia-on-accent-dark: #5e151c;
+}

@@ -1,11 +1,13 @@
 /**
  * Bốn màu chủ đạo của Oraclia. Chỉ màu nhấn đổi theo lựa chọn; nền, chữ, viền
- * giữ nguyên để đổi màu không làm đổi độ tương phản của cả app.
+ * giữ nguyên để đổi màu không làm đổi độ tương phản của cả app. Các token màu
+ * nhấn của Astryx nằm trong `oraclia.css`, theo thuộc tính `data-palette` trên
+ * <html>.
  */
 export interface Palette {
   id: string
   name: string
-  /** Màu gốc: sinh ra 10 sắc độ cho Mantine, và là swatch trong trang Giao diện. */
+  /** Màu gốc: là swatch trong trang Giao diện. */
   seed: string
 }
 

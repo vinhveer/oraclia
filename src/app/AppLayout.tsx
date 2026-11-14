@@ -1,8 +1,11 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Outlet, useLocation, useMatch, useNavigate } from 'react-router-dom'
-import { ActionIcon, AppShell, Burger, Group, Text } from '@mantine/core'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconPlus } from '@tabler/icons-react'
+import { AppShell } from '@astryxdesign/core/AppShell'
+import { Button } from '@astryxdesign/core/Button'
+import { Drawer } from '@astryxdesign/core/Drawer'
+import { Icon } from '@astryxdesign/core/Icon'
+import { Text } from '@astryxdesign/core/Text'
+import { IconMenu2, IconPlus } from '@tabler/icons-react'
 import { Sidebar } from '@/features/conversations/Sidebar'
 import {
   refreshConversations,
@@ -10,22 +13,29 @@ import {
   useConversations,
 } from '@/features/conversations/queries'
 import { NEW_THREAD, onAdopt, onTitle } from '@/features/chat/store'
+import { MOBILE_QUERY, useMediaQuery } from '@/lib/hooks'
 import { rememberChatPath } from './lastChat'
 import classes from './AppLayout.module.css'
 
 /**
- * Khung chung cho chat và cài đặt. Cài đặt nằm trong cùng khung nên sang trang
- * cài đặt không còn dỡ màn hình chat — và nhờ store nằm ngoài React, một bài đọc
- * đang chảy vẫn chảy tiếp ở phía sau.
+ * Khung chung cho chat và cài đặt, dựng theo template "Side Nav" của Astryx
+ * (AppShell + SideNav). Cài đặt nằm trong cùng khung nên sang trang cài đặt
+ * không dỡ màn hình chat — và nhờ store nằm ngoài React, một bài đọc đang chảy
+ * vẫn chảy tiếp ở phía sau.
+ *
+ * Trên màn hình nhỏ, danh sách nằm trong một Drawer mở từ nút menu ở thanh
+ * trên cùng (không dùng drawer tự sinh của AppShell: thanh trên cần cả tiêu đề
+ * cuộc đang mở lẫn nút tạo cuộc mới, và nhãn nút phải là tiếng Việt).
  */
 export function AppLayout() {
-  const [opened, { toggle, close }] = useDisclosure(false)
-  const mobile = useMediaQuery('(max-width: 62em)', false)
+  const [opened, setOpened] = useState(false)
+  const mobile = useMediaQuery(MOBILE_QUERY)
   const chatMatch = useMatch('/chat/:id?')
   const activeId = chatMatch?.params.id ?? null
   const location = useLocation()
   const navigate = useNavigate()
   const { data: conversations } = useConversations('')
+  const close = () => setOpened(false)
 
   useEffect(() => {
     if (chatMatch) rememberChatPath(location.pathname)
@@ -49,47 +59,51 @@ export function AppLayout() {
 
   const title = conversations?.find((item) => item.id === activeId)?.title || 'Oraclia'
 
+  // Chỉ render khi cần: thanh trên ẩn mà vẫn nằm trong DOM thì bàn phím lẫn
+  // trình đọc màn hình gặp những nút vô hình trùng tên với sidebar.
+  const header = mobile ? (
+    <div className={classes.header}>
+      <Button
+        label="Mở danh sách"
+        variant="ghost"
+        isIconOnly
+        icon={<Icon icon={IconMenu2} />}
+        aria-expanded={opened}
+        onClick={() => setOpened(true)}
+      />
+      <Text weight="semibold" maxLines={1} className={classes.title}>
+        {title}
+      </Text>
+      <Button
+        label="Cuộc trò chuyện mới"
+        variant="ghost"
+        isIconOnly
+        icon={<Icon icon={IconPlus} />}
+        onClick={() => {
+          navigate('/chat')
+          close()
+        }}
+      />
+    </div>
+  ) : undefined
+
   return (
     <AppShell
-      header={{ height: 52, collapsed: !mobile }}
-      navbar={{ width: 272, breakpoint: 'md', collapsed: { mobile: !opened } }}
-      padding={0}
-      classNames={{ main: classes.main, navbar: classes.navbar, header: classes.header }}
+      height="fill"
+      contentPadding={0}
+      variant={mobile ? 'surface' : 'elevated'}
+      mobileNav={false}
+      topNav={header}
+      sideNav={mobile ? undefined : <Sidebar activeId={activeId} />}
     >
-      {/* Chỉ render khi cần: header thu gọn vẫn nằm trong DOM, và bàn phím lẫn
-          trình đọc màn hình sẽ gặp những nút vô hình trùng tên với sidebar. */}
       {mobile && (
-      <AppShell.Header>
-        <Group h="100%" px="xs" gap="xs" wrap="nowrap">
-          <Burger opened={opened} onClick={toggle} size="sm" aria-label="Mở danh sách" />
-          <Text fw={600} truncate className={classes.title}>
-            {title}
-          </Text>
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            size={40}
-            aria-label="Cuộc trò chuyện mới"
-            onClick={() => {
-              navigate('/chat')
-              close()
-            }}
-          >
-            <IconPlus size={20} />
-          </ActionIcon>
-        </Group>
-      </AppShell.Header>
+        <Drawer isOpen={opened} onOpenChange={setOpened} label="Danh sách trò chuyện" side="start" width={320} padding={0}>
+          <Sidebar activeId={activeId} onNavigate={close} />
+        </Drawer>
       )}
-
-      {/* Menu đóng trên mobile chỉ bị đẩy ra ngoài màn hình; không `inert` thì
-          bàn phím và trình đọc màn hình vẫn đi vào những nút không ai thấy. */}
-      <AppShell.Navbar inert={mobile && !opened}>
-        <Sidebar activeId={activeId} onNavigate={close} />
-      </AppShell.Navbar>
-
-      <AppShell.Main>
+      <div className={classes.main}>
         <Outlet />
-      </AppShell.Main>
+      </div>
     </AppShell>
   )
 }
